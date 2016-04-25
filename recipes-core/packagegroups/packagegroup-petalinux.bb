@@ -67,6 +67,7 @@ RDEPENDS_${PN}_append_zynq += " \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
+	libmali-xlnx \
 	libmetal-amp-demo \
 	openamp-echo-test \
 	openamp-mat-mul \
