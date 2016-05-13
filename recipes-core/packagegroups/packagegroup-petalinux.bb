@@ -79,8 +79,6 @@ QT_EXTRAS = " \
 	qtsvg-dev \
 	qtsvg-mkspecs \
 	qtsvg-plugins \
-	qtsystems-dev \
-	qtsystems-mkspecs \
 	qttools-dev \
 	qttools-mkspecs \
 	qttools-staticdev \
@@ -100,7 +98,6 @@ QT_EXTRAS = " \
 	qttranslations-qtquick1 \
 	qtwebkit-dev \
 	qtwebkit-mkspecs \
-	qtquickcontrols-qmlplugins \
 	qttools-plugins \
 	libopencv-core-dev \
 	libopencv-highgui-dev \
@@ -126,7 +123,6 @@ ZYNQ_EXTRAS = " \
 	python-shell \
 	python-threading \
 	python-smartpm \
-	qwt \
 	smartmontools \
 	tcf-agent \
 	v4l-utils \
