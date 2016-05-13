@@ -79,9 +79,16 @@ initialized configure bblayers.conf by adding the 'meta-xilinx' layer. e.g.:
 		<path to layer>/meta-petalinux \
 		"
 
+MALI USERSPACE BINARIES
+=======================
+
+Please follow the instructions to include MALI 400 userspace binaries
+	http://www.wiki.xilinx.com/Adding+MALI+userspace+binaries+in+Yocto+builds
+
+
 To build a specific target RPM packages configure the associated machine in local.conf:
 
-	MACHINE ?= "zynq-generic"
+1	MACHINE ?= "zynq-generic"
 
 Build the target file system image using bitbake:
 
