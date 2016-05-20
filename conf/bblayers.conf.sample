@@ -1,29 +1,30 @@
-LCONF_VERSION = "6"
+LCONF_VERSION = "7"
 
 BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
     ##OEROOT##/meta \
-    ##OEROOT##/meta-openembedded/meta-perl \
-    ##OEROOT##/meta-openembedded/meta-systemd \
-    ##OEROOT##/meta-openembedded/meta-gpe \
-    ##OEROOT##/meta-openembedded/meta-python \
-    ##OEROOT##/meta-openembedded/meta-efl \
-    ##OEROOT##/meta-openembedded/meta-ruby \
-    ##OEROOT##/meta-openembedded/meta-filesystems \
-    ##OEROOT##/meta-openembedded/meta-gnome \
-    ##OEROOT##/meta-openembedded/meta-multimedia \
-    ##OEROOT##/meta-openembedded/meta-networking \
-    ##OEROOT##/meta-openembedded/meta-webserver \
-    ##OEROOT##/meta-openembedded/meta-xfce \
-    ##OEROOT##/meta-openembedded/meta-initramfs \
-    ##OEROOT##/meta-openembedded/meta-oe \
-    ##OEROOT##/meta-qt5 \
-    ##OEROOT##/meta-selftest \
-    ##OEROOT##/meta-skeleton \
-    ##OEROOT##/meta-xilinx \
-    ##OEROOT##/meta-petalinux \
+    ##OEROOT##/meta-poky \
+    ##OEROOT##/../meta-openembedded/meta-perl \
+    ##OEROOT##/../meta-openembedded/meta-systemd \
+    ##OEROOT##/../meta-openembedded/meta-gpe \
+    ##OEROOT##/../meta-openembedded/meta-python \
+    ##OEROOT##/../meta-openembedded/meta-efl \
+    ##OEROOT##/../meta-openembedded/meta-ruby \
+    ##OEROOT##/../meta-openembedded/meta-filesystems \
+    ##OEROOT##/../meta-openembedded/meta-gnome \
+    ##OEROOT##/../meta-openembedded/meta-multimedia \
+    ##OEROOT##/../meta-openembedded/meta-networking \
+    ##OEROOT##/../meta-openembedded/meta-webserver \
+    ##OEROOT##/../meta-openembedded/meta-xfce \
+    ##OEROOT##/../meta-openembedded/meta-initramfs \
+    ##OEROOT##/../meta-openembedded/meta-oe \
+    ##OEROOT##/../meta-qt5 \
+    ##OEROOT##/../meta-xilinx \
+    ##OEROOT##/../meta-xilinx-tools \
+    ##OEROOT##/../meta-petalinux \
+    ##OEROOT##/../meta-virtualization \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
