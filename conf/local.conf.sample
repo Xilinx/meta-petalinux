@@ -11,6 +11,8 @@
 # the option is a question of removing the # character and making any change to the
 # variable as required.
 
+# BASE = "${COREBASE}/../.."
+
 #
 # Machine Selection
 #
@@ -31,7 +33,7 @@ MACHINE ??= "qemuzynq"
 #
 # The default is a downloads directory under TOPDIR which is the build directory.
 #
-DL_DIR ?= "${TOPDIR}/downloads"
+# DL_DIR ?= "${BASE}/downloads"
 
 #
 # Where to place shared-state files
@@ -47,7 +49,7 @@ DL_DIR ?= "${TOPDIR}/downloads"
 #
 # The default is a sstate-cache directory under TOPDIR.
 #
-SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+# SSTATE_DIR ?= "${BASE}/sstate-cache"
 
 #
 # Where to place the build output
@@ -116,7 +118,7 @@ PACKAGE_CLASSES ?= "package_rpm"
 # There are other application targets that can be used here too, see
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
-#EXTRA_IMAGE_FEATURES = "debug-tweaks"
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
 
 #
 # Additional image features
@@ -130,7 +132,7 @@ PACKAGE_CLASSES ?= "package_rpm"
 #   - 'image-swab' to perform host system intrusion detection
 # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
 # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
-#USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+USER_CLASSES ?= "buildstats image-mklibs"
 
 #
 # Runtime testing of images
@@ -196,6 +198,21 @@ BB_DISKMON_DIRS = "\
 #SSTATE_MIRRORS ?= "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
+
+TCMODE = "external-xilinx"
+XILINX_VER_MAIN = "2016.3"
+EXTERNAL_TOOLCHAIN_zynq = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/aarch32/lin/gcc-arm-linux-gnueabi"
+EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/microblaze/linux_toolchain/lin64_le"
+EXTERNAL_TOOLCHAIN_aarch64 = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/aarch64/lin/aarch64-linux"
+
+# INHERIT += "externalsrc"
+# PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
+# EXTERNALSRC_pn-linux-xlnx-dev = "${BASE}/sources/linux"
+# RM_WORK_EXCLUDE += "linux-xlnx-dev"
+
+# PREFERRED_PROVIDER_virtual/bootloader = "u-boot-xlnx-dev"
+# EXTERNALSRC_pn-u-boot-xlnx-dev = "${BASE}/sources/u-boot"
+# RM_WORK_EXCLUDE += "u-boot-xlnx-dev"
 
 # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
 # track the version of this file when it was generated. This can safely be ignored if
