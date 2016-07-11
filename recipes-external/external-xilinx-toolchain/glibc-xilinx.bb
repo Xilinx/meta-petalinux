@@ -98,8 +98,8 @@ do_install() {
 		fi
 	done
 
-	if [ "${XILINX_TARGET_SYS}" == "aarch64-linux-gnu" ] ||  \
-	   [ "${XILINX_TARGET_SYS}" == "arm-linux-gnueabihf" ]; then
+	if [ "${XILINX_TARGET_SYS}" = "aarch64-linux-gnu" ] ||  \
+	   [ "${XILINX_TARGET_SYS}" = "arm-linux-gnueabihf" ]; then
 
 		if [ -d ${D}/usr/lib/arm-linux-gnueabi ]; then
 			rm -rf ${D}/usr/lib/arm-linux-gnueabi
@@ -150,7 +150,7 @@ do_install() {
 		fi
 	done
 
-	if [ "${XILINX_TARGET_SYS}" == "arm-xilinx-linux-gnueabi" ]; then
+	if [ "${XILINX_TARGET_SYS}" = "arm-xilinx-linux-gnueabi" ]; then
 		if [ -e ${D}${libdir}/locale ]; then
 			rm -rf ${D}${libdir}/locale
 		fi
