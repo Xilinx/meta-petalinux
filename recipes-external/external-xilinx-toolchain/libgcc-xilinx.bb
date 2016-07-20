@@ -38,8 +38,20 @@ FILES_libgcov-dev = "${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}/libgcov.a"
 do_install() {
 	root="${EXTERNAL_TOOLCHAIN}"
 
-	install -d ${D}/${base_libdir}
+	install -d ${D}/${base_libdir} \
+		${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}
 
 	find $root -path "*/${XILINX_TARGET_SYS}/*/*libgcc*.so*" -exec cp -a {} ${D}/${base_libdir} \;
 
+	cp -a ${root}/lib/gcc/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}/*crt*  \
+        	${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}
+
+       	cp -a ${root}/lib/gcc/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}/libgcc*  \
+        	${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}
+
+       	cp -a ${root}/lib/gcc/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}/libgcov.a  \
+          	${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}
+
+       find  ${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}  -name "*crt*.o" -exec chmod -x {} \;
+       find  ${D}/${libdir}/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}  -name "libg*.a" -exec chmod -x {} \;
 }
