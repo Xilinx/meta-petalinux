@@ -105,7 +105,6 @@ QT_EXTRAS = " \
 	libopencv-objdetect-dev \
 	libopencv-ml-dev \
 	libopencv-calib3d \
-	libopencv-contrib \
 	"
 
 ZYNQ_EXTRAS = " \
@@ -128,6 +127,7 @@ ZYNQ_EXTRAS = " \
 	v4l-utils \
 	yavta \
 	libmetal \
+	ffmpeg \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
