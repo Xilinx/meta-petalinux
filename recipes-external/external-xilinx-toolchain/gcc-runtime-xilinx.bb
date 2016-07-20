@@ -39,6 +39,9 @@ PACKAGES = "\
 	libatomic \
 	libatomic-dev \
 	libatomic-staticdev \
+	libitm \
+	libitm-dev \
+	libitm-staticdev \
 "
 
 # The base package doesn't exist, so we clear the recommends.
@@ -74,6 +77,16 @@ FILES_libatomic-dev = "\
 "
 FILES_libatomic-staticdev = "${libdir}/libatomic.a"
 
+FILES_libitm = "${libdir}/libitm*${SOLIBS}"
+FILES_libitm-dev = "\
+  ${libdir}/libitm*${SOLIBSDEV} \
+  ${libdir}/libitm*.la \
+  ${libdir}/libitm.spec \
+  "
+FILES_libitm-staticdev = "\
+  ${libdir}/libitm*.a \
+  "
+
 INSANE_SKIP_${PN}-dev = "ldflags"
 INSANE_SKIP_libstdc++ = "ldflags"
 INSANE_SKIP_libstdc++-dev = "ldflags"
@@ -92,6 +105,7 @@ do_install() {
 	find $root \( -path "*/${XILINX_TARGET_SYS}/*/libstdc++.*" \
 		-o -path "*/${XILINX_TARGET_SYS}/*/libatomic.*" \
 		-o -path "*/${XILINX_TARGET_SYS}/*/libssp*" \
+		-o -path "*/${XILINX_TARGET_SYS}/*/libitm*" \
 		-o -path "*/${XILINX_TARGET_SYS}/*/libsupc++.a" \) \
 		-exec cp -a {} ${D}/usr/lib \;
 
@@ -101,7 +115,7 @@ do_install() {
 	-exec cp -a {} ${D}/usr/lib/gcc/${XILINX_TARGET_SYS}/${XILINX_VER_GCC}/include/ssp \;
 
 	# Move some of the libs in /lib to /usr/lib
-	for i in libstdc++ libssp libatomic; do
+	for i in libstdc++ libssp libatomic libitm; do
 		if [ -e ${D}${base_libdir}/$i.so ]; then
 			mv ${D}${base_libdir}/$i.* ${D}${libdir}/
 		fi
