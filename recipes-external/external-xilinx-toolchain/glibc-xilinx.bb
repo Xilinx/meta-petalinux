@@ -89,7 +89,8 @@ do_install() {
 
 	find $root -path "*/${XILINX_TARGET_SYS}/*/ld*.so*" -exec cp -a {} ${D}/lib \;
 
-	cp -a $sysroot/sbin/. ${D}${base_sbindir}
+	install -d ${D}${base_sbindir}
+	cp -a $sysroot/sbin/* ${D}${base_sbindir}
 
 	install -d ${D}/usr
 	for usr_element in bin libexec sbin share ${base_libdir}; do
@@ -98,41 +99,15 @@ do_install() {
 		fi
 	done
 
-	if [ "${XILINX_TARGET_SYS}" = "aarch64-linux-gnu" ] ||  \
-	   [ "${XILINX_TARGET_SYS}" = "arm-linux-gnueabihf" ]; then
-
-		if [ -d ${D}/usr/lib/arm-linux-gnueabi ]; then
-			rm -rf ${D}/usr/lib/arm-linux-gnueabi
-	        fi
-                if [ -h ${D}/lib/ld-linux.so.3 ]; then
-                        rm ${D}/lib/ld-linux.so.3
-                fi
-
-		linker_name="${@base_contains("TUNE_FEATURES", "aarch64", "ld-linux-aarch64.so.1", "ld-linux-armhf.so.3",d)}"
-		file=$(basename $(readlink -m ${D}/lib/${linker_name}))
-		rm ${D}/lib/$linker_name
-		ln -s ./$file ${D}/lib/$linker_name
-
-		mv ${D}/usr/lib/${XILINX_TARGET_SYS}/* ${D}/usr/lib
-		rm -r ${D}/usr/lib/${XILINX_TARGET_SYS}
-		for link in $(find ${D}/usr/lib -type l); do
-			file=$(basename $(readlink -m ${link}))
-			rm $link
-			ln -s ../../lib/$file $link
-		done
-		ln -s . ${D}/usr/lib/${XILINX_TARGET_SYS}
-		ln -s . ${D}/lib/${XILINX_TARGET_SYS}
-		rm ${D}/usr/lib/*.map
-		rm -r ${D}/usr/lib/libc_pic
-	fi
-
 	find ${D}/usr/ \( -path "*/usr/lib/libstdc++*" \
 		-o -path "*/usr/lib/libasan*" \
 		-o -path "*/usr/lib/libubsan*" \
+		-o -path "*/usr/lib/libbfd*" \
 		-o -path "*/usr/lib/libatomic*" \) \
 		-exec rm {} \;
 
-	cp -a $sysroot/usr/include/. ${D}${includedir}
+	install -d ${D}${includedir}
+	cp -a $sysroot/usr/include/* ${D}${includedir}
 
 	for d in xen asm asm-generic linux mtd rdma scsi sound video bits drm; do
 		rm -rf "${D}${includedir}/$d"
@@ -141,7 +116,7 @@ do_install() {
 	cp -a $sysroot/usr/include/bits/syscall.h ${D}${includedir}/bits/syscall.h
 
 	# strip out any multi-lib files (they are not supported)
-	for element in bs m ldscripts; do
+	for element in plugin bs m ldscripts; do
 		if [ -e ${D}${libdir}/$element ]; then
 			rm -rf ${D}${libdir}/$element
 		fi
