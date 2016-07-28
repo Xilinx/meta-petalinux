@@ -128,6 +128,7 @@ ZYNQ_EXTRAS = " \
 	yavta \
 	libmetal \
 	ffmpeg \
+	gstreamer \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
