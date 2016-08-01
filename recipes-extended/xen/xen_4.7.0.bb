@@ -8,8 +8,21 @@ PV = "${XEN_REL}.0+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
+FILESEXTRAPATHS_append := " \
+                ${THISDIR}/files: \
+                "
+
+FILES_${PN}-xl += " \
+    /etc/xen/example-passnet.cfg \
+    /etc/xen/example-pvnet.cfg \
+    /etc/xen/example-simple.cfg \
+    "
+
 SRC_URI = " \
     git://github.com/Xilinx/xen.git;protocol=https \
+    file://example-passnet.cfg \
+    file://example-pvnet.cfg \
+    file://example-simple.cfg \
     "
 
 SRC_URI[md5sum] = "5c244ba649faab65db00ae9ad54e2f00"
@@ -29,4 +42,11 @@ do_deploy_append() {
         -C none \
         -d ${DEPLOYDIR}/xen-${MACHINE} ${DEPLOYDIR}/xen.ub
     fi
+}
+
+do_install_append() {
+    install -d -m 0755 ${D}/etc/xen
+    install -m 0644 ${WORKDIR}/example-passnet.cfg ${D}/etc/xen/example-passnet.cfg
+    install -m 0644 ${WORKDIR}/example-pvnet.cfg ${D}/etc/xen/example-pvnet.cfg
+    install -m 0644 ${WORKDIR}/example-simple.cfg ${D}/etc/xen/example-simple.cfg
 }
