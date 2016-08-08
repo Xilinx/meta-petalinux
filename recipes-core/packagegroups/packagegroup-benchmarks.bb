@@ -4,6 +4,8 @@ LICENSE = "NONE"
 inherit packagegroup
 
 BENCHMARKS_EXTRAS = " \
+	hdparm \
+	iperf \
 	iotop \
 	nicstat \
 	lmbench \
@@ -14,9 +16,7 @@ BENCHMARKS_EXTRAS = " \
 	babeltrace \
 	sysstat \
 	dstat \
-	netperf \
 	"
-
 
 RDEPENDS_${PN}_append_zynqmp += " \
 	${BENCHMARKS_EXTRAS} \
