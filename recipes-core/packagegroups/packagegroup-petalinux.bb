@@ -108,9 +108,6 @@ QT_EXTRAS = " \
 	"
 
 ZYNQ_EXTRAS = " \
-	bonnie++ \
-	hdparm \
-	iperf \
 	libattr \
 	libdrm \
 	libdrm-tests \
