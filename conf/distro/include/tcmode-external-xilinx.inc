@@ -88,6 +88,8 @@ python toolchain_setup () {
 
 XILINX_VER_MAIN ?= "2000.0"
 
+toolchain_setup[vardepsexclude] += "EXTERNAL_TOOLCHAIN XILINX_VER_MAIN EXTERNAL_TOOLCHAIN_DBGROOT EXTERNAL_TOOLCHAIN_SYSROOT"
+
 require conf/distro/include/xilinx-versions.inc
 
 # Setup suitable toolchain flags
