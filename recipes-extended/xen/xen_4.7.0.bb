@@ -17,6 +17,7 @@ FILES_${PN}-xl += " \
     /etc/xen/example-passnet.cfg \
     /etc/xen/example-pvnet.cfg \
     /etc/xen/example-simple.cfg \
+    /etc/xen/passthrough-example-part.dtb \
     "
 
 SRC_URI = " \
@@ -24,6 +25,7 @@ SRC_URI = " \
     file://example-passnet.cfg \
     file://example-pvnet.cfg \
     file://example-simple.cfg \
+    file://passthrough-example-part.dts \
     "
 
 SRC_URI[md5sum] = "5c244ba649faab65db00ae9ad54e2f00"
@@ -34,6 +36,10 @@ DEPENDS += "u-boot-mkimage-native"
 EXTRA_OEMAKE += 'CROSS_COMPILE=${TARGET_PREFIX}'
 
 XENIMAGE_KERNEL_LOADADDRESS ?= "0x5000000"
+
+do_compile_append() {
+    dtc -I dts -O dtb ${WORKDIR}/passthrough-example-part.dts -o ${WORKDIR}/passthrough-example-part.dtb
+}
 
 do_deploy_append() {
     if [ -f ${DEPLOYDIR}/xen-${MACHINE} ]; then
@@ -50,4 +56,6 @@ do_install_append() {
     install -m 0644 ${WORKDIR}/example-passnet.cfg ${D}/etc/xen/example-passnet.cfg
     install -m 0644 ${WORKDIR}/example-pvnet.cfg ${D}/etc/xen/example-pvnet.cfg
     install -m 0644 ${WORKDIR}/example-simple.cfg ${D}/etc/xen/example-simple.cfg
+
+    install -m 0644 ${WORKDIR}/passthrough-example-part.dtb ${D}/etc/xen/passthrough-example-part.dtb
 }
