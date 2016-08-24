@@ -132,7 +132,8 @@ do_install() {
 	fi
 
 	# Clean up the image (remove files and directories that are not packaged)
-	for i in ${D}/usr/share/zoneinfo ${D}/usr/lib/bin ${D}/usr/libexec ; do
+	for i in ${D}/usr/share/zoneinfo ${D}/usr/lib/bin ${D}/usr/libexec \
+		${D}/usr/lib/install-tools ${D}/usr/lib/include-fixed ${D}/usr/lib/include ; do
 		if [ -e $i ]; then
 			rm -rf $i
 		fi
