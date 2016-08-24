@@ -36,7 +36,6 @@ RDEPENDS_${PN} = "\
 	util-linux \
 	zlib \
 	strace \
-	gdb \
 	"
 
 QT_EXTRAS = " \
@@ -126,6 +125,7 @@ ZYNQ_EXTRAS = " \
 	libmetal \
 	ffmpeg \
 	gstreamer \
+	gdb \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
