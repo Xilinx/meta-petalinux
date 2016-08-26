@@ -123,6 +123,7 @@ ZYNQ_EXTRAS = " \
 	v4l-utils \
 	yavta \
 	libmetal \
+	open-amp \
 	ffmpeg \
 	gstreamer \
 	gdb \
