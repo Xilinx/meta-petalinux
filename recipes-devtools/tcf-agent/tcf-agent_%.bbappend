@@ -8,7 +8,7 @@ MAKE_ARCH_aarch64 = "a64"
 CFLAGS_append_aarch64 = " -DENABLE_SSL=0 -DUSE_uuid_generate=0 -DENABLE_HardwareBreakpoints=0"
 CFLAGS_append_armv7a  = " -DENABLE_HardwareBreakpoints=0"
 
-SRCREV = "afff85a6cb7f15edc00139f9adbbd23c2e28549e"
+SRCREV = "09e01bf681699fa8433ef5c5fd5171cb8bf4d97c"
 
 SRC_URI = " \
 	git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=master;protocol=https \
