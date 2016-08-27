@@ -129,6 +129,19 @@ ZYNQ_EXTRAS = " \
 	gdb \
 	"
 
+XSERVER ?= " \
+        xserver-xorg \
+        xf86-input-evdev \
+        xf86-input-mouse \
+        xf86-input-keyboard \
+        xf86-video-fbdev \
+        "
+
+XSERVER_EXT_zynqmp ?= " \
+	xf86-video-armsoc \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
+	"
+
 RDEPENDS_${PN}_append_microblaze += " \
 	tcf-agent \
 	"
@@ -136,9 +149,12 @@ RDEPENDS_${PN}_append_microblaze += " \
 RDEPENDS_${PN}_append_zynq += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
+	${XSERVER} \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
+	${XSERVER} \
+	${XSERVER_EXT} \
 	"
