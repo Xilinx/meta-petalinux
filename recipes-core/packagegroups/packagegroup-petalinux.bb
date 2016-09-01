@@ -45,6 +45,8 @@ QT_EXTRAS = " \
 	qtbase-fonts \
 	qtbase-mkspecs \
 	qtbase-plugins \
+	qtsystems-dev \
+	qtsystems-mkspecs \
 	qtbase-staticdev \
 	qttranslations-qt \
 	qttranslations-qtbase \
@@ -97,7 +99,9 @@ QT_EXTRAS = " \
 	qttranslations-qtquick1 \
 	qtwebkit-dev \
 	qtwebkit-mkspecs \
+	qtquickcontrols-qmlplugins \
 	qttools-plugins \
+	qwt \
 	libopencv-core-dev \
 	libopencv-highgui-dev \
 	libopencv-imgproc-dev \
@@ -127,6 +131,7 @@ ZYNQ_EXTRAS = " \
 	ffmpeg \
 	gstreamer \
 	gdb \
+	qwt \
 	"
 
 XSERVER ?= " \
