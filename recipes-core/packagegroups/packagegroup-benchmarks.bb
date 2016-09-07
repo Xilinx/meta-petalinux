@@ -16,6 +16,10 @@ BENCHMARKS_EXTRAS = " \
 	babeltrace \
 	sysstat \
 	dstat \
+	dhrystone \
+	linpack \
+	whetstone \
+	bonnie++ \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
