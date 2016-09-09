@@ -24,4 +24,5 @@ EXTRA_OECMAKE = " \
 	-DWITH_PROXY=OFF \
 	"
 
-EXTRA_OECMAKE_append_zynqmp = "-DWITH_APPS=ON"
+# Only builds the library but not the applications
+#EXTRA_OECMAKE_append_zynqmp = "-DWITH_APPS=ON"
