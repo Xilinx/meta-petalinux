@@ -7,9 +7,9 @@ SECTION = "libs"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=b30cbe0b980e98bfd9759b1e6ba3d107"
 
-# Initial tag of open-amp xilinx-v2016.3-rc1
-SRCREV ?= "2d158e856c0c52b18a4f555ea69b1edd11ad6186"
-SRC_URI = "git://gitenterprise.xilinx.com/OpenAMP/open-amp.git;protocol=https;branch=xlnx-2016.3"
+# Initial tag of open-amp xilinx-v2016.3-rc2
+SRCREV ?= "bd62dee2399aa7f2e45761f289675dade34190fc"
+SRC_URI = "git://github.com/Xilinx/open-amp.git;protocol=https;branch=xlnx-2016.3"
 
 S = "${WORKDIR}/git"
 
