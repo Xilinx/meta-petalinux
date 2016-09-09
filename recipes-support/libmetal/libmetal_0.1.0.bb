@@ -23,4 +23,5 @@ EXTRA_OECMAKE = " \
 	-DMACHINE=${SOC_FAMILY} \
 	"
 
-EXTRA_OECMAKE_append_zynqmp = "-DWITH_EXAMPLES=ON"
+# Only builds the library but not the demo apps.
+#EXTRA_OECMAKE_append_zynqmp = "-DWITH_EXAMPLES=ON"
