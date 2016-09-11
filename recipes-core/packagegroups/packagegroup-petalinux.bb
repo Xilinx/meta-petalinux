@@ -147,6 +147,22 @@ XSERVER_EXT_zynqmp ?= " \
 	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
 	"
 
+MATCHBOX_PACKAGES = " \
+       matchbox-config-gtk \
+       matchbox-desktop \
+       matchbox-keyboard \
+       matchbox-keyboard-applet \
+       matchbox-panel-2 \
+       matchbox-session \
+       matchbox-terminal \
+       matchbox-theme-sato \
+       matchbox-desktop-sato \
+       matchbox-session-sato \
+       matchbox-wm \
+       sato-icon-theme \
+       settings-daemon \
+       "
+
 RDEPENDS_${PN}_append_microblaze += " \
 	tcf-agent \
 	"
@@ -155,6 +171,7 @@ RDEPENDS_${PN}_append_zynq += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
 	${XSERVER} \
+	${MATCHBOX_PACKAGES} \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
@@ -162,4 +179,5 @@ RDEPENDS_${PN}_append_zynqmp += " \
 	${QT_EXTRAS} \
 	${XSERVER} \
 	${XSERVER_EXT} \
+	${MATCHBOX_PACKAGES} \
 	"
