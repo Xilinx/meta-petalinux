@@ -19,7 +19,6 @@ BENCHMARKS_EXTRAS = " \
 	dhrystone \
 	linpack \
 	whetstone \
-	bonnie++ \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
