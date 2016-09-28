@@ -134,6 +134,23 @@ ZYNQ_EXTRAS = " \
 	qwt \
 	"
 
+X11_PACKAGES = " \
+	xauth \
+	xhost \
+	xset \
+	xtscal \
+	xcursor-transparent-theme \
+	xinit \
+	xinput \
+	xinput-calibrator \
+	xkbcomp \
+	xkeyboard-config \
+	xkeyboard-config-locale-en-gb \
+	xmodmap \
+	xrandr \
+	xserver-nodm-init \
+	"
+
 XSERVER ?= " \
         xserver-xorg \
         xf86-input-evdev \
@@ -141,11 +158,6 @@ XSERVER ?= " \
         xf86-input-keyboard \
         xf86-video-fbdev \
         "
-
-XSERVER_EXT_zynqmp ?= " \
-	xf86-video-armsoc \
-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
-	"
 
 MATCHBOX_PACKAGES = " \
        matchbox-config-gtk \
@@ -171,6 +183,7 @@ RDEPENDS_${PN}_append_zynq += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
 	${XSERVER} \
+	${X11_PACKAGES} \
 	${MATCHBOX_PACKAGES} \
 	"
 
@@ -178,6 +191,8 @@ RDEPENDS_${PN}_append_zynqmp += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
 	${XSERVER} \
-	${XSERVER_EXT} \
+	xf86-video-armsoc \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
+	${X11_PACKAGES} \
 	${MATCHBOX_PACKAGES} \
 	"
