@@ -5,13 +5,6 @@ COMMON_FEATURES = " \
     "
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
-ZYNQ_FEATURES = " \
-    tools-debug \
-    tools-profile \
-    "
-IMAGE_FEATURES_append_zynq += " ${ZYNQ_FEATURES}"
-IMAGE_FEATURES_append_zynqmp += " ${ZYNQ_FEATURES}"
-
 COMMON_INSTALL = " \
     i2c-tools \
     openssh-sftp-server \
