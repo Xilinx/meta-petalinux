@@ -2,7 +2,11 @@ FILESEXTRAPATHS_prepend_zynqmp := "${THISDIR}/${PN}:"
 
 SRC_URI_append_zynqmp = "file://qeglfshooks_zynqmp.cpp"
 
-# PACKAGECONFIG_GL = "gles2"
+PACKAGECONFIG_GL = " \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)} \
+	"
+PACKAGECONFIG_GL_zynqmp = "eglfs"
 
 PACKAGECONFIG_append = " examples accessibility tools libinput linuxfb"
 
