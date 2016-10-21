@@ -93,12 +93,6 @@ QT_EXTRAS = " \
 	qtxmlpatterns-mkspecs \
 	qttranslations-qtxmlpatterns \
 	qtbase-examples \
-	qtquick1-dev \
-	qtquick1-mkspecs \
-	qtquick1-plugins \
-	qttranslations-qtquick1 \
-	qtwebkit-dev \
-	qtwebkit-mkspecs \
 	qtquickcontrols-qmlplugins \
 	qttools-plugins \
 	qwt \
@@ -182,17 +176,13 @@ RDEPENDS_${PN}_append_microblaze += " \
 RDEPENDS_${PN}_append_zynq += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
-	${XSERVER} \
-	${X11_PACKAGES} \
-	${MATCHBOX_PACKAGES} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${XSERVER} \
+			${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
 	${ZYNQ_EXTRAS} \
 	${QT_EXTRAS} \
-	${XSERVER} \
-	xf86-video-armsoc \
-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
-	${X11_PACKAGES} \
-	${MATCHBOX_PACKAGES} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' xserver-xorg-extension-glx xf86-video-armsoc ${XSERVER} \
+			${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
 	"
