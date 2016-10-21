@@ -39,6 +39,12 @@
 
 QT_BEGIN_NAMESPACE
 
+typedef struct fbdev_window
+{
+	unsigned short width;
+	unsigned short height;
+} fbdev_window;
+
 class QEglFSZynqMPHooks : public QEglFSHooks
 {
 	public:
@@ -73,12 +79,12 @@ EGLNativeWindowType QEglFSZynqMPHooks::createNativeWindow(QPlatformWindow *windo
 	fbwin->width = size.width();
 	fbwin->height = size.height();
 
-	return fbwin;
+	return (EGLNativeWindowType)fbwin;
 }
 
 void QEglFSZynqMPHooks::destroyNativeWindow(EGLNativeWindowType window)
 {
-	delete window;
+	delete (struct fbdev_window*) window;
 }
 
 
