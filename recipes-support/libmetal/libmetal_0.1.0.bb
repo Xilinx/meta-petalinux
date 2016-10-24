@@ -7,7 +7,7 @@ SECTION = "libs"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=395307789d21fd8945fc1c933cad18b5"
 
-# Inital tag of libmetal xilinx-v2016.3-rc2
+# Inital tag of libmetal xilinx-v2016.3
 SRCREV ?= "cf86806f3a6cac15fce7cf4e1f4190d9afee610c"
 SRC_URI = "git://github.com/Xilinx/libmetal.git;protocol=https;branch=xlnx-2016.3"
 
