@@ -204,6 +204,7 @@ XILINX_VER_MAIN = "2016.3"
 EXTERNAL_TOOLCHAIN_zynq = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/aarch32/lin/gcc-arm-linux-gnueabi"
 EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/microblaze/linux_toolchain/lin64_le"
 EXTERNAL_TOOLCHAIN_aarch64 = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3/gnu/aarch64/lin/aarch64-linux"
+XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2016.3_daily_latest/installs/lin64/SDK/2016.3"
 
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
