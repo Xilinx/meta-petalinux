@@ -1,6 +1,6 @@
 require recipes-extended/xen/xen.inc
 
-# Intial tag of xilinx-2016.3-rc2 tag
+# Intial tag of xilinx-2016.3 tag
 SRCREV = "b49f2bffb7fb64eb8e9835161afeaca642ad0bac"
 
 XEN_REL="4.7"
