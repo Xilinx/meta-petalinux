@@ -6,10 +6,10 @@ COMMON_FEATURES = " \
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
 COMMON_INSTALL = " \
-    i2c-tools \
     openssh-sftp-server \
     tcf-agent \
-    usbutils \
+    mtd-utils \
+    bridge-utils \
     "
 
 IMAGE_INSTALL = " \
