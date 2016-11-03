@@ -19,5 +19,5 @@ S="${WORKDIR}/${MB_TCF_NAME}"
 
 do_install() {
 	install -d ${D}/usr/sbin
-	cp -a ${S}/agent ${D}/usr/sbin/tcf-agent
+	install -m 0755 ${S}/agent ${D}/usr/sbin/tcf-agent
 }
