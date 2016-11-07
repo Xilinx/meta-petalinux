@@ -5,6 +5,8 @@ require petalinux-image-common.inc
 
 IMAGE_INSTALL += " \
     packagegroup-petalinux \
+    packagegroup-petalinux-qt \
+    packagegroup-petalinux-x11 \
 "
 
 IMAGE_INSTALL_append_zynqmp += "packagegroup-benchmarks"
