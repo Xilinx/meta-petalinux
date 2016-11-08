@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ -e /proc/sys/kernel/hotplug ]; then
-        echo "/sbin/mdev" > /proc/sys/kernel/hotplug
-fi
-mkdir -p /run/media
-mdev -s
