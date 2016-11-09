@@ -25,6 +25,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-xilinx-tools \
     ##OEROOT##/../meta-petalinux \
     ##OEROOT##/../meta-virtualization \
+    ##OEROOT##/../meta-openamp \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
