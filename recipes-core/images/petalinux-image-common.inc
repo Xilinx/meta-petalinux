@@ -10,6 +10,8 @@ COMMON_INSTALL = " \
     tcf-agent \
     mtd-utils \
     bridge-utils \
+    canutils \
+    pciutils \
     "
 
 IMAGE_INSTALL = " \
