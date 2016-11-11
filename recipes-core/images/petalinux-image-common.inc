@@ -12,6 +12,7 @@ COMMON_INSTALL = " \
     bridge-utils \
     canutils \
     pciutils \
+    kernel-modules \
     "
 
 IMAGE_INSTALL = " \
