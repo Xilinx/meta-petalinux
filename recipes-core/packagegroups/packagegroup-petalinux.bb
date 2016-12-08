@@ -42,7 +42,6 @@ ZYNQ_EXTRAS = " \
 	libdrm \
 	libdrm-tests \
 	libinput \
- 	opencv \
 	python-multiprocessing \
 	python-numpy \
 	python-scons \
@@ -56,9 +55,7 @@ ZYNQ_EXTRAS = " \
 	libmetal \
 	open-amp \
 	ffmpeg \
-	gstreamer \
 	gdb \
-	qwt \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
