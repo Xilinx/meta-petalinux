@@ -3,7 +3,7 @@ LICENSE = "NONE"
 
 inherit packagegroup
 
-QT_EXTRAS = " \
+QT_PACKAGES = " \
         ruby \
 	cpufrequtils \
 	qtbase-dev \
@@ -67,18 +67,12 @@ QT_EXTRAS = " \
 	qtquickcontrols-qmlplugins \
 	qttools-plugins \
 	qwt \
-	libopencv-core-dev \
-	libopencv-highgui-dev \
-	libopencv-imgproc-dev \
-	libopencv-objdetect-dev \
-	libopencv-ml-dev \
-	libopencv-calib3d \
 	"
 
 RDEPENDS_${PN}_append_zynq += " \
-	${QT_EXTRAS} \
+	${QT_PACKAGES} \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
-	${QT_EXTRAS} \
+	${QT_PACKAGES} \
 	"
