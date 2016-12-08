@@ -40,7 +40,7 @@ do_install() {
     install -d ${D}/${bindir}
     cd bin${QT_LIBINFIX}/
     for i in * ; do
-        cp -pPR ${i} ${D}/${bindir}/${i}${QT_LIBINFIX}
+        cp -pPR --no-preserve=ownership ${i} ${D}/${bindir}/${i}${QT_LIBINFIX}
     done
     install -d ${D}${libdir}${QT_DIR_NAME}
     mv ${D}${prefix}/plugins ${D}${libdir}${QT_DIR_NAME}
