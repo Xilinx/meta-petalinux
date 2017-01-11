@@ -37,10 +37,8 @@ MATCHBOX_PACKAGES = " \
        matchbox-session \
        matchbox-terminal \
        matchbox-theme-sato \
-       matchbox-desktop-sato \
        matchbox-session-sato \
        matchbox-wm \
-       sato-icon-theme \
        settings-daemon \
        "
 
