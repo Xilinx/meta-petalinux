@@ -7,7 +7,6 @@ QT_PACKAGES = " \
         ruby \
 	cpufrequtils \
 	qtbase-dev \
-	qtbase-fonts \
 	qtbase-mkspecs \
 	qtbase-plugins \
 	qtsystems-dev \
