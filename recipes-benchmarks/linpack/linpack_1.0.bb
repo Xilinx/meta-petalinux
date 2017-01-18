@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "e21ab7b04732189b550070f346970db9686d2f33a5d0a1a3a03c4dc50f
 S = "${WORKDIR}"
 
 do_compile () {
-	${CC} -O -o linpack linpacknew.c -lm
+	${CC} ${CFLAGS} ${LDFLAGS} -O -o linpack linpacknew.c -lm
 }
 
 do_install () {
