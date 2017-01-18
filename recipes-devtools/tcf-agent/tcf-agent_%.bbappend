@@ -28,3 +28,5 @@ CFLAGS_remove += " \
                   -DSERVICE_LineNumbers=0 \
 		  -DSERVICE_Expressions=0 \
 		  "
+
+EXTRA_OEMAKE_append = " 'LINK_OPTS=${LDFLAGS}'"
