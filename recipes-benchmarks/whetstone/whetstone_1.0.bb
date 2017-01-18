@@ -12,11 +12,11 @@ SRC_URI[sha256sum] = "333e4ceca042c146f63eec605573d16ae8b07166cbc44a17bec1ea97c6
 S = "${WORKDIR}"
 
 do_compile () {
-	${CC} -O3 -Ofast -o whetstone whetstone.c -lm 
+	${CC} ${CFLAGS} ${LDFLAGS} -O3 -Ofast -o whetstone whetstone.c -lm
 }
 
 do_install () {
 	install -d ${D}${bindir}
-	install -m 0755 whetstone ${D}${bindir}	
+	install -m 0755 whetstone ${D}${bindir}
 }
 
