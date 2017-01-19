@@ -67,10 +67,12 @@ RDEPENDS_${PN}_append_zynq += " \
 	"
 
 RDEPENDS_${PN}_append_zynqmp += " \
-	libmali-xlnx \
 	libmetal-amp-demo \
 	openamp-echo-test \
 	openamp-mat-mul \
 	openamp-proxy-app \
 	${ZYNQ_EXTRAS} \
+	"
+RDEPENDS_${PN}_append_zynqmp += " \
+	${@bb.utils.contains('MACHINE_FEATURES', 'mali', 'libmali-xlnx', '', d)} \
 	"
