@@ -5,7 +5,6 @@ inherit packagegroup
 
 BENCHMARKS_EXTRAS = " \
 	hdparm \
-	iperf \
 	iotop \
 	nicstat \
 	lmbench \
