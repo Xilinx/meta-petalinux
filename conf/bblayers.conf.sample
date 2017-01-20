@@ -20,7 +20,6 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-openembedded/meta-xfce \
     ##OEROOT##/../meta-openembedded/meta-initramfs \
     ##OEROOT##/../meta-openembedded/meta-oe \
-    ##OEROOT##/../meta-linaro/meta-linaro-toolchain \
     ##OEROOT##/../meta-qt5 \
     ##OEROOT##/../meta-xilinx \
     ##OEROOT##/../meta-xilinx-tools \
