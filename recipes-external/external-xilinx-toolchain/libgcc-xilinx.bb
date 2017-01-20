@@ -8,8 +8,8 @@ PR = "r1"
 
 LICENSE = "GPL-3.0-with-GCC-exception"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-3.0-with-GCC-exception;md5=aef5f35c9272f508be848cd99e0151df"
-LICENSE_libgcov-dev = "GPL-3.0"
-LIC_FILES_CHKSUM_libgcov-dev = "file://${COMMON_LICENSE_DIR}/GPL-3.0;md5=c79ff39f19dfec6d293b95dea7b07891"
+LICENSE_libgcov-dev = "GPL-3.0-with-GCC-exception"
+LIC_FILES_CHKSUM_libgcov-dev = "file://${COMMON_LICENSE_DIR}/GPL-3.0-with-GCC-exception;md5=aef5f35c9272f508be848cd99e0151df"
 
 DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++ virtual/${TARGET_PREFIX}binutils"
 PROVIDES = "libgcc"
