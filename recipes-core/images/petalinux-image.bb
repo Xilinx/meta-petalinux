@@ -10,7 +10,12 @@ IMAGE_INSTALL += " \
     packagegroup-petalinux-x11 \
     "
 
+IMAGE_INSTALL_append_zynq += " \
+    packagegroup-core-tools-profile \
+    "
+
 IMAGE_INSTALL_append_zynqmp += " \
     packagegroup-benchmarks \
+    packagegroup-core-tools-profile \
     packagegroup-petalinux-gstreamer \
     "
