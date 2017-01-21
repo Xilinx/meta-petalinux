@@ -18,7 +18,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 
 PACKAGES = "libgcc libgcc-dev libgcc-dbg libgcov-dev"
 
-RDEPENDS_libgcc += "${TCLIBC} glibc-xilinx"
+RDEPENDS_libgcc += "${TCLIBC}"
 INSANE_SKIP_libgcc += "build-deps ldflags"
 INSANE_SKIP_libgcc-dev += "builds-deps staticdev"
 INSANE_SKIP_${MLPREFIX}libgcov-dev += "build-deps staticdev"
