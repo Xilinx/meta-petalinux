@@ -73,9 +73,3 @@ RDEPENDS_${PN}_append_zynqmp += " \
 	openamp-proxy-app \
 	${ZYNQ_EXTRAS} \
 	"
-RDEPENDS_${PN}_append_zynqmp += " \
-	${@bb.utils.contains('MACHINE_FEATURES', 'mali', 'libmali-xlnx', '', d)} \
-	"
-RDEPENDS_${PN}_append_zynqmp += " \
-	${@bb.utils.contains('MACHINE_FEATURES', 'vcu', 'vcu-modules', '', d)} \
-	"
