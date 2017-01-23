@@ -1,21 +1,14 @@
-FILESEXTRAPATHS_prepend_zynqmp := "${THISDIR}/${PN}:"
+OVERRIDES =. "${@bb.utils.contains('MACHINE_FEATURES', 'mali', 'mali:', '', d)}"
 
-SRC_URI_append_zynqmp = "file://qeglfshooks_zynqmp.cpp"
+FILESEXTRAPATHS_prepend_mali := "${THISDIR}/${PN}:"
+SRC_URI_append_mali = "file://qeglfshooks_zynqmp.cpp"
 
-PACKAGECONFIG_GL = " \
-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2', '', d)} \
-	"
-PACKAGECONFIG_GL_zynqmp = "eglfs"
-
-PACKAGECONFIG_append = " examples accessibility tools libinput linuxfb"
-
-QT_CONFIG_FLAGS_append = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', \
-	' -accessibility ', '', d)}"
+PACKAGECONFIG_append = " examples accessibility tools libinput linuxfb alsa"
+PACKAGECONFIG_GL_mali = "gles2 eglfs"
 
 HAS_X11 = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 1, 0, d)}"
 
-do_configure_prepend_zynqmp() {
+do_configure_prepend_mali() {
 	if test ${HAS_X11} -eq 0; then
 	# adapt qmake.conf to our needs
 	sed -i 's!load(qt_config)!!' ${S}/mkspecs/linux-oe-g++/qmake.conf
