@@ -43,11 +43,7 @@ MATCHBOX_PACKAGES = " \
        "
 
 RDEPENDS_${PN}_append_zynq += " \
-	${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${XSERVER} \
-			${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' ${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
 	"
 
-RDEPENDS_${PN}_append_zynqmp += " \
-	${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' xserver-xorg-extension-glx xf86-video-armsoc ${XSERVER} \
-			${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
-	"
+RDEPENDS_${PN}_append_zynqmp += " ${X11_PACKAGES} ${MATCHBOX_PACKAGES}"
