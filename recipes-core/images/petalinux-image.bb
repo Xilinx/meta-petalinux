@@ -11,13 +11,11 @@ IMAGE_INSTALL += " \
     "
 
 IMAGE_INSTALL_append_zynq += " \
-    packagegroup-core-tools-profile \
     packagegroup-petalinux-self-hosted \
     "
 
 IMAGE_INSTALL_append_zynqmp += " \
     packagegroup-benchmarks \
-    packagegroup-core-tools-profile \
     packagegroup-petalinux-gstreamer \
     packagegroup-petalinux-self-hosted \
     "
