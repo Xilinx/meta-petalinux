@@ -1,0 +1,16 @@
+--- pseudo-1.8.1.orig/pseudo_wrappers.c	2016-07-08 03:37:05.000000000 -0600
++++ pseudo-1.8.1/pseudo_wrappers.c	2017-01-24 15:06:39.751129045 -0700
+@@ -147,11 +147,11 @@
+ 		}
+ #endif
+ 		e = dlerror();
+-		if (e != NULL) {
++		/*if (e != NULL) {
+ 			pseudo_diag("No real function for %s: %s\n", func->name, e);
+ 		} else {
+ 			pseudo_diag("No real function for %s, but dlerror NULL.\n", func->name);
+-		}
++		}*/
+ 	}
+ }
+ 
