@@ -1,7 +1,7 @@
 OVERRIDES =. "${@bb.utils.contains('MACHINE_FEATURES', 'mali', 'mali:', '', d)}"
 
 FILESEXTRAPATHS_prepend_mali := "${THISDIR}/${PN}:"
-SRC_URI_append_mali = "file://qeglfshooks_zynqmp.cpp"
+SRC_URI_append_mali = " file://qeglfshooks_zynqmp.cpp"
 
 PACKAGECONFIG_append = " examples accessibility tools libinput linuxfb alsa"
 PACKAGECONFIG_GL_mali = "gles2 eglfs"
