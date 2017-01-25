@@ -1,7 +1,7 @@
 #
 # Configuration to use external Xilinx toolchain
 #
-
+SDK_INCLUDE_TOOLCHAIN = "0"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 

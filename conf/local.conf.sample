@@ -205,7 +205,6 @@ EXTERNAL_TOOLCHAIN_zynq = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/
 EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
 EXTERNAL_TOOLCHAIN_aarch64 = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/aarch64/lin/aarch64-linux"
 XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1"
-SDK_INCLUDE_TOOLCHAIN = "0"
 
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
