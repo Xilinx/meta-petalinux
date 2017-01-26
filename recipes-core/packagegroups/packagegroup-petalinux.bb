@@ -51,6 +51,7 @@ ZYNQ_EXTRAS = " \
 	smartmontools \
 	tcf-agent \
 	v4l-utils \
+	gst-plugins-good \
 	yavta \
 	libmetal \
 	open-amp \
