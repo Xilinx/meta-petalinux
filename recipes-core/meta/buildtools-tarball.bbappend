@@ -1,7 +1,6 @@
 TOOLCHAIN_HOST_TASK += "\
-    nativesdk-qttools \
-    nativesdk-qtbase-tools \
-    nativesdk-libbz2 \
+	nativesdk-qttools-tools \
+	nativesdk-qtbase-tools \
 "
 
 create_sdk_files_append () {
