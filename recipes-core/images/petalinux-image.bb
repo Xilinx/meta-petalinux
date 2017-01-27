@@ -17,5 +17,6 @@ IMAGE_INSTALL_append_zynq += " \
 IMAGE_INSTALL_append_zynqmp += " \
     packagegroup-benchmarks \
     packagegroup-petalinux-gstreamer \
+    packagegroup-petalinux-alsa \
     packagegroup-petalinux-self-hosted \
     "
