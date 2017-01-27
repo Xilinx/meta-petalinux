@@ -201,9 +201,9 @@ BB_DISKMON_DIRS = "\
 
 TCMODE = "external-xilinx"
 XILINX_VER_MAIN = "2017.1"
-EXTERNAL_TOOLCHAIN_zynq = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/aarch32/lin/gcc-arm-linux-gnueabi"
-EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
-EXTERNAL_TOOLCHAIN_aarch64 = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/aarch64/lin/aarch64-linux"
+EXTERNAL_TOOLCHAIN_zynq = "/proj/xbuilds/2017.1_INT_0125_1/installs/lin64/SDK/2017.1/gnu/aarch32/lin/gcc-arm-linux-gnueabi"
+EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_INT_0125_1/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
+EXTERNAL_TOOLCHAIN_aarch64 = "/proj/xbuilds/2017.1_INT_0125_1/installs/lin64/SDK/2017.1/gnu/aarch64/lin/aarch64-linux"
 XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1"
 
 # INHERIT += "externalsrc"
