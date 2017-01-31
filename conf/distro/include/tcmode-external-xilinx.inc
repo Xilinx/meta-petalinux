@@ -1,7 +1,6 @@
 #
 # Configuration to use external Xilinx toolchain
 #
-SDK_INCLUDE_TOOLCHAIN = "0"
 TOOLCHAIN_PATH_ADD = "${EXTERNAL_TOOLCHAIN}/bin:"
 PATH =. "${TOOLCHAIN_PATH_ADD}"
 
@@ -39,7 +38,7 @@ ERROR_QA_remove = "ldflags textrel"
 
 # No need to re-compile the locale files
 GLIBC_INTERNAL_USE_BINARY_LOCALE = "precompiled"
-ENABLE_BINARY_LOCALE_GENERATION = ""
+ENABLE_BINARY_LOCALE_GENERATION = "0"
 
 TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_HOST}"
 # Fix up default hash, enforce it in for CC_ARCH for packages that ignore LDFLAGS.
