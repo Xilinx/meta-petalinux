@@ -4,6 +4,7 @@ LICENSE = "NONE"
 inherit packagegroup
 
 X11_PACKAGES = " \
+	packagegroup-core-x11-base \
 	xauth \
 	xhost \
 	xset \
@@ -19,14 +20,6 @@ X11_PACKAGES = " \
 	xrandr \
 	xserver-nodm-init \
 	"
-
-XSERVER ?= " \
-        xserver-xorg \
-        xf86-input-evdev \
-        xf86-input-mouse \
-        xf86-input-keyboard \
-        xf86-video-fbdev \
-        "
 
 MATCHBOX_PACKAGES = " \
        matchbox-config-gtk \
