@@ -65,6 +65,7 @@ QT_PACKAGES = " \
 	qtwebkit-mkspecs \
 	qtquickcontrols-qmlplugins \
 	qttools-plugins \
+	qtcharts \
 	"
 
 RDEPENDS_${PN}_append_zynq += " \
