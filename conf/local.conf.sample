@@ -207,6 +207,9 @@ XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/201
 TCMODE_zynq = "linaro"
 TCMODE_zynqmp = "linaro"
 
+# To use Xilinx QEMU uncomment the below line
+# XILINX_QEMUBOOT = "1"
+#
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
 # EXTERNALSRC_pn-linux-xlnx-dev = "${BASE}/sources/linux"
