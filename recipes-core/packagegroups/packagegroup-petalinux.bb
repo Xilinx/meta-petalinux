@@ -57,6 +57,9 @@ ZYNQ_EXTRAS = " \
 	open-amp \
 	ffmpeg \
 	gdb \
+	rpmsg-echo-test \
+	rpmsg-mat-mul \
+	rpmsg-proxy-app \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
