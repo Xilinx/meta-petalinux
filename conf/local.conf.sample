@@ -201,7 +201,7 @@ BB_DISKMON_DIRS = "\
 
 TCMODE_microblaze = "external-xilinx"
 XILINX_VER_MAIN = "2017.1"
-EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_INT_0125_1/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
+EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
 XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1"
 
 TCMODE_zynq = "linaro"
