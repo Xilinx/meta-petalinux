@@ -8,6 +8,5 @@ PETALINUX_SELF_HOSTED_PACKAGES ?= " \
         vim \
         "
 
-# We enable self hosting only when not running with external tools
-RDEPENDS_${PN} = "${@['', d.getVar('PETALINUX_SELF_HOSTED_PACKAGES', True)]\
-                     [d.getVar('PREFERRED_PROVIDER_virtual/glibc', True) == 'glibc']}"
+RDEPENDS_${PN}_zynq = "${PETALINUX_SELF_HOSTED_PACKAGES}"
+RDEPENDS_${PN}_zynqmp = "${PETALINUX_SELF_HOSTED_PACKAGES}"
