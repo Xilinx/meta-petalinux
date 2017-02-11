@@ -60,6 +60,9 @@ ZYNQ_EXTRAS = " \
 	rpmsg-echo-test \
 	rpmsg-mat-mul \
 	rpmsg-proxy-app \
+	openamp-fw-echo-testd \
+	openamp-fw-mat-muld \
+	openamp-fw-rpc-demo \
 	"
 
 RDEPENDS_${PN}_append_microblaze += " \
