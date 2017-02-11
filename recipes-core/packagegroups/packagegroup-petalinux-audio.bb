@@ -10,6 +10,7 @@ ALSA_PACKAGES = " \
 	alsa-utils \
 	alsa-utils-scripts \
 	pulseaudio \
+	sox \
 	"
 RDEPENDS_${PN}_append_zynqmp += " \
         ${ALSA_PACKAGES} \
