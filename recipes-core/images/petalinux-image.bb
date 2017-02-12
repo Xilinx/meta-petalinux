@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 require petalinux-image-common.inc
 
-IMAGE_FEATURES += " \
+ZYNQ_FEATURES = " \
     dev-pkgs \
     package-management \
     ptest-pkgs \
@@ -13,6 +13,10 @@ IMAGE_FEATURES += " \
     tools-sdk \
     tools-testapps \
     "
+
+IMAGE_FEATURES_append_zynq += "${ZYNQ_FEATURES}"
+
+IMAGE_FEATURES_append_zynqmp += " ${ZYNQ_FEATURES}"
 
 IMAGE_INSTALL += " \
     packagegroup-petalinux \
