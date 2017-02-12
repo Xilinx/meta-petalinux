@@ -3,6 +3,17 @@ LICENSE = "MIT"
 
 require petalinux-image-common.inc
 
+IMAGE_FEATURES += " \
+    dev-pkgs \
+    package-management \
+    ptest-pkgs \
+    splash \
+    tools-debug \
+    tools-profile \
+    tools-sdk \
+    tools-testapps \
+    "
+
 IMAGE_INSTALL += " \
     packagegroup-petalinux \
     packagegroup-petalinux-qt \
