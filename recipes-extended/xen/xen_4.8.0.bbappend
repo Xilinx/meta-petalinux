@@ -1,14 +1,20 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
+BRANCH ?= ""
+REPO ?= "git://github.com/Xilinx/xen.git;protocol=https"
+SRCREV ?= "07df4864ce2181147aacf41b6426e8c73306be55"
+
+BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
+SRC_URI = "${REPO};${BRANCHARG}"
+
 SRC_URI = " \
-    git://github.com/Xilinx/xen.git;protocol=https;nobranch=1 \
+    ${REPO};${BRANCHARG} \
     file://example-passnet.cfg \
     file://example-pvnet.cfg \
     file://example-simple.cfg \
     file://passthrough-example-part.dts \
     "
 
-SRCREV = "07df4864ce2181147aacf41b6426e8c73306be55"
 
 S = "${WORKDIR}/git"
 
