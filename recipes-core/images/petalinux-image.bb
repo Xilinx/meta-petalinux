@@ -34,4 +34,5 @@ IMAGE_INSTALL_append_zynqmp += " \
     packagegroup-petalinux-gstreamer \
     packagegroup-petalinux-audio \
     packagegroup-petalinux-self-hosted \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'packagegroup-petalinux-xen', '', d)} \
     "
