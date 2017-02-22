@@ -1,4 +1,3 @@
-DESCRIPTION = "OSL image definition for Xilinx boards"
-LICENSE = "MIT"
-
-require petalinux-image-common.inc
+inherit deprecate
+ALTERNATIVE = "petalinux-image-minimal"
+require recipes-core/images/petalinux-image-minimal.bb
