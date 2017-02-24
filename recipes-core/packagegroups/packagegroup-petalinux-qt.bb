@@ -1,7 +1,8 @@
 DESCRIPTION = "PetaLinux Qt supported Packages"
 LICENSE = "NONE"
 
-inherit packagegroup
+inherit packagegroup distro_features_check
+ANY_OF_DISTRO_FEATURES = "x11 fbdev opengl"
 
 QT_PACKAGES = " \
         ruby \
@@ -67,11 +68,4 @@ QT_PACKAGES = " \
 	qttools-plugins \
 	qtcharts \
 	"
-
-RDEPENDS_${PN}_append_zynq += " \
-	${QT_PACKAGES} \
-	"
-
-RDEPENDS_${PN}_append_zynqmp += " \
-	${QT_PACKAGES} \
-	"
+RDEPENDS_${PN} += "${QT_PACKAGES}"
