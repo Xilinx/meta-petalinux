@@ -1,7 +1,8 @@
 DESCRIPTION = "PetaLinux X11 related Packages"
 LICENSE = "NONE"
 
-inherit packagegroup
+inherit packagegroup distro_features_check
+REQUIRED_DISTRO_FEATURES = "x11"
 
 X11_PACKAGES = " \
 	packagegroup-core-x11-base \
@@ -35,8 +36,4 @@ MATCHBOX_PACKAGES = " \
        settings-daemon \
        "
 
-RDEPENDS_${PN}_append_zynq += " \
-	${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' ${X11_PACKAGES} ${MATCHBOX_PACKAGES}', '', d)} \
-	"
-
-RDEPENDS_${PN}_append_zynqmp += " ${X11_PACKAGES} ${MATCHBOX_PACKAGES}"
+RDEPENDS_${PN} += "${X11_PACKAGES} ${MATCHBOX_PACKAGES}"
