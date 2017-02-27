@@ -26,6 +26,7 @@ FILES_${PN}-xl_append = " \
     "
 
 DEPENDS += "u-boot-mkimage-native"
+RDEPENDS_${PN}-efi += "bash python"
 
 XENIMAGE_KERNEL_LOADADDRESS ?= "0x5000000"
 
