@@ -12,27 +12,18 @@ ZYNQ_FEATURES = " \
     tools-profile \
     tools-sdk \
     tools-testapps \
+    petalinux-base \
+    petalinux-self-hosted \
+    petalinux-qt \
+    petalinux-opencv \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     "
+IMAGE_FEATURES_append_zynq = " ${ZYNQ_FEATURES}"
 
-IMAGE_FEATURES_append_zynq += "${ZYNQ_FEATURES}"
-
-IMAGE_FEATURES_append_zynqmp += " ${ZYNQ_FEATURES}"
-
-IMAGE_INSTALL += " \
-    packagegroup-petalinux \
-    packagegroup-petalinux-qt \
-    packagegroup-petalinux-opencv \
-    packagegroup-petalinux-x11 \
+ZYNQMP_FEATURES = " \
+    petalinux-benchmarks \
+    petalinux-gstreamer \
+    petalinux-audio \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
-
-IMAGE_INSTALL_append_zynq += " \
-    packagegroup-petalinux-self-hosted \
-    "
-
-IMAGE_INSTALL_append_zynqmp += " \
-    packagegroup-benchmarks \
-    packagegroup-petalinux-gstreamer \
-    packagegroup-petalinux-audio \
-    packagegroup-petalinux-self-hosted \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'packagegroup-petalinux-xen', '', d)} \
-    "
+IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
