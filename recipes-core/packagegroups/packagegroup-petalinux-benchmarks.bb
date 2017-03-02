@@ -11,7 +11,6 @@ BENCHMARKS_EXTRAS = " \
 	iptraf \
 	net-snmp \
 	lsof \
-	lttng-tools \
 	babeltrace \
 	sysstat \
 	dstat \
