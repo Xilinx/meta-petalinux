@@ -1,0 +1,169 @@
+From 32385302f449b60e370a4607ae78d725f2b4e265 Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Fri, 25 Nov 2016 05:56:31 +0530
+Subject: [PATCH 08/24] Remove memcopy from Input of gst-omx
+
+Remove memcopy of GstBuffer into GstOMXBuffer
+for input path of gst-omx
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomxvideodec.c | 46 ++++++++++++++++++++++++++++++++++++++++++----
+ omx/gstomxvideoenc.c | 48 ++++++++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 86 insertions(+), 8 deletions(-)
+
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index 8598376..9555701 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -1491,6 +1491,7 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+         goto invalid_buffer;
+       }
+ 
++      /* FIXME: If stride mismatch happen then only copy happen for o/p frame */
+       if (GST_OMX_BUFFER_POOL (self->out_port_pool)->need_copy)
+         outbuf =
+             copy_frame (&GST_OMX_BUFFER_POOL (self->out_port_pool)->video_info,
+@@ -2053,10 +2054,34 @@ gst_omx_video_dec_set_format (GstVideoDecoder * decoder,
+         return FALSE;
+ 
+       /* Need to allocate buffers to reach Idle state */
+-      if (gst_omx_port_allocate_buffers (self->dec_in_port) != OMX_ErrorNone)
++
++      /* Moving from OMX_AllocateBuffers to  OMX_UseBuffers,
++         Idea is to give address of GstBuffer's data received from previos element in pipeline
++         to GstOMXBuffer's data pointer. But at _set_format stage we do not have those GstBuffer
++         So below is hack of dummpy memory for OMX component initializing */
++
++      /* if (gst_omx_port_allocate_buffers (self->dec_in_port) != OMX_ErrorNone)
++         return FALSE; */
++
++      GstMapInfo info;
++      GstBuffer *mem = gst_buffer_new_allocate (NULL, 1024, NULL);
++      gst_buffer_map (mem, &info, GST_MAP_READ);
++
++      GList *buffer_list = NULL;
++      buffer_list = g_list_append (buffer_list, info.data);
++      buffer_list = g_list_append (buffer_list, info.data);
++
++      if (gst_omx_port_use_buffers (self->dec_in_port,
++              buffer_list) != OMX_ErrorNone)
+         return FALSE;
++
++      gst_buffer_unmap (mem, &info);
++      gst_buffer_unref (mem);
++      g_list_free (buffer_list);
++
+       if (gst_omx_port_allocate_buffers (self->dec_out_port) != OMX_ErrorNone)
+         return FALSE;
++
+     }
+ 
+     if (gst_omx_component_get_state (self->dec,
+@@ -2354,9 +2379,22 @@ gst_omx_video_dec_handle_frame (GstVideoDecoder * decoder,
+      * by the port */
+     buf->omx_buf->nFilledLen =
+         MIN (size - offset, buf->omx_buf->nAllocLen - buf->omx_buf->nOffset);
+-    gst_buffer_extract (frame->input_buffer, offset,
+-        buf->omx_buf->pBuffer + buf->omx_buf->nOffset,
+-        buf->omx_buf->nFilledLen);
++
++    /*  Instead of copying GstOMXBuffer to GstBuffer,
++       Updating data pointer of GstOMXBuffer with GstBuffer data pointer */
++
++    /* gst_buffer_extract (frame->input_buffer, offset,
++       buf->omx_buf->pBuffer + buf->omx_buf->nOffset,
++       buf->omx_buf->nFilledLen); */
++
++    GstMapInfo map = GST_MAP_INFO_INIT;
++
++    if (!gst_buffer_map (frame->input_buffer, &map, GST_MAP_READ)) {
++      GST_ERROR_OBJECT (self, "Failed to map input buffer");
++    }
++    buf->omx_buf->pBuffer = map.data;
++    gst_buffer_unmap (frame->input_buffer, &map);
++
+ 
+     if (timestamp != GST_CLOCK_TIME_NONE) {
+       buf->omx_buf->nTimeStamp =
+diff --git a/omx/gstomxvideoenc.c b/omx/gstomxvideoenc.c
+index 35f5fb0..e5c2b94 100644
+--- a/omx/gstomxvideoenc.c
++++ b/omx/gstomxvideoenc.c
+@@ -613,9 +613,15 @@ gst_omx_video_enc_handle_output_frame (GstOMXVideoEnc * self, GstOMXPort * port,
+       outbuf = gst_buffer_new_and_alloc (buf->omx_buf->nFilledLen);
+ 
+       gst_buffer_map (outbuf, &map, GST_MAP_WRITE);
++
++      /* FIXME: Instead of copying GstOMXbuffer into GstBuffer, Lets just assign pointer
++         of GstOMXBuffer to GstBuffer, Need support of GstBufferPool, Ref implementation is
++         there in gstomxvideodec.c */
++
+       memcpy (map.data,
+           buf->omx_buf->pBuffer + buf->omx_buf->nOffset,
+           buf->omx_buf->nFilledLen);
++
+       gst_buffer_unmap (outbuf, &map);
+     } else {
+       outbuf = gst_buffer_new ();
+@@ -1164,8 +1170,31 @@ gst_omx_video_enc_set_format (GstVideoEncoder * encoder,
+         return FALSE;
+ 
+       /* Need to allocate buffers to reach Idle state */
+-      if (gst_omx_port_allocate_buffers (self->enc_in_port) != OMX_ErrorNone)
++
++      /* Moving from OMX_AllocateBuffers to  OMX_UseBuffers,
++         Idea is to give address of GstBuffer's data received from previos element in pipeline
++         to GstOMXBuffer's data pointer. But at _set_format stage we do not have those GstBuffer
++         So below is hack of dummpy memory for OMX component initializing */
++
++      /* if (gst_omx_port_allocate_buffers (self->enc_in_port) != OMX_ErrorNone)
++         return FALSE; */
++
++      GstMapInfo info;
++      GstBuffer *mem = gst_buffer_new_allocate (NULL, 1024, NULL);
++      gst_buffer_map (mem, &info, GST_MAP_READ);
++
++      GList *buffer_list = NULL;
++      buffer_list = g_list_append (buffer_list, info.data);
++      buffer_list = g_list_append (buffer_list, info.data);
++
++      if (gst_omx_port_use_buffers (self->enc_in_port,
++              buffer_list) != OMX_ErrorNone)
+         return FALSE;
++
++      gst_buffer_unmap (mem, &info);
++      gst_buffer_unref (mem);
++      g_list_free (buffer_list);
++
+       if (gst_omx_port_allocate_buffers (self->enc_out_port) != OMX_ErrorNone)
+         return FALSE;
+     }
+@@ -1265,9 +1294,20 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+       outbuf->omx_buf->nAllocLen - outbuf->omx_buf->nOffset) {
+     outbuf->omx_buf->nFilledLen = gst_buffer_get_size (inbuf);
+ 
+-    gst_buffer_extract (inbuf, 0,
+-        outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset,
+-        outbuf->omx_buf->nFilledLen);
++    /* Instead of copying GstOMXBuffer to GstBuffer,
++       Updating data pointer of GstOMXBuffer with GstBuffer data pointer */
++
++    /* gst_buffer_extract (inbuf, 0,
++       outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset,
++       outbuf->omx_buf->nFilledLen); */
++
++    GstMapInfo map = GST_MAP_INFO_INIT;
++    if (!gst_buffer_map (inbuf, &map, GST_MAP_READ)) {
++      GST_ERROR_OBJECT (self, "Failed to map input buffer");
++    }
++    outbuf->omx_buf->pBuffer = map.data;
++    gst_buffer_unmap (inbuf, &map);
++
+     ret = TRUE;
+     goto done;
+   }
+-- 
+2.7.4
+

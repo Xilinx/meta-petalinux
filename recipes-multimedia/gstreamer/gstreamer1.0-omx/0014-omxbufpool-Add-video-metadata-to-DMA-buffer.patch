@@ -1,0 +1,39 @@
+From eec56cfd4adafc9291474b39739f870471672b0c Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsht@xilinx.com>
+Date: Sat, 21 Jan 2017 03:22:50 -0800
+Subject: [PATCH 14/24] omxbufpool : Add video metadata to DMA buffer
+
+- This adds meta data like offset, stride as provided
+  by omx component so that downstream element for e.g
+  kmssink can parse this meta data for offset and stride
+  calculation and use it for rendering.
+
+- This also fixes chroma issue due to which green stripe
+  was seen at the top.
+
+Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomxbufferpool.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/omx/gstomxbufferpool.c b/omx/gstomxbufferpool.c
+index b43d4dc..f3e835d 100644
+--- a/omx/gstomxbufferpool.c
++++ b/omx/gstomxbufferpool.c
+@@ -445,6 +445,12 @@ gst_omx_buffer_pool_alloc_buffer (GstBufferPool * bpool,
+       mem->size = omx_buf->omx_buf->nAllocLen;
+       gst_buffer_append_memory (buf, mem);
+       g_ptr_array_add (pool->buffers, buf);
++      gst_buffer_add_video_meta_full (buf, GST_VIDEO_FRAME_FLAG_NONE,
++          GST_VIDEO_INFO_FORMAT (&pool->video_info),
++          GST_VIDEO_INFO_WIDTH (&pool->video_info),
++          GST_VIDEO_INFO_HEIGHT (&pool->video_info),
++          GST_VIDEO_INFO_N_PLANES (&pool->video_info), offset, stride);
++
+      } else {
+        if (pool->add_videometa) {
+ 	 pool->need_copy = FALSE;
+-- 
+2.7.4
+

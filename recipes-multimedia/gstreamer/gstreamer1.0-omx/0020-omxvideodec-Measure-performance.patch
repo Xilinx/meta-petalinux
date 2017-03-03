@@ -1,0 +1,73 @@
+From 7b53e431ef51754e5747c4ca6750d88692333a31 Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsht@xilinx.com>
+Date: Sat, 28 Jan 2017 06:47:45 -0800
+Subject: [PATCH 20/24] omxvideodec : Measure performance
+
+Measure time taken for pushing
+a new frame to downstream element.
+
+Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomxvideodec.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index 809f426..f08584d 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -52,6 +52,11 @@
+ #include "gstomxvideo.h"
+ #include "gstomxvideodec.h"
+ 
++#define VIDEODEC_PERF 1
++#ifdef VIDEODEC_PERF
++#include <sys/time.h>
++#endif
++
+ GST_DEBUG_CATEGORY_STATIC (gst_omx_video_dec_debug_category);
+ #define GST_CAT_DEFAULT gst_omx_video_dec_debug_category
+ 
+@@ -1198,7 +1203,7 @@ enable_port:
+       dmaList);
+   GstPad *newpad = gst_element_get_static_pad (GST_ELEMENT (self), "src");
+   if (newpad == NULL)
+-    printf ("Decoder: src pad did not found\n");
++    GST_FIXME_OBJECT (self, "Decoder: src pad did not found\n");
+   else
+     gst_pad_push_event (newpad, dmaListEvent);
+ 
+@@ -1296,6 +1301,12 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+   GstOMXAcquireBufferReturn acq_return;
+   GstClockTimeDiff deadline;
+   OMX_ERRORTYPE err;
++#ifdef VIDEODEC_PERF
++  static gint frame_count = 0;
++  struct timeval tvalAfter = {0};
++  long unsigned int microsecRender;
++  static struct timeval oldtvalAfter = {0};
++#endif
+ 
+ #if defined (USE_OMX_TARGET_RPI) && defined (HAVE_GST_GL)
+   port = self->eglimage ? self->egl_out_port : self->dec_out_port;
+@@ -1519,6 +1530,17 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+ 
+       flow_ret =
+           gst_video_decoder_finish_frame (GST_VIDEO_DECODER (self), frame);
++
++#ifdef VIDEODEC_PERF
++      gettimeofday (&tvalAfter, NULL);
++      GST_WARNING_OBJECT(self, "Rendering frame : %d\n", ++frame_count);
++      microsecRender =  ((tvalAfter.tv_sec - oldtvalAfter.tv_sec)*1000000L
++			      +tvalAfter.tv_usec) - oldtvalAfter.tv_usec;
++      GST_FIXME_OBJECT(self, "Time taken to send new frame : %ld microseconds\n", microsecRender);
++      oldtvalAfter = tvalAfter;
++      GST_FIXME_OBJECT(self, "Current FPS : %lf \n", 1E6/microsecRender);
++#endif
++
+       frame = NULL;
+       buf = NULL;
+     } else {
+-- 
+2.7.4
+

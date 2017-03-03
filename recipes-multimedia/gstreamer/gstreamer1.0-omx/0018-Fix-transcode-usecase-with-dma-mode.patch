@@ -1,0 +1,359 @@
+From 355784d9bc382e173e99f4c35f90af5830b44e7a Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Fri, 27 Jan 2017 19:13:52 +0530
+Subject: [PATCH 18/24] Fix transcode usecase with dma mode
+
+Add logic for mapping decoder's fd to encoder's
+input fd in playing state as decoder does not
+provide fd's in circular fashion.
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomx.c         | 172 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ omx/gstomx.h         |   8 +++
+ omx/gstomxvideodec.c |   6 +-
+ omx/gstomxvideoenc.c |  46 +++++++-------
+ 4 files changed, 204 insertions(+), 28 deletions(-)
+
+diff --git a/omx/gstomx.c b/omx/gstomx.c
+index 9b7f1eb..11eabca 100644
+--- a/omx/gstomx.c
++++ b/omx/gstomx.c
+@@ -1218,6 +1218,174 @@ gst_omx_port_update_port_definition (GstOMXPort * port,
+   return err;
+ }
+ 
++void
++find_fd (GstOMXBuffer * buf, GstOMXFdFound * fd_helper)
++{
++  if (fd_helper->fd == buf->omx_buf->pBuffer) {
++    fd_helper->index = g_queue_index (fd_helper->pending_buffers, buf);
++    printf ("fd found index is %d\n", fd_helper->index);
++  }
++  return;
++}
++
++/* NOTE: Uses comp->lock and comp->messages_lock */
++GstOMXAcquireBufferReturn
++gst_omx_port_acquire_buffer_dma (GstOMXPort * port, GstOMXBuffer ** buf,
++    gint fd)
++{
++  GstOMXAcquireBufferReturn ret = GST_OMX_ACQUIRE_BUFFER_ERROR;
++  GstOMXComponent *comp;
++  OMX_ERRORTYPE err;
++  GstOMXBuffer *_buf = NULL;
++  GstOMXFdFound fd_helper;
++
++  g_return_val_if_fail (port != NULL, GST_OMX_ACQUIRE_BUFFER_ERROR);
++  g_return_val_if_fail (!port->tunneled, GST_OMX_ACQUIRE_BUFFER_ERROR);
++  g_return_val_if_fail (buf != NULL, GST_OMX_ACQUIRE_BUFFER_ERROR);
++
++  *buf = NULL;
++
++  comp = port->comp;
++
++  g_mutex_lock (&comp->lock);
++  GST_DEBUG_OBJECT (comp->parent, "Acquiring %s buffer from port %u",
++      comp->name, port->index);
++
++retry:
++  gst_omx_component_handle_messages (comp);
++
++  /* Check if the component is in an error state */
++  if ((err = comp->last_error) != OMX_ErrorNone) {
++    GST_ERROR_OBJECT (comp->parent, "Component %s is in error state: %s",
++        comp->name, gst_omx_error_to_string (err));
++    ret = GST_OMX_ACQUIRE_BUFFER_ERROR;
++    goto done;
++  }
++
++  /* Check if the port is flushing */
++  if (port->flushing) {
++    ret = GST_OMX_ACQUIRE_BUFFER_FLUSHING;
++    goto done;
++  }
++
++  /* If this is an input port and at least one of the output ports
++   * needs to be reconfigured, we wait until all output ports are
++   * reconfigured. Afterwards this port is reconfigured if required
++   * or buffers are returned to be filled as usual.
++   */
++  if (port->port_def.eDir == OMX_DirInput) {
++    if (comp->pending_reconfigure_outports) {
++      gst_omx_component_handle_messages (comp);
++      while (comp->pending_reconfigure_outports &&
++          (err = comp->last_error) == OMX_ErrorNone && !port->flushing) {
++        GST_DEBUG_OBJECT (comp->parent,
++            "Waiting for %s output ports to reconfigure", comp->name);
++        gst_omx_component_wait_message (comp, GST_CLOCK_TIME_NONE);
++        gst_omx_component_handle_messages (comp);
++      }
++      goto retry;
++    }
++
++    /* Only if this port needs to be reconfigured too notify
++     * the caller about it */
++    if (port->settings_cookie != port->configured_settings_cookie) {
++      ret = GST_OMX_ACQUIRE_BUFFER_RECONFIGURE;
++      goto done;
++    }
++  }
++
++  /* If we have an output port that needs to be reconfigured
++   * and it still has buffers pending for the old configuration
++   * we first return them.
++   * NOTE: If buffers for this configuration arrive later
++   * we have to drop them... */
++  if (port->port_def.eDir == OMX_DirOutput &&
++      port->settings_cookie != port->configured_settings_cookie) {
++    if (!g_queue_is_empty (&port->pending_buffers)) {
++      GST_DEBUG_OBJECT (comp->parent,
++          "%s output port %u needs reconfiguration but has buffers pending",
++          comp->name, port->index);
++      _buf = g_queue_pop_head (&port->pending_buffers);
++
++      ret = GST_OMX_ACQUIRE_BUFFER_OK;
++      goto done;
++    }
++
++    ret = GST_OMX_ACQUIRE_BUFFER_RECONFIGURE;
++    goto done;
++  }
++
++  if (port->port_def.eDir == OMX_DirOutput && port->eos) {
++    if (!g_queue_is_empty (&port->pending_buffers)) {
++      GST_DEBUG_OBJECT (comp->parent, "%s output port %u is EOS but has "
++          "buffers pending", comp->name, port->index);
++      _buf = g_queue_pop_head (&port->pending_buffers);
++
++      ret = GST_OMX_ACQUIRE_BUFFER_OK;
++      goto done;
++    }
++
++    ret = GST_OMX_ACQUIRE_BUFFER_EOS;
++    goto done;
++  }
++
++  /* 
++   * At this point we have no error or flushing/eos port
++   * and a properly configured port.
++   *
++   */
++
++  /* If the queue is empty we wait until a buffer
++   * arrives, an error happens, the port is flushing
++   * or the port needs to be reconfigured.
++   */
++  gst_omx_component_handle_messages (comp);
++  if (g_queue_is_empty (&port->pending_buffers)) {
++    GST_DEBUG_OBJECT (comp->parent, "Queue of %s port %u is empty",
++        comp->name, port->index);
++    gst_omx_component_wait_message (comp, GST_CLOCK_TIME_NONE);
++    gst_omx_component_handle_messages (comp);
++
++    /* And now check everything again and maybe get a buffer */
++    goto retry;
++  } else {
++    GST_DEBUG_OBJECT (comp->parent, "%s port %u has pending buffers",
++        comp->name, port->index);
++    fd_helper.fd = fd;
++    fd_helper.pending_buffers = &port->pending_buffers;
++    fd_helper.index = -1;
++    g_queue_foreach (&port->pending_buffers, find_fd, &fd_helper);
++    if (fd_helper.index != -1)
++      _buf = g_queue_pop_nth (&port->pending_buffers, fd_helper.index);
++    else {
++      _buf = g_queue_pop_head (&port->pending_buffers);
++      printf ("Fd is %d and its not found in queue, Retry...\n", fd);
++      goto retry;
++    }
++
++    ret = GST_OMX_ACQUIRE_BUFFER_OK;
++    goto done;
++  }
++
++  g_assert_not_reached ();
++  goto retry;
++
++done:
++  g_mutex_unlock (&comp->lock);
++
++  if (_buf) {
++    g_assert (_buf == _buf->omx_buf->pAppPrivate);
++    *buf = _buf;
++  }
++
++  GST_DEBUG_OBJECT (comp->parent, "Acquired buffer %p (%p) from %s port %u: %d",
++      _buf, (_buf ? _buf->omx_buf->pBuffer : NULL), comp->name, port->index,
++      ret);
++
++  return ret;
++}
++
++
+ /* NOTE: Uses comp->lock and comp->messages_lock */
+ GstOMXAcquireBufferReturn
+ gst_omx_port_acquire_buffer (GstOMXPort * port, GstOMXBuffer ** buf)
+@@ -1637,8 +1805,6 @@ gst_omx_port_allocate_buffers_unlocked (GstOMXPort * port,
+       err =
+           OMX_UseBuffer (comp->handle, &buf->omx_buf, port->index, buf,
+           port->port_def.nBufferSize, l->data);
+-      if (port->index == 0)
+-        printf ("Encoder i/p OMX_Usebuffer %d\n", buf->omx_buf->pBuffer);
+       buf->eglimage = FALSE;
+     } else if (images) {
+       err =
+@@ -1649,8 +1815,6 @@ gst_omx_port_allocate_buffers_unlocked (GstOMXPort * port,
+       err =
+           OMX_AllocateBuffer (comp->handle, &buf->omx_buf, port->index, buf,
+           port->port_def.nBufferSize);
+-      if (port->index == 1)
+-        printf ("Decoder o/p OMX_AllocateBuffer %d\n", buf->omx_buf->pBuffer);
+       buf->eglimage = FALSE;
+     }
+ 
+diff --git a/omx/gstomx.h b/omx/gstomx.h
+index 0342e14..c40fae2 100644
+--- a/omx/gstomx.h
++++ b/omx/gstomx.h
+@@ -123,6 +123,7 @@ typedef struct _GstOMXComponent GstOMXComponent;
+ typedef struct _GstOMXBuffer GstOMXBuffer;
+ typedef struct _GstOMXClassData GstOMXClassData;
+ typedef struct _GstOMXMessage GstOMXMessage;
++typedef struct _GstOMXFdFound GstOMXFdFound;
+ 
+ typedef enum {
+   /* Everything good and the buffer is valid */
+@@ -291,6 +292,13 @@ struct _GstOMXClassData {
+   GstOmxComponentType type;
+ };
+ 
++struct _GstOMXFdFound {
++  gint fd;
++  GQueue *pending_buffers;
++  gint index;
++};
++
++
+ GKeyFile *        gst_omx_get_configuration (void);
+ 
+ const gchar *     gst_omx_error_to_string (OMX_ERRORTYPE err);
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index 7383ab6..809f426 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -1198,9 +1198,9 @@ enable_port:
+       dmaList);
+   GstPad *newpad = gst_element_get_static_pad (GST_ELEMENT (self), "src");
+   if (newpad == NULL)
+-    printf ("src pad did not found\n");
+-
+-  gst_pad_push_event (newpad, dmaListEvent);
++    printf ("Decoder: src pad did not found\n");
++  else
++    gst_pad_push_event (newpad, dmaListEvent);
+ 
+ 
+   err = gst_omx_port_populate (port);
+diff --git a/omx/gstomxvideoenc.c b/omx/gstomxvideoenc.c
+index c7fb0db..4097a00 100644
+--- a/omx/gstomxvideoenc.c
++++ b/omx/gstomxvideoenc.c
+@@ -1396,17 +1396,11 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+     }
+ 
+     if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
+-      //outbuf->omx_buf->pBuffer =
+-      //    gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
+-      //printf ("Stride matches & Passed fd to OMX is %d\n",
+-      //    outbuf->omx_buf->pBuffer);
+-      printf ("Stride matches,Decoder o/p FD is %d, Encoder o/p FD is %d\n",
++      printf ("Stride matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
+           gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0)),
+           outbuf->omx_buf->pBuffer);
+     }
+ 
+-    /* Instead of copying GstOMXBuffer to GstBuffer,
+-       Updating data pointer of GstOMXBuffer with GstBuffer data pointer */
+     if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
+ 
+       GstMapInfo map = GST_MAP_INFO_INIT;
+@@ -1423,9 +1417,9 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+     /* Different strides */
+ 
+     if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
+-      outbuf->omx_buf->pBuffer =
+-          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
+-      printf ("Stride does not matched,Passed fd to OMX is %d\n",
++      printf
++          ("Stride does not matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0)),
+           outbuf->omx_buf->pBuffer);
+       ret = TRUE;
+       goto done;
+@@ -1650,7 +1644,6 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+         printf ("Updated OMX Encoder BuffercountActual is %d\n",
+             self->enc_in_port->port_def.nBufferCountActual);
+ 
+-
+       } else {
+ 
+         printf ("Bufferpool found by fd tracing, It has %d buffers \n",
+@@ -1703,7 +1696,13 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+      * _loop() can't call _finish_frame() and we might block forever
+      * because no input buffers are released */
+     GST_VIDEO_ENCODER_STREAM_UNLOCK (self);
+-    acq_ret = gst_omx_port_acquire_buffer (port, &buf);
++    if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
++      acq_ret = gst_omx_port_acquire_buffer_dma (port, &buf,
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
++                  0)));
++    } else {
++      acq_ret = gst_omx_port_acquire_buffer (port, &buf);
++    }
+ 
+     if (acq_ret == GST_OMX_ACQUIRE_BUFFER_ERROR) {
+       GST_VIDEO_ENCODER_STREAM_LOCK (self);
+@@ -1972,7 +1971,7 @@ gst_omx_video_enc_drain (GstOMXVideoEnc * self, gboolean at_eos)
+ }
+ 
+ static void
+-test_data (GstOMXBuffer * buf)
++fill_dma_data (GstOMXBuffer * buf)
+ {
+   buffer_list = g_list_append (buffer_list, buf->omx_buf->pBuffer);
+   g_dmalist_count++;
+@@ -1993,16 +1992,21 @@ gst_omx_video_enc_sink_event (GstVideoEncoder * encoder, GstEvent * event)
+ 
+   switch (GST_EVENT_TYPE (event)) {
+     case GST_EVENT_CUSTOM_DOWNSTREAM:{
+-      const GstStructure *structure = gst_event_get_structure (event);
+ 
+-      if (gst_structure_has_name (structure, "dmaStruct")) {
+-        p = gst_structure_get_value (structure, "dmaPtrArray");
+-        buffers = g_value_get_pointer (p);
+-        g_ptr_array_foreach (buffers, test_data, NULL);
+-        bufpool_complete = 1;
+-        printf ("Custom event for DMA list is sucessful, got %d fd \n",
+-            g_dmalist_count);
++      if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
++
++        const GstStructure *structure = gst_event_get_structure (event);
++
++        if (gst_structure_has_name (structure, "dmaStruct")) {
++          p = gst_structure_get_value (structure, "dmaPtrArray");
++          buffers = g_value_get_pointer (p);
++          g_ptr_array_foreach (buffers, fill_dma_data, NULL);
++          bufpool_complete = 1;
++          printf ("Custom event for DMA list is sucessful, got %d fd \n",
++              g_dmalist_count);
++        }
+       }
++
+       return sink_event_backup (encoder, event);
+       break;
+     }
+-- 
+2.7.4
+

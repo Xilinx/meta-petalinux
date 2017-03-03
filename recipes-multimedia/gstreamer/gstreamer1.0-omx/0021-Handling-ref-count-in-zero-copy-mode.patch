@@ -1,0 +1,125 @@
+From e263391a69c8df9a4164c659c81dd2ff42f08043 Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Tue, 31 Jan 2017 14:56:15 +0530
+Subject: [PATCH 21/24] Handling ref count in zero copy mode
+
+- Manage reference count for buffers at output side
+  of encoder and input side of decoder when using
+  zero copy mode.
+
+- Possible fix for stability issue with decoder input side
+  as it will increase stability of pipeline
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomx.c         |  9 ++++++++-
+ omx/gstomxvideodec.c | 25 ++++++++++++++-----------
+ omx/gstomxvideoenc.c |  2 ++
+ 3 files changed, 24 insertions(+), 12 deletions(-)
+
+diff --git a/omx/gstomx.c b/omx/gstomx.c
+index 6125bf3..ef2deb2 100644
+--- a/omx/gstomx.c
++++ b/omx/gstomx.c
+@@ -623,10 +623,17 @@ EmptyBufferDone (OMX_HANDLETYPE hComponent, OMX_PTR pAppData,
+         if (buf->port->index == 0) {
+           gst_buffer_unref (buf->input_buffer);
+         }
++      } else if (self_enc->input_mode == OMX_Enc_InputMode_ZeroCopy) {
++        if (buf->port->index == 0) {
++          gst_buffer_unref (buf->input_buffer);
++        }
+       }
+     }
++  } else if (!strcmp (comp->name, "decoder")) {
++    if (buf->port->index == 0) {
++      gst_buffer_unref (buf->input_buffer);
++    }
+   }
+-
+   gst_omx_component_send_message (comp, msg);
+ 
+   return OMX_ErrorNone;
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index f08584d..195f676 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -949,8 +949,8 @@ gst_omx_video_dec_deallocate_output_buffers (GstOMXVideoDec * self)
+   }
+ #if defined (USE_OMX_TARGET_RPI) && defined (HAVE_GST_GL)
+   err =
+-      gst_omx_port_deallocate_buffers (self->
+-      eglimage ? self->egl_out_port : self->dec_out_port);
++      gst_omx_port_deallocate_buffers (self->eglimage ? self->
++      egl_out_port : self->dec_out_port);
+ #else
+   err = gst_omx_port_deallocate_buffers (self->dec_out_port);
+ #endif
+@@ -1303,9 +1303,9 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+   OMX_ERRORTYPE err;
+ #ifdef VIDEODEC_PERF
+   static gint frame_count = 0;
+-  struct timeval tvalAfter = {0};
++  struct timeval tvalAfter = { 0 };
+   long unsigned int microsecRender;
+-  static struct timeval oldtvalAfter = {0};
++  static struct timeval oldtvalAfter = { 0 };
+ #endif
+ 
+ #if defined (USE_OMX_TARGET_RPI) && defined (HAVE_GST_GL)
+@@ -1365,8 +1365,8 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+           OMX_VIDEO_CodingUnused);
+ 
+       format =
+-          gst_omx_video_get_format_from_omx (port_def.format.
+-          video.eColorFormat);
++          gst_omx_video_get_format_from_omx (port_def.format.video.
++          eColorFormat);
+ 
+       if (format == GST_VIDEO_FORMAT_UNKNOWN) {
+         GST_ERROR_OBJECT (self, "Unsupported color format: %d",
+@@ -1533,12 +1533,13 @@ gst_omx_video_dec_loop (GstOMXVideoDec * self)
+ 
+ #ifdef VIDEODEC_PERF
+       gettimeofday (&tvalAfter, NULL);
+-      GST_WARNING_OBJECT(self, "Rendering frame : %d\n", ++frame_count);
+-      microsecRender =  ((tvalAfter.tv_sec - oldtvalAfter.tv_sec)*1000000L
+-			      +tvalAfter.tv_usec) - oldtvalAfter.tv_usec;
+-      GST_FIXME_OBJECT(self, "Time taken to send new frame : %ld microseconds\n", microsecRender);
++      GST_WARNING_OBJECT (self, "Rendering frame : %d\n", ++frame_count);
++      microsecRender = ((tvalAfter.tv_sec - oldtvalAfter.tv_sec) * 1000000L
++          + tvalAfter.tv_usec) - oldtvalAfter.tv_usec;
++      GST_FIXME_OBJECT (self,
++          "Time taken to send new frame : %ld microseconds\n", microsecRender);
+       oldtvalAfter = tvalAfter;
+-      GST_FIXME_OBJECT(self, "Current FPS : %lf \n", 1E6/microsecRender);
++      GST_FIXME_OBJECT (self, "Current FPS : %lf \n", 1E6 / microsecRender);
+ #endif
+ 
+       frame = NULL;
+@@ -2438,6 +2439,8 @@ gst_omx_video_dec_handle_frame (GstVideoDecoder * decoder,
+     }
+     buf->omx_buf->pBuffer = map.data;
+     gst_buffer_unmap (frame->input_buffer, &map);
++    gst_buffer_ref (frame->input_buffer);
++    buf->input_buffer = frame->input_buffer;
+ 
+ 
+     if (timestamp != GST_CLOCK_TIME_NONE) {
+diff --git a/omx/gstomxvideoenc.c b/omx/gstomxvideoenc.c
+index 616feab..b15401c 100644
+--- a/omx/gstomxvideoenc.c
++++ b/omx/gstomxvideoenc.c
+@@ -1412,6 +1412,8 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+       }
+       outbuf->omx_buf->pBuffer = map.data;
+       gst_buffer_unmap (inbuf, &map);
++      gst_buffer_ref (inbuf);
++      outbuf->input_buffer = inbuf;
+     }
+ 
+     ret = TRUE;
+-- 
+2.7.4
+

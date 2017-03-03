@@ -1,0 +1,53 @@
+From 79141b7e049bc1b57852ece20fb0a948a41e8474 Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsht@xilinx.com>
+Date: Sun, 22 Jan 2017 23:01:23 -0800
+Subject: [PATCH 16/24] Support for setting version of component
+
+- Add macro for version related details used by
+  allegro components
+
+- Set component version details while setting DMA property.
+
+Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomxvideodec.c       | 5 +++++
+ omx/openmax/OMX_VideoExt.h | 6 ++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/omx/gstomxvideodec.c b/omx/gstomxvideodec.c
+index 7f26ada..38bb196 100644
+--- a/omx/gstomxvideodec.c
++++ b/omx/gstomxvideodec.c
+@@ -213,6 +213,11 @@ gst_omx_video_dec_open (GstVideoDecoder * decoder)
+       (OMX_STRING) "OMX.allegro.linux.enableDMA", &DMAtype);
+ 
+   memset (&enable_dmabuf, 0, sizeof (enable_dmabuf));
++  enable_dmabuf.nSize = sizeof(enable_dmabuf);
++  enable_dmabuf.nVersion.s.nVersionMajor = OMXIL_MAJOR_VERSION;
++  enable_dmabuf.nVersion.s.nVersionMinor = OMXIL_MINOR_VERSION;
++  enable_dmabuf.nVersion.s.nRevision = OMXIL_REVISION;
++  enable_dmabuf.nVersion.s.nStep = OMXIL_STEP;
+   enable_dmabuf.bEnable = (OMX_BOOL) use_dmabuf;
+   enable_dmabuf.nPortIndex = 1;
+   OMX_SetParameter (self->dec->handle, DMAtype, &enable_dmabuf);
+diff --git a/omx/openmax/OMX_VideoExt.h b/omx/openmax/OMX_VideoExt.h
+index bd57a1d..aefcef6 100644
+--- a/omx/openmax/OMX_VideoExt.h
++++ b/omx/openmax/OMX_VideoExt.h
+@@ -290,6 +290,12 @@ typedef struct OMX_VIDEO_SLICESEGMENTSTYPE {
+ #define bUSELIBREF true
+ #endif
+ 
++/* Definition of OMX IL version */
++#define OMXIL_MAJOR_VERSION 0x01
++#define OMXIL_MINOR_VERSION 0x01
++#define OMXIL_REVISION 0x02
++#define OMXIL_STEP 0x00
++
+ /**
+  *
+  * Define Index Param Video
+-- 
+2.7.4
+

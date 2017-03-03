@@ -1,0 +1,57 @@
+From ffb92ce085fd9287c2f2adcaadae746012b8e94b Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsht@xilinx.com>
+Date: Thu, 2 Mar 2017 22:36:23 -0800
+Subject: [PATCH 03/24] gstomx.conf : Add omx elements
+
+- Add omx elements for h264/h265 encoder/decoder
+  and link it with OMX IL core.
+
+Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+---
+ config/zynqultrascaleplus/gstomx.conf | 36 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/config/zynqultrascaleplus/gstomx.conf b/config/zynqultrascaleplus/gstomx.conf
+index e69de29..450b52d 100644
+--- a/config/zynqultrascaleplus/gstomx.conf
++++ b/config/zynqultrascaleplus/gstomx.conf
+@@ -0,0 +1,36 @@
++[omxh265enc]
++type-name=GstOMXH265Enc
++core-name=/usr/lib/libOMX.allegro.core.so
++component-name=OMX.allegro.h265.encoder
++in-port-index=0
++out-port-index=1
++rank=266
++hacks=no-disable-outport
++
++[omxh264enc]
++type-name=GstOMXH264Enc
++core-name=/usr/lib/libOMX.allegro.core.so
++component-name=OMX.allegro.h264.encoder
++in-port-index=0
++out-port-index=1
++rank=266
++hacks=no-disable-outport
++
++[omxh265dec]
++type-name=GstOMXH265Dec
++core-name=/usr/lib/libOMX.allegro.core.so
++component-name=OMX.allegro.h265.decoder
++in-port-index=0
++out-port-index=1
++rank=266
++hacks=no-disable-outport
++
++[omxh264dec]
++type-name=GstOMXH264Dec
++core-name=/usr/lib/libOMX.allegro.core.so
++component-name=OMX.allegro.h264.decoder
++in-port-index=0
++out-port-index=1
++rank=266
++hacks=no-disable-outport
++
+-- 
+2.7.4
+

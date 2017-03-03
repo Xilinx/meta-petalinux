@@ -1,0 +1,706 @@
+From d5218e63b5ee64f830b30c5823442e06f856a0e9 Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Sat, 21 Jan 2017 18:07:48 +0530
+Subject: [PATCH 15/24] Fix frame missing issue & added ip-mode property
+
+- Fixed frame missing/Frame dropping issue [Encoder]
+- Added ip-mode gstreamer property to enable/disable dma and
+  zero copy related changes.
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomxvideoenc.c | 500 ++++++++++++++++++++++++++++-----------------------
+ omx/gstomxvideoenc.h |  12 ++
+ 2 files changed, 289 insertions(+), 223 deletions(-)
+
+diff --git a/omx/gstomxvideoenc.c b/omx/gstomxvideoenc.c
+index b33a480..77c3f86 100644
+--- a/omx/gstomxvideoenc.c
++++ b/omx/gstomxvideoenc.c
+@@ -25,11 +25,11 @@
+ #include <gst/gst.h>
+ #include <gst/video/gstvideometa.h>
+ #include <string.h>
++#include <gst/allocators/gstdmabuf.h>
+ 
+ #include "gstomxvideo.h"
+ #include "gstomxvideoenc.h"
+ 
+-#define ENABLE_DMA
+ GST_DEBUG_CATEGORY_STATIC (gst_omx_video_enc_debug_category);
+ #define GST_CAT_DEFAULT gst_omx_video_enc_debug_category
+ 
+@@ -57,6 +57,28 @@ gst_omx_video_enc_control_rate_get_type (void)
+   return qtype;
+ }
+ 
++#define GST_TYPE_OMX_VIDEO_ENC_INPUT_MODE_TYPE (gst_omx_video_enc_input_mode_type ())
++static GType
++gst_omx_video_enc_input_mode_type (void)
++{
++  static GType qtype = 0;
++
++  if (qtype == 0) {
++    static const GEnumValue values[] = {
++      {OMX_Enc_InputMode_DefaultImplementation, "DefaultImplementation",
++          "default"},
++      {OMX_Enc_InputMode_ZeroCopy, "ZeroCopy", "zerocopy"},
++      {OMX_Enc_InputMode_DMABufImport, "DMABufImport", "dma-import"},
++      {OMX_Enc_InputMode_DMABufExport, "DMABufExport", "dma-export"},
++      {0xffffffff, "DefaultImplementation", "default"},
++      {0, NULL, NULL}
++    };
++
++    qtype = g_enum_register_static ("GstOMXVideoEncInputModeType", values);
++  }
++  return qtype;
++}
++
+ /* prototypes */
+ static void gst_omx_video_enc_finalize (GObject * object);
+ static void gst_omx_video_enc_set_property (GObject * object, guint prop_id,
+@@ -98,7 +120,8 @@ enum
+   PROP_QUANT_I_FRAMES,
+   PROP_QUANT_P_FRAMES,
+   PROP_QUANT_B_FRAMES,
+-  PROP_STRIDE
++  PROP_STRIDE,
++  PROP_INPUT_MODE
+ };
+ 
+ /* FIXME: Better defaults */
+@@ -107,6 +130,7 @@ enum
+ #define GST_OMX_VIDEO_ENC_QUANT_I_FRAMES_DEFAULT (0xffffffff)
+ #define GST_OMX_VIDEO_ENC_QUANT_P_FRAMES_DEFAULT (0xffffffff)
+ #define GST_OMX_VIDEO_ENC_QUANT_B_FRAMES_DEFAULT (0xffffffff)
++#define GST_OMX_VIDEO_ENC_INPUT_MODE_DEFAULT (0xffffffff)
+ 
+ /* class initialization */
+ 
+@@ -171,6 +195,14 @@ gst_omx_video_enc_class_init (GstOMXVideoEncClass * klass)
+           "Enable it when Decoder's o/p(with stride) given to Encoder", FALSE,
+           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+ 
++  g_object_class_install_property (gobject_class, PROP_INPUT_MODE,
++      g_param_spec_enum ("ip-mode", "input mode",
++          "input port's configuration mode",
++          GST_TYPE_OMX_VIDEO_ENC_INPUT_MODE_TYPE,
++          GST_OMX_VIDEO_ENC_INPUT_MODE_DEFAULT,
++          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS |
++          GST_PARAM_MUTABLE_READY));
++
+   element_class->change_state =
+       GST_DEBUG_FUNCPTR (gst_omx_video_enc_change_state);
+ 
+@@ -222,12 +254,12 @@ gst_omx_video_enc_open (GstVideoEncoder * encoder)
+   OMX_VIDEO_PARAM_ENABLEBOARD enable_board;
+   OMX_VIDEO_PARAM_ENABLEDMABUFFER enable_dmabuf;
+   OMX_VIDEO_PARAM_ENABLEMCU enable_mcu;
+-#ifdef ENABLE_DMA
+-  static int use_dmabuf = 1, use_mcu = 1, use_board = 0;
+-#else
++
+   static int use_dmabuf = 0, use_mcu = 1, use_board = 0;
+-#endif
+ 
++  if ((self->input_mode == OMX_Enc_InputMode_DMABufImport) ||
++      (self->input_mode == OMX_Enc_InputMode_DMABufExport))
++    use_dmabuf = 1;
+ #endif
+ 
+   self->enc =
+@@ -487,6 +519,12 @@ gst_omx_video_enc_set_property (GObject * object, guint prop_id,
+     case PROP_STRIDE:
+       self->stride = g_value_get_boolean (value);
+       break;
++    case PROP_INPUT_MODE:
++      self->input_mode = g_value_get_enum (value);
++      if (self->input_mode == OMX_Enc_InputMode_DMABufExport) {
++        printf ("ERROR: DMA export is not supported yet\n");
++      }
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -518,6 +556,9 @@ gst_omx_video_enc_get_property (GObject * object, guint prop_id, GValue * value,
+     case PROP_STRIDE:
+       g_value_set_boolean (value, self->stride);
+       break;
++    case PROP_INPUT_MODE:
++      g_value_set_enum (value, self->input_mode);
++      break;
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -989,12 +1030,10 @@ gst_omx_video_enc_set_format (GstVideoEncoder * encoder,
+   OMX_PARAM_PORTDEFINITIONTYPE port_def;
+   GstVideoInfo *info = &state->info;
+   GList *negotiation_map = NULL, *l;
+-#ifndef ENABLE_DMA
+   GList *buffer_list = NULL;
+   GstMapInfo map_info;
+   GstBuffer *mem = NULL;
+   gint i;
+-#endif
+ 
+   self = GST_OMX_VIDEO_ENC (encoder);
+   klass = GST_OMX_VIDEO_ENC_GET_CLASS (encoder);
+@@ -1204,31 +1243,33 @@ gst_omx_video_enc_set_format (GstVideoEncoder * encoder,
+ 
+       /* Need to allocate buffers to reach Idle state */
+ 
++      if (self->input_mode == OMX_Enc_InputMode_DefaultImplementation) {
++        if (gst_omx_port_allocate_buffers (self->enc_in_port) != OMX_ErrorNone)
++          return FALSE;
++      }
++
+       /* Moving from OMX_AllocateBuffers to  OMX_UseBuffers,
+          Idea is to give address of GstBuffer's data received from previos element in pipeline
+          to GstOMXBuffer's data pointer. But at _set_format stage we do not have those GstBuffer
+          So below is hack of dummpy memory for OMX component initializing */
++      if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
++        mem = gst_buffer_new_allocate (NULL, 1024, NULL);
++        gst_buffer_map (mem, &map_info, GST_MAP_READ);
+ 
+-      /* if (gst_omx_port_allocate_buffers (self->enc_in_port) != OMX_ErrorNone)
+-         return FALSE; */
++        gst_omx_port_update_port_definition (self->enc_in_port, NULL);
+ 
+-#ifndef ENABLE_DMA
+-      mem = gst_buffer_new_allocate (NULL, 1024, NULL);
+-      gst_buffer_map (mem, &map_info, GST_MAP_READ);
++        for (i = 0; i < self->enc_in_port->port_def.nBufferCountActual; i++)
++          buffer_list = g_list_append (buffer_list, map_info.data);
+ 
+-      gst_omx_port_update_port_definition (self->enc_in_port, NULL);
+-
+-      for (i = 0; i < self->enc_in_port->port_def.nBufferCountActual; i++)
+-        buffer_list = g_list_append (buffer_list, map_info.data);
++        if (gst_omx_port_use_buffers (self->enc_in_port,
++                buffer_list) != OMX_ErrorNone)
++          return FALSE;
+ 
+-      if (gst_omx_port_use_buffers (self->enc_in_port,
+-              buffer_list) != OMX_ErrorNone)
+-        return FALSE;
++        gst_buffer_unmap (mem, &map_info);
++        gst_buffer_unref (mem);
++        g_list_free (buffer_list);
++      }
+ 
+-      gst_buffer_unmap (mem, &map_info);
+-      gst_buffer_unref (mem);
+-      g_list_free (buffer_list);
+-#endif
+       if (gst_omx_port_allocate_buffers (self->enc_out_port) != OMX_ErrorNone)
+         return FALSE;
+     }
+@@ -1237,15 +1278,17 @@ gst_omx_video_enc_set_format (GstVideoEncoder * encoder,
+             GST_CLOCK_TIME_NONE) != OMX_StateIdle)
+       return FALSE;
+ 
+-#ifndef ENABLE_DMA
+-    if (gst_omx_component_set_state (self->enc,
+-            OMX_StateExecuting) != OMX_ErrorNone)
+-      return FALSE;
++    if ((self->input_mode == OMX_Enc_InputMode_ZeroCopy) ||
++        (self->input_mode == OMX_Enc_InputMode_DefaultImplementation)) {
++      if (gst_omx_component_set_state (self->enc,
++              OMX_StateExecuting) != OMX_ErrorNone)
++        return FALSE;
++
++      if (gst_omx_component_get_state (self->enc,
++              GST_CLOCK_TIME_NONE) != OMX_StateExecuting)
++        return FALSE;
++    }
+ 
+-    if (gst_omx_component_get_state (self->enc,
+-            GST_CLOCK_TIME_NONE) != OMX_StateExecuting)
+-      return FALSE;
+-#endif
+   }
+ 
+   /* Unset flushing to allow ports to accept data again */
+@@ -1263,13 +1306,15 @@ gst_omx_video_enc_set_format (GstVideoEncoder * encoder,
+     gst_video_codec_state_unref (self->input_state);
+   self->input_state = gst_video_codec_state_ref (state);
+ 
+-#ifndef ENABLE_DMA
+-  /* Start the srcpad loop again */
+-  GST_DEBUG_OBJECT (self, "Starting task again");
+-  self->downstream_flow_ret = GST_FLOW_OK;
+-  gst_pad_start_task (GST_VIDEO_ENCODER_SRC_PAD (self),
+-      (GstTaskFunction) gst_omx_video_enc_loop, encoder, NULL);
+-#endif
++  if ((self->input_mode == OMX_Enc_InputMode_ZeroCopy) ||
++      (self->input_mode == OMX_Enc_InputMode_DefaultImplementation)) {
++    /* Start the srcpad loop again */
++    GST_DEBUG_OBJECT (self, "Starting task again");
++    self->downstream_flow_ret = GST_FLOW_OK;
++    gst_pad_start_task (GST_VIDEO_ENCODER_SRC_PAD (self),
++        (GstTaskFunction) gst_omx_video_enc_loop, encoder, NULL);
++  }
++
+   return TRUE;
+ }
+ 
+@@ -1332,172 +1377,183 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+       outbuf->omx_buf->nAllocLen - outbuf->omx_buf->nOffset) {
+     outbuf->omx_buf->nFilledLen = gst_buffer_get_size (inbuf);
+ 
+-    /* Instead of copying GstOMXBuffer to GstBuffer,
+-       Updating data pointer of GstOMXBuffer with GstBuffer data pointer */
+-
+-    /* gst_buffer_extract (inbuf, 0,
+-       outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset,
+-       outbuf->omx_buf->nFilledLen); */
+ 
+-#ifdef ENABLE_DMA
+-    outbuf->omx_buf->pBuffer =
+-        gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
+-    printf ("Stride matches & Passed fd to OMX is %d\n",
+-        outbuf->omx_buf->pBuffer);
+-#else
+-    GstMapInfo map = GST_MAP_INFO_INIT;
+-    if (!gst_buffer_map (inbuf, &map, GST_MAP_READ)) {
+-      GST_ERROR_OBJECT (self, "Failed to map input buffer");
++    if (self->input_mode == OMX_Enc_InputMode_DefaultImplementation) {
++      gst_buffer_extract (inbuf, 0,
++          outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset,
++          outbuf->omx_buf->nFilledLen);
+     }
+-    outbuf->omx_buf->pBuffer = map.data;
+-    gst_buffer_unmap (inbuf, &map);
+-#endif
+-    ret = TRUE;
+-    goto done;
+-  } else {
+-#ifdef ENABLE_DMA
+-    outbuf->omx_buf->pBuffer =
+-        gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
+-    printf ("Stride does not matched,Passed fd to OMX is %d\n",
+-        outbuf->omx_buf->pBuffer);
+-    ret = TRUE;
+-    goto done;
+-#else
+-    printf ("Enable stride=true in pipeline or This should not happen\n");
+-#endif
+-  }
+-
+-  /* Different strides */
+ 
+-  switch (info->finfo->format) {
+-    case GST_VIDEO_FORMAT_I420:{
+-      gint i, j, height, width;
+-      guint8 *src, *dest;
+-      gint src_stride, dest_stride;
++    if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
++      outbuf->omx_buf->pBuffer =
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
++      printf ("Stride matches & Passed fd to OMX is %d\n",
++          outbuf->omx_buf->pBuffer);
++    }
+ 
+-      outbuf->omx_buf->nFilledLen = 0;
++    /* Instead of copying GstOMXBuffer to GstBuffer,
++       Updating data pointer of GstOMXBuffer with GstBuffer data pointer */
++    if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
+ 
+-      if (!gst_video_frame_map (&frame, info, inbuf, GST_MAP_READ)) {
+-        GST_ERROR_OBJECT (self, "Invalid input buffer size");
+-        ret = FALSE;
+-        break;
++      GstMapInfo map = GST_MAP_INFO_INIT;
++      if (!gst_buffer_map (inbuf, &map, GST_MAP_READ)) {
++        GST_ERROR_OBJECT (self, "Failed to map input buffer");
+       }
++      outbuf->omx_buf->pBuffer = map.data;
++      gst_buffer_unmap (inbuf, &map);
++    }
+ 
+-      for (i = 0; i < 3; i++) {
+-        if (i == 0) {
+-          dest_stride = port_def->format.video.nStride;
+-          src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 0);
+-
+-          /* XXX: Try this if no stride was set */
+-          if (dest_stride == 0)
+-            dest_stride = src_stride;
+-        } else {
+-          dest_stride = port_def->format.video.nStride / 2;
+-          src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 1);
+-
+-          /* XXX: Try this if no stride was set */
+-          if (dest_stride == 0)
+-            dest_stride = src_stride;
+-        }
+-
+-        dest = outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset;
+-        if (i > 0)
+-          dest +=
+-              port_def->format.video.nSliceHeight *
+-              port_def->format.video.nStride;
+-        if (i == 2)
+-          dest +=
+-              (port_def->format.video.nSliceHeight / 2) *
+-              (port_def->format.video.nStride / 2);
+-
+-        src = GST_VIDEO_FRAME_COMP_DATA (&frame, i);
+-        height = GST_VIDEO_FRAME_COMP_HEIGHT (&frame, i);
+-        width = GST_VIDEO_FRAME_COMP_WIDTH (&frame, i);
+-
+-        if (dest + dest_stride * height >
+-            outbuf->omx_buf->pBuffer + outbuf->omx_buf->nAllocLen) {
+-          gst_video_frame_unmap (&frame);
+-          GST_ERROR_OBJECT (self, "Invalid output buffer size");
+-          ret = FALSE;
+-          break;
+-        }
++    ret = TRUE;
++    goto done;
++  } else {
++    /* Different strides */
+ 
+-        for (j = 0; j < height; j++) {
+-          memcpy (dest, src, width);
+-          outbuf->omx_buf->nFilledLen += dest_stride;
+-          src += src_stride;
+-          dest += dest_stride;
+-        }
+-      }
+-      gst_video_frame_unmap (&frame);
++    if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
++      outbuf->omx_buf->pBuffer =
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0));
++      printf ("Stride does not matched,Passed fd to OMX is %d\n",
++          outbuf->omx_buf->pBuffer);
+       ret = TRUE;
+-      break;
++      goto done;
+     }
+-    case GST_VIDEO_FORMAT_NV12:{
+-      gint i, j, height, width;
+-      guint8 *src, *dest;
+-      gint src_stride, dest_stride;
+-
+-      outbuf->omx_buf->nFilledLen = 0;
+-
+-      if (!gst_video_frame_map (&frame, info, inbuf, GST_MAP_READ)) {
+-        GST_ERROR_OBJECT (self, "Invalid input buffer size");
+-        ret = FALSE;
+-        break;
+-      }
+-
+-      for (i = 0; i < 2; i++) {
+-        if (i == 0) {
+-          dest_stride = port_def->format.video.nStride;
+-          src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 0);
+-          /* XXX: Try this if no stride was set */
+-          if (dest_stride == 0)
+-            dest_stride = src_stride;
+-        } else {
+-          dest_stride = port_def->format.video.nStride;
+-          src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 1);
+-
+-          /* XXX: Try this if no stride was set */
+-          if (dest_stride == 0)
+-            dest_stride = src_stride;
+-        }
+-
+-        dest = outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset;
+-        if (i == 1)
+-          dest +=
+-              port_def->format.video.nSliceHeight *
+-              port_def->format.video.nStride;
+ 
+-        src = GST_VIDEO_FRAME_COMP_DATA (&frame, i);
+-        height = GST_VIDEO_FRAME_COMP_HEIGHT (&frame, i);
+-        width = GST_VIDEO_FRAME_COMP_WIDTH (&frame, i) * (i == 0 ? 1 : 2);
++    if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
++      printf ("Enable stride=true in pipeline or This should not happen\n");
++      ret = FALSE;
++      goto done;
++    }
+ 
+-        if (dest + dest_stride * height >
+-            outbuf->omx_buf->pBuffer + outbuf->omx_buf->nAllocLen) {
++    if (self->input_mode == OMX_Enc_InputMode_DefaultImplementation) {
++      switch (info->finfo->format) {
++        case GST_VIDEO_FORMAT_I420:{
++          gint i, j, height, width;
++          guint8 *src, *dest;
++          gint src_stride, dest_stride;
++
++          outbuf->omx_buf->nFilledLen = 0;
++
++          if (!gst_video_frame_map (&frame, info, inbuf, GST_MAP_READ)) {
++            GST_ERROR_OBJECT (self, "Invalid input buffer size");
++            ret = FALSE;
++            break;
++          }
++
++          for (i = 0; i < 3; i++) {
++            if (i == 0) {
++              dest_stride = port_def->format.video.nStride;
++              src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 0);
++
++              /* XXX: Try this if no stride was set */
++              if (dest_stride == 0)
++                dest_stride = src_stride;
++            } else {
++              dest_stride = port_def->format.video.nStride / 2;
++              src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 1);
++
++              /* XXX: Try this if no stride was set */
++              if (dest_stride == 0)
++                dest_stride = src_stride;
++            }
++
++            dest = outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset;
++            if (i > 0)
++              dest +=
++                  port_def->format.video.nSliceHeight *
++                  port_def->format.video.nStride;
++            if (i == 2)
++              dest +=
++                  (port_def->format.video.nSliceHeight / 2) *
++                  (port_def->format.video.nStride / 2);
++
++            src = GST_VIDEO_FRAME_COMP_DATA (&frame, i);
++            height = GST_VIDEO_FRAME_COMP_HEIGHT (&frame, i);
++            width = GST_VIDEO_FRAME_COMP_WIDTH (&frame, i);
++
++            if (dest + dest_stride * height >
++                outbuf->omx_buf->pBuffer + outbuf->omx_buf->nAllocLen) {
++              gst_video_frame_unmap (&frame);
++              GST_ERROR_OBJECT (self, "Invalid output buffer size");
++              ret = FALSE;
++              break;
++            }
++
++            for (j = 0; j < height; j++) {
++              memcpy (dest, src, width);
++              outbuf->omx_buf->nFilledLen += dest_stride;
++              src += src_stride;
++              dest += dest_stride;
++            }
++          }
+           gst_video_frame_unmap (&frame);
+-          GST_ERROR_OBJECT (self, "Invalid output buffer size");
+-          ret = FALSE;
++          ret = TRUE;
+           break;
+         }
+-
+-        for (j = 0; j < height; j++) {
+-          memcpy (dest, src, width);
+-          outbuf->omx_buf->nFilledLen += dest_stride;
+-          src += src_stride;
+-          dest += dest_stride;
++        case GST_VIDEO_FORMAT_NV12:{
++          gint i, j, height, width;
++          guint8 *src, *dest;
++          gint src_stride, dest_stride;
++
++          outbuf->omx_buf->nFilledLen = 0;
++
++          if (!gst_video_frame_map (&frame, info, inbuf, GST_MAP_READ)) {
++            GST_ERROR_OBJECT (self, "Invalid input buffer size");
++            ret = FALSE;
++            break;
++          }
++
++          for (i = 0; i < 2; i++) {
++            if (i == 0) {
++              dest_stride = port_def->format.video.nStride;
++              src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 0);
++              /* XXX: Try this if no stride was set */
++              if (dest_stride == 0)
++                dest_stride = src_stride;
++            } else {
++              dest_stride = port_def->format.video.nStride;
++              src_stride = GST_VIDEO_FRAME_COMP_STRIDE (&frame, 1);
++
++              /* XXX: Try this if no stride was set */
++              if (dest_stride == 0)
++                dest_stride = src_stride;
++            }
++
++            dest = outbuf->omx_buf->pBuffer + outbuf->omx_buf->nOffset;
++            if (i == 1)
++              dest +=
++                  port_def->format.video.nSliceHeight *
++                  port_def->format.video.nStride;
++
++            src = GST_VIDEO_FRAME_COMP_DATA (&frame, i);
++            height = GST_VIDEO_FRAME_COMP_HEIGHT (&frame, i);
++            width = GST_VIDEO_FRAME_COMP_WIDTH (&frame, i) * (i == 0 ? 1 : 2);
++
++            if (dest + dest_stride * height >
++                outbuf->omx_buf->pBuffer + outbuf->omx_buf->nAllocLen) {
++              gst_video_frame_unmap (&frame);
++              GST_ERROR_OBJECT (self, "Invalid output buffer size");
++              ret = FALSE;
++              break;
++            }
++
++            for (j = 0; j < height; j++) {
++              memcpy (dest, src, width);
++              outbuf->omx_buf->nFilledLen += dest_stride;
++              src += src_stride;
++              dest += dest_stride;
++            }
++
++          }
++          gst_video_frame_unmap (&frame);
++          ret = TRUE;
++          break;
+         }
+-
++        default:
++          GST_ERROR_OBJECT (self, "Unsupported format");
++          goto done;
++          break;
+       }
+-      gst_video_frame_unmap (&frame);
+-      ret = TRUE;
+-      break;
+     }
+-    default:
+-      GST_ERROR_OBJECT (self, "Unsupported format");
+-      goto done;
+-      break;
+   }
+-
+ done:
+ 
+   gst_video_codec_state_unref (state);
+@@ -1514,11 +1570,10 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+   GstOMXPort *port;
+   GstOMXBuffer *buf;
+   OMX_ERRORTYPE err;
+-#ifdef ENABLE_DMA
+   GList *buffer_list = NULL;
+   static gint count = 0;
+   static gint fd1 = 0, fd2 = 0;
+-#endif
++
+   self = GST_OMX_VIDEO_ENC (encoder);
+ 
+   GST_DEBUG_OBJECT (self, "Handling frame");
+@@ -1537,50 +1592,49 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+   port = self->enc_in_port;
+ 
+ 
+-#ifdef ENABLE_DMA
+-  count++;
+-  if (count == 1) {
+-    fd1 =
+-        gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
+-            0));
+-    printf ("Reveived fd1 is %d\n", fd1);
+-    gst_video_codec_frame_unref (frame);
+-    return self->downstream_flow_ret;
+-  }
++  if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
++    count++;
++    if (count == 1) {
++      fd1 =
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
++              0));
++      frame->output_buffer = NULL;
++      gst_video_encoder_finish_frame (self, frame);
++      return self->downstream_flow_ret;
++    }
+ 
+-  if (count == 2) {
+-    fd2 =
+-        gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
+-            0));
+-    printf ("Reveived fd2 is %d\n", fd2);
++    if (count == 2) {
++      fd2 =
++          gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
++              0));
+ 
+-    gst_omx_port_update_port_definition (self->enc_in_port, NULL);
++      gst_omx_port_update_port_definition (self->enc_in_port, NULL);
+ 
+-    //TODO: Currently we know, V4l2src bufferpool has 2 fds, But we need to make it dynamic */
+-    buffer_list = g_list_append (buffer_list, fd1);
+-    buffer_list = g_list_append (buffer_list, fd2);
++      //TODO: Currently we know, V4l2src bufferpool has 2 fds, But we need to make it dynamic */
++      buffer_list = g_list_append (buffer_list, fd2);
++      buffer_list = g_list_append (buffer_list, fd1);
+ 
+-    if (gst_omx_port_use_buffers (self->enc_in_port,
+-            buffer_list) != OMX_ErrorNone)
+-      return FALSE;
++      if (gst_omx_port_use_buffers (self->enc_in_port,
++              buffer_list) != OMX_ErrorNone)
++        return FALSE;
+ 
+-    g_list_free (buffer_list);
++      g_list_free (buffer_list);
+ 
+-    if (gst_omx_component_set_state (self->enc,
+-            OMX_StateExecuting) != OMX_ErrorNone)
+-      return FALSE;
++      if (gst_omx_component_set_state (self->enc,
++              OMX_StateExecuting) != OMX_ErrorNone)
++        return FALSE;
+ 
+-    if (gst_omx_component_get_state (self->enc,
+-            GST_CLOCK_TIME_NONE) != OMX_StateExecuting)
+-      return FALSE;
++      if (gst_omx_component_get_state (self->enc,
++              GST_CLOCK_TIME_NONE) != OMX_StateExecuting)
++        return FALSE;
+ 
+-    /* Start the srcpad loop again */
+-    GST_DEBUG_OBJECT (self, "Starting task again");
+-    self->downstream_flow_ret = GST_FLOW_OK;
+-    gst_pad_start_task (GST_VIDEO_ENCODER_SRC_PAD (self),
+-        (GstTaskFunction) gst_omx_video_enc_loop, self, NULL);
++      /* Start the srcpad loop again */
++      GST_DEBUG_OBJECT (self, "Starting task again");
++      self->downstream_flow_ret = GST_FLOW_OK;
++      gst_pad_start_task (GST_VIDEO_ENCODER_SRC_PAD (self),
++          (GstTaskFunction) gst_omx_video_enc_loop, self, NULL);
++    }
+   }
+-#endif
+ 
+ 
+   while (acq_ret != GST_OMX_ACQUIRE_BUFFER_OK) {
+diff --git a/omx/gstomxvideoenc.h b/omx/gstomxvideoenc.h
+index 4b74742..60ba1ca 100644
+--- a/omx/gstomxvideoenc.h
++++ b/omx/gstomxvideoenc.h
+@@ -77,10 +77,22 @@ struct _GstOMXVideoEnc
+   guint32 quant_p_frames;
+   guint32 quant_b_frames;
+   guint32 stride;
++  guint32 input_mode;
+ 
+   GstFlowReturn downstream_flow_ret;
+ };
+ 
++/**
++ * Enumeration of possible mode available for input mode of encoder
++ */
++typedef enum OMX_ENCODER_INPUTMODETYPE {
++    OMX_Enc_InputMode_DefaultImplementation,
++    OMX_Enc_InputMode_ZeroCopy,
++    OMX_Enc_InputMode_DMABufImport,
++    OMX_Enc_InputMode_DMABufExport
++} OMX_ENCODER_INPUTMODETYPE;
++
++
+ struct _GstOMXVideoEncClass
+ {
+   GstVideoEncoderClass parent_class;
+-- 
+2.7.4
+

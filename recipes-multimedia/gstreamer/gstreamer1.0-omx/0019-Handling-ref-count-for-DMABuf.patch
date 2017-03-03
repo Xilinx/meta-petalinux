@@ -1,0 +1,207 @@
+From b48f89492ece18149de14f583c709bb51c6e8682 Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Sat, 28 Jan 2017 19:22:23 +0530
+Subject: [PATCH 19/24] Handling ref count for DMABuf
+
+- Possible fix for  transcode usecase with higher bitrate
+- Added dynamic support for debug prints
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Pending
+---
+ omx/gstomx.c         | 16 ++++++++++++++--
+ omx/gstomx.h         |  1 +
+ omx/gstomxvideoenc.c | 41 ++++++++++++++++++++++++-----------------
+ 3 files changed, 39 insertions(+), 19 deletions(-)
+
+diff --git a/omx/gstomx.c b/omx/gstomx.c
+index 11eabca..6125bf3 100644
+--- a/omx/gstomx.c
++++ b/omx/gstomx.c
+@@ -589,6 +589,7 @@ EmptyBufferDone (OMX_HANDLETYPE hComponent, OMX_PTR pAppData,
+   GstOMXBuffer *buf;
+   GstOMXComponent *comp;
+   GstOMXMessage *msg;
++  GstOMXVideoEnc *self_enc;
+ 
+   buf = pBuffer->pAppPrivate;
+   if (!buf) {
+@@ -615,6 +616,17 @@ EmptyBufferDone (OMX_HANDLETYPE hComponent, OMX_PTR pAppData,
+   GST_LOG_OBJECT (comp->parent, "%s port %u emptied buffer %p (%p)",
+       comp->name, buf->port->index, buf, buf->omx_buf->pBuffer);
+ 
++  if (!strcmp (comp->name, "encoder")) {
++    self_enc = comp->parent;
++    if (self_enc != NULL) {
++      if (self_enc->input_mode == OMX_Enc_InputMode_DMABufImport) {
++        if (buf->port->index == 0) {
++          gst_buffer_unref (buf->input_buffer);
++        }
++      }
++    }
++  }
++
+   gst_omx_component_send_message (comp, msg);
+ 
+   return OMX_ErrorNone;
+@@ -1223,7 +1235,6 @@ find_fd (GstOMXBuffer * buf, GstOMXFdFound * fd_helper)
+ {
+   if (fd_helper->fd == buf->omx_buf->pBuffer) {
+     fd_helper->index = g_queue_index (fd_helper->pending_buffers, buf);
+-    printf ("fd found index is %d\n", fd_helper->index);
+   }
+   return;
+ }
+@@ -1359,7 +1370,8 @@ retry:
+       _buf = g_queue_pop_nth (&port->pending_buffers, fd_helper.index);
+     else {
+       _buf = g_queue_pop_head (&port->pending_buffers);
+-      printf ("Fd is %d and its not found in queue, Retry...\n", fd);
++      GST_FIXME_OBJECT (comp->parent,
++          "Fd is %d and its not found in queue, Retry...\n", fd);
+       goto retry;
+     }
+ 
+diff --git a/omx/gstomx.h b/omx/gstomx.h
+index c40fae2..4a37812 100644
+--- a/omx/gstomx.h
++++ b/omx/gstomx.h
+@@ -264,6 +264,7 @@ struct _GstOMXComponent {
+ struct _GstOMXBuffer {
+   GstOMXPort *port;
+   OMX_BUFFERHEADERTYPE *omx_buf;
++  GstBuffer *input_buffer;
+ 
+   /* TRUE if the buffer is used by the port, i.e.
+    * between {Empty,Fill}ThisBuffer and the callback
+diff --git a/omx/gstomxvideoenc.c b/omx/gstomxvideoenc.c
+index 4097a00..616feab 100644
+--- a/omx/gstomxvideoenc.c
++++ b/omx/gstomxvideoenc.c
+@@ -533,7 +533,7 @@ gst_omx_video_enc_set_property (GObject * object, guint prop_id,
+     case PROP_INPUT_MODE:
+       self->input_mode = g_value_get_enum (value);
+       if (self->input_mode == OMX_Enc_InputMode_DMABufExport) {
+-        printf ("ERROR: DMA export is not supported yet\n");
++        GST_ERROR_OBJECT (self, "ERROR: DMA export is not supported yet\n");
+       }
+       break;
+     default:
+@@ -1396,9 +1396,12 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+     }
+ 
+     if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
+-      printf ("Stride matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
++      GST_FIXME_OBJECT (self,
++          "Stride matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
+           gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0)),
+           outbuf->omx_buf->pBuffer);
++      gst_buffer_ref (inbuf);
++      outbuf->input_buffer = inbuf;
+     }
+ 
+     if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
+@@ -1417,16 +1420,19 @@ gst_omx_video_enc_fill_buffer (GstOMXVideoEnc * self, GstBuffer * inbuf,
+     /* Different strides */
+ 
+     if (self->input_mode == OMX_Enc_InputMode_DMABufImport) {
+-      printf
+-          ("Stride does not matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
++      GST_FIXME_OBJECT (self,
++          "Stride does not matches,Decoder o/p FD is %d, Encoder I/P FD is %d\n",
+           gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (inbuf, 0)),
+           outbuf->omx_buf->pBuffer);
++      gst_buffer_ref (inbuf);
++      outbuf->input_buffer = inbuf;
+       ret = TRUE;
+       goto done;
+     }
+ 
+     if (self->input_mode == OMX_Enc_InputMode_ZeroCopy) {
+-      printf ("Enable stride=true in pipeline or This should not happen\n");
++      GST_ERROR_OBJECT (self,
++          "Enable stride=true in pipeline or This should not happen\n");
+       ret = FALSE;
+       goto done;
+     }
+@@ -1606,7 +1612,7 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+       fd1 =
+           gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
+               0));
+-      printf ("Got 1st fd %d\n", fd1);
++      GST_FIXME_OBJECT (self, "Got 1st fd %d\n", fd1);
+       garray = g_list_append (garray, fd1);
+       frame->output_buffer = NULL;
+       gst_video_encoder_finish_frame (self, frame);
+@@ -1616,9 +1622,9 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+       fd1 =
+           gst_dmabuf_memory_get_fd (gst_buffer_peek_memory (frame->input_buffer,
+               0));
+-      printf ("Got next fd %d\n", fd1);
++      GST_FIXME_OBJECT (self, "Got next fd %d\n", fd1);
+       if (g_list_find (garray, fd1) != NULL) {
+-        printf ("Bufferpool found completed \n");
++        GST_FIXME_OBJECT (self, "Bufferpool found completed \n");
+         bufpool_complete = 1;
+       } else {
+         garray = g_list_append (garray, fd1);
+@@ -1630,23 +1636,24 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+     if (bufpool_complete == 1) {
+ 
+       if (count == 1) {
+-        printf ("Bufferpool found by event, It has %d buffers \n",
+-            g_dmalist_count);
++        GST_FIXME_OBJECT (self,
++            "Bufferpool found by event, It has %d buffers \n", g_dmalist_count);
+         bufpool_complete = 2;
+         buffer_list = g_list_reverse (buffer_list);
+ 
+         gst_omx_port_update_port_definition (self->enc_in_port, NULL);
+-        printf ("OMX Encoder BuffercountActual is %d\n",
++        GST_FIXME_OBJECT (self, "OMX Encoder BuffercountActual is %d\n",
+             self->enc_in_port->port_def.nBufferCountActual);
+         self->enc_in_port->port_def.nBufferCountActual = g_dmalist_count;
+         gst_omx_port_update_port_definition (self->enc_in_port,
+             &self->enc_in_port->port_def);
+-        printf ("Updated OMX Encoder BuffercountActual is %d\n",
++        GST_FIXME_OBJECT (self, "Updated OMX Encoder BuffercountActual is %d\n",
+             self->enc_in_port->port_def.nBufferCountActual);
+ 
+       } else {
+ 
+-        printf ("Bufferpool found by fd tracing, It has %d buffers \n",
++        GST_FIXME_OBJECT (self,
++            "Bufferpool found by fd tracing, It has %d buffers \n",
+             g_list_length (garray));
+         bufpool_complete = 2;
+ 
+@@ -1656,14 +1663,13 @@ gst_omx_video_enc_handle_frame (GstVideoEncoder * encoder,
+               GPOINTER_TO_INT (g_list_nth_data (garray, i)));
+ 
+         gst_omx_port_update_port_definition (self->enc_in_port, NULL);
+-        printf ("OMX Encoder BuffercountActual is %d\n",
++        GST_FIXME_OBJECT (self, "OMX Encoder BuffercountActual is %d\n",
+             self->enc_in_port->port_def.nBufferCountActual);
+         self->enc_in_port->port_def.nBufferCountActual = g_list_length (garray);
+         gst_omx_port_update_port_definition (self->enc_in_port,
+             &self->enc_in_port->port_def);
+-        printf ("Updated OMX Encoder BuffercountActual is %d\n",
++        GST_FIXME_OBJECT (self, "Updated OMX Encoder BuffercountActual is %d\n",
+             self->enc_in_port->port_def.nBufferCountActual);
+-
+       }
+ 
+       if (gst_omx_port_use_buffers (self->enc_in_port,
+@@ -2002,7 +2008,8 @@ gst_omx_video_enc_sink_event (GstVideoEncoder * encoder, GstEvent * event)
+           buffers = g_value_get_pointer (p);
+           g_ptr_array_foreach (buffers, fill_dma_data, NULL);
+           bufpool_complete = 1;
+-          printf ("Custom event for DMA list is sucessful, got %d fd \n",
++          GST_FIXME_OBJECT (self,
++              "Custom event for DMA list is sucessful, got %d fd \n",
+               g_dmalist_count);
+         }
+       }
+-- 
+2.7.4
+
