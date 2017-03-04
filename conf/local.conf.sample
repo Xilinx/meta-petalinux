@@ -207,9 +207,6 @@ XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/201
 TCMODE_zynq = "linaro"
 TCMODE_zynqmp = "linaro"
 
-# To use Xilinx QEMU uncomment the below line
-# XILINX_QEMUBOOT = "1"
-#
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
 # EXTERNALSRC_pn-linux-xlnx-dev = "${BASE}/sources/linux"
@@ -218,6 +215,11 @@ TCMODE_zynqmp = "linaro"
 # PREFERRED_PROVIDER_virtual/bootloader = "u-boot-xlnx-dev"
 # EXTERNALSRC_pn-u-boot-xlnx-dev = "${BASE}/sources/u-boot"
 # RM_WORK_EXCLUDE += "u-boot-xlnx-dev"
+
+#Using Xilinx QEMU, need to enable QEMUBOOT and provide path to PMU ROM
+#XILINX_QEMUBOOT = "1"
+#XILINX_QEMUBOOT_MULTI = "1"
+#QB_OPT_XILINX_PMU_ROM = "/<path-to-rom>/pmu_rom_qemu_sha3.elf"
 
 # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
 # track the version of this file when it was generated. This can safely be ignored if
