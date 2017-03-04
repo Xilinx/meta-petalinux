@@ -4,7 +4,7 @@ LICENSE = "NONE"
 inherit packagegroup
 
 # Packages
-RDEPENDS_${PN} = "\
+RDEPENDS_${PN} += "\
 	bash \
 	bridge-utils \
 	bzip2 \
@@ -62,15 +62,15 @@ ZYNQ_EXTRAS = " \
 	rpmsg-proxy-app \
 	"
 
-RDEPENDS_${PN}_append_microblaze += " \
+RDEPENDS_${PN}_append_microblaze = " \
 	tcf-agent \
 	"
 
-RDEPENDS_${PN}_append_zynq += " \
+RDEPENDS_${PN}_append_zynq = " \
 	${ZYNQ_EXTRAS} \
 	"
 
-RDEPENDS_${PN}_append_zynqmp += " \
+RDEPENDS_${PN}_append_zynqmp = " \
 	libmetal-amp-demo \
 	openamp-echo-test \
 	openamp-mat-mul \

@@ -15,6 +15,4 @@ XEN_EXTRA_PACKAGES = " \
     qemu \
     "
 
-RDEPENDS_${PN}_append += " \
-    ${XEN_EXTRA_PACKAGES} \
-    "
+RDEPENDS_${PN} += "${XEN_EXTRA_PACKAGES}"

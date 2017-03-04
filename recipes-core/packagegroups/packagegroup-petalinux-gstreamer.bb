@@ -12,6 +12,4 @@ GSTREAMER_PACKAGES = " \
 	gstreamer1.0-omx \
 	gstreamer1.0-rtsp-server \
 	"
-RDEPENDS_${PN}_append_zynqmp += " \
-        ${GSTREAMER_PACKAGES} \
-        "
+RDEPENDS_${PN} += "${GSTREAMER_PACKAGES}"

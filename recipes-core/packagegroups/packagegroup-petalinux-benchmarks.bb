@@ -19,6 +19,4 @@ BENCHMARKS_EXTRAS = " \
 	whetstone \
 	"
 
-RDEPENDS_${PN}_append_zynqmp += " \
-	${BENCHMARKS_EXTRAS} \
-	"
+RDEPENDS_${PN} += "${BENCHMARKS_EXTRAS}"

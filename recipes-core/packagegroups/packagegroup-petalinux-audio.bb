@@ -12,7 +12,4 @@ ALSA_PACKAGES = " \
 	pulseaudio \
 	sox \
 	"
-RDEPENDS_${PN}_append_zynqmp += " \
-        ${ALSA_PACKAGES} \
-        "
-
+RDEPENDS_${PN} += "${ALSA_PACKAGES}"

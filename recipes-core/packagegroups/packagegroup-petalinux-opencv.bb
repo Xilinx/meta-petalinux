@@ -14,10 +14,4 @@ OPENCV_PACKAGES = " \
 	libopencv-calib3d \
 	"
 
-RDEPENDS_${PN}_append_zynq += " \
-	${OPENCV_PACKAGES} \
-	"
-
-RDEPENDS_${PN}_append_zynqmp += " \
-	${OPENCV_PACKAGES} \
-	"
+RDEPENDS_${PN} += "${OPENCV_PACKAGES}"
