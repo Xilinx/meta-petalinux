@@ -1,0 +1,31 @@
+From 9c478e957baf6680cc1e33e7d6513a95efb5d2b7 Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsht@xilinx.com>
+Date: Thu, 8 Sep 2016 15:43:17 +0530
+Subject: [PATCH 3/9] gst-kmssink : Add support for xilinx-drm
+
+Now xilinx drm driver will also be searched
+while searching for drm drivers needed for using
+kmssink.
+
+Signed-off-by: Devarsh Thakkar <devarsht@xilinx.com>
+Upstream Status: Pending
+---
+ sys/kms/gstkmssink.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sys/kms/gstkmssink.c b/sys/kms/gstkmssink.c
+index 72cb1f7..861aad7 100644
+--- a/sys/kms/gstkmssink.c
++++ b/sys/kms/gstkmssink.c
+@@ -84,7 +84,7 @@ static int
+ kms_open (gchar ** driver)
+ {
+   static const char *drivers[] = { "i915", "radeon", "nouveau", "vmwgfx",
+-    "exynos", "amdgpu", "imx-drm", "rockchip", "atmel-hlcdc"
++    "exynos", "amdgpu", "imx-drm", "rockchip", "atmel-hlcdc", "xilinx_drm"
+   };
+   int i, fd = -1;
+ 
+-- 
+2.7.4
+

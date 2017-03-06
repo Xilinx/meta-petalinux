@@ -1,0 +1,30 @@
+From a0d6b0289774ab4483c4589db152926cde4ab327 Mon Sep 17 00:00:00 2001
+From: Jeegar Patel <jeegarp@xilinx.com>
+Date: Sun, 26 Feb 2017 07:29:06 -0800
+Subject: [PATCH 9/9] kmssink : Link with video and base libs
+
+Fixing libgstkmssink dependency by linking
+with libgstvideo and libgstbase libs.
+
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Upstream Status: Backport
+---
+ sys/kms/Makefile.am | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sys/kms/Makefile.am b/sys/kms/Makefile.am
+index 9b12c72..5daa9f0 100644
+--- a/sys/kms/Makefile.am
++++ b/sys/kms/Makefile.am
+@@ -19,6 +19,8 @@ libgstkmssink_la_CFLAGS = 			\
+ libgstkmssink_la_LIBADD = 			\
+ 	$(GST_PLUGINS_BASE_LIBS) 		\
+ 	$(GST_BASE_LIBS) 			\
++        -lgstvideo-@GST_API_VERSION@            \
++        -lgstbase-@GST_API_VERSION@             \
+ 	$(GST_VIDEO_LIBS)			\
+ 	$(GST_ALLOCATORS_LIBS)			\
+ 	$(GST_LIBS) 				\
+-- 
+2.7.4
+

@@ -1,0 +1,88 @@
+From d9444a2504523663558fc1c72fa553e532fe4737 Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Thu, 8 Sep 2016 11:21:09 -0400
+Subject: [PATCH 5/9] kmssink: Fix selection of source region
+
+The source region was scaled for display before being passed
+to drmModeSetPlane, which resulted in a portion of the video
+being cropped. While when crop meta was present, the rectangle
+was not centered since we where using unscaled width/height.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=767422
+Upstream Status: Backport
+---
+ sys/kms/gstkmssink.c | 44 ++++++++++++++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 14 deletions(-)
+
+diff --git a/sys/kms/gstkmssink.c b/sys/kms/gstkmssink.c
+index 861aad7..286e288 100644
+--- a/sys/kms/gstkmssink.c
++++ b/sys/kms/gstkmssink.c
+@@ -1084,27 +1084,37 @@ gst_kms_sink_show_frame (GstVideoSink * vsink, GstBuffer * buf)
+ 
+   GST_TRACE_OBJECT (self, "displaying fb %d", fb_id);
+ 
+-  {
+-    if ((crop = gst_buffer_get_video_crop_meta (buffer))) {
+-      src.x = crop->x;
+-      src.y = crop->y;
+-      src.w = crop->width;
+-      src.h = crop->height;
+-    } else {
+-      src.w = GST_VIDEO_SINK_WIDTH (self);
+-      src.h = GST_VIDEO_SINK_HEIGHT (self);
+-    }
++  if ((crop = gst_buffer_get_video_crop_meta (buffer))) {
++    GstVideoInfo vinfo = self->vinfo;
++    vinfo.width = crop->width;
++    vinfo.height = crop->height;
++
++    if (!gst_kms_sink_calculate_display_ratio (self, &vinfo))
++      goto no_disp_ratio;
++
++    src.x = crop->x;
++    src.y = crop->y;
+   }
+ 
++  src.w = GST_VIDEO_SINK_WIDTH (self);
++  src.h = GST_VIDEO_SINK_HEIGHT (self);
++
+   dst.w = self->hdisplay;
+   dst.h = self->vdisplay;
+ 
+   gst_video_sink_center_rect (src, dst, &result, FALSE);
+ 
+-  /* if the frame size is bigger than the display size, the source
+-   * must be the display size */
+-  src.w = MIN (src.w, self->hdisplay);
+-  src.h = MIN (src.h, self->vdisplay);
++  if (crop) {
++    src.w = crop->width;
++    src.h = crop->height;
++  } else {
++    src.w = GST_VIDEO_INFO_WIDTH (&self->vinfo);
++    src.h = GST_VIDEO_INFO_HEIGHT (&self->vinfo);
++  }
++
++  GST_TRACE_OBJECT (self,
++      "drmModeSetPlane at (%i,%i) %ix%i sourcing at (%i,%i) %ix%i",
++      result.x, result.y, result.w, result.h, src.x, src.y, src.w, src.h);
+ 
+   ret = drmModeSetPlane (self->fd, self->plane_id, self->crtc_id, fb_id, 0,
+       result.x, result.y, result.w, result.h,
+@@ -1141,6 +1151,12 @@ set_plane_failed:
+         (NULL), ("drmModeSetPlane failed: %s (%d)", strerror (-ret), ret));
+     goto bail;
+   }
++no_disp_ratio:
++  {
++    GST_ELEMENT_ERROR (self, CORE, NEGOTIATION, (NULL),
++        ("Error calculating the output display ratio of the video."));
++    goto bail;
++  }
+ }
+ 
+ static void
+-- 
+2.7.4
+
