@@ -53,13 +53,8 @@ ZYNQ_EXTRAS = " \
 	v4l-utils \
 	gst-plugins-good \
 	yavta \
-	libmetal \
-	open-amp \
 	ffmpeg \
 	gdb \
-	rpmsg-echo-test \
-	rpmsg-mat-mul \
-	rpmsg-proxy-app \
 	"
 
 RDEPENDS_${PN}_append_microblaze = " \
