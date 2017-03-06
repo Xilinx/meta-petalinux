@@ -2,6 +2,8 @@ PACKAGECONFIG_append = "faad gles2"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/gstreamer1.0-plugins-bad:"
 
+DEPENDS += "libdrm"
+
 SRC_URI_append = " \
     file://0001-gst-plugins-bad-Copy-kmssink-from-1.9.2.patch \
     file://0002-gst-kmssink-Compile-kms.patch \
