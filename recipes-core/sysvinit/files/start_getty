@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ -f /bin/autologin ] && [ -c /dev/$2 ]
+then
+	/sbin/getty -l /bin/autologin -n -L $1 $2
+elif [ -c /dev/$2 ]
+then
+	/sbin/getty -L $1 $2
+fi

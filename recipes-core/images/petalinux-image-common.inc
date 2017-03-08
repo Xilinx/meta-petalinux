@@ -1,4 +1,4 @@
-inherit core-image
+inherit core-image autologin
 
 COMMON_FEATURES = " \
     ssh-server-dropbear \
