@@ -1,4 +1,4 @@
-PACKAGECONFIG_append = "faad gles2"
+PACKAGECONFIG_append = " faad gles2"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/gstreamer1.0-plugins-bad:"
 
