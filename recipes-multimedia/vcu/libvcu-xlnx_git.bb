@@ -8,7 +8,7 @@ PV = "1.0.0+git${SRCPV}"
 S  = "${WORKDIR}/git"
 
 BRANCH ?= "master"
-REPO   ?= "git://gitenterprise.xilinx.com/xilinx-vcu/vcu-binaries.git;protocol=https"
+REPO   ?= "git://github.com/Xilinx/vcu-binaries.git;protocol=https"
 SRCREV ?= "1aeb4908b810369aa299c0fae251f7e4e74dedaa"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
