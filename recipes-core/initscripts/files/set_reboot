@@ -1,0 +1,19 @@
+#!/bin/sh
+
+type="$1"
+
+[ -z "$type" -a -f "/etc/default/reboot" ] &&
+       type=`cat /etc/default/reboot`
+[ -z "$type" ] &&
+       type=system
+
+case $type in
+	apu|APU)	code=0; type=APU    ;;
+	ps|PS)		code=1; type=PS     ;;
+	sys*|SYS*)	code=2; type=SYSTEM ;;
+	*)		echo "Invalid reboot type $type"; exit 1 ;;
+esac
+
+echo $type > /etc/default/reboot
+echo system_shutdown 2 $code > /sys/kernel/debug/zynqmp_pm/power
+echo "Linux reboot target set to: $type ($code)"
