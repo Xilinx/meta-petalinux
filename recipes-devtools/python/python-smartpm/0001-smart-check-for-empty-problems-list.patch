@@ -1,0 +1,33 @@
+From a65ac0b31693a14b76ee0a2ec3c08284f4d7a27d Mon Sep 17 00:00:00 2001
+From: Bhargava Sreekantappa Gayathri
+ <bhargava.sreekantappa-gayathri@xilinx.com>
+Date: Tue, 4 Apr 2017 14:52:50 -0700
+Subject: [meta-petalinux][PATCH] smart-check for empty problems list
+
+SmartPM misinterprets empty problems list as a valid problem list.
+This is because the problems list is checked against None where as in
+some cases the problems list is empty instead of having a value of None.
+
+This patch fixes this issue by checking for empty problems list too.
+
+Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
+---
+ smart/backends/rpm/pm.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/smart/backends/rpm/pm.py b/smart/backends/rpm/pm.py
+index d424375..ea85e00 100644
+--- a/smart/backends/rpm/pm.py
++++ b/smart/backends/rpm/pm.py
+@@ -279,7 +279,7 @@ class RPMPackageManager(PackageManager):
+                         retry = 0
+ 
+             prog.setDone()
+-            if (probs is not None) and (not retry):
++            if (probs) and (not retry):
+                 raise Error, "\n".join([x[0] for x in probs])
+             prog.stop()
+             if retry and len(changeset):
+-- 
+2.7.4
+

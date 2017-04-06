@@ -7,4 +7,5 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI_append += " \
 	file://0001-smart-query-enable-other-packages-information-to-sho.patch \
+	file://0001-smart-check-for-empty-problems-list.patch \
 	"
