@@ -199,9 +199,9 @@ BB_DISKMON_DIRS = "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
 
-XILINX_VER_MAIN = "2017.1"
-EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1/gnu/microblaze/linux_toolchain/lin64_le"
-XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.1_daily_latest/installs/lin64/SDK/2017.1"
+XILINX_VER_MAIN = "2017.2"
+EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.2_daily_latest/installs/lin64/SDK/2017.2/gnu/microblaze/linux_toolchain/lin64_le"
+XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.2_daily_latest/installs/lin64/SDK/2017.2"
 
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
