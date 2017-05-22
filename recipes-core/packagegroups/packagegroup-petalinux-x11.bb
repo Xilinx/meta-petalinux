@@ -22,18 +22,4 @@ X11_PACKAGES = " \
 	xserver-nodm-init \
 	"
 
-MATCHBOX_PACKAGES = " \
-       matchbox-config-gtk \
-       matchbox-desktop \
-       matchbox-keyboard \
-       matchbox-keyboard-applet \
-       matchbox-panel-2 \
-       matchbox-session \
-       matchbox-terminal \
-       matchbox-theme-sato \
-       matchbox-session-sato \
-       matchbox-wm \
-       settings-daemon \
-       "
-
-RDEPENDS_${PN} += "${X11_PACKAGES} ${MATCHBOX_PACKAGES}"
+RDEPENDS_${PN} += "${X11_PACKAGES}"
