@@ -1,0 +1,29 @@
+From 3a8fc3ccf00796254d6cef4b6d4cd70dc37012e1 Mon Sep 17 00:00:00 2001
+From: Denys Dmytriyenko <denys@ti.com>
+Date: Fri, 10 Mar 2017 13:28:29 -0500
+Subject: [PATCH] Add Makefile to install firmware files
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ Makefile | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 Makefile
+
+diff --git a/Makefile b/Makefile
+new file mode 100644
+index 0000000..1cf38e3
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,9 @@
++# Installs the the ti-connectivity wlan firmware files into the root file system
++
++install:
++	@if [ ! -d $(DESTDIR) ] ; then \
++		echo "Target filesystem directory doesn't exist."; \
++		exit 1; \
++	fi
++	install -d  $(DEST_DIR)/lib/firmware/ti-connectivity
++	cp *.bin $(DEST_DIR)/lib/firmware/ti-connectivity/
+-- 
+2.7.4
+
