@@ -1,0 +1,170 @@
+From 178d0624120748a8625bb1169a9c65d2dfbc76aa Mon Sep 17 00:00:00 2001
+From: Krisztian Litkey <krisztian.litkey@intel.com>
+Date: Fri, 8 Jan 2016 12:43:09 +0200
+Subject: [PATCH] nodejs: generate pkg-config file for node and install it
+ during make install.
+
+Signed-off-by: Krisztian Litkey <krisztian.litkey@intel.com>
+Signed-off-by: Sudarsana Nagineni <sudarsana.nagineni@intel.com>
+---
+ Makefile  | 13 ++++++++-
+ configure | 97 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 109 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 02619fa..8363801 100644
+--- a/Makefile
++++ b/Makefile
+@@ -59,7 +59,7 @@ config.gypi: configure
+ 		$(error No $@, please run ./configure first)
+ 	fi
+ 
+-install: all
++install: all install-pkgconfig
+ 	$(PYTHON) tools/install.py $@ '$(DESTDIR)' '$(PREFIX)'
+ 
+ uninstall:
+@@ -462,6 +462,17 @@ ifneq ($(haswrk), 0)
+ 	@exit 1
+ endif
+ 
++install-pkgconfig:
++	if [ -n "$(LIBDIR)" ]; then \
++		LIBDIR="$(LIBDIR)"; \
++	else \
++		case $(ARCH) in \
++			*64) LIBDIR=$(PREFIX)/lib64;; \
++			*) LIBDIR=$(PREFIX)/lib;; \
++		esac; \
++	fi; \
++	mkdir -p $(DESTDIR)$$LIBDIR/pkgconfig && cp node.pc $(DESTDIR)$$LIBDIR/pkgconfig
++
+ bench-net: all
+ 	@$(NODE) benchmark/common.js net
+ 
+diff --git a/configure b/configure
+index 0e83d8a..b9671c0 100755
+--- a/configure
++++ b/configure
+@@ -75,6 +75,11 @@ parser.add_option('--gdb',
+     dest='gdb',
+     help='add gdb support')
+ 
++parser.add_option('--libdir',
++    action='store',
++    dest='libdir',
++    help='select the libdir to install pkgconfig file')
++
+ parser.add_option('--no-ifaddrs',
+     action='store_true',
+     dest='no_ifaddrs',
+@@ -1125,9 +1130,16 @@ config = {
+   'PYTHON': sys.executable,
+ }
+ 
++# Save these before they're modified, for generating a pkg-config.
++pkgconfig = output
++pkgconfig['config'] = config
++
+ if options.prefix:
+   config['PREFIX'] = options.prefix
+ 
++if options.libdir:
++  config['LIBDIR'] = options.libdir
++
+ config = '\n'.join(map('='.join, config.iteritems())) + '\n'
+ 
+ write('config.mk',
+@@ -1147,4 +1159,89 @@ gyp_args += args
+ if warn.warned:
+   warn('warnings were emitted in the configure phase')
+ 
++
++
++#
++# Generate pkg-config for node.
++#
++def pkgcfg_prefix(prefix, k):
++  if prefix:
++    return prefix + '_' + k
++  else:
++    return k
++
++def pkgcfg_list(f, prefix, l):
++  f.write(prefix + '=')
++  sep=''
++  for e in l:
++    if type(e) == type({}) or type(e) == type([]):
++      print('Cannot generate pkgconfig output for complex ' + prefix)
++      sys.exit(1)
++    f.write(sep + str(e))
++    sep = ', '
++  f.write('\n')
++
++def pkgcfg_simple(f, prefix, v):
++  f.write(prefix + '=' + str(v) + '\n')
++
++def pkgcfg_dict(f, prefix, d):
++  for k in d:
++    pkgcfg_object(f, pkgcfg_prefix(prefix, k), d[k])
++
++def pkgcfg_object(f, prefix, o):
++  if type(o) == type({}):
++    pkgcfg_dict(f, prefix, o)
++  elif type(o) == type([]):
++    pkgcfg_list(f, prefix, o)
++  else:
++    pkgcfg_simple(f, prefix, o)
++
++def pkgcfg_stdvars(f, o):
++  prefix = o['variables']['node_prefix']
++  arch = o['variables']['target_arch']
++  if options.libdir:
++    libdir = options.libdir
++  else:
++    libdir = prefix + '/lib64' if arch.find('64') else prefix + '/lib'
++  f.write('prefix=' + prefix + '\n')
++  f.write('libdir=' + libdir + '\n')
++  f.write('includedir=' + prefix + '/include\n')
++
++def pkgcfg_stdflags(f, o):
++  cmd = '/usr/bin/env python ' + os.getcwd() + '/tools/getnodeversion.py'
++  version = os.popen(cmd).read().strip()
++  defs = o['target_defaults']
++  cflgs = ''
++  sep = ''
++  for e in o['target_defaults']['cflags'] + o['target_defaults']['defines']:
++    cflgs = cflgs + sep + e
++    sep = ' '
++  cflgs = cflgs + sep + '-I${includedir} '
++  sep = ''
++  for e in defs['include_dirs']:
++    cflgs = cflgs + sep + '-I' + e
++    sep = ' '
++  libs = ''
++  sep = ''
++  for e in defs['libraries']:
++    libs = libs + sep + '-l' + e if e[0] != '-' else libs + sep + e
++    sep = ' '
++
++  f.write('Name: node\n')
++  f.write('Description: NodeJS, JavaScript runtime for native apps.\n')
++  f.write('Version: ' + version + '\n')
++  f.write('Cflags: ' + cflgs + '\n')
++  f.write('Libs: -L${libdir} ' + libs + '\n')
++
++def configure_pkgconfig(path, o):
++  f = open(path, 'w')
++  pkgcfg_stdvars(f, o)
++  f.write('\n')
++  pkgcfg_object(f, '', o)
++  f.write('\n')
++  pkgcfg_stdflags(f, o)
++
++configure_pkgconfig('node.pc', pkgconfig)
++
++# run gyp_node
+ sys.exit(subprocess.call(gyp_args))
+-- 
+1.9.1
+
