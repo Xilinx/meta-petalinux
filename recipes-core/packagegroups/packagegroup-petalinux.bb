@@ -48,6 +48,7 @@ ZYNQ_EXTRAS = " \
 	python-shell \
 	python-threading \
 	python-smartpm \
+	python-pyserial \
 	smartmontools \
 	tcf-agent \
 	v4l-utils \
@@ -55,6 +56,7 @@ ZYNQ_EXTRAS = " \
 	yavta \
 	ffmpeg \
 	gdb \
+	libftdi \
 	"
 
 RDEPENDS_${PN}_append_microblaze = " \
