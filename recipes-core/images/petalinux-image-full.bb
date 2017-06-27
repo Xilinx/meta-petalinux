@@ -25,6 +25,7 @@ ZYNQMP_FEATURES = " \
     petalinux-benchmarks \
     petalinux-gstreamer \
     petalinux-audio \
+    petalinux-mraa \
     hwcodecs \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
