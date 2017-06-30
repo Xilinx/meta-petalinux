@@ -57,6 +57,8 @@ ZYNQ_EXTRAS = " \
 	ffmpeg \
 	gdb \
 	libftdi \
+	lmsensors-sensors \
+	lmsensors-libsensors \
 	"
 
 RDEPENDS_${PN}_append_microblaze = " \
