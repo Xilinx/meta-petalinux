@@ -17,6 +17,7 @@ ZYNQ_FEATURES = " \
     petalinux-qt \
     petalinux-opencv \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
     "
 IMAGE_FEATURES_append_zynq = " ${ZYNQ_FEATURES}"
