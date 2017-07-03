@@ -16,6 +16,7 @@ MRAA_UPM_PACKAGES = " \
 	python-upm \
 	nodejs \
 	nodejs-dev \
+	nodejs-npm \
 	"
 
 RDEPENDS_${PN} += "${MRAA_UPM_PACKAGES}"
