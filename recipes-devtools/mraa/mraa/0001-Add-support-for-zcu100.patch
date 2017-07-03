@@ -1,61 +1,118 @@
-From fad9a1d0d6e366668038ee40e3b7945fca9832d6 Mon Sep 17 00:00:00 2001
+From dcd9d4f4cb8c4deb417727beb903d560025dcfb8 Mon Sep 17 00:00:00 2001
 From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-Date: Wed, 7 Jun 2017 16:24:03 -0700
+Date: Mon, 3 Jul 2017 10:50:29 -0700
 Subject: [PATCH] Add support for zcu100
 
+Add support for zcu100
+
 Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-Signed-off-by: Peter Ryser <peter.ryser@xilinx.com> 
+Signed-off-by: Peter Ryser <peter.ryser@xilinx.com>
 Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 Upstream-status: Pending
 ---
- src/arm/96boards.c | 29 ++++++++++++++++++++++++++++-
+ src/arm/96boards.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
  src/arm/arm.c      |  2 ++
- 2 files changed, 30 insertions(+), 1 deletion(-)
+ 2 files changed, 72 insertions(+), 1 deletion(-)
 
 diff --git a/src/arm/96boards.c b/src/arm/96boards.c
-index a0afc68..2959638 100644
+index a0afc68..a07b0ee 100644
 --- a/src/arm/96boards.c
 +++ b/src/arm/96boards.c
-@@ -38,6 +38,7 @@
+@@ -29,6 +29,7 @@
+ #include <stdarg.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <glob.h>
+ #include <sys/mman.h>
+ 
+ #include "arm/96boards.h"
+@@ -38,8 +39,12 @@
  
  #define PLATFORM_NAME_DB410C "DB410C"
  #define PLATFORM_NAME_HIKEY "HIKEY"
 +#define PLATFORM_NAME_ZCU100 "ZCU100"
  #define PLATFORM_NAME_BBGUM "BBGUM"
  
++#define GPC1  "/sys/class/gpio/gpiochip"
++#define GPC2  "/label"
++
  int db410c_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = {
-@@ -53,6 +54,18 @@ int hikey_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = {
+     36, 12, 13, 69, 115, 4, 24, 25, 35, 34, 28, 33,
+ };
+@@ -53,10 +58,55 @@ int hikey_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = {
  
  const char* hikey_serialdev[MRAA_96BOARDS_LS_UART_COUNT] = { "/dev/ttyAMA2", "/dev/ttyAMA3" };
  
-+/* PS GPIO 332 + 36 37 39 40 44 45
-+ * And then there are 4 gpios which needs to go from PL
-+ * currently label them as
-+ * 511 510 509 508
++/* 96 Boards GPIO 23 24 25 26 27 28 29 30 31 32 33 34
++ * mapped to
++ * PS  MIO Base + 36 37 39 40 44 45
++ * PS EMIO Base + 78 79 80 81 82 83
++ * (PS EMIO[0:5] corresponds to HD_GPIO_[6,13,7,14,8,15])
 +*/
-+int zcu100_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = {
-+ 368, 369, 371, 372, 376, 377, 511, 510, 509, 508, 507, 506
-+};
++int zcu100_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = { 36, 37, 39, 40, 44, 45, 78, 79, 80, 81, 82, 83 };
 +
 +const char* zcu100_serialdev[MRAA_96BOARDS_LS_UART_COUNT] = { "/dev/tty96B0", "/dev/tty96B1"};
-+
 +
  int bbgum_ls_gpio_pins[MRAA_96BOARDS_LS_GPIO_COUNT] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 155, 154 };
  
  const char* bbgum_serialdev[MRAA_96BOARDS_LS_UART_COUNT] = { "/dev/ttyS3", "/dev/ttyS5" };
-@@ -104,6 +117,11 @@ mraa_96boards()
+ 
++static int
++zcu100_find_gpio_base(void)
++{
++    glob_t results;
++    char **p;
++    int i, base;
++
++    base = -1;
++    results.gl_pathc = 0;
++    glob(GPC1 "*" GPC2, 0, NULL, &results);
++
++    p = results.gl_pathv;
++    for(i=0; i < results.gl_pathc; i++) {
++        if(mraa_file_contains(*p, "zynqmp_gpio")) {
++	        base = strtol(*p+sizeof(GPC1)-1, NULL, 10);
++	        break;
++	    }
++        p++;
++    }
++    globfree(&results);
++    return base;
++}
++
++static int
++zcu100_update_ls_gpio_pins(void)
++{
++    int base, i;
++
++    base = zcu100_find_gpio_base();
++    for(i=0; i < MRAA_96BOARDS_LS_GPIO_COUNT; i++)
++        zcu100_ls_gpio_pins[i] += base;
++
++    return base;
++}
++
+ void
+ mraa_96boards_pininfo(mraa_board_t* board, int index, int sysfs_pin, char* fmt, ...)
+ {
+@@ -104,6 +154,16 @@ mraa_96boards()
              ls_gpio_pins = hikey_ls_gpio_pins;
              b->uart_dev[0].device_path = hikey_serialdev[0];
              b->uart_dev[1].device_path = hikey_serialdev[1];
 +        } else if (mraa_file_contains(DT_BASE "/model", "ZynqMP ZCU100")) {
 +            b->platform_name = PLATFORM_NAME_ZCU100;
++            if (zcu100_update_ls_gpio_pins() == -1) {
++                syslog(LOG_CRIT, "ZCU100: failed to find ZynqMP GPIO");
++                free(b);
++                return NULL;
++            }
 +            ls_gpio_pins = zcu100_ls_gpio_pins;
 +            b->uart_dev[0].device_path = zcu100_serialdev[0];
 +            b->uart_dev[1].device_path = zcu100_serialdev[1];
          } else if (mraa_file_contains(DT_BASE "/model", "s900")) {
              b->platform_name = PLATFORM_NAME_BBGUM;
              ls_gpio_pins = bbgum_ls_gpio_pins;
-@@ -117,7 +135,16 @@ mraa_96boards()
+@@ -117,7 +177,16 @@ mraa_96boards()
      b->def_uart_dev = 0;
  
      // I2C
