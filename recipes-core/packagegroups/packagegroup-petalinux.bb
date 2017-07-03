@@ -43,12 +43,13 @@ ZYNQ_EXTRAS = " \
 	libdrm-tests \
 	libinput \
 	python-multiprocessing \
-	python-numpy \
+	python3-numpy \
 	python-scons \
 	python-shell \
 	python-threading \
 	python-smartpm \
-	python-pyserial \
+	python3-pyserial \
+	python3-pip\
 	smartmontools \
 	tcf-agent \
 	v4l-utils \
