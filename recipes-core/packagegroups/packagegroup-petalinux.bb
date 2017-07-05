@@ -43,7 +43,7 @@ ZYNQ_EXTRAS = " \
 	libdrm-tests \
 	libinput \
 	python-multiprocessing \
-	python3-numpy \
+	python-numpy \
 	python-scons \
 	python-shell \
 	python-threading \
