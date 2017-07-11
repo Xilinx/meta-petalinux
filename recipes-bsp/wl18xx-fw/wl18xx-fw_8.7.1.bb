@@ -1,5 +1,5 @@
 DESCRIPTION = "Firmware files for use with TI wl18xx"
-LICENSE = "TI-TSPA"
+LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENCE;md5=4977a0fe767ee17765ae63c435a32a9e"
 
 SRC_URI = " \
