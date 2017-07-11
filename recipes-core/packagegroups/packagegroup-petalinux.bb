@@ -50,6 +50,7 @@ ZYNQ_EXTRAS = " \
 	python-smartpm \
 	python3-pyserial \
 	python3-pip\
+	python-pip \
 	smartmontools \
 	tcf-agent \
 	v4l-utils \
