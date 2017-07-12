@@ -49,6 +49,7 @@ ZYNQ_EXTRAS = " \
 	python-threading \
 	python-smartpm \
 	python3-pyserial \
+	python-pyserial \
 	python3-pip\
 	python-pip \
 	smartmontools \
