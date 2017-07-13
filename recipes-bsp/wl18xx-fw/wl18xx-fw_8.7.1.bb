@@ -23,6 +23,8 @@ BRANCH = "master"
 
 S = "${WORKDIR}/git"
 
+FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 200 -nv --passive-ftp --no-check-certificate"
+
 CLEANBROKEN = "1"
 
 do_compile() {
