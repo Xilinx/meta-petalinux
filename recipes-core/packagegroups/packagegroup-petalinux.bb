@@ -62,6 +62,7 @@ ZYNQ_EXTRAS = " \
 	libftdi \
 	lmsensors-sensors \
 	lmsensors-libsensors \
+	cmake \
 	"
 
 RDEPENDS_${PN}_append_microblaze = " \
