@@ -45,6 +45,7 @@ static void usage(char *);
 
 
 static char command[256]={0};
+const char *lcd_display= "python /sbin/groove-rgb-lcd.py";
 
 static void usage(char *cmd)
 {
@@ -57,6 +58,7 @@ static void power_button_pushed(void *dummy)
 {
 
 	printf("Power button pressed. Powering down...\n");
+	(void) system(lcd_display);
 	(void) system(command);
 }
 
