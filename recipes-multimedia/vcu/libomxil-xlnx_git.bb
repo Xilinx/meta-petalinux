@@ -20,12 +20,12 @@ RDEPENDS_${PN} = "kernel-module-vcu"
 LDFLAGS = "-lpthread -ldl"
 LIB_ENCODE_A="${STAGING_LIBDIR}/liballegro_encode.a"
 LIB_DECODE_A="${STAGING_LIBDIR}/liballegro_decode.a"
-EXTERNAL_LIB_DIR="${STAGING_INCDIR}/vcu-ctrl-sw"
+EXTERNAL_LIB="${STAGING_INCDIR}/vcu-ctrl-sw"
 
 EXTRA_OEMAKE = " \
     CC='${CC}' CXX='${CXX} ${CXXFLAGS}' LDFLAGS='${LDFLAGS}' \
     LIB_ENCODE_A='${LIB_ENCODE_A}' LIB_DECODE_A='${LIB_DECODE_A}' \
-    EXTERNAL_LIB_DIR='${EXTERNAL_LIB_DIR}' \
+    EXTERNAL_LIB='${EXTERNAL_LIB}' \
     "
 
 do_install() {
