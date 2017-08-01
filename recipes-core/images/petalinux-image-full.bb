@@ -28,8 +28,6 @@ ZYNQMP_FEATURES = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
-    hwcodecs \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
 IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
-MACHINE_HWCODECS_zcu106-zynqmp = "libvcu-xlnx"
