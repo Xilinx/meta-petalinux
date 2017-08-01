@@ -26,9 +26,6 @@ do_install() {
 
     cp -a --no-preserve=ownership ${S}/include/* ${D}${includedir}/vcu-ctrl-sw/include/
 
-    install -m 0644 ${S}/config.h ${D}${includedir}/vcu-ctrl-sw/
-    install -m 0644 ${S}/build_defs_common.h ${D}${includedir}/vcu-ctrl-sw/
-
     install -m 0755 ${S}/bin/AL_Encoder.exe ${D}/${bindir}/
     install -m 0755 ${S}/bin/AL_Decoder.exe ${D}/${bindir}/
     oe_libinstall -C ${S}/bin/ -so -a liballegro_decode ${D}/${libdir}/
