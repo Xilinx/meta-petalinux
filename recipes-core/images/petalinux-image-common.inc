@@ -2,6 +2,7 @@ inherit core-image autologin
 
 COMMON_FEATURES = " \
     ssh-server-dropbear \
+    hwcodecs \
     "
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
