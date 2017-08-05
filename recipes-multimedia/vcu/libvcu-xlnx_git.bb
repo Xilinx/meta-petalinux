@@ -28,8 +28,8 @@ do_install() {
 
     install -m 0755 ${S}/bin/AL_Encoder.exe ${D}/${bindir}/
     install -m 0755 ${S}/bin/AL_Decoder.exe ${D}/${bindir}/
-    oe_libinstall -C ${S}/bin/ -so -a liballegro_decode ${D}/${libdir}/
-    oe_libinstall -C ${S}/bin/ -so -a liballegro_encode ${D}/${libdir}/
+    oe_libinstall -C ${S}/bin/ -so liballegro_decode ${D}/${libdir}/
+    oe_libinstall -C ${S}/bin/ -so liballegro_encode ${D}/${libdir}/
 }
 
 # These libraries shouldn't get installed in world builds unless something

@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=03a7aef7e6f6a76a59fd9b8ba450b493"
 
 BRANCH ?= "master"
 REPO   ?= "git://gitenterprise.xilinx.com/xilinx-vcu/vcu-omx-il.git;protocol=https"
-SRCREV ?= "050709ded18d811646a51f9aa4284f096b673af3"
+SRCREV ?= "3d8bd3d50dd02af9f43eedd2b431eef85248c87c"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
@@ -15,16 +15,12 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp = "zynqmp"
 
 DEPENDS = "libvcu-xlnx"
-RDEPENDS_${PN} = "kernel-module-vcu"
+RDEPENDS_${PN} = "kernel-module-vcu libvcu-xlnx"
 
-LDFLAGS = "-lpthread -ldl"
-LIB_ENCODE_A="${STAGING_LIBDIR}/liballegro_encode.a"
-LIB_DECODE_A="${STAGING_LIBDIR}/liballegro_decode.a"
 EXTERNAL_LIB="${STAGING_INCDIR}/vcu-ctrl-sw"
 
 EXTRA_OEMAKE = " \
-    CC='${CC}' CXX='${CXX} ${CXXFLAGS}' LDFLAGS='${LDFLAGS}' \
-    LIB_ENCODE_A='${LIB_ENCODE_A}' LIB_DECODE_A='${LIB_DECODE_A}' \
+    CC='${CC}' CXX='${CXX} ${CXXFLAGS}' \
     EXTERNAL_LIB='${EXTERNAL_LIB}' \
     "
 
