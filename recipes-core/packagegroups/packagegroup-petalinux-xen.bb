@@ -12,6 +12,7 @@ XEN_EXTRA_PACKAGES = " \
     kernel-module-xen-netback \
     kernel-module-xen-wdt \
     xen-base \
+    xen-xenstat \
     qemu \
     "
 
