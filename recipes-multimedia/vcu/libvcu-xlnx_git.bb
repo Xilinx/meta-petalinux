@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=03a7aef7e6f6a76a59fd9b8ba450b493"
 
 BRANCH ?= "master"
 REPO   ?= "git://gitenterprise.xilinx.com/xilinx-vcu/vcu-ctrl-sw.git;protocol=https"
-SRCREV = "c6a2df8ef8a6d7f5dac05070511c79f642f73304"
+SRCREV = "bed6d53606bfe8e768cf1a9f35c9176fd8ee983c"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
