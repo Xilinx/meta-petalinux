@@ -5,7 +5,7 @@ inherit packagegroup distro_features_check
 REQUIRED_DISTRO_FEATURES = "x11"
 
 X11_PACKAGES = " \
-	packagegroup-core-x11-base \
+	packagegroup-core-x11 \
 	xauth \
 	xhost \
 	xset \
