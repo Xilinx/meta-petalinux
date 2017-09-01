@@ -13,5 +13,6 @@ RDEPENDS_packagegroup-self-hosted-extended_remove = " \
 "
 
 RDEPENDS_packagegroup-self-hosted-graphics_remove = " \
+    builder \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '', 'libgl libgl-dev libglu libglu-dev', d)} \
 "
