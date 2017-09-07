@@ -1,0 +1,33 @@
+generate pkg-config file for node and install it during make install
+
+Upstream-Status: Pending
+
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+---
+--- a/Makefile
++++ b/Makefile
+@@ -88,12 +88,23 @@
+ config.gypi: configure
+ 	$(error Missing or stale $@, please run ./$<)
+ 
+-install: all
++install: all install-pkgconfig
+ 	$(PYTHON) tools/install.py $@ '$(DESTDIR)' '$(PREFIX)'
+ 
+ uninstall:
+ 	$(PYTHON) tools/install.py $@ '$(DESTDIR)' '$(PREFIX)'
+ 
++install-pkgconfig:
++	if [ -n "$(LIBDIR)" ]; then \
++		LIBDIR="$(LIBDIR)"; \
++	else \
++		case $(ARCH) in \
++			*64) LIBDIR=$(PREFIX)/lib64;; \
++			*) LIBDIR=$(PREFIX)/lib;; \
++		esac; \
++	fi; \
++	mkdir -p $(DESTDIR)$$LIBDIR/pkgconfig && cp node.pc $(DESTDIR)$$LIBDIR/pkgconfig
++
+ clean:
+ 	$(RM) -r out/Makefile $(NODE_EXE) $(NODE_G_EXE) out/$(BUILDTYPE)/$(NODE_EXE) \
+                 out/$(BUILDTYPE)/node.exp

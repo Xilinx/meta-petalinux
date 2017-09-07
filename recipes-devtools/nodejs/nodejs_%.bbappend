@@ -1,5 +1,8 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-SRC_URI_append = " file://0002-generate-pkg-config-file-for-node-and-install.patch"
+SRC_URI_append = " \
+    file://0001-generate-pkg-config-file-for-node-and-install.patch \
+    file://0002-generate-pkg-config-file-for-node-and-install.patch \
+    "
 
 pkg_postinst_${PN} () {
     sed -e '/^PATH=/aNODE_PATH=\/usr\/lib\/node_modules\/' \
