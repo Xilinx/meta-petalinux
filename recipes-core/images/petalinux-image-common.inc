@@ -19,7 +19,6 @@ COMMON_INSTALL = " \
 IMAGE_INSTALL = " \
     packagegroup-core-boot \
     ${COMMON_INSTALL} \
-    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     "
 
