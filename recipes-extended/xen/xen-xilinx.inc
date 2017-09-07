@@ -1,22 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-BRANCH ?= "xilinx/stable-4.8"
-REPO ?= "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV ?= "75c00aca503fe7093ccfecb3d0dd803642cb7bae"
-
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
-SRC_URI = "${REPO};${BRANCHARG}"
-
-SRC_URI = " \
-    ${REPO};${BRANCHARG} \
+SRC_URI += " \
+    file://0001-libxc-avoid-uninitialized-use-domctl-field.patch \
     file://example-passnet.cfg \
     file://example-pvnet.cfg \
     file://example-simple.cfg \
     file://passthrough-example-part.dts \
     "
-
-
-S = "${WORKDIR}/git"
 
 FILES_${PN}-xl_append = " \
     /etc/xen/example-passnet.cfg \
@@ -26,6 +16,7 @@ FILES_${PN}-xl_append = " \
     "
 
 DEPENDS += "u-boot-mkimage-native"
+DEPENDS += "dtc-native"
 RDEPENDS_${PN}-efi += "bash python"
 
 XENIMAGE_KERNEL_LOADADDRESS ?= "0x6000000"
