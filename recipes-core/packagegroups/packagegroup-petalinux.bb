@@ -29,7 +29,7 @@ RDEPENDS_${PN} += "\
 	openssh-sftp-server \
 	pciutils \
 	popt \
-	portmap \
+	rpcbind \
 	tcpdump \
 	unzip \
 	usbutils \
@@ -38,6 +38,7 @@ RDEPENDS_${PN} += "\
 	strace \
 	"
 ZYNQ_EXTRAS = " \
+	dnf \
 	libattr \
 	libdrm \
 	libdrm-tests \
@@ -47,7 +48,6 @@ ZYNQ_EXTRAS = " \
 	python-scons \
 	python-shell \
 	python-threading \
-	python-smartpm \
 	python3-pyserial \
 	python-pyserial \
 	python3-pip\
