@@ -1,1 +1,0 @@
-EXTRA_OEMAKE_append = " 'LDOPTS=${LDFLAGS}' 'CFLAGS=${CFLAGS}'"
