@@ -1,6 +1,6 @@
 DESCRIPTION = "Video Codec Unit Firmware for ZynqMP binaries"
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=8b15b341f0c40cfe32c36969be4bb1bc"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=63b45903a9a50120df488435f03cf498"
 
 XILINX_VCU_VERSION = "1.0.0"
 PV = "${XILINX_VCU_VERSION}+git${SRCPV}"
@@ -8,8 +8,8 @@ PV = "${XILINX_VCU_VERSION}+git${SRCPV}"
 S  = "${WORKDIR}/git"
 
 BRANCH ?= "master"
-REPO ?= "git://gitenterprise.xilinx.com/xilinx-vcu/vcu-firmware.git;protocol=https"
-SRCREV ?= "50a577af5b258901730d9de52e60ba4b6d48cce6"
+REPO ?= "git://github.com/Xilinx/vcu-firmware.git;protocol=https"
+SRCREV ?= "e4ea930101a307fb637399f1ada638ae9ff1822c"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI   = "${REPO};${BRANCHARG}"

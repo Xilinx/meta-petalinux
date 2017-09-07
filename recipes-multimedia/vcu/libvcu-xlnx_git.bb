@@ -3,8 +3,8 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=03a7aef7e6f6a76a59fd9b8ba450b493"
 
 BRANCH ?= "master"
-REPO   ?= "git://gitenterprise.xilinx.com/xilinx-vcu/vcu-ctrl-sw.git;protocol=https"
-SRCREV = "bed6d53606bfe8e768cf1a9f35c9176fd8ee983c"
+REPO   ?= "git://github.com/Xilinx/vcu-ctrl-sw.git;protocol=https"
+SRCREV = "1206822ed17784942f500a82b6e9eec4c5691643"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
