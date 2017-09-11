@@ -1,0 +1,76 @@
+From 3feb083b150e9ee43f683f17da4e2814b7401088 Mon Sep 17 00:00:00 2001
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Tue, 5 Sep 2017 15:57:51 -0400
+Subject: [PATCH 3/3] tee: Allocate one more buffer when multi-plexing
+
+This extra buffer ensure that the downstream threads are not starved
+when multiplexing a stream.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=730758
+
+Upstream-Status: Backport
+ 
+Signed-off-by: Jeegar Patel <jeegarp@xilinx.com>
+Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
+---
+ plugins/elements/gsttee.c  | 8 ++++++++
+ tests/check/elements/tee.c | 3 ++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/plugins/elements/gsttee.c b/plugins/elements/gsttee.c
+index d01251d..726b510 100644
+--- a/plugins/elements/gsttee.c
++++ b/plugins/elements/gsttee.c
+@@ -571,6 +571,7 @@ struct AllocQueryCtx
+   guint size;
+   guint min_buffers;
+   gboolean first_query;
++  guint num_pads;
+ };
+ 
+ /* This function will aggregate some of the allocation query information with
+@@ -713,6 +714,7 @@ gst_tee_query_allocation (const GValue * item, GValue * ret, gpointer user_data)
+   }
+ 
+   ctx->first_query = FALSE;
++  ctx->num_pads++;
+   gst_query_unref (query);
+ 
+   return TRUE;
+@@ -756,6 +758,7 @@ gst_tee_sink_query (GstPad * pad, GstObject * parent, GstQuery * query)
+         gst_allocation_params_init (&ctx.params);
+         ctx.size = 0;
+         ctx.min_buffers = 0;
++        ctx.num_pads = 0;
+         gst_tee_clear_query_allocation_meta (query);
+       }
+ 
+@@ -787,6 +790,11 @@ gst_tee_sink_query (GstPad * pad, GstObject * parent, GstQuery * query)
+         }
+ #endif
+ 
++        /* Allocate one more buffers when multiplexing so we don't starve the
++         * downstream threads. */
++        if (ctx.num_pads > 1)
++          ctx.min_buffers++;
++
+         gst_query_add_allocation_param (ctx.query, NULL, &ctx.params);
+         gst_query_add_allocation_pool (ctx.query, NULL, ctx.size,
+             ctx.min_buffers, 0);
+diff --git a/tests/check/elements/tee.c b/tests/check/elements/tee.c
+index 5f4c900..de63c1f 100644
+--- a/tests/check/elements/tee.c
++++ b/tests/check/elements/tee.c
+@@ -802,7 +802,8 @@ GST_START_TEST (test_allocation_query)
+   fail_unless (gst_query_get_n_allocation_pools (query), 1);
+   gst_query_parse_nth_allocation_pool (query, 0, NULL, &size, &min, &max);
+   fail_unless (size == 130);
+-  fail_unless (min == 2);
++  /* The tee will allocate one more buffer when multiplexing */
++  fail_unless (min == 2 + 1);
+   fail_unless (max == 0);
+ 
+   fail_unless (gst_query_get_n_allocation_params (query), 1);
+-- 
+2.9.5
+
