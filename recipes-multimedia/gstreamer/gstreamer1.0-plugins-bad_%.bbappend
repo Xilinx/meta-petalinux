@@ -17,7 +17,7 @@ SRC_URI = " \
     file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
     "
 
-SRCREV_base = "1252ec6baadd29cb33c1c8a5e2f625b6242561d0"
+SRCREV_base = "4cba71c048421d6566baff575cc8cc86521203a2"
 SRCREV_common = "6f2d2093e84cc0eb99b634fa281822ebb9507285"
 SRCREV_FORMAT = "base"
 
