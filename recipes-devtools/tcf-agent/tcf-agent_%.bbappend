@@ -1,31 +1,32 @@
 LIC_FILES_CHKSUM_microblaze = "file://${S}/MicroBlaze-TCF-agent-1.3.0.txt;md5=58995e08ee9d03f05320573c9f0cd909"
 
-MAKE_ARCH_aarch64 = "a64"
+MAKE_ARCH = "`echo ${TARGET_ARCH} | sed s,i.86,i686, | sed s,aarch64,a64,`"
 
 # Hardware Breakpoint support does not work correctly for Zynq or Zynqmp
 CFLAGS_append_aarch64 = " -DENABLE_SSL=0 -DUSE_uuid_generate=0 -DENABLE_HardwareBreakpoints=0"
 CFLAGS_append_armv7a  = " -DENABLE_HardwareBreakpoints=0"
 
-SRCREV = "e89589ca2c5474e1f3eedef049f58521f98df3e5"
+SRCREV = "0b69483e10fd1cf6866e7c78fa6eb61dd3487e9d"
 PV = "1.4.0"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = " \
 	git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=master;protocol=https \
-	file://fix_ranlib.patch \
+	file://fix_ranlib.patch;striplevel=2 \
+	file://ldflags.patch \
 	file://tcf-agent.init \
 	file://tcf-agent.service \
 	"
 
-MB_TCF_NAME="mb-tcf-agent-2017-1"
+MB_TCF_NAME="mb-tcf-agent-2017-3"
 SRC_URI_microblaze = " \
-	http://www.xilinx.com/guest_resources/member/mb_gnu/${MB_TCF_NAME}.zip;name=tcfmb \
-	file://tcf-agent.init \
-	"
+       http://www.xilinx.com/guest_resources/member/mb_gnu/${MB_TCF_NAME}.zip;name=tcfmb \
+       file://tcf-agent.init \
+       "
 
-SRC_URI[tcfmb.md5sum] = "efd4ab4538145cd5faa991a749c0d6f4"
-SRC_URI[tcfmb.sha256sum] = "6e3baa5d9beb97820e1a13e532b09df9dd789bcef60bbeeaed35abfca62de5df"
+SRC_URI[tcfmb.md5sum] = "401ca34c7b0a8fb4a2a82c421c033661"
+SRC_URI[tcfmb.sha256sum] = "3a9f03d2a7b74efa3b54fe5f8bdc1be2e1039377252534161112c54a6145abe5"
 
 CFLAGS_remove += " \
 		  -DSERVICE_RunControl=0 \
@@ -41,10 +42,10 @@ CFLAGS_remove += " \
 
 EXTRA_OEMAKE_append = " 'LINK_OPTS=${LDFLAGS}'"
 
-S_microblaze="${WORKDIR}/${MB_TCF_NAME}"
+S_microblaze = "${WORKDIR}/mb-agent-2017-3"
 
 do_compile_microblaze(){
-:
+	:
 }
 
 do_install_microblaze() {
