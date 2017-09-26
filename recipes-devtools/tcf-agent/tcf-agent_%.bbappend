@@ -21,7 +21,7 @@ SRC_URI = " \
 
 MB_TCF_NAME="mb-tcf-agent-2017-3"
 SRC_URI_microblaze = " \
-       http://www.xilinx.com/guest_resources/member/mb_gnu/${MB_TCF_NAME}.zip;name=tcfmb \
+       https://www.xilinx.com/content/dam/xilinx/guest-resources/${MB_TCF_NAME}.zip;name=tcfmb \
        file://tcf-agent.init \
        "
 
