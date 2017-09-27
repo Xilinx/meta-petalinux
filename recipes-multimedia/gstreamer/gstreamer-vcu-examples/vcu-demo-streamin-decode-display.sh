@@ -57,9 +57,9 @@ usage () {
 streaminDecodeDisplay() {
 	checkforEmptyVar "${checkEmpty[@]}"
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=false -v"
 	else
-		SINK="$SINK_NAME"
+		SINK="$SINK_NAME sync=false"
 	fi
 
 	QUEUE="$QUEUE max-size-bytes=0"
