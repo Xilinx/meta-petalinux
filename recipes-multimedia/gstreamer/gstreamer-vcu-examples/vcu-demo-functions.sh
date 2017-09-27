@@ -87,6 +87,21 @@ killProcess () {
 	fi
 }
 
+
+#########################################################################################
+# Name:		runGstPipeline
+# Argument:	Gstreamer pipeline string
+# Description:	Runs the gstreamer pipeline as per the element property values selected
+#               by user or using default property value if not provided by user
+#########################################################################################
+runGstPipeline () {
+	pipeline=$1
+	echo $pipeline
+	eval "$pipeline"&
+	PID=$!
+	wait $PID
+}
+
 #########################################################################################
 # Name:		setDefaultifEmpty
 # Argument:	Name of the property whose default value needs to be set if it's empty

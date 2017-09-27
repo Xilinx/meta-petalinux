@@ -103,28 +103,26 @@ TranscodeFile() {
 	OMXH265ENC="$OMXH265ENC control-rate=2 num-slices=4 prefetch-buffer-size=504 target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
-		eval "$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"&
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"
 	elif [ $EXT_TYPE == "h265" -o $EXT_TYPE == "hevc" ];then
-		eval "$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"&
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"
 	elif [ $EXT_TYPE == "mp4" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"
 		else
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"
 		fi
 	elif [ $EXT_TYPE == "mkv" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"
 		else
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $SINK"
 		fi
 	else
 		ErrorMsg "Incorrect Input file path provided"
 	fi
 
-	PID=$!
-	wait $PID
-
+	runGstPipeline "$pipeline"
 }
 
 # Command Line Argument Parsing

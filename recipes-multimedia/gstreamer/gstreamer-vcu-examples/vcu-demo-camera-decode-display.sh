@@ -74,14 +74,12 @@ CameraToDisplay() {
 	OMXH265DEC="$OMXH265DEC latency-mode=low-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
 	if [ $CODEC_TYPE == "avc" ]; then
-		eval "$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"&
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
 	else
-		eval "$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"&
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 	fi
 
-	PID=$!
-	wait $PID
-
+	runGstPipeline "$pipeline"
 	killProcess "modetest"
 	killProcess "sleep"
 }

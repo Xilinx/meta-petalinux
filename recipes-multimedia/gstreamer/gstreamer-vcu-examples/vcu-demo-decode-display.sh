@@ -80,27 +80,26 @@ DecodeFile() {
 	fi
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
-		eval "$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"&
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
 	elif [ $EXT_TYPE == "h265" -o $EXT_TYPE == "hevc" ];then
-		eval "$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"&
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 	elif [ $EXT_TYPE == "mp4" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
 		else
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 		fi
 	elif [ $EXT_TYPE == "mkv" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
 		else
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"&
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 		fi
 	else
 		ErrorMsg "Incorrect Input file path provided"
 	fi
 
-	PID=$!
-	wait $PID
+	runGstPipeline "$pipeline"
 	killProcess "modetest"
 	killProcess "sleep"
 }

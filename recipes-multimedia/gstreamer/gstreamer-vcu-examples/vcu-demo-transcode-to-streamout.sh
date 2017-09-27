@@ -72,22 +72,22 @@ TranscodeFileandStreamOut() {
 	UDPSINK="udpsink host=$ADDRESS port=$PORT_NUM max-lateness=-1 qos-dscp=60 async=false max-bitrate=5000000"
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
-		eval "$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $H265PARSE ! $QUEUE ! $RTPH265PAY ! $UDPSINK" &
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $H265PARSE ! $QUEUE ! $RTPH265PAY ! $UDPSINK"
 	elif [ $EXT_TYPE == "h265" -o $EXT_TYPE == "hevc" ];then
-		eval "$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $H264PARSE ! $QUEUE ! $RTPH264PAY ! $UDPSINK" &
+		pipeline="$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $H264PARSE ! $QUEUE ! $RTPH264PAY ! $UDPSINK"
 	elif [ $EXT_TYPE == "mp4" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $QUEUE ! $RTPH265PAY ! $UDPSINK" &
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $QUEUE ! $RTPH265PAY ! $UDPSINK"
 		elif [ $CODEC_TYPE == "hevc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $QUEUE ! $RTPH264PAY ! $UDPSINK" &
+			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $QUEUE ! $RTPH264PAY ! $UDPSINK"
 		else
 			ErrorMsg "Please specify codec as either avc or hevc"
 		fi
 	elif [ $EXT_TYPE == "mkv" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $QUEUE ! $RTPH265PAY ! $UDPSINK" &
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $QUEUE ! $RTPH265PAY ! $UDPSINK"
 		elif [ $CODEC_TYPE == "hevc" ]; then
-			eval "$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $QUEUE ! $RTPH264PAY ! $UDPSINK" &
+			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $OMXH264ENC ! $QUEUE ! $RTPH264PAY ! $UDPSINK"
 		else
 			ErrorMsg "Please specify codec as either avc or hevc"
 		fi
@@ -95,9 +95,7 @@ TranscodeFileandStreamOut() {
 		ErrorMsg "Incorrect Input file path provided"
 	fi
 
-	PID=$!
-	wait $PID
-
+	runGstPipeline "$pipeline"
 }
 
 # Command Line Argument Parsing

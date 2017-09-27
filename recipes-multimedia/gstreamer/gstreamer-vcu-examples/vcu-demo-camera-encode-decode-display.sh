@@ -79,13 +79,12 @@ CameraToDisplay() {
 	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
 	if [ $CODEC_TYPE == "avc" ]; then
-		eval "$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"&
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"
 	else
-		eval "$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH265ENC ! $QUEUE ! $OMXH265DEC ! $QUEUE max-size-bytes=0 ! $SINK"&
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH265ENC ! $QUEUE ! $OMXH265DEC ! $QUEUE max-size-bytes=0 ! $SINK"
 	fi
 
-	PID=$!
-	wait $PID
+	runGstPipeline "$pipeline"
 	killProcess "modetest"
 	killProcess "sleep"
 }
