@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 BRANCH ?= "xilinx/stable-4.8"
 REPO ?= "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV ?= "89dceb9fc81120e6a914f998763dd4c49b74d3d5"
+SRCREV ?= "75c00aca503fe7093ccfecb3d0dd803642cb7bae"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"

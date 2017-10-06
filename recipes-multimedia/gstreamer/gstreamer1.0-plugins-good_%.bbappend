@@ -13,7 +13,7 @@ SRC_URI = " \
     file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
     "
 
-SRCREV_base = "19332f9e7b5c7012d820b8f24f915ffa18b64ddb"
+SRCREV_base = "9fa7baf3964f4d9236af1a9606b29c2262601dcd"
 SRCREV_common = "6f2d2093e84cc0eb99b634fa281822ebb9507285"
 SRCREV_FORMAT = "base"
 

@@ -1,9 +1,9 @@
 LICENSE = "BSD"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/git/license.txt;md5=530190e8d7ebcdfeddbe396f3f20417f"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/git/license.txt;md5=5e45a102b6cde936e15c44e3c59ac810"
 
 REPO ?= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ?= "release-2017.3"
-SRCREV = "3c9f0cfde9307c2dc1a298f9f22d492601232821"
+BRANCH ?= "release-2017.4"
+SRCREV = "77448ae629133607b66e747c4baaa7677dc1123d"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
