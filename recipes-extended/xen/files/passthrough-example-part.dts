@@ -16,25 +16,19 @@
 			compatible = "fixed-clock";
 		};
 
-		pd_eth3: pd-eth3 {
-			#power-domain-cells = <0x0>;
-			pd-id = <0x20>;
-		};
-
 		gem3: ethernet@ff0e0000 {
 			compatible = "cdns,zynqmp-gem";
+			status = "okay";
 			interrupt-parent = <0x1>;
 			interrupts = <0 63 4>, <0 63 4>;
 			reg = <0x0 0xff0e0000 0x1000>;
-			clock-names = "pclk", "hclk", "tx_clk";
+			clock-names = "pclk", "hclk", "tx_clk", "rx_clk";
 			#address-cells = <1>;
 			#size-cells = <0>;
-			power-domains = < &pd_eth3 >;
-			clocks = <&misc_clk &misc_clk &misc_clk>;
+			clocks = <&misc_clk &misc_clk &misc_clk &misc_clk>;
 			phy-mode = "rgmii-id";
 			xlnx,ptp-enet-clock = <0x0>;
-			status = "okay";
-			local-mac-address = [00 0a 35 00 02 90];
+			local-mac-address = [00 0a 35 00 22 01];
 			phy-handle = <&phy1>;
 
 			phy1: phy@c {
@@ -42,6 +36,7 @@
 				ti,rx-internal-delay = <0x8>;
 				ti,tx-internal-delay = <0xa>;
 				ti,fifo-depth = <0x1>;
+				ti,rxctrl-strap-worka;
 			};
 		};
 	};
