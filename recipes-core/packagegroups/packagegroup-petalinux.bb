@@ -25,8 +25,6 @@ RDEPENDS_${PN} += "\
 	mtd-utils \
 	net-tools \
 	netcat \
-	dropbear-openssh-sftp-server \
-	openssh-sftp-server \
 	pciutils \
 	popt \
 	rpcbind \
