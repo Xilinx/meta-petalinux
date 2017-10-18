@@ -7,13 +7,13 @@ inherit packagegroup
 MRAA_UPM_PACKAGES = " \
 	mraa \
 	mraa-dev \
-	python-mraa \
+	python3-mraa \
 	mraa-utils \
 	node-mraa \
 	upm \
 	upm-dev \
 	node-upm \
-	python-upm \
+	python3-upm \
 	nodejs \
 	nodejs-dev \
 	nodejs-npm \
