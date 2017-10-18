@@ -45,10 +45,6 @@ QT_PACKAGES = " \
 	qtsvg-dev \
 	qtsvg-mkspecs \
 	qtsvg-plugins \
-	qttools-dev \
-	qttools-mkspecs \
-	qttools-staticdev \
-	qttools-tools \
 	qtwebsockets-dev \
 	qtwebsockets-mkspecs \
 	qttranslations-qtwebsockets \
@@ -58,14 +54,8 @@ QT_PACKAGES = " \
 	qtxmlpatterns-mkspecs \
 	qttranslations-qtxmlpatterns \
 	qtbase-examples \
-	qtquick1-dev \
-	qtquick1-mkspecs \
-	qtquick1-plugins \
-	qttranslations-qtquick1 \
 	qtwebkit-dev \
 	qtwebkit-mkspecs \
-	qtquickcontrols-qmlplugins \
-	qttools-plugins \
 	qtcharts \
 	"
 RDEPENDS_${PN} += "${QT_PACKAGES}"
