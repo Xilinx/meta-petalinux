@@ -7,11 +7,7 @@ BBLAYERS ?= " \
     ##OEROOT##/meta \
     ##OEROOT##/meta-poky \
     ##OEROOT##/../meta-openembedded/meta-perl \
-    ##OEROOT##/../meta-openembedded/meta-systemd \
-    ##OEROOT##/../meta-openembedded/meta-gpe \
     ##OEROOT##/../meta-openembedded/meta-python \
-    ##OEROOT##/../meta-openembedded/meta-efl \
-    ##OEROOT##/../meta-openembedded/meta-ruby \
     ##OEROOT##/../meta-openembedded/meta-filesystems \
     ##OEROOT##/../meta-openembedded/meta-gnome \
     ##OEROOT##/../meta-openembedded/meta-multimedia \
@@ -20,7 +16,6 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-openembedded/meta-xfce \
     ##OEROOT##/../meta-openembedded/meta-initramfs \
     ##OEROOT##/../meta-openembedded/meta-oe \
-    ##OEROOT##/../meta-linaro/meta-linaro-toolchain \
     ##OEROOT##/../meta-qt5 \
     ##OEROOT##/../meta-xilinx \
     ##OEROOT##/../meta-xilinx-tools \
