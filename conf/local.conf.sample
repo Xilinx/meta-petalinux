@@ -202,9 +202,8 @@ BB_DISKMON_DIRS = "\
 #SOURCE_MIRROR_URL ?= "http://petalinux.xilinx.com/sswreleases/rel-v2017.4/downloads"
 #INHERIT += "own-mirrors"
 
-XILINX_VER_MAIN = "2017.4"
-EXTERNAL_TOOLCHAIN_microblaze = "/proj/xbuilds/2017.4_daily_latest/installs/lin64/SDK/2017.4/gnu/microblaze/linux_toolchain/lin64_le"
-XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2017.4_daily_latest/installs/lin64/SDK/2017.4"
+XILINX_VER_MAIN = "2018.1"
+XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2018.1_daily_latest/installs/lin64/SDK/2018.1"
 
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
