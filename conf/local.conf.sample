@@ -199,9 +199,6 @@ BB_DISKMON_DIRS = "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
 
-#SOURCE_MIRROR_URL ?= "http://petalinux.xilinx.com/sswreleases/rel-v2017.4/downloads"
-#INHERIT += "own-mirrors"
-
 XILINX_VER_MAIN = "2018.1"
 XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2018.1_daily_latest/installs/lin64/SDK/2018.1"
 
