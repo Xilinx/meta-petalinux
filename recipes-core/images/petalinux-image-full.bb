@@ -3,25 +3,30 @@ LICENSE = "MIT"
 
 require petalinux-image-common.inc
 
+TRACING_PROFILE_FEATURES = "\
+    tools-debug \
+    tools-profile \
+    tools-testapps \
+"
+
 ZYNQ_FEATURES = " \
     dev-pkgs \
     package-management \
     ptest-pkgs \
     splash \
-    tools-debug \
-    tools-profile \
     tools-sdk \
-    tools-testapps \
     petalinux-base \
     petalinux-self-hosted \
     petalinux-qt \
     petalinux-opencv \
+    ${TRACING_PROFILE_FEATURES} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-xfce', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-enlightenment', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
     "
+
 IMAGE_FEATURES_append_zynq = " ${ZYNQ_FEATURES}"
 
 ZYNQMP_FEATURES = " \
@@ -32,3 +37,5 @@ ZYNQMP_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
 IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
+
+IMAGE_FEATURES_append_microblazeel = " ${TRACING_PROFILE_FEATURES}"
