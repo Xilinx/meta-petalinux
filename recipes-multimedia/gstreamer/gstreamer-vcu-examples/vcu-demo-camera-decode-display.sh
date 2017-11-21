@@ -30,8 +30,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "showFps")
-declare -a checkEmpty=("codecType" "sinkName")
+declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "showFps" "internalEntropyBuffers" "v4l2Device")
+declare -a checkEmpty=("codecType" "sinkName" "v4l2Device")
 
 
 ############################################################################
@@ -39,14 +39,16 @@ declare -a checkEmpty=("codecType" "sinkName")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -f'
+	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -e <internal_entropy_buffers> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
+	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -f'
 	echo '  '$scriptName' -f -o fakesink'
 	echo '  '$scriptName' -s 1920x1080 -c avc'
+	echo '  '$scriptName' -s 1920x1080 -c avc -e 2'
 	echo '  '$scriptName' -s 1280x720 -c avc'
 	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
@@ -58,6 +60,7 @@ usage () {
 ############################################################################
 CameraToDisplay() {
 	checkforEmptyVar "${checkEmpty[@]}"
+
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
 	else
@@ -70,6 +73,7 @@ CameraToDisplay() {
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
 	CAMERA_CAPS_AVC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1,profile=constrained-baseline"
 	CAMERA_CAPS_HEVC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1"
+
 	OMXH264DEC="$OMXH264DEC latency-mode=low-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 	OMXH265DEC="$OMXH265DEC latency-mode=low-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
@@ -85,16 +89,17 @@ CameraToDisplay() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "s:c:o:n:fh" --long "video-size:,codec-type:,sink-name:,num-frames:,show-fps,help" -- "$@")
+args=$(getopt -o "v:s:c:o:n:e:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
 parseCommandLineArgs
+
 if [ -z $VIDEO_SIZE ]; then
 	VIDEO_SIZE="1920x1080"
 	echo "Video Size is not specified in args hence using 1920x1080 as default value"
 fi
 
-QoSSetting
+RegSetting
 drmSetting $VIDEO_SIZE
 CameraToDisplay

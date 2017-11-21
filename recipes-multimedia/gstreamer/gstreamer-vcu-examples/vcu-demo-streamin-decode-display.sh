@@ -30,7 +30,7 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("portNum" "videoSize" "codecType" "sinkName" "bufferSize" "showFps" )
+declare -a scriptArgs=("portNum" "videoSize" "codecType" "sinkName" "bufferSize" "showFps" "internalEntropyBuffers")
 declare -a checkEmpty=("portNum" "videoSize" "codecType" "sinkName" "bufferSize")
 
 ############################################################################
@@ -38,13 +38,14 @@ declare -a checkEmpty=("portNum" "videoSize" "codecType" "sinkName" "bufferSize"
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -p <port_number>  -c <codec_type> -o <sink_name> -s <video_size> -b <kernel_reciever_buffer_size> -f'
+	echo '	Usage : '$scriptName' -p <port_number>  -c <codec_type> -o <sink_name> -s <video_size> -b <kernel_reciever_buffer_size> -e <internal_entropy_buffers> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -f'
 	echo '  '$scriptName' -f -o fakesink'
 	echo '  '$scriptName' -p 40000 -c avc'
+	echo '  '$scriptName' -p 40000 -c avc -e 9'
 	echo '  '$scriptName' -p 40000 -c avc -b 14000000 '
 	echo '  "NOTE: This script depends on vcu-demo-settings.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
@@ -56,6 +57,8 @@ usage () {
 ##########################################################################
 streaminDecodeDisplay() {
 	checkforEmptyVar "${checkEmpty[@]}"
+	updateVar
+
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=false -v"
 	else
@@ -83,7 +86,7 @@ streaminDecodeDisplay() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "c:p:b:o:s:fh" --long "codec-type:,port-num:,buffer-size:,sink-name:,video-size:,show-fps,help" -- "$@")
+args=$(getopt -o "c:p:b:o:s:e:fh" --long "codec-type:,port-num:,buffer-size:,sink-name:,video-size:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
@@ -93,6 +96,6 @@ if [ -z $CODEC_TYPE ];then
 	CODEC_TYPE="hevc"
 fi
 
-QoSSetting
+RegSetting
 drmSetting $VIDEO_SIZE
 streaminDecodeDisplay

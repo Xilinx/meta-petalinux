@@ -30,20 +30,22 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "codecType" "targetBitrate" "ipaddress" "portNum")
-declare -a checkEmpty=("inputPath" "targetBitrate" "ipaddress" "portNum")
+declare -a scriptArgs=("inputPath" "codecType" "targetBitrate" "ipaddress" "portNum" "internalEntropyBuffers" "gopLength" "gopFreqIdr" "cpbSize" )
+declare -a checkEmpty=("inputPath" "targetBitrate" "ipaddress" "portNum" "gopLength" "gopFreqIdr" "cpbSize")
 
 ############################################################################
 # Name:		usage
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path>  -b <bit_rate> -a <address_path> -c <codec_type> -p <port_num>'
+	echo '	Usage : '$scriptName' -i <input_file_path>  -b <bit_rate> -a <address_path> -c <codec_type> -p <port_num> -e <internal_entropy_buffers> --gop-length <gop_length_value> --gop-freq-idr <gop_freq_idr_value> --cpb-size <cpb_size_value>'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName' -i /run/2160p_30.h264 -b 6000 -p 5000'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -a 192.168.1.70'
+	echo '  '$scriptName' -i /run/2160p_60.h264 -a 192.168.1.70 --gop-frq-idr 20 --gop-length 20 --cpb-size 1000'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc -a 192.168.1.70 -b 2000'
+	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc -a 192.168.1.70 -b 2000 -e 3'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc -a 192.168.1.70'
 	echo '  '$scriptName' -i /mnt/nfs/1080p_30.h265 -a 192.168.1.70'
 	exit
@@ -55,6 +57,8 @@ usage () {
 ############################################################################
 TranscodeFileandStreamOut() {
 	checkforEmptyVar "${checkEmpty[@]}"
+	updateVar
+
 	if [ ! -f $INPUT_PATH ]; then
 		ErrorMsg "Input file doesn't exist"
 	fi
@@ -67,8 +71,8 @@ TranscodeFileandStreamOut() {
 	fi
 
 	FILE_SRC="$FILE_SRC=$INPUT_PATH"
-	OMXH264ENC="$OMXH264ENC gop-length=240 gop-freq-idr=240 control-rate=Lowlatency target-bitrate=$BIT_RATE cpb-size=1000"
-	OMXH265ENC="$OMXH265ENC gop-length=240 gop-freq-idr=240 control-rate=Lowlatency target-bitrate=$BIT_RATE cpb-size=1000"
+	OMXH264ENC="$OMXH264ENC gop-length=$GOP_LENGTH gop-freq-idr=$GOP_FREQ_IDR control-rate=Lowlatency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE"
+	OMXH265ENC="$OMXH265ENC gop-length=$GOP_LENGTH gop-freq-idr=$GOP_FREQ_IDR control-rate=Lowlatency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE"
 	UDPSINK="udpsink host=$ADDRESS port=$PORT_NUM max-lateness=-1 qos-dscp=60 async=false max-bitrate=5000000"
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
@@ -99,7 +103,7 @@ TranscodeFileandStreamOut() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "i:c:a:b:p:h" --long "input-path:,codec-type:,address:,port-num:,bit-rate:,help" -- "$@")
+args=$(getopt -o "i:c:a:b:p:e:h" --long "input-path:,codec-type:,address:,port-num:,bit-rate:,internal-entropy-buffers:,gop-length:,gop-freq-idr:,cpb-size:,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
 parseCommandLineArgs

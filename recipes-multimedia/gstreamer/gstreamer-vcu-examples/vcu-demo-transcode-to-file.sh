@@ -30,7 +30,7 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "codecType" "showFps" "targetBitrate" "outputPath")
+declare -a scriptArgs=("inputPath" "codecType" "showFps" "targetBitrate" "outputPath" "internalEntropyBuffers")
 declare -a checkEmpty=("inputPath" "targetBitrate")
 
 
@@ -40,7 +40,7 @@ declare -a checkEmpty=("inputPath" "targetBitrate")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path> -b <--bit-rate> -c <codec_type> -o <output_path> -f'
+	echo '	Usage : '$scriptName' -i <input_file_path> -b <--bit-rate> -c <codec_type> -o <output_path> -e <internal_entropy_buffers> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName' -i /run/2160p_30.h264 -b 5000'
@@ -48,6 +48,7 @@ usage () {
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o /mnt/sata/op.h265'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -f'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc'
+	echo '  '$scriptName' -i /mnt/sata/2160p_60.mp4 -c avc -e 7'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc'
 	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
@@ -60,6 +61,8 @@ usage () {
 ############################################################################
 TranscodeFile() {
 	checkforEmptyVar "${checkEmpty[@]}"
+	updateVar
+
 	if [ ! -f $INPUT_PATH ]; then
 		ErrorMsg "Input file doesn't exist"
 	fi
@@ -126,7 +129,7 @@ TranscodeFile() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "i:c:b:o:fh" --long "input-path:,codec-type:,bit-rate:,output-path:,show-fps,help" -- "$@")
+args=$(getopt -o "i:c:b:o:e:fh" --long "input-path:,codec-type:,bit-rate:,output-path:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 

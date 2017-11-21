@@ -30,8 +30,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps")
-declare -a checkEmpty=("codecType" "sinkName" "targetBitrate")
+declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "internalEntropyBuffers" "v4l2Device")
+declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device")
 
 
 ############################################################################
@@ -39,15 +39,17 @@ declare -a checkEmpty=("codecType" "sinkName" "targetBitrate")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -f'
+	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
+	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -n 500 -b 1200'
 	echo '  '$scriptName' -f'
 	echo '  '$scriptName' -f -o fakesink'
 	echo '  '$scriptName' -s 1920x1080 -c avc'
+	echo '  '$scriptName' -s 1920x1080 -c avc -e 3'
 	echo '  '$scriptName' -s 1280x720 -c avc'
 	echo '  "NOTE: This script depends on vcu-demo-settings.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
@@ -59,6 +61,7 @@ usage () {
 ############################################################################
 CameraToDisplay() {
 	checkforEmptyVar "${checkEmpty[@]}"
+
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
 	else
@@ -74,7 +77,9 @@ CameraToDisplay() {
 	VIDEOCONVERT="videoconvert"
 	OMXH264ENC="omxh264enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
 	OMXH265ENC="omxh265enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
-	INTERNAL_ENTROPY_BUFFERS="6"
+	if [ -z $SET_ENTROPY_BUF ]; then
+		INTERNAL_ENTROPY_BUFFERS="6"
+	fi
 	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
@@ -90,7 +95,7 @@ CameraToDisplay() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "s:c:o:b:n:fh" --long "video-size:,codec-type:,sink-name:,num-frames:,bit-rate:,show-fps,help" -- "$@")
+args=$(getopt -o "v:s:c:o:b:n:e:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
@@ -105,6 +110,6 @@ if [ -z $BIT_RATE ];then
 	BIT_RATE=1000
 fi
 
-QoSSetting
+RegSetting
 drmSetting $VIDEO_SIZE
 CameraToDisplay

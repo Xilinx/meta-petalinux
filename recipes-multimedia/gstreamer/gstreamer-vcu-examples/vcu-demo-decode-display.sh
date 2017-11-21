@@ -29,7 +29,7 @@ fi
 
 source vcu-demo-functions.sh
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "videoSize" "codecType" "sinkName" "showFps")
+declare -a scriptArgs=("inputPath" "videoSize" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers")
 declare -a checkEmpty=("inputPath" "videoSize" "sinkName")
 
 ############################################################################
@@ -37,14 +37,18 @@ declare -a checkEmpty=("inputPath" "videoSize" "sinkName")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path>  -s <video_size> -c <codec_type> -o <sink_name> -f <show_fps>'
+	echo '	Usage : '$scriptName' -i <input_file_path>  -s <video_size> -c <codec_type> -a <audio_type> -o <sink_name> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -i /run/2160p_30.h264'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakesink -f'
+	echo '  '$scriptName' -i /run/2160p_60.h265 -o fakesink -e 9 -f'
+	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakesink -f -l'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc'
+	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc -a aac'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc'
+	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc -a vorbis'
 	echo '  '$scriptName' -i /mnt/nfs/1080p_30.h264 -s 1920x1080'
 	echo '  '$scriptName' -i /mnt/usb/1280p_30.h264 -s 1280x720'
 	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
@@ -58,6 +62,7 @@ usage () {
 ############################################################################
 DecodeFile() {
 	checkforEmptyVar "${checkEmpty[@]}"
+	updateVar
 
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
@@ -69,10 +74,31 @@ DecodeFile() {
 		ErrorMsg "Input file doesn't exist"
 	fi
 
+	case $AUDIODEC_TYPE in
+	"aac")
+		AUDIODEC="faad";;
+	"vorbis")
+		AUDIODEC="vorbisdec";;
+	 *)
+		if ! [ -z $AUDIODEC_TYPE]; then
+			ErrorMsg "Invalid audio codec type specified, please specify either vorbis or aac"
+		fi
+	esac
+
 	FILE_NAME=$(basename "$INPUT_PATH")
-	FILE_SRC=$FILE_SRC"=$INPUT_PATH"
-	QUEUE=$QUEUE" max-size-bytes=0"
 	EXT_TYPE="${FILE_NAME##*.}"
+	if [ $LOOP_VIDEO ]; then
+		if [[ "$EXT_TYPE" == "h264" || "$EXT_TYPE" == "avc" || "$EXT_TYPE" == "hevc"  || $EXT_TYPE == "h265" ]]; then
+			FILE_SRC="multifilesrc location="$INPUT_PATH" loop=1"
+		else
+			ErrorMsg "Loop video option is not supported for input file format specified, instead it's only supported for raw H264/H265 file formats"
+		fi
+	else
+		FILE_SRC=$FILE_SRC"=$INPUT_PATH"
+	fi
+
+	QUEUE=$QUEUE" max-size-bytes=0"
+
 
 	if [ $EXT_TYPE == "mp4" -o $EXT_TYPE == "mkv" ] && [ -z $CODEC_TYPE ]; then
 		echo "No codec type specified for $FILE_NAME hence assuming avc as default codec"
@@ -85,15 +111,31 @@ DecodeFile() {
 		pipeline="$GST_LAUNCH $FILE_SRC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 	elif [ $EXT_TYPE == "mp4" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
+			fi
 		else
-			pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $QTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
+			fi
 		fi
 	elif [ $EXT_TYPE == "mkv" ]; then
 		if [ $CODEC_TYPE == "avc" ]; then
-			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
+			fi
 		else
-			pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
+			fi
 		fi
 	else
 		ErrorMsg "Incorrect Input file path provided"
@@ -104,11 +146,13 @@ DecodeFile() {
 	killProcess "sleep"
 }
 
-args=$(getopt -o "i:s:c:o:fh" --long "input-path:,video-size:,codec-type:,sink-name:,show-fps,help" -- "$@")
-
+args=$(getopt -o "i:s:c:a:o:e:flh" --long "input-path:,video-size:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,show-fps,loop-video,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
 parseCommandLineArgs
-QoSSetting
+RegSetting
+if ! [ -z $AUDIODEC_TYPE ]; then
+	audioSetting
+fi
 drmSetting $VIDEO_SIZE
 DecodeFile

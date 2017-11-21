@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Provides functions for doing QoS and DRM settings and also some basic utility functions
-# to kill processes, display error message.
+# Provides functions for register settings for performance and DRM settings and
+# also some basic utility functions to kill processes, display error message e.t.c
 #
 # Copyright (C) 2017 Xilinx
 #
@@ -45,10 +45,12 @@ RTPH264DEPAY="rtph264depay"
 RTPH265DEPAY="rtph265depay"
 RTPJITTERBUFFER="rtpjitterbuffer latency=1000"
 UDP_SRC="udpsrc"
-V4L2SRC="v4l2src device=/dev/video0"
+V4L2SRC="v4l2src"
 INTERNAL_ENTROPY_BUFFERS="2"
 RTP_CAPS="application/x-rtp, media=video, clock-rate=90000, payload=96,"
-
+AUDIOSINK="autoaudiosink"
+AUDIOCONVERT="audioconvert"
+AUDIORESAMPLE="audioresample"
 ############################################################################
 # Name:		ErrorMsg
 # Description:	To display error message
@@ -58,18 +60,39 @@ ErrorMsg() {
 	usage
 }
 
-#####################################################################################
-# Name:		QoSSetting
-# Description:  Set QoS of the AFI ports to be best effort where VCU is connected
-######################################################################################
-QoSSetting () {
+##############################################################################################
+# Name:		RegSetting
+# Description:  Set QoS of the AFI ports to be best effort where VCU is connected and
+#		set outstanding read/write requests for AFI ports where VCU is connected to 16
+##############################################################################################
+RegSetting () {
+	devmem 0xfd380008 w 0x3
+	devmem 0Xfd38001c w 0x3
 	devmem 0xfd390008 w 0x3
 	devmem 0xfd39001c w 0x3
 	devmem 0xfd3a0008 w 0x3
 	devmem 0xfd3a001c w 0x3
 	devmem 0xfd3b0008 w 0x3
 	devmem 0xfd3b001c w 0x3
+
+	devmem 0xfd380004 w 0xf
+	devmem 0xfd390004 w 0xf
+	devmem 0xfd3a0004 w 0xf
+	devmem 0xfd3b0004 w 0xf
+	devmem 0xfd380018 w 0xf
+	devmem 0xfd390018 w 0xf
+	devmem 0xfd3a0018 w 0xf
+	devmem 0xfd3b0018 w 0xf
 }
+
+#####################################################################################
+# Name:		audioSetting
+# Description:  Set the volume for DP codec to maximum
+######################################################################################
+audioSetting () {
+	devmem 0xFD4AC000 32 0xFFFFFFFF
+}
+
 
 #####################################################################################
 # Name:		killProcess
@@ -122,6 +145,13 @@ setDefaultifEmpty () {
 				echo "Video Size is not specified in args hence using 3840x2160 as default value"
 			fi
 			;;
+		v4l2Device )
+			if [ -z $V4L2_DEVICE ]; then
+				V4L2_DEVICE="/dev/video0"
+				echo "V4L2 device node is not specified in args hence assuming $V4L2_DEVICE as default capture device"
+				V4L2SRC="$V4L2SRC device=$V4L2_DEVICE"
+			fi
+			;;
 		sinkName )
 			if [ -z $SINK_NAME ]; then
 				SINK_NAME="kmssink"
@@ -143,6 +173,24 @@ setDefaultifEmpty () {
 			if [ -z $BUFFER_SIZE ]; then
 				BUFFER_SIZE="16000000"
 				echo "No input buffer size specified hence using $BUFFER_SIZE as default size for kernel recieved buffer"
+			fi
+			;;
+		gopLength )
+			if [ -z $GOP_LENGTH ]; then
+				GOP_LENGTH="240"
+				echo "No "gop-length" parameter value specified hence using $GOP_LENGTH as default for encoding the input stream"
+			fi
+			;;
+		gopFreqIdr )
+			if [ -z $GOP_FREQ_IDR ]; then
+				GOP_FREQ_IDR="240"
+				echo "No "gop-freq-idr" parameter value specified hence using $GOP_FREQ_IDR as default for encoding input stream"
+			fi
+			;;
+		cpbSize )
+			if [ -z $CPB_SIZE ]; then
+				CPB_SIZE="1000"
+				echo "No "cpbSize" parameter value specified hence using $CPB_SIZE as default for encoding input stream"
 			fi
 			;;
 		targetBitrate )
@@ -197,6 +245,18 @@ DisplayUsage () {
 }
 
 #####################################################################################
+# Name:		updateVar
+# Argument:     None
+# Description:	Update Variables whose properties required to be changed as per parsed args
+######################################################################################
+updateVar () {
+	if [[ $VIDEO_SIZE == "7680x4320" || -n $SET_ENTROPY_BUF ]]; then
+		OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+		OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	fi
+}
+
+#####################################################################################
 # Name:		checkforEmptyVar
 # Argument:     Array containing names of properties to be checked
 # Description:	Check if user has provided any value for each element in the array,
@@ -218,63 +278,101 @@ DisplayUsageFor () {
 	PROPERTY=$1
 	case $PROPERTY in
 		inputPath )
-			echo '	-i or --input-path	: Path to input file '
-			echo '				: Possible Values: <Path_to_input_file>'
-			echo '				: Default Value: "/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"'
+			echo '	-i or --input-path		 : Path to input file '
+			echo '					 : Possible Values: <Path_to_input_file>'
+			echo '					 : Default Value: "/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"'
 			;;
 		outputPath )
-			echo '	-o or --output-path	: Give path to output file '
-			echo '				: Possible Values: <Path_to_output_file>'
-			echo '				: Default Value: "Present working directory"'
+			echo '	-o or --output-path		 : Give path to output file '
+			echo '					 : Possible Values: <Path_to_output_file>'
+			echo '					 : Default Value: "Present working directory"'
 			;;
 		videoSize )
-			echo '	-s or --video-size	: Size of input video'
-			echo '				: Possible Values: 1920x1080,3840x2160,1280x720 e.t.c'
+			echo '	-s or --video-size		 : Size of input video'
+			echo '					 : Possible Values: 1920x1080,3840x2160,1280x720 e.t.c'
 			;;
 		sinkName )
-			echo '	-o or --sink-name	: Type of sink to use'
-			echo '				: Possible Values: kmssink,fakesink'
-			echo '				: Default Value: kmssink'
+			echo '	-o or --sink-name		 : Type of sink to use'
+			echo '					 : Possible Values: kmssink,fakesink'
+			echo '					 : Default Value: kmssink'
 			;;
 		showFps )
-			echo '	-f or --show-fps	: Enable logs to display frames per second'
-			echo '				: Enabled: Display fps when -f option is passed '
-			echo '				: Disabled: fps are not displayed'
+			echo '	-f or --show-fps		 : Enable logs to display frames per second'
+			echo '					 : Enabled: Display fps when -f option is passed '
+			echo '					 : Disabled: fps are not displayed'
+			;;
+		v4l2Device )
+			echo '	-v or --video-capture-device	 : Set Vide device node to be used as capture source'
+			echo '					 : Possible Values: "/dev/video0", "/dev/video1",..,/dev/videox" '
+			echo '					 : Default Value  : "/dev/video0"'
+			;;
+		loopVideo )
+			echo '	-l or --loop-video		 : Loop the pipeline to process video again from start after EOF'
+			echo '					 : Enabled: Seek back again to start of file after each iteration and decode'
+			echo '					 : Disabled: Input file is read and decoded only once'
+			echo '					 : NOTE: This option is only available for raw encoded streams like .h265/h264 data'
+			;;
+		internalEntropyBuffers )
+			echo '	-e or --internal-entropy-buffers : Number of internal buffers used by the decoder'
+			echo '					   to smooth out entropy decoding performance.'
+			echo '					   Increasing this will improve performance while decoding high bitrate streams,'
+			echo '					   Decreasing this (to a minimum of 2) will decrease the memory footprint.'
+			echo '					 : Possibe values : 2 - 16'
+			echo '					 : Default: 5 (Set internally)'
 			;;
 		codecType )
-			echo '	-c or --codec-type	: Type of codec used for the input mp4/mkv file'
-			echo '				: Possible Values: avc/hevc'
-			echo '				: Default Value: avc'
+			echo '	-c or --codec-type		 : Type of codec used for the input mp4/mkv file'
+			echo '					 : Possible Values: avc/hevc'
+			echo '					 : Default Value: avc'
+			;;
+		audioType )
+			echo '	-a or --audio-type		 : Type of audio codec used for the input mp4/mkv file'
+			echo '					 : Possible Values: vorbis/aac'
+			echo '					 : Default Value: None'
 			;;
 		numFrames )
-			echo '	-n or --num-frames	: Number of frames to be processed by VCU'
-			echo '				: Possible Values: 1000, 2000 e.t.c'
-			echo '				: Default Value: infinite'
+			echo '	-n or --num-frames		 : Number of frames to be processed by VCU'
+			echo '					 : Possible Values: 1000, 2000 e.t.c'
+			echo '					 : Default Value: infinite'
 			;;
 		portNum )
-			echo '	-p or --port		: The port number to which packetized stream has to be sent '
-			echo '				: Possible Values: 50000, 42000 e.t.c'
-			echo '				: Default Value: "50000"'
+			echo '	-p or --port			 : The port number to which packetized stream has to be sent '
+			echo '					 : Possible Values: 50000, 42000 e.t.c'
+			echo '					 : Default Value: "50000"'
 			;;
-
+		gopLength )
+			echo '	--gop-length		 	 : Specifies the number of frames between two consecutive I frames '
+			echo '					 : Possible Values: 30, 40, 50 e.t.c'
+			echo '					 : Default Value: 240"'
+			;;
+		gopFreqIdr )
+			echo '	--gop-freq-idr		 	 : Specifies the number of frames between two consequtive IDR pictures '
+			echo '					 : Possible Values: 30, 40, 50  e.t.c'
+			echo '					 : Default Value: 240"'
+			;;
+		cpbSize )
+			echo '	--cpb-size			 : Specifies the Coded Picture Buffer size as specified in the HRD model in msec '
+			echo '					 : Possible Values: 1000,2000,3000 e.t.c'
+			echo '					 : Default Value: 1000"'
+			;;
 		bufferSize )
-			echo '	-b or --buffer-size	: Size of kernel recieved buffer in bytes '
-			echo '				: Possible Values: 16000000, 17000000, 18000000 e.t.c'
-			echo '				: Default Value: 16000000"'
+			echo '	-b or --buffer-size		 : Size of kernel recieved buffer in bytes '
+			echo '					 : Possible Values: 16000000, 17000000, 18000000 e.t.c'
+			echo '					 : Default Value: 16000000"'
 			;;
 		targetBitrate )
-			echo '	-b or --bit-rate	: Bitrate with which encoder should encode input raw data using constant bitrate mode'
-			echo '				: Possible Values: 1000 (for 1Mbits/sec)'
-			echo '				 		 : 20000 (for 20Mbits/sec)'
-			echo '				                 : 30000 (for 30Mbits/sec)'
-			echo '				                 : 40000 (for 40Mbits/sec)'
-			echo '				                 : 50000 (for 50Mbits/sec)'
-			echo '				                 : and likewise'
+			echo '	-b or --bit-rate		 : Bitrate with which encoder should encode input raw data using constant bitrate mode'
+			echo '					 : Possible Values: 1000 (for 1Mbits/sec)'
+			echo '				 			  : 20000 (for 20Mbits/sec)'
+			echo '				                 	  : 30000 (for 30Mbits/sec)'
+			echo '				                 	  : 40000 (for 40Mbits/sec)'
+			echo '				                 	  : 50000 (for 50Mbits/sec)'
+			echo '				                 	  : and likewise'
 			;;
 		ipaddress )
-			echo '	-a or --address		: Addess of host/ip/multicast group to send the packets to'
-			echo '				: Possible Values: "192.168.1.101, 192.168.1.71, 192.168.2.112, 127.0.0.1 for loopback"'
-			echo '				: Default Value: "192.168.0.2"'
+			echo '	-a or --address			 : Addess of host/ip/multicast group to send the packets to'
+			echo '					 : Possible Values: "192.168.1.101, 192.168.1.71, 192.168.2.112, 127.0.0.1 for loopback"'
+			echo '					 : Default Value: "192.168.0.2"'
 			;;
 		* )
 			echo ' Invalid option';
@@ -303,9 +401,12 @@ while true; do
                         CODEC_TYPE=$2;
                         shift; shift;
                         ;;
+		--audio-type)
+                        AUDIODEC_TYPE=$2;
+                        shift; shift;
+                        ;;
 		-s | --video-size)
 			VIDEO_SIZE=$2;
-			echo $VIDEO_SIZE
                         shift; shift;
                         ;;
 		-o)
@@ -325,6 +426,16 @@ while true; do
 			SHOW_FPS=1;
                         shift;
                         ;;
+
+		-l | --loop-video)
+			LOOP_VIDEO=1;
+			shift;
+                        ;;
+		-e | --internal-entropy-buffers)
+			SET_ENTROPY_BUF="true"
+			INTERNAL_ENTROPY_BUFFERS=$2;
+                        shift;shift;
+                        ;;
 		-n | --num-frames)
 			NUM_FRAMES=$2;
                         shift;shift;
@@ -334,6 +445,11 @@ while true; do
 			BUFFER_SIZE=$2
                         shift; shift;
                         ;;
+		-a)
+			ADDRESS=$2;
+			AUDIODEC_TYPE=$2
+			shift; shift;
+                        ;;
 		--buffer-size)
 			BUFFER_SIZE=$2
                         shift; shift;
@@ -342,12 +458,29 @@ while true; do
 			BIT_RATE=$2
 			shift; shift;
 			;;
-		-a | --address)
+		--address)
                         ADDRESS=$2;
+                        shift; shift;
+                        ;;
+		--gop-length)
+                        GOP_LENGTH=$2;
+                        shift; shift;
+                        ;;
+		--gop-freq-idr)
+                        GOP_FREQ_IDR=$2;
+                        shift; shift;
+                        ;;
+		--cpb-size)
+                        CPB_SIZE=$2;
                         shift; shift;
                         ;;
 		-p | --port-num)
                         PORT_NUM=$2;
+                        shift; shift;
+                        ;;
+		-v | --video-capture-device)
+                        V4L2_DEVICE=$2;
+			V4L2SRC="$V4L2SRC device=$V4L2_DEVICE"
                         shift; shift;
                         ;;
 		--)
