@@ -17,11 +17,11 @@ COMPATIBLE_MACHINE_zynqmp = "zynqmp"
 DEPENDS = "libvcu-xlnx"
 RDEPENDS_${PN} = "kernel-module-vcu libvcu-xlnx"
 
-EXTERNAL_LIB="${STAGING_INCDIR}/vcu-ctrl-sw"
+EXTERNAL_INCLUDE="${STAGING_INCDIR}/vcu-ctrl-sw/include"
 
 EXTRA_OEMAKE = " \
     CC='${CC}' CXX='${CXX} ${CXXFLAGS}' \
-    EXTERNAL_LIB='${EXTERNAL_LIB}' \
+    EXTERNAL_INCLUDE='${EXTERNAL_INCLUDE}' \
     "
 
 do_install() {
