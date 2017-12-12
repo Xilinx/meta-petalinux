@@ -51,12 +51,32 @@ RTP_CAPS="application/x-rtp, media=video, clock-rate=90000, payload=96,"
 AUDIOSINK="autoaudiosink"
 AUDIOCONVERT="audioconvert"
 AUDIORESAMPLE="audioresample"
+
+#####################################################################################
+# Name:		killProcess
+# Argument:	Name of the process to be killed
+# Description:	Kills process passed as an argument if it is running
+######################################################################################
+killProcess () {
+	pidof "$1" > "/dev/null"
+	if [ $? -eq 0 ]; then
+		if [ $1 == "Xorg" ]; then
+			sleep 1 | killall -9 "$1"
+		else
+			killall -9 "$1"
+		fi
+	fi
+}
+
+
 ############################################################################
 # Name:		ErrorMsg
 # Description:	To display error message
 ############################################################################
 ErrorMsg() {
 	echo "$1"
+	killProcess "modetest"
+	killProcess "sleep"
 	usage
 }
 
@@ -92,24 +112,6 @@ RegSetting () {
 audioSetting () {
 	devmem 0xFD4AC000 32 0xFFFFFFFF
 }
-
-
-#####################################################################################
-# Name:		killProcess
-# Argument:	Name of the process to be killed
-# Description:	Kills process passed as an argument if it is running
-######################################################################################
-killProcess () {
-	pidof "$1" > "/dev/null"
-	if [ $? -eq 0 ]; then
-		if [ $1 == "Xorg" ]; then
-			sleep 1 | killall -9 "$1"
-		else
-			killall -9 "$1"
-		fi
-	fi
-}
-
 
 #########################################################################################
 # Name:		runGstPipeline
