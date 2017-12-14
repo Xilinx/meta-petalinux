@@ -18,7 +18,8 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-openembedded/meta-oe \
     ##OEROOT##/../meta-browser \
     ##OEROOT##/../meta-qt5 \
-    ##OEROOT##/../meta-xilinx \
+    ##OEROOT##/../meta-xilinx/meta-xilinx-bsp \
+    ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
     ##OEROOT##/../meta-xilinx-tools \
     ##OEROOT##/../meta-petalinux \
     ##OEROOT##/../meta-virtualization \
