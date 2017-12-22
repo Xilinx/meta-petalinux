@@ -8,8 +8,6 @@ REQUIRED_DISTRO_FEATURES = "openamp"
 OPENAMP_EXTRA_PACKAGES = " \
     libmetal \
     open-amp \
-    rpmsg-user-module \
-    rpmsg-proxy-module \
     rpmsg-echo-test \
     rpmsg-mat-mul \
     rpmsg-proxy-app \
