@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux Packages for Benchmarks"
-LICENSE = "NONE"
 
 inherit packagegroup
 

@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux Qt supported Packages"
-LICENSE = "NONE"
 
 inherit packagegroup distro_features_check
 ANY_OF_DISTRO_FEATURES = "x11 fbdev opengl"

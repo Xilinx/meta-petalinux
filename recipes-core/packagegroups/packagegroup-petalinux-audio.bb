@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux ASLA supported Packages"
-LICENSE = "NONE"
 
 inherit packagegroup
 

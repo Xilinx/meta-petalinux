@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux self hosted tools packages"
-LICENSE = "NONE"
 
 inherit packagegroup
 

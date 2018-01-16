@@ -1,6 +1,5 @@
 DESCRIPTION = "PetaLinux opencv supported Packages"
 
-LICENSE = "NONE"
 
 inherit packagegroup
 

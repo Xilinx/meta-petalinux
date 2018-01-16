@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux Matchbox related Packages"
-LICENSE = "NONE"
 
 inherit packagegroup distro_features_check
 

@@ -1,6 +1,5 @@
 DESCRIPTION = "PetaLinux mraa and upm supported Packages"
 
-LICENSE = "NONE"
 
 inherit packagegroup
 

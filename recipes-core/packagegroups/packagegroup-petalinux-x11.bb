@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux X11 related Packages"
-LICENSE = "NONE"
 
 inherit packagegroup distro_features_check
 REQUIRED_DISTRO_FEATURES = "x11"

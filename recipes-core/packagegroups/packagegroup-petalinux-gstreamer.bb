@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux GSTREAMER supported Packages"
-LICENSE = "NONE"
 
 inherit packagegroup
 

@@ -1,5 +1,4 @@
 DESCRIPTION = "PetaLinux Packages, all packages avaliable in PetaLinux"
-LICENSE = "NONE"
 
 inherit packagegroup
 
