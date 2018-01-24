@@ -5,7 +5,7 @@
 DESCRIPTION = "This is a Power management Linux application which will allow user to do various operations such as suspend,wakeup,reboot,shutdown the system."
 SUMMARY = "Hello PM Management Linux Application"
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://hellopm.sh;beginline=3;endline=38;md5=e57886d49a507f93c76604eff3a0f96a"
+LIC_FILES_CHKSUM = "file://hellopm.sh;beginline=3;endline=38;md5=60d580d3edae5674cb19d747773123d8"
 
 SRC_URI = "\
 	file://hellopm.sh \

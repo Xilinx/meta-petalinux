@@ -78,8 +78,6 @@ suspend_menu () {
 
 		Options:
 		1. Suspend now, wake-up on Real-time Clock (RTC)
-		2. Suspend now, wake-up on UART
-		3. Suspend now, wake-up on GPIO
 		0. Go Back
 
 		EOF
@@ -116,55 +114,6 @@ suspend_menu () {
 
 			echo "Press RETURN to continue ..."
 			read dummy
-			;;
-
-		2)
-			cat <<-EOF
-
-			Suspending now, wake-up on UART.
-
-			Enable UART as the wake-up source.
-			Command: echo enabled > /sys/devices/platform/amba/ff000000.serial/tty/ttyPS0/power/wakeup
-
-			EOF
-
-			echo enabled > /sys/devices/platform/amba/ff000000.serial/tty/ttyPS0/power/wakeup
-
-			cat <<-EOF
-
-			Invoke suspend sequence
-			Command: echo mem > /sys/power/state
-			Press a key to wake-up ...
-			EOF
-			sleep 1
-			echo mem > /sys/power/state
-			echo "Press RETURN to continue ..."
-			read dummy
-			echo ""
-			;;
-		3)
-			cat <<-EOF
-			Suspending now, wake-up on GPIO
-
-			Enable GPIO as the wake-up source
-			Command: echo enabled > /sys/devices/platform/gpio-keys/power/wakeup
-			EOF
-
-			echo enabled > /sys/devices/platform/gpio-keys/power/wakeup
-
-			cat <<-EOF
-			Invoke suspend sequence
-			Command: echo mem > /sys/power/state
-
-			Press button SW19 on the ZCU102 board to wake-up ...
-
-			EOF
-			sleep 1
-			echo mem > /sys/power/state
-			echo ""
-			echo "Press RETURN to continue ..."
-			read dummy
-			echo ""
 			;;
 		esac
 	done
@@ -412,10 +361,10 @@ reboot_menu () {
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then
 				cat <<-EOF
 				Set reboot scope to System
-				Command: echo system_shutdown 2 1 > /sys/kernel/debug/zynqmp_pm/power
+				Command: echo system_shutdown 2 2 > /sys/kernel/debug/zynqmp_pm/power
 				EOF
 
-				echo `echo system_shutdown 2 1 > /sys/kernel/debug/zynqmp_pm/power`
+				echo `echo system_shutdown 2 2 > /sys/kernel/debug/zynqmp_pm/power`
 				echo ""
 				echo "Command: reboot"
 				echo ""
@@ -595,6 +544,8 @@ node_status_menu () {
 			echo ""
 			echo "get_node_status $node > /sys/kernel/debug/zynqmp_pm/power"
 			echo ""
+			echo get_node_status $node > /sys/kernel/debug/zynqmp_pm/power
+			echo ""
 			echo "Press RETURN to continue ..."
 			read dummy
 			;;
@@ -660,7 +611,7 @@ node_status_menu () {
 			get_node_status 57 "IPI_RPU_0"
 			get_node_status 58 "GPU"
 			get_node_status 59 "PCIE"
-			get_node_status 60 "PCAP"++
+			get_node_status 60 "PCAP"
 			get_node_status 61 "RTC"
 			get_node_status 62 "LPD"
 			get_node_status 63 "VCU"
