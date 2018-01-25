@@ -21,7 +21,6 @@ QT_PACKAGES = " \
 	qttranslations-qtconnectivity \
 	qtdeclarative-dev \
 	qtdeclarative-mkspecs \
-	qtdeclarative-plugins \
 	qtdeclarative-staticdev \
 	qttranslations-qmlviewer \
 	qttranslations-qtdeclarative \
