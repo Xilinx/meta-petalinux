@@ -1,1 +1,1 @@
-PACKAGECONFIG_append += "gles2"
+PACKAGECONFIG_append = " gles2"
