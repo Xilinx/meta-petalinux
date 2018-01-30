@@ -13,7 +13,7 @@ SRC_URI = "file://vcu-demo-camera-decode-display.sh \
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zcu106-zynqmp"
+COMPATIBLE_MACHINE_zynqmp = "(zcu106-zynqmp|zcu104-zynqmp)"
 
 RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash"
 
