@@ -5,20 +5,15 @@ REQUIRED_DISTRO_FEATURES = "x11"
 
 X11_PACKAGES = " \
 	packagegroup-core-x11 \
-	xauth \
-	xhost \
-	xset \
 	xtscal \
 	xcursor-transparent-theme \
 	xinit \
 	xinput \
-	xinput-calibrator \
 	xkbcomp \
 	xkeyboard-config \
 	xkeyboard-config-locale-en-gb \
-	xmodmap \
-	xrandr \
-	xserver-nodm-init \
+	dbus \
+	liberation-fonts \
 	"
 
 RDEPENDS_${PN} += "${X11_PACKAGES}"
