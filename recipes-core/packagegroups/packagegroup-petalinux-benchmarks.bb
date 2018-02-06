@@ -16,6 +16,6 @@ BENCHMARKS_EXTRAS = " \
 	dhrystone \
 	linpack \
 	whetstone \
+	iperf3 \
 	"
-
 RDEPENDS_${PN} += "${BENCHMARKS_EXTRAS}"
