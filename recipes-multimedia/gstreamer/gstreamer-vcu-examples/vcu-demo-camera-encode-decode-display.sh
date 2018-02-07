@@ -75,6 +75,7 @@ CameraToDisplay() {
 	CAMERA_CAPS_AVC="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
 	CAMERA_CAPS_HEVC="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
 	VIDEOCONVERT="videoconvert"
+	VIDEOCONVERT_CAPS="video/x-raw, format=\(string\)NV12"
 	OMXH264ENC="omxh264enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
 	OMXH265ENC="omxh265enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
 	if [ -z $SET_ENTROPY_BUF ]; then
@@ -84,9 +85,9 @@ CameraToDisplay() {
 	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
 	if [ $CODEC_TYPE == "avc" ]; then
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"
 	else
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $VIDEOCONVERT ! $QUEUE max-size-bytes=0 ! $OMXH265ENC ! $QUEUE ! $OMXH265DEC ! $QUEUE max-size-bytes=0 ! $SINK"
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $QUEUE max-size-bytes=0 ! $OMXH265ENC ! $QUEUE ! $OMXH265DEC ! $QUEUE max-size-bytes=0 ! $SINK"
 	fi
 
 	runGstPipeline "$pipeline"

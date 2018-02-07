@@ -75,9 +75,9 @@ streaminDecodeDisplay() {
 	fi
 
 	if [ $CODEC_TYPE == "avc" ]; then
-		pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! $RTPH264DEPAY ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+		pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! $RTPH264DEPAY ! $H264PARSE ! $OMXH264DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK"
 	else
-		pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! $RTPH265DEPAY ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+		pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! $RTPH265DEPAY ! $H265PARSE ! $OMXH265DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK"
 	fi
 
 	runGstPipeline "$pipeline"

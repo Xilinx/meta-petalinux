@@ -230,7 +230,7 @@ drmSetting () {
 	killProcess "modetest"
 	killProcess "sleep"
 
-	sleep 9999d | modetest -M xilinx_drm -s 29:$VIDEO_SIZE@RG16 -w 25:alpha:0 &
+	sleep 9999d | modetest -M xilinx_drm -s 33:$VIDEO_SIZE@RG16 -w 29:alpha:0 &
 }
 
 #####################################################################################

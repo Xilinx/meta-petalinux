@@ -74,8 +74,8 @@ CameraToDisplay() {
 	CAMERA_CAPS_AVC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1,profile=constrained-baseline,level=\(string\)4.0"
 	CAMERA_CAPS_HEVC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1"
 
-	OMXH264DEC="$OMXH264DEC latency-mode=low-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
-	OMXH265DEC="$OMXH265DEC latency-mode=low-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH264DEC="$OMXH264DEC latency-mode=reduced-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH265DEC="$OMXH265DEC latency-mode=reduced-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
 	if [ $CODEC_TYPE == "avc" ]; then
 		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
