@@ -133,5 +133,6 @@ args=$(getopt -o "i:c:b:o:e:fh" --long "input-path:,codec-type:,bit-rate:,output
 
 [ $? -ne 0 ] && usage && exit -1
 
+trap catchCTRL_C SIGINT
 parseCommandLineArgs
 TranscodeFile

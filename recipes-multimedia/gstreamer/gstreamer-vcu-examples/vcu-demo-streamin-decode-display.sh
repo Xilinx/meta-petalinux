@@ -90,6 +90,7 @@ args=$(getopt -o "c:p:b:o:s:e:fh" --long "codec-type:,port-num:,buffer-size:,sin
 
 [ $? -ne 0 ] && usage && exit -1
 
+trap catchCTRL_C SIGINT
 parseCommandLineArgs
 
 if [ -z $CODEC_TYPE ];then

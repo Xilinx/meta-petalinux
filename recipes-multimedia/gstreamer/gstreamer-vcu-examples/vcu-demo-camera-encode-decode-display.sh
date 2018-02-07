@@ -100,6 +100,7 @@ args=$(getopt -o "v:s:c:o:b:n:e:fh" --long "video-capture-device:,video-size:,co
 
 [ $? -ne 0 ] && usage && exit -1
 
+trap catchCTRL_C SIGINT
 parseCommandLineArgs
 
 if [ -z $VIDEO_SIZE ]; then

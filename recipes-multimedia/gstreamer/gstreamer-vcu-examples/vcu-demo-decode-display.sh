@@ -149,6 +149,7 @@ DecodeFile() {
 args=$(getopt -o "i:s:c:a:o:e:flh" --long "input-path:,video-size:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,show-fps,loop-video,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
+trap catchCTRL_C SIGINT
 parseCommandLineArgs
 RegSetting
 if ! [ -z $AUDIODEC_TYPE ]; then

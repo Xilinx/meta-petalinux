@@ -106,6 +106,7 @@ TranscodeFileandStreamOut() {
 args=$(getopt -o "i:c:a:b:p:e:h" --long "input-path:,codec-type:,address:,port-num:,bit-rate:,internal-entropy-buffers:,gop-length:,gop-freq-idr:,cpb-size:,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
+trap catchCTRL_C SIGINT
 parseCommandLineArgs
 if [ -z $BIT_RATE ]; then
 	BIT_RATE=5000

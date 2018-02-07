@@ -80,6 +80,18 @@ ErrorMsg() {
 	usage
 }
 
+#############################################################################################
+# Name:		catchCTRL_C
+# Description:	Cleanup all the processes spawned by script when user interrupts using CTRL+C
+#############################################################################################
+catchCTRL_C() {
+	killProcess "modetest"
+	killProcess "sleep"
+	killProcess "gst-launch-1.0"
+
+	exit 0
+}
+
 ##############################################################################################
 # Name:		RegSetting
 # Description:  Set QoS of the AFI ports to be best effort where VCU is connected and
