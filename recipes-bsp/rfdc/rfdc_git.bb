@@ -39,6 +39,7 @@ do_install() {
     oe_libinstall -so librfdc ${D}${libdir}
     install -m 0644 ${S}/xrfdc_hw.h ${D}${includedir}/xrfdc_hw.h
     install -m 0644 ${S}/xrfdc.h ${D}${includedir}/xrfdc.h
+    install -m 0644 ${S}/xrfdc_mts.h ${D}${includedir}/xrfdc_mts.h
     install -m 0644 ${S}/xparameters.h ${D}${includedir}/xparameters.h
     install -m 0644 ${S}/xparameters_ps.h ${D}${includedir}/xparameters_ps.h
 }
