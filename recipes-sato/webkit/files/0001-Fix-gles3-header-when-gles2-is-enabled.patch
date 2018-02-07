@@ -1,0 +1,38 @@
+From 7e80c662c86e8580546d4f6130d93001b61413a8 Mon Sep 17 00:00:00 2001
+From: Bhargava Sreekantappa Gayathri
+ <bhargava.sreekantappa-gayathri@xilinx.com>
+Date: Wed, 28 Feb 2018 11:21:01 -0800
+Subject: [PATCH] Fix gles3 header when gles2 is enabled
+
+A GLES 2 application should not use gl3.h.
+Fix the gles3 header failure while compiling webkitgtk.
+
+FAILED:
+Source/WebCore/CMakeFiles/WebCore.dir/platform/graphics/GLContext.cpp.o
+           ^~~~~~~~~~~~~
+compilation terminated.
+
+Upstream-Status: Backport
+Imported patch from: https://bugs.webkit.org/show_bug.cgi?id=183008
+
+Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+---
+ Source/WebCore/platform/graphics/GLContext.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/Source/WebCore/platform/graphics/GLContext.cpp b/Source/WebCore/platform/graphics/GLContext.cpp
+index 67d60ce..45c85fb 100644
+--- a/Source/WebCore/platform/graphics/GLContext.cpp
++++ b/Source/WebCore/platform/graphics/GLContext.cpp
+@@ -28,7 +28,6 @@
+ 
+ #if USE(OPENGL_ES_2)
+ #include <GLES2/gl2.h>
+-#include <GLES3/gl3.h>
+ #endif
+ 
+ #if USE(GLX)
+-- 
+2.7.4
+
