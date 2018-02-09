@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux mraa and upm supported Packages"
+DESCRIPTION = "PetaLinux mraa and upm supported packages"
 
 inherit packagegroup
 

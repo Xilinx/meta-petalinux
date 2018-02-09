@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux GSTREAMER supported Packages"
+DESCRIPTION = "PetaLinux GSTREAMER supported packages"
 
 inherit packagegroup
 

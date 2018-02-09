@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux Xen supported Packages"
+DESCRIPTION = "PetaLinux Xen supported packages"
 
 inherit packagegroup distro_features_check
 

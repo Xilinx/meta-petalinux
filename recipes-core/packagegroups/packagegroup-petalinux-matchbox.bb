@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux Matchbox related Packages"
+DESCRIPTION = "PetaLinux Matchbox related packages"
 
 inherit packagegroup distro_features_check
 

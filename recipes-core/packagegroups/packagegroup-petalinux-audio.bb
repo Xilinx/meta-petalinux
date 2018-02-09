@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux ASLA supported Packages"
+DESCRIPTION = "PetaLinux ASLA supported packages"
 
 inherit packagegroup
 

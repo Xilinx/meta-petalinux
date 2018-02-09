@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux OpenAMP supported Packages"
+DESCRIPTION = "PetaLinux OpenAMP supported packages"
 
 inherit packagegroup distro_features_check
 

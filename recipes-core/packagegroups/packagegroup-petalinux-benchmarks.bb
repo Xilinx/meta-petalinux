@@ -1,4 +1,4 @@
-DESCRIPTION = "PetaLinux Packages for Benchmarks"
+DESCRIPTION = "PetaLinux packages for Benchmarks"
 
 inherit packagegroup
 

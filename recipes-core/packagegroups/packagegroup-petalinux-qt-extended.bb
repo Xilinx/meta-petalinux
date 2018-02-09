@@ -1,6 +1,7 @@
-DESCRIPTION = "PetaLinux Qt supported Packages"
+DESCRIPTION = "PetaLinux Qt additional supported packages"
 
 inherit packagegroup distro_features_check
+
 ANY_OF_DISTRO_FEATURES = "x11 fbdev opengl"
 
 QT_EXTENDED_PACKAGES = " \
