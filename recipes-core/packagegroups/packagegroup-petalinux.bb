@@ -3,7 +3,7 @@ DESCRIPTION = "PetaLinux Packages, all packages avaliable in PetaLinux"
 inherit packagegroup
 
 # Packages
-RDEPENDS_${PN} += "\
+RDEPENDS_${PN} = "\
 	bash \
 	bridge-utils \
 	bzip2 \

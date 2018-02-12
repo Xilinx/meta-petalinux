@@ -1,6 +1,5 @@
 DESCRIPTION = "PetaLinux mraa and upm supported Packages"
 
-
 inherit packagegroup
 
 MRAA_UPM_PACKAGES = " \
@@ -18,4 +17,4 @@ MRAA_UPM_PACKAGES = " \
 	nodejs-npm \
 	"
 
-RDEPENDS_${PN} += "${MRAA_UPM_PACKAGES}"
+RDEPENDS_${PN} = "${MRAA_UPM_PACKAGES}"

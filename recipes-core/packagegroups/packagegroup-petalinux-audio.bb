@@ -11,4 +11,4 @@ ALSA_PACKAGES = " \
 	pulseaudio \
 	sox \
 	"
-RDEPENDS_${PN} += "${ALSA_PACKAGES}"
+RDEPENDS_${PN} = "${ALSA_PACKAGES}"

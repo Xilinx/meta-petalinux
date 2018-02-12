@@ -18,4 +18,4 @@ BENCHMARKS_EXTRAS = " \
 	whetstone \
 	iperf3 \
 	"
-RDEPENDS_${PN} += "${BENCHMARKS_EXTRAS}"
+RDEPENDS_${PN} = "${BENCHMARKS_EXTRAS}"

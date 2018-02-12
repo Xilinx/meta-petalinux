@@ -18,4 +18,4 @@ MATCHBOX_PACKAGES = " \
        settings-daemon \
        "
 
-RDEPENDS_${PN} += "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
+RDEPENDS_${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
