@@ -7,7 +7,7 @@ TRACING_PROFILE_FEATURES = "\
     tools-debug \
     tools-profile \
     tools-testapps \
-"
+    "
 
 ZYNQ_FEATURES = " \
     dev-pkgs \
@@ -19,6 +19,14 @@ ZYNQ_FEATURES = " \
     petalinux-self-hosted \
     petalinux-qt \
     petalinux-opencv \
+    petalinux-display-debug \
+    petalinux-networking-debug \
+    petalinux-networking-stack \
+    petalinux-python-modules \
+    petalinux-qt-extended \
+    petalinux-utils \
+    petalinux-v4lutils \
+    petalinux-lmsensors \
     ${TRACING_PROFILE_FEATURES} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
@@ -33,6 +41,7 @@ ZYNQMP_FEATURES = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
+    petalinux-multimedia \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
 IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
