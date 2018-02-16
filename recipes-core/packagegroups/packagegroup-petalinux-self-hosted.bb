@@ -1,6 +1,7 @@
 DESCRIPTION = "PetaLinux self hosted tools packages"
 
-inherit packagegroup
+inherit packagegroup distro_features_check
+REQUIRED_DISTRO_FEATURES = "x11"
 
 SELF_HOSTED_PACKAGES = " \
 	packagegroup-self-hosted \

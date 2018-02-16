@@ -1,6 +1,8 @@
 DESCRIPTION = "PetaLinux packages to enhance out of box multimedia experience"
 
-inherit packagegroup
+inherit packagegroup distro_features_check
+
+REQUIRED_DISTRO_FEATURES = "x11"
 
 MULTIMEDIA_PACKAGES = " \
 	packagegroup-petalinux-gstreamer \
