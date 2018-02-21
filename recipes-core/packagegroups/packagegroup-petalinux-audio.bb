@@ -3,7 +3,7 @@ DESCRIPTION = "PetaLinux ASLA supported packages"
 inherit packagegroup
 
 ALSA_PACKAGES = " \
-	alsa-lib \
+	libasound \
 	alsa-plugins \
 	alsa-tools \
 	alsa-utils \
