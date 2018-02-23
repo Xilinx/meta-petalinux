@@ -14,6 +14,9 @@ SRC_URI = "\
 	file://hellopm.sh \
 	"
 
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+
 S = "${WORKDIR}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
@@ -22,4 +25,4 @@ do_install() {
 	install -Dm 0755 ${S}/hellopm.sh ${D}${bindir}/hellopm
 }
 
-
+PACKAGE_ARCH = "${SOC_FAMILY}"

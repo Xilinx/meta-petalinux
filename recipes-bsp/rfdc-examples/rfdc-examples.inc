@@ -4,11 +4,13 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/license.txt;md5=04841c5ad8409b474da718
 REPO ?= "git://github.com/xilinx/embeddedsw.git;protocol=https"
 BRANCH ?= "release-2018.1"
 SRCREV = "aaa566bc3fa19255de4d434ebfa57ae3a9d261b2"
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
 
 DEPENDS = "rfdc"
 RDEPENDS_${PN} = "rfdc"

@@ -10,6 +10,9 @@ BRANCH ?= "release-2018.1"
 SRCREV = "aaa566bc3fa19255de4d434ebfa57ae3a9d261b2"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = " \
@@ -18,7 +21,7 @@ SRC_URI = " \
 
 S = "${WORKDIR}/git/XilinxProcessorIPLib/drivers/rfdc/src/"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
 
 DEPENDS = "libmetal virtual/fsbl"
 

@@ -15,7 +15,7 @@ inherit update-rc.d
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+COMPATIBLE_MACHINE_zynqmp = "zcu100-zynqmp"
 
 INITSCRIPT_NAME = "zcu100-power-button.sh"
 INITSCRIPT_PARAMS = "start 99 S ."

@@ -22,3 +22,5 @@ EXTRA_OECONF_append_zynqmp =  " --with-omx-header-path=${STAGING_INCDIR}/vcu-omx
 
 GSTREAMER_1_0_OMX_TARGET_zynqmp ?= "zynqultrascaleplus"
 GSTREAMER_1_0_OMX_CORE_NAME_zynqmp ?= "${libdir}/libOMX.allegro.core.so.1"
+
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY}"

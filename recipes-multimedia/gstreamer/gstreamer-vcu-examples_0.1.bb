@@ -13,7 +13,7 @@ SRC_URI = "file://vcu-demo-camera-decode-display.sh \
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "(zcu106-zynqmp|zcu104-zynqmp)"
+COMPATIBLE_MACHINE_zynqmpev = "zynqmpev"
 
 RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash"
 
@@ -32,3 +32,5 @@ do_install() {
 # explicitly depends upon them.
 
 EXCLUDE_FROM_WORLD = "1"
+
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY}${SOC_VARIANT}"
