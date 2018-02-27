@@ -21,7 +21,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 type vcu-demo-functions.sh > "/dev/null"
 if [ $? -ne 0 ]; then
 	echo "Copy vcu-demo-functions.sh to /usr/bin/ or append it's path to PATH variable and re-run the script" && exit -1
@@ -46,7 +45,7 @@ usage () {
 	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -f'
-	echo '  '$scriptName' -f -o fakesink'
+	echo '  '$scriptName' -f -o fakevideosink'
 	echo '  '$scriptName' -s 1920x1080 -c avc'
 	echo '  '$scriptName' -s 1920x1080 -c avc -e 2'
 	echo '  '$scriptName' -s 1280x720 -c avc'

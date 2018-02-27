@@ -92,7 +92,7 @@ TranscodeFile() {
 	SINK="$FILESINK=$OUTPUT_PATH"
 
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=fakesink sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=fakevideosink sync=true -v"
 	fi
 
 	OMXH264ENC="$OMXH264ENC control-rate=2 num-slices=4 prefetch-buffer-size=504 target-bitrate=$BIT_RATE ! video/x-h264, profile=high"

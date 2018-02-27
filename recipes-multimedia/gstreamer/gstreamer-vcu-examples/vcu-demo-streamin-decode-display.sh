@@ -43,7 +43,7 @@ usage () {
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -f'
-	echo '  '$scriptName' -f -o fakesink'
+	echo '  '$scriptName' -f -o fakevideosink'
 	echo '  '$scriptName' -p 40000 -c avc'
 	echo '  '$scriptName' -p 40000 -c avc -e 9'
 	echo '  '$scriptName' -p 40000 -c avc -b 14000000 '
@@ -89,13 +89,11 @@ args=$(getopt -o "c:p:b:o:s:e:fh" --long "codec-type:,port-num:,buffer-size:,sin
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
-checkforEmptyVar "${checkEmpty[@]}"
-updateVar
-
 if [ -z $CODEC_TYPE ];then
 	CODEC_TYPE="hevc"
 fi
-
+checkforEmptyVar "${checkEmpty[@]}"
+updateVar
 RegSetting
 drmSetting $VIDEO_SIZE
 streaminDecodeDisplay

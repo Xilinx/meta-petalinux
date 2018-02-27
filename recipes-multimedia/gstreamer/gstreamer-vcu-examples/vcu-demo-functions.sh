@@ -26,16 +26,16 @@
 #Default Globals to be used for gstreamer elements
 DEFAULT_INPUT_PATH="/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"
 GST_LAUNCH="gst-launch-1.0"
-OMXH264DEC="omxh264dec ip-mode=1 op-mode=1"
-OMXH265DEC="omxh265dec ip-mode=1 op-mode=1"
+OMXH264DEC="omxh264dec"
+OMXH265DEC="omxh265dec"
 H264PARSE="h264parse"
 H265PARSE="h265parse"
 QUEUE="queue"
 QTDEMUX="qtdemux name=demux demux.video_0"
 MTDEMUX="matroskademux name=demux demux.video_0"
 VIDEOCONVERT="videoconvert"
-OMXH264ENC="omxh264enc ip-mode=2 sliceHeight=64 stride=256"
-OMXH265ENC="omxh265enc ip-mode=2 sliceHeight=64 stride=256"
+OMXH264ENC="omxh264enc"
+OMXH265ENC="omxh265enc"
 RTPH264PAY="rtph264pay"
 RTPH265PAY="rtph265pay"
 UDPSINK="udpsink max-lateness=-1 qos-dscp=60 async=false max-bitrate=5000000"
@@ -203,10 +203,10 @@ setDefaultifEmpty () {
 				echo "No "gop-length" parameter value specified hence using $GOP_LENGTH as default for encoding the input stream"
 			fi
 			;;
-		gopFreqIdr )
-			if [ -z $GOP_FREQ_IDR ]; then
-				GOP_FREQ_IDR="240"
-				echo "No "gop-freq-idr" parameter value specified hence using $GOP_FREQ_IDR as default for encoding input stream"
+		periodicityIdr )
+			if [ -z $PERIODICITY_IDR ]; then
+				PERIODICITY_IDR="240"
+				echo "No "periodicity-idr" parameter value specified hence using $PERIODICITY_IDR as default for encoding input stream"
 			fi
 			;;
 		cpbSize )
@@ -315,7 +315,7 @@ DisplayUsageFor () {
 			;;
 		sinkName )
 			echo '	-o or --sink-name		 : Type of sink to use'
-			echo '					 : Possible Values: kmssink,fakesink'
+			echo '					 : Possible Values: kmssink,fakevideosink'
 			echo '					 : Default Value: kmssink'
 			;;
 		showFps )
@@ -367,8 +367,8 @@ DisplayUsageFor () {
 			echo '					 : Possible Values: 30, 40, 50 e.t.c'
 			echo '					 : Default Value: 240"'
 			;;
-		gopFreqIdr )
-			echo '	--gop-freq-idr		 	 : Specifies the number of frames between two consequtive IDR pictures '
+		periodicityIdr )
+			echo '	--periodicity-idr		 : Specifies the number of frames between two consequtive IDR pictures '
 			echo '					 : Possible Values: 30, 40, 50  e.t.c'
 			echo '					 : Default Value: 240"'
 			;;
@@ -488,8 +488,8 @@ while true; do
                         GOP_LENGTH=$2;
                         shift; shift;
                         ;;
-		--gop-freq-idr)
-                        GOP_FREQ_IDR=$2;
+		--periodicity-idr)
+                        PERIODICITY_IDR=$2;
                         shift; shift;
                         ;;
 		--cpb-size)

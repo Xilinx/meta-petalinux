@@ -47,7 +47,7 @@ usage () {
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -n 500 -b 1200'
 	echo '  '$scriptName' -f'
-	echo '  '$scriptName' -f -o fakesink'
+	echo '  '$scriptName' -f -o fakevideosink'
 	echo '  '$scriptName' -s 1920x1080 -c avc'
 	echo '  '$scriptName' -s 1920x1080 -c avc -e 3'
 	echo '  '$scriptName' -s 1280x720 -c avc'
@@ -74,13 +74,13 @@ CameraToDisplay() {
 	CAMERA_CAPS_HEVC="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
 	VIDEOCONVERT="videoconvert"
 	VIDEOCONVERT_CAPS="video/x-raw, format=\(string\)NV12"
-	OMXH264ENC="omxh264enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
-	OMXH265ENC="omxh265enc ip-mode=1 control-rate=2  target-bitrate=$BIT_RATE"
+	OMXH264ENC="omxh264enc control-rate="low-latency" target-bitrate=$BIT_RATE latency-mode="low-latency""
+	OMXH265ENC="omxh265enc control-rate="low-latency" target-bitrate=$BIT_RATE latency-mode="low-latency""
 	if [ -z $SET_ENTROPY_BUF ]; then
 		INTERNAL_ENTROPY_BUFFERS="6"
 	fi
-	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
-	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="low-latency""
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="low-latency""
 
 	if [ $CODEC_TYPE == "avc" ]; then
 		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"

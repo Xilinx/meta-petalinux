@@ -42,9 +42,9 @@ usage () {
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -i /run/2160p_30.h264'
-	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakesink -f'
-	echo '  '$scriptName' -i /run/2160p_60.h265 -o fakesink -e 9 -f'
-	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakesink -f -l'
+	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakevideosink -f'
+	echo '  '$scriptName' -i /run/2160p_60.h265 -o fakevideosink -e 9 -f'
+	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakevideosink -f -l'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc -a aac'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc'
@@ -125,7 +125,7 @@ DecodeFile() {
 			fi
 		else
 			if [ -z $AUDIODEC ]; then
-				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 			else
 				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
 			fi
