@@ -15,7 +15,7 @@ SRC_URI = " \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
     "
 
-SRCREV_base = "52af8d34043bb7d75ddf096103b96b08577fa70f"
+SRCREV_base = "0d291b35d2fb41b8ecb14dbcddc3dd01543fc7f5"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
