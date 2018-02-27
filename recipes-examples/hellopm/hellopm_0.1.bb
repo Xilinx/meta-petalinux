@@ -7,6 +7,9 @@ SUMMARY = "Hello PM Management Linux Application"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://hellopm.sh;beginline=3;endline=38;md5=60d580d3edae5674cb19d747773123d8"
 
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+
 SRC_URI = "\
 	file://hellopm.sh \
 	"
