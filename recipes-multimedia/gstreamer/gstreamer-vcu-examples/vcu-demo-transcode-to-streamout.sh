@@ -56,12 +56,6 @@ usage () {
 # Description:	Decode input file and transcode input avc to hevc or viceversa
 ############################################################################
 TranscodeFileandStreamOut() {
-	checkforEmptyVar "${checkEmpty[@]}"
-	updateVar
-
-	if [ ! -f $INPUT_PATH ]; then
-		ErrorMsg "Input file doesn't exist"
-	fi
 	FILE_NAME=$(basename "$INPUT_PATH")
 	EXT_TYPE="${FILE_NAME##*.}"
 
@@ -112,4 +106,6 @@ if [ -z $BIT_RATE ]; then
 	BIT_RATE=5000
 	echo "No bit-rate specified hence using $BIT_RATE as default"
 fi
+checkforEmptyVar "${checkEmpty[@]}"
+updateVar
 TranscodeFileandStreamOut

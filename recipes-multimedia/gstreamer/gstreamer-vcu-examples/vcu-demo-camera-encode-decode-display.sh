@@ -60,8 +60,6 @@ usage () {
 # Description:	Get RAW data from camera, encode it, decode and display it
 ############################################################################
 CameraToDisplay() {
-	checkforEmptyVar "${checkEmpty[@]}"
-
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
 	else
@@ -102,7 +100,7 @@ args=$(getopt -o "v:s:c:o:b:n:e:fh" --long "video-capture-device:,video-size:,co
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
-
+checkforEmptyVar "${checkEmpty[@]}"
 if [ -z $VIDEO_SIZE ]; then
 	VIDEO_SIZE="640x480"
 	echo "Video Size is not specified in args hence using 640x480 as default value"

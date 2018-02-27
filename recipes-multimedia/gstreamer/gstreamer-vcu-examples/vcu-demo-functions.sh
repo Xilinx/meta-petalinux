@@ -149,8 +149,11 @@ setDefaultifEmpty () {
 	case $PROPERTY in
 		inputPath )
 			if [ -z $INPUT_PATH ]; then
-			INPUT_PATH="/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"
-			echo "No input path specified so using $INPUT_PATH as default input path"
+				INPUT_PATH="/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"
+				echo "No input file path was specified so trying to use $INPUT_PATH as default input file"
+			fi
+			if ! [ -f $INPUT_PATH ]; then
+				ErrorMsg "File $INPUT_PATH was not found, please give correct path and try again"
 			fi
 			;;
 		videoSize )
@@ -162,8 +165,13 @@ setDefaultifEmpty () {
 		v4l2Device )
 			if [ -z $V4L2_DEVICE ]; then
 				V4L2_DEVICE="/dev/video0"
-				echo "V4L2 device node is not specified in args hence assuming $V4L2_DEVICE as default capture device"
 				V4L2SRC="$V4L2SRC device=$V4L2_DEVICE"
+				echo "V4L2 device node is not specified in args hence assuming $V4L2_DEVICE as default capture device"
+			fi
+			if ! [ -e $V4L2_DEVICE ]; then
+				ErrorMsg "No camera device found at $V4L2_DEVICE, please give correct path and try again"
+			else
+				echo "No input file path was specified so using $V4L2_DEVICE as default input file"
 			fi
 			;;
 		sinkName )

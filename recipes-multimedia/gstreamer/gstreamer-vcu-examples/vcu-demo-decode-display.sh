@@ -61,17 +61,10 @@ usage () {
 # Description:	Decode input encoded file and display it
 ############################################################################
 DecodeFile() {
-	checkforEmptyVar "${checkEmpty[@]}"
-	updateVar
-
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
 	else
 		SINK="$SINK_NAME"
-	fi
-
-	if [ ! -f $INPUT_PATH ]; then
-		ErrorMsg "Input file doesn't exist"
 	fi
 
 	case $AUDIODEC_TYPE in
@@ -151,6 +144,8 @@ args=$(getopt -o "i:s:c:a:o:e:flh" --long "input-path:,video-size:,codec-type:,s
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
+checkforEmptyVar "${checkEmpty[@]}"
+updateVar
 RegSetting
 if ! [ -z $AUDIODEC_TYPE ]; then
 	audioSetting

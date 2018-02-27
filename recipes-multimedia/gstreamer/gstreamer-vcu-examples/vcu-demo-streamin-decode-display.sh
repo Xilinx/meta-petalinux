@@ -56,9 +56,6 @@ usage () {
 # Description:	Decode incoming packetized stream
 ##########################################################################
 streaminDecodeDisplay() {
-	checkforEmptyVar "${checkEmpty[@]}"
-	updateVar
-
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=false -v"
 	else
@@ -92,6 +89,8 @@ args=$(getopt -o "c:p:b:o:s:e:fh" --long "codec-type:,port-num:,buffer-size:,sin
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
+checkforEmptyVar "${checkEmpty[@]}"
+updateVar
 
 if [ -z $CODEC_TYPE ];then
 	CODEC_TYPE="hevc"

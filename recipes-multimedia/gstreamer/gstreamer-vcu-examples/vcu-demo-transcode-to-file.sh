@@ -60,13 +60,6 @@ usage () {
 # Description:	Decode input encoded file to YUV
 ############################################################################
 TranscodeFile() {
-	checkforEmptyVar "${checkEmpty[@]}"
-	updateVar
-
-	if [ ! -f $INPUT_PATH ]; then
-		ErrorMsg "Input file doesn't exist"
-	fi
-
 	FILE_NAME=$(basename "$INPUT_PATH")
 	EXT_TYPE="${FILE_NAME##*.}"
 
@@ -135,4 +128,6 @@ args=$(getopt -o "i:c:b:o:e:fh" --long "input-path:,codec-type:,bit-rate:,output
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
+checkforEmptyVar "${checkEmpty[@]}"
+updateVar
 TranscodeFile
