@@ -22,7 +22,7 @@ IMAGE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     "
 
-IMAGE_INSTALL_zynqmp += "hellopm"
+IMAGE_INSTALL_append_zynqmp = " hellopm"
 
 IMAGE_LINGUAS = " "
 
