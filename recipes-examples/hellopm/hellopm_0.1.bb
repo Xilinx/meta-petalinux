@@ -14,9 +14,6 @@ SRC_URI = "\
 	file://hellopm.sh \
 	"
 
-COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
-
 S = "${WORKDIR}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
