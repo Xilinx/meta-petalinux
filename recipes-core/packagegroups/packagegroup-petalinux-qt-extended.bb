@@ -37,5 +37,6 @@ QT_EXTENDED_PACKAGES = " \
 	qtxmlpatterns-mkspecs \
 	qttranslations-qtxmlpatterns \
 	qtwebkit-mkspecs \
+	qtx11extras \
 	"
 RDEPENDS_${PN} = "${QT_EXTENDED_PACKAGES}"
