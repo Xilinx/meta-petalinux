@@ -42,16 +42,6 @@
 # Stop on errors
 set -e
 
-get_node_status () {
-
-	echo get_node_status $1 > /sys/kernel/debug/zynqmp_pm/power
-	dmesg | tail -n 5 > status.log
-	STATUS=$(awk '/Status/ {print $4;}' status.log)
-	REQUIREMENTS=$(awk '/Requirements/ {print $4;}' status.log)
-	USAGE=$(awk '/Usage/ {print $4;}' status.log)
-}
-
-
 suspend_menu () {
 	while true; do
 		cat <<-EOF
@@ -318,9 +308,9 @@ reboot_menu () {
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then 
 				cat <<-EOF
 				Set reboot scope to APU
-				Command: echo system_shutdown 2 0 > /sys/kernel/debug/zynqmp_pm/power
+				Command: echo subsystem > /sys/firmware/zynqmp/shutdown_scope
 				EOF
-				echo `echo system_shutdown 2 0 > /sys/kernel/debug/zynqmp_pm/power`
+				echo `echo subsystem > /sys/firmware/zynqmp/shutdown_scope`
 				echo ""
 				echo "Command: reboot"
 				echo ""
@@ -339,8 +329,8 @@ reboot_menu () {
 
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then
 				echo "Set reboot scope to PS"
-				echo "Command: echo system_shutdown 2 1 > /sys/kernel/debug/zynqmp_pm/power"
-				echo `echo system_shutdown 2 1 > /sys/kernel/debug/zynqmp_pm/power`
+				echo "Command: echo ps_only > /sys/firmware/zynqmp/shutdown_scope"
+				echo `echo ps_only > /sys/firmware/zynqmp/shutdown_scope`
 				echo ""
 
 				echo "Command: reboot"
@@ -361,10 +351,10 @@ reboot_menu () {
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then
 				cat <<-EOF
 				Set reboot scope to System
-				Command: echo system_shutdown 2 2 > /sys/kernel/debug/zynqmp_pm/power
+				Command: echo system > /sys/firmware/zynqmp/shutdown_scope
 				EOF
 
-				echo `echo system_shutdown 2 2 > /sys/kernel/debug/zynqmp_pm/power`
+				echo `echo system > /sys/firmware/zynqmp/shutdown_scope`
 				echo ""
 				echo "Command: reboot"
 				echo ""
@@ -426,215 +416,6 @@ shutdown_menu () {
 }
 
 
-node_status_menu () {
-	while true; do
-		cat <<-EOF
-		+++++++++++++++
-		+ Node Status +
-		+++++++++++++++
-
-		EOF
-
-                cat <<-EOF
-		The command will give the list of all the available nodes, status of one or all the nodes
-
-		Options:
-		1. List all nodes
-		2. Get Status of particular node
-		3. Get Status of all nodes
-		0. Go Back
-
-		EOF
-
-		echo -n "Input: "
-		read choice
-		echo ""
-
-		case $choice in
-		0)
-			break
-			;;
-		1)
-			cat <<-'EOF'
-			List of All the available nodes
-
-			1 "APU"
-			2 "APU_0"
-			3 "APU_1"
-			4 "APU_2"
-			5 "APU_3"
-			6 "RPU"
-			7 "RPU_0"
-			8 "RPU_1"
-			9 "PLD"
-			10 "FPD"
-			11 "OCM_BANK0"
-			12 "OCM_BANK1"
-			13 "OCM_BANK2"
-			14 "OCM_BANK3"
-			15 "TCM_0_A"
-			16 "TCM_0_B"
-			17 "TCM_1_A"
-			18 "TCM_1_B"
-			19 "L2"
-			20 "GPU_PP_0"
-			21 "GPU_PP_1"
-			22 "USB_0"
-			23 "USB_1"
-			24 "TTC_0"
-			25 "TTC_1"
-			26 "TTC_2"
-			27 "TTC_3"
-			28 "SATA"
-			29 "ETH_0"
-			30 "ETH_1"
-			31 "ETH_2"
-			32 "ETH_3"
-			33 "UART_0"
-			34 "UART_1"
-			35 "SPI_0"
-			36 "SPI_1"
-			37 "I2C_0"
-			38 "I2C_1"
-			39 "SD_0"
-			40 "SD_1"
-			41 "DP"
-			42 "GDMA"
-			43 "ADMA"
-			44 "NAND"
-			45 "QSPI"
-			46 "GPIO"
-			47 "CAN_0"
-			48 "CAN_1"
-			49 "EXTERN"
-			50 "APLL"
-			51 "VPLL"
-			52 "DPLL"
-			53 "RPLL"
-			54 "IOPLL"
-			55 "DDR"
-			56 "IPI_APU"
-			57 "IPI_RPU_0"
-			58 "GPU"
-			59 "PCIE"
-			60 "PCAP"
-			61 "RTC"
-			62 "LPD"
-			63 "VCU"
-			64 "IPI_RPU_1"
-			65 "IPI_PL_0"
-			66 "IPI_PL_1"
-			67 "IPI_PL_2"
-			68 "IPI_PL_3"
-			69 "PL"
-
-			Press RETURN to continue ...
-
-			EOF
-			read dummy
-			;;
-
-
-		2)
-			echo "Get Status of Node of the particular Node"
-			echo ""
-			echo  -n "Enter Node Number: "
-			read node
-			echo $node
-			echo ""
-			echo "get_node_status $node > /sys/kernel/debug/zynqmp_pm/power"
-			echo ""
-			echo get_node_status $node > /sys/kernel/debug/zynqmp_pm/power
-			echo ""
-			echo "Press RETURN to continue ..."
-			read dummy
-			;;
-		3)
-			echo "Get Status of All nodes"
-			echo ""
-			get_node_status  1 "APU"
-			get_node_status  2 "APU_0"
-			get_node_status  3 "APU_1"
-			get_node_status  4 "APU_2"
-			get_node_status  5 "APU_3"
-			get_node_status  6 "RPU"
-			get_node_status  7 "RPU_0"
-			get_node_status  8 "RPU_1"
-			get_node_status  9 "PLD"
-			get_node_status 10 "FPD"
-			get_node_status 11 "OCM_BANK0"
-			get_node_status 12 "OCM_BANK1"
-			get_node_status 13 "OCM_BANK2"
-			get_node_status 14 "OCM_BANK3"
-			get_node_status 15 "TCM_0_A"
-			get_node_status 16 "TCM_0_B"
-			get_node_status 17 "TCM_1_A"
-			get_node_status 18 "TCM_1_B"
-			get_node_status 19 "L2"
-			get_node_status 20 "GPU_PP_0"
-			get_node_status 21 "GPU_PP_1"
-			get_node_status 22 "USB_0"
-			get_node_status 23 "USB_1"
-			get_node_status 24 "TTC_0"
-			get_node_status 25 "TTC_1"
-			get_node_status 26 "TTC_2"
-			get_node_status 27 "TTC_3"
-			get_node_status 28 "SATA"
-			get_node_status 29 "ETH_0"
-			get_node_status 30 "ETH_1"
-			get_node_status 31 "ETH_2"
-			get_node_status 32 "ETH_3"
-			get_node_status 33 "UART_0"
-			get_node_status 34 "UART_1"
-			get_node_status 35 "SPI_0"
-			get_node_status 36 "SPI_1"
-			get_node_status 37 "I2C_0"
-			get_node_status 38 "I2C_1"
-			get_node_status 39 "SD_0"
-			get_node_status 40 "SD_1"
-			get_node_status 41 "DP"
-			get_node_status 42 "GDMA"
-			get_node_status 43 "ADMA"
-			get_node_status 44 "NAND"
-			get_node_status 45 "QSPI"
-			get_node_status 46 "GPIO"
-			get_node_status 47 "CAN_0"
-			get_node_status 48 "CAN_1"
-			get_node_status 49 "EXTERN"
-			get_node_status 50 "APLL"
-			get_node_status 51 "VPLL"
-			get_node_status 52 "DPLL"
-			get_node_status 53 "RPLL"
-			get_node_status 54 "IOPLL"
-			get_node_status 55 "DDR"
-			get_node_status 56 "IPI_APU"
-			get_node_status 57 "IPI_RPU_0"
-			get_node_status 58 "GPU"
-			get_node_status 59 "PCIE"
-			get_node_status 60 "PCAP"
-			get_node_status 61 "RTC"
-			get_node_status 62 "LPD"
-			get_node_status 63 "VCU"
-			get_node_status 64 "IPI_RPU_1"
-			get_node_status 65 "IPI_PL_0"
-			get_node_status 66 "IPI_PL_1"
-			get_node_status 67 "IPI_PL_2"
-			get_node_status 68 "IPI_PL_3"
-			get_node_status 69 "PL"
-			echo ""
-			echo "Press RETURN to continue ..."
-			read dummy
-			echo ""
-			;;
-		esac
-	done
-	echo ""
-
-
-}
-
-
-
 main_menu () {
 	while true; do
 
@@ -659,7 +440,6 @@ main_menu () {
 		3. CPU Freq
 		4. Reboot
 		5. Shutdown
-		6. Node Status
 		0. Quit
 
 		EOF
@@ -686,9 +466,6 @@ main_menu () {
 			;;
 		5)
 			shutdown_menu
-			;;
-		6)
-		    node_status_menu
 
 		esac
 	done
