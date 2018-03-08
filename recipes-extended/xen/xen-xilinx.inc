@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
-    file://0001-libxc-avoid-uninitialized-use-domctl-field.patch \
     file://example-passnet.cfg \
     file://example-pvnet.cfg \
     file://example-simple.cfg \
