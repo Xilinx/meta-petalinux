@@ -24,7 +24,7 @@
 # THE SOFTWARE.
 
 #Default Globals to be used for gstreamer elements
-DEFAULT_INPUT_PATH="/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"
+DEFAULT_INPUT_PATH="/usr/share/movies/"
 GST_LAUNCH="gst-launch-1.0"
 OMXH264DEC="omxh264dec"
 OMXH265DEC="omxh265dec"
@@ -85,10 +85,10 @@ ErrorMsg() {
 # Description:	Cleanup all the processes spawned by script when user interrupts using CTRL+C
 #############################################################################################
 catchCTRL_C() {
-	killProcess "modetest"
-	killProcess "sleep"
 	killProcess "gst-launch-1.0"
-
+	sleep 2
+	export DISPLAY=:0.0
+	xset dpms force on
 	exit 0
 }
 
@@ -140,6 +140,27 @@ runGstPipeline () {
 }
 
 #########################################################################################
+# Name:		download
+# Argument:	Input file to download
+# Description:	Downloads the file passed as an argument using retries if needed
+#########################################################################################
+
+download() {
+if ! [ -f $INPUT_PATH ]; then
+	for i in `seq 1 6`; do
+		echo Try number $i for download
+		wget -c -T7 $1 -P $DEFAULT_INPUT_PATH
+		if [ $? -eq 0 ];then
+			echo "Download completed"
+			break;
+		else
+			echo "Retrying..."
+		fi
+	done
+fi
+}
+
+#########################################################################################
 # Name:		setDefaultifEmpty
 # Argument:	Name of the property whose default value needs to be set if it's empty
 # Description:	Sets default values for the properties not filled by user via commandline
@@ -149,11 +170,24 @@ setDefaultifEmpty () {
 	case $PROPERTY in
 		inputPath )
 			if [ -z $INPUT_PATH ]; then
-				INPUT_PATH="/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"
+				INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal.mp4"
 				echo "No input file path was specified so trying to use $INPUT_PATH as default input file"
 			fi
 			if ! [ -f $INPUT_PATH ]; then
-				ErrorMsg "File $INPUT_PATH was not found, please give correct path and try again"
+				echo "File $INPUT_PATH was not found, so trying to download from server..."
+				DEFAULT_INPUT_PATH="/home/root"
+				if [ $CODEC_TYPE == "avc" ]; then
+					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_avc.mp4"
+					echo "Downloading input AVC file..."
+					download www.author.xilinx.com/sswreleases/vcu-example-streams/bbb_sunflower_2160p_30fps_normal_avc.mp4
+				else
+					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
+					echo "Downloading input HEVC file..."
+					download www.author.xilinx.com/sswreleases/vcu-example-streams/bbb_sunflower_2160p_30fps_normal_hevc.mkv
+				fi
+				if ! [ $? -eq 0 ]; then
+				   ErrorMsg "File $INPUT_PATH was not found and downloading it from server also failed"
+				fi
 			fi
 			;;
 		videoSize )
@@ -176,7 +210,7 @@ setDefaultifEmpty () {
 			;;
 		sinkName )
 			if [ -z $SINK_NAME ]; then
-				SINK_NAME="kmssink"
+				SINK_NAME="kmssink bus-id="xilinx_drm" fullscreen-overlay=1"
 			fi
 			;;
 		codecType )
@@ -276,6 +310,21 @@ updateVar () {
 		OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 		OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 	fi
+}
+
+
+#####################################################################################
+# Name:		killDuplicateProcess
+# Argument:     None
+# Description:	Kill Duplicate process spawned before with same args
+######################################################################################
+killDuplicateProcess () {
+	#Exit if same process was spawned already
+	for pid in $(pidof -x $0 $1 $2); do
+	   if [ $pid != $$ ]; then
+	        kill -9 $pid
+	   fi
+	done
 }
 
 #####################################################################################

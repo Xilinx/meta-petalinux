@@ -59,7 +59,7 @@ usage () {
 ############################################################################
 CameraToDisplay() {
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink="$SINK_NAME" sync=true -v"
 	else
 		SINK="$SINK_NAME"
 	fi
@@ -99,5 +99,4 @@ if [ -z $VIDEO_SIZE ]; then
 fi
 
 RegSetting
-drmSetting $VIDEO_SIZE
 CameraToDisplay

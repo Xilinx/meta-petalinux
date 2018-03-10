@@ -30,15 +30,15 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("portNum" "videoSize" "codecType" "sinkName" "bufferSize" "showFps" "internalEntropyBuffers")
-declare -a checkEmpty=("portNum" "videoSize" "codecType" "sinkName" "bufferSize")
+declare -a scriptArgs=("portNum" "codecType" "sinkName" "bufferSize" "showFps" "internalEntropyBuffers")
+declare -a checkEmpty=("portNum" "codecType" "sinkName" "bufferSize")
 
 ############################################################################
 # Name:		usage
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -p <port_number>  -c <codec_type> -o <sink_name> -s <video_size> -b <kernel_reciever_buffer_size> -e <internal_entropy_buffers> -f'
+	echo '	Usage : '$scriptName' -p <port_number>  -c <codec_type> -o <sink_name> -b <kernel_reciever_buffer_size> -e <internal_entropy_buffers> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
@@ -57,7 +57,7 @@ usage () {
 ##########################################################################
 streaminDecodeDisplay() {
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=$SINK_NAME sync=false -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink="$SINK_NAME" sync=false -v"
 	else
 		SINK="$SINK_NAME sync=false"
 	fi
@@ -83,7 +83,7 @@ streaminDecodeDisplay() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "c:p:b:o:s:e:fh" --long "codec-type:,port-num:,buffer-size:,sink-name:,video-size:,internal-entropy-buffers:,show-fps,help" -- "$@")
+args=$(getopt -o "c:p:b:o:e:fh" --long "codec-type:,port-num:,buffer-size:,sink-name:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
@@ -95,5 +95,4 @@ fi
 checkforEmptyVar "${checkEmpty[@]}"
 updateVar
 RegSetting
-drmSetting $VIDEO_SIZE
 streaminDecodeDisplay
