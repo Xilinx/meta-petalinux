@@ -21,7 +21,7 @@ SRC_URI = " \
     file://0002-vulkan-Use-the-generated-version-of-vkconfig.h.patch \
     "
 
-SRCREV_base = "627b20ffba5cf90269d27977a7b3611a24fe665b"
+SRCREV_base = "995c899ca8668aa392851290aea9b779ff2b66bc"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
