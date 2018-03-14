@@ -29,8 +29,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "showFps" "internalEntropyBuffers" "v4l2Device")
-declare -a checkEmpty=("codecType" "sinkName" "v4l2Device")
+declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "showFps" "internalEntropyBuffers" "v4l2Device" "displayDevice")
+declare -a checkEmpty=("codecType" "sinkName" "v4l2Device" "displayDevice")
 
 
 ############################################################################
@@ -43,6 +43,8 @@ usage () {
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -v "/dev/video1"'
+	echo '  '$scriptName' -d "fd4a0000.zynqmp-display"'
+	echo '  '$scriptName' --display-device "fd4a0000.zynqmp-display"'
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -f'
 	echo '  '$scriptName' -f -o fakevideosink'
@@ -59,7 +61,7 @@ usage () {
 ############################################################################
 CameraToDisplay() {
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink="$SINK_NAME" sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=\"$SINK_NAME\" sync=true -v"
 	else
 		SINK="$SINK_NAME"
 	fi
@@ -81,12 +83,10 @@ CameraToDisplay() {
 	fi
 
 	runGstPipeline "$pipeline"
-	killProcess "modetest"
-	killProcess "sleep"
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "v:s:c:o:n:e:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,internal-entropy-buffers:,show-fps,help" -- "$@")
+args=$(getopt -o "v:s:c:o:n:e:d:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,internal-entropy-buffers:,display-device:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 

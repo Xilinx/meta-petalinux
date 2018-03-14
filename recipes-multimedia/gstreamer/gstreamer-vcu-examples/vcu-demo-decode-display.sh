@@ -29,19 +29,21 @@ fi
 
 source vcu-demo-functions.sh
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers")
-declare -a checkEmpty=("inputPath" "sinkName")
+declare -a scriptArgs=("inputPath" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers" "displayDevice")
+declare -a checkEmpty=("inputPath" "sinkName" "displayDevice")
 
 ############################################################################
 # Name:		usage
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -a <audio_type> -o <sink_name> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
+	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -a <audio_type> -o <sink_name> -d <display_device> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -i /run/2160p_30.h264'
+	echo '  '$scriptName' -i /run/2160p_30.h264 -o kmssink -d "fd4a0000.zynqmp-display"'
+	echo '  '$scriptName' -i /run/2160p_30.h264 --display-device "fd4a0000.zynqmp-display"'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakevideosink -f'
 	echo '  '$scriptName' -i /run/2160p_60.h265 -o fakevideosink -e 9 -f'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakevideosink -f -l'
@@ -62,7 +64,7 @@ usage () {
 ############################################################################
 DecodeFile() {
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink="$SINK_NAME" sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=\"$SINK_NAME\" sync=true -v"
 	else
 		SINK="$SINK_NAME"
 	fi
@@ -135,11 +137,9 @@ DecodeFile() {
 	fi
 
 	runGstPipeline "$pipeline"
-	killProcess "modetest"
-	killProcess "sleep"
 }
 
-args=$(getopt -o "i:c:a:o:e:flh" --long "input-path:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,show-fps,loop-video,help" -- "$@")
+args=$(getopt -o "i:c:a:o:d:e:flh" --long "input-path:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,display-device:,show-fps,loop-video,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
 trap catchCTRL_C SIGINT

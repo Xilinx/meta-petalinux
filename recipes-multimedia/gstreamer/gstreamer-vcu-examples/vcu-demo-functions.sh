@@ -51,7 +51,7 @@ RTP_CAPS="application/x-rtp, media=video, clock-rate=90000, payload=96,"
 AUDIOSINK="autoaudiosink"
 AUDIOCONVERT="audioconvert"
 AUDIORESAMPLE="audioresample"
-
+CODEC_TYPE="avc"
 #####################################################################################
 # Name:		killProcess
 # Argument:	Name of the process to be killed
@@ -89,6 +89,7 @@ catchCTRL_C() {
 	sleep 2
 	export DISPLAY=:0.0
 	xset dpms force on
+	modetest -D fd4a0000.zynqmp-display -w 35:alpha:255
 	exit 0
 }
 
@@ -208,9 +209,16 @@ setDefaultifEmpty () {
 				echo "No input file path was specified so using $V4L2_DEVICE as default input file"
 			fi
 			;;
+		displayDevice )
+			if [ -z $DISPLAY_DEVICE ]; then
+				DISPLAY_DEVICE="fd4a0000.zynqmp-display"
+			echo "DRM display device is not specified in args hence assuming $DISPLAY_DEVICE as default DRM device"
+			fi
+			;;
+
 		sinkName )
 			if [ -z $SINK_NAME ]; then
-				SINK_NAME="kmssink bus-id="xilinx_drm" fullscreen-overlay=1"
+				SINK_NAME="kmssink bus-id="fd4a0000.zynqmp-display" fullscreen-overlay=1"
 			fi
 			;;
 		codecType )
@@ -266,25 +274,6 @@ setDefaultifEmpty () {
 	esac
 
 
-}
-
-#####################################################################################
-# Name:		drmSetting
-# Argument:     Resolution to set
-# Description:	To do display setting required to render input stream using DP monitor
-######################################################################################
-drmSetting () {
-	VIDEO_SIZE=$1
-	if [ -z $VIDEO_SIZE ]; then
-		VIDEO_SIZE="3840x2160"
-		echo "Video Size is not specified in args hence using 3840x2160 as default value"
-	fi
-
-	killProcess "Xorg"
-	killProcess "modetest"
-	killProcess "sleep"
-
-	sleep 9999d | modetest -M xilinx_drm -s 33:$VIDEO_SIZE@RG16 -w 29:alpha:0 &
 }
 
 #####################################################################################
@@ -373,9 +362,14 @@ DisplayUsageFor () {
 			echo '					 : Disabled: fps are not displayed'
 			;;
 		v4l2Device )
-			echo '	-v or --video-capture-device	 : Set Vide device node to be used as capture source'
+			echo '	-v or --video-capture-device	 : Set Video device node to be used as capture source'
 			echo '					 : Possible Values: "/dev/video0", "/dev/video1",..,/dev/videox" '
 			echo '					 : Default Value  : "/dev/video0"'
+			;;
+		displayDevice )
+			echo '	-d or --display-device	 	 : Set DRM display device'
+			echo '					 : Possible Values: "fd4a0000.zynqmp-display"'
+			echo '					 : Default Value  : "fd4a0000.zynqmp-display"'
 			;;
 		loopVideo )
 			echo '	-l or --loop-video		 : Loop the pipeline to process video again from start after EOF'
@@ -552,6 +546,11 @@ while true; do
 		-v | --video-capture-device)
                         V4L2_DEVICE=$2;
 			V4L2SRC="$V4L2SRC device=$V4L2_DEVICE"
+                        shift; shift;
+                        ;;
+		-d | --display-device)
+                        DISPLAY_DEVICE=$2;
+			KMSSINK="kmssink bus-id=$DISPLAY_DEVICE fullscreen-overlay=1"
                         shift; shift;
                         ;;
 		--)

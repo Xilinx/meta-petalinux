@@ -30,8 +30,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "internalEntropyBuffers" "v4l2Device")
-declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device")
+declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "internalEntropyBuffers" "v4l2Device" "displayDevice")
+declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device" "displayDevice")
 
 
 ############################################################################
@@ -39,10 +39,12 @@ declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -f'
+	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -d <display_device> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
+	echo '  '$scriptName' -d "fd4a0000.zynqmp-display""'
+	echo '  '$scriptName' --display-device "fd4a0000.zynqmp-display""'
 	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500'
 	echo '  '$scriptName' -n 500 -b 1200'
@@ -61,7 +63,7 @@ usage () {
 ############################################################################
 CameraToDisplay() {
 	if [ $SHOW_FPS ]; then
-		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink="$SINK_NAME" sync=true -v"
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=\"$SINK_NAME\" sync=true -v"
 	else
 		SINK="$SINK_NAME"
 	fi
@@ -89,12 +91,10 @@ CameraToDisplay() {
 	fi
 
 	runGstPipeline "$pipeline"
-	killProcess "modetest"
-	killProcess "sleep"
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "v:s:c:o:b:n:e:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,show-fps,help" -- "$@")
+args=$(getopt -o "v:d:s:c:o:b:n:e:fh" --long "video-capture-device:,display-device:,video-size:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
