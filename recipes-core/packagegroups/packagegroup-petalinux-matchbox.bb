@@ -16,6 +16,7 @@ MATCHBOX_PACKAGES = " \
 	matchbox-session-sato \
 	matchbox-wm \
 	settings-daemon \
+        adwaita-icon-theme \
 	"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
