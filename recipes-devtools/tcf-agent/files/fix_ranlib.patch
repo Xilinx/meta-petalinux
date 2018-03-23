@@ -1,6 +1,6 @@
-From 363ea4c61c17481b8dc75b821069f7d633fd33d4 Mon Sep 17 00:00:00 2001
+From 204644c878d33097831ae0f7527f5a933d8059bc Mon Sep 17 00:00:00 2001
 From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-Date: Mon, 11 Sep 2017 17:17:44 -0700
+Date: Wed, 21 Mar 2018 22:42:09 -0700
 Subject: [PATCH] Upstream-Status: Inappropriate [poky-specific fix]
 
 Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
@@ -9,10 +9,10 @@ Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/agent/Makefile.inc b/agent/Makefile.inc
-index 8304cfe..fa5e261 100644
+index f9f191b..15cf390 100644
 --- a/agent/Makefile.inc
 +++ b/agent/Makefile.inc
-@@ -89,6 +89,9 @@ ifeq ($(OPSYS),GNU/Linux)
+@@ -92,6 +92,9 @@ ifeq ($(OPSYS),GNU/Linux)
      OPTS += -DUSE_uuid_generate=0
    endif
    OPTS += -DENABLE_arch_$(shell uname -m)
