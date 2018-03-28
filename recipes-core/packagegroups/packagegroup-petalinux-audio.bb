@@ -8,7 +8,7 @@ ALSA_PACKAGES = " \
 	alsa-tools \
 	alsa-utils \
 	alsa-utils-scripts \
-	pulseaudio \
 	sox \
+	${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
 	"
 RDEPENDS_${PN} = "${ALSA_PACKAGES}"
