@@ -4,7 +4,7 @@ CFLAGS_append_armv7a  = " -DENABLE_HardwareBreakpoints=0"
 CFLAGS_append_microblaze = " -DENABLE_SSL=0 -DUSE_uuid_generate=0"
 
 SRCREV = "42484cb42e33f5297840dd7ecee5464fb934fa08"
-PV = "1.7.0"
+PV = "1.7.0+git${SRCPV}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
