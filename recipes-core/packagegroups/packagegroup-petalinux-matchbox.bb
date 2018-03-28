@@ -21,6 +21,7 @@ MATCHBOX_PACKAGES = " \
         adwaita-icon-theme \
 	l3afpad \
 	${FILEMANAGER} \
+	shutdown-desktop \
 	"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
