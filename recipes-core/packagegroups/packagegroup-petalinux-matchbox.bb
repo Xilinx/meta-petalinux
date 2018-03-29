@@ -22,6 +22,7 @@ MATCHBOX_PACKAGES = " \
 	l3afpad \
 	${FILEMANAGER} \
 	shutdown-desktop \
+	${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
 	"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
