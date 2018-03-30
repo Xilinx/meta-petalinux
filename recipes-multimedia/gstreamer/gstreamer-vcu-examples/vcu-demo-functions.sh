@@ -52,6 +52,8 @@ AUDIOSINK="autoaudiosink"
 AUDIOCONVERT="audioconvert"
 AUDIORESAMPLE="audioresample"
 CODEC_TYPE="avc"
+AUDIO_CAPS="audio/x-raw, channels=2"
+
 #####################################################################################
 # Name:		killProcess
 # Argument:	Name of the process to be killed
@@ -148,6 +150,7 @@ runGstPipeline () {
 
 download() {
 if ! [ -f $INPUT_PATH ]; then
+	source ~/.bashrc
 	for i in `seq 1 6`; do
 		echo Try number $i for download
 		wget -c -T7 $1 -P $DEFAULT_INPUT_PATH
@@ -180,11 +183,11 @@ setDefaultifEmpty () {
 				if [ $CODEC_TYPE == "avc" ]; then
 					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_avc.mp4"
 					echo "Downloading input AVC file..."
-					download www.author.xilinx.com/sswreleases/vcu-example-streams/bbb_sunflower_2160p_30fps_normal_avc.mp4
+					download petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4
 				else
 					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 					echo "Downloading input HEVC file..."
-					download www.author.xilinx.com/sswreleases/vcu-example-streams/bbb_sunflower_2160p_30fps_normal_hevc.mkv
+					download petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv
 				fi
 				if ! [ $? -eq 0 ]; then
 				   ErrorMsg "File $INPUT_PATH was not found and downloading it from server also failed"
@@ -259,7 +262,11 @@ setDefaultifEmpty () {
 			;;
 		targetBitrate )
 			if [ -z $BIT_RATE ]; then
-				BIT_RATE=10000
+				if [ $CODEC_TYPE == "avc" ]; then
+					BIT_RATE=5500
+				else
+					BIT_RATE=8000
+				fi
 				echo "No bit-rate specified hence using $BIT_RATE as default"
 			fi
 			;;

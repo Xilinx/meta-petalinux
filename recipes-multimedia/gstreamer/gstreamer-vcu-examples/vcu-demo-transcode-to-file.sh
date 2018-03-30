@@ -95,8 +95,8 @@ TranscodeFile() {
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=fakevideosink sync=true -v"
 	fi
 
-	OMXH264ENC="$OMXH264ENC control-rate=2 num-slices=4 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h264, profile=high"
-	OMXH265ENC="$OMXH265ENC control-rate=2 num-slices=4 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
+	OMXH264ENC="$OMXH264ENC control-rate=2 b-frames=2 gop-length=999 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h264, profile=high"
+	OMXH265ENC="$OMXH265ENC control-rate=2 b-frames=2 gop-length=999 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
 		pipeline="$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $SINK"
