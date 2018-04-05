@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-#Default Globals to be used for gstreamer elements
+#Default Globals
 DEFAULT_INPUT_PATH="/usr/share/movies/"
 GST_LAUNCH="gst-launch-1.0"
 OMXH264DEC="omxh264dec"
@@ -51,8 +51,11 @@ RTP_CAPS="application/x-rtp, media=video, clock-rate=90000, payload=96,"
 AUDIOSINK="autoaudiosink"
 AUDIOCONVERT="audioconvert"
 AUDIORESAMPLE="audioresample"
-CODEC_TYPE="avc"
 AUDIO_CAPS="audio/x-raw, channels=2"
+CODEC_TYPE="avc"
+NEED_DOWNLOAD=0
+DEFAULT_URL_AVC="petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4"
+DEFAULT_URL_HEVC="petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 
 #####################################################################################
 # Name:		killProcess
@@ -150,18 +153,44 @@ runGstPipeline () {
 
 download() {
 if ! [ -f $INPUT_PATH ]; then
-	source ~/.bashrc
+	if [ -f ~/.bashrc ]; then
+		source ~/.bashrc
+	fi
+	download_complete=0
 	for i in `seq 1 6`; do
-		echo Try number $i for download
+		echo "Try number $i for download"
 		wget -c -T7 $1 -P $DEFAULT_INPUT_PATH
 		if [ $? -eq 0 ];then
 			echo "Download completed"
+			download_complete=1
 			break;
 		else
 			echo "Retrying..."
 		fi
 	done
+	if [ $download_complete -eq 0 ]; then
+		if [ -f $INPUT_PATH ]; then
+			echo "Deleting partially downloaded file"
+			rm $INPUT_PATH
+			sync
+		fi
+		ErrorMsg "File $INPUT_PATH was not found and downloading it from server also failed"
+	fi
+else
+	echo "Previously downloaded file present in $INPUT_PATH"
 fi
+}
+
+#########################################################################################
+# Name:		getInputFile
+# Argument:	None
+# Description:  Downloads input file from server if not found in default paths
+#########################################################################################
+getInputFile () {
+	if [ $NEED_DOWNLOAD -eq 1 ]; then
+		download $DEFAULT_URL
+	fi
+
 }
 
 #########################################################################################
@@ -177,20 +206,21 @@ setDefaultifEmpty () {
 				INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal.mp4"
 				echo "No input file path was specified so trying to use $INPUT_PATH as default input file"
 			fi
-			if ! [ -f $INPUT_PATH ]; then
-				echo "File $INPUT_PATH was not found, so trying to download from server..."
-				DEFAULT_INPUT_PATH="/home/root"
-				if [ $CODEC_TYPE == "avc" ]; then
-					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_avc.mp4"
-					echo "Downloading input AVC file..."
-					download petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4
-				else
-					INPUT_PATH="$DEFAULT_INPUT_PATH/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
-					echo "Downloading input HEVC file..."
-					download petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv
-				fi
-				if ! [ $? -eq 0 ]; then
-				   ErrorMsg "File $INPUT_PATH was not found and downloading it from server also failed"
+		;;
+		downloadUrl )
+			if [ -z $DEFAULT_URL ]; then
+				#Download by default only if no input file present in rootfs at /usr/share/movies
+				if ! [ -f $INPUT_PATH ]; then
+					echo "File $INPUT_PATH was not found, so trying to download from server..."
+					DEFAULT_INPUT_PATH="/home/root"
+					if [ $CODEC_TYPE == "avc" ]; then
+						DEFAULT_URL=$DEFAULT_URL_AVC
+					else
+						DEFAULT_URL=$DEFAULT_URL_HEVC
+					fi
+					FILENAME="${DEFAULT_URL##*/}"
+					INPUT_PATH="$DEFAULT_INPUT_PATH/$FILENAME"
+					NEED_DOWNLOAD=1
 				fi
 			fi
 			;;
@@ -315,12 +345,31 @@ updateVar () {
 # Description:	Kill Duplicate process spawned before with same args
 ######################################################################################
 killDuplicateProcess () {
+	partial_download=0
+	if [ -f $INPUT_PATH ]; then
+		fuser $INPUT_PATH
+		if [ $? -eq 0 ]; then
+			partial_download=1
+			echo "Found partially downloaded file, forcing a redownload..."
+		fi
+	fi
 	#Exit if same process was spawned already
-	for pid in $(pidof -x $0 $1 $2); do
-	   if [ $pid != $$ ]; then
-	        kill -9 $pid
-	   fi
+	for pid in $(pidof -x $0); do
+	if [ $pid != $$ ]; then
+		pgid=`ps -o pid,pgid | grep $pid | awk -F ' ' '{print $2}'`
+		ps -o pid | grep -v grep | grep "$pgid" > "/dev/null"
+		if [ $? -eq 0 ]; then
+			if ! [ -z $pgid ]; then
+				echo "Killing duplicate VCU demo example"
+				kill -9 $pgid
+			fi
+		fi
+	fi
 	done
+	if [ $partial_download -eq 1 ]; then
+		rm $INPUT_PATH
+		sync
+	fi
 }
 
 #####################################################################################
@@ -348,6 +397,11 @@ DisplayUsageFor () {
 			echo '	-i or --input-path		 : Path to input file '
 			echo '					 : Possible Values: <Path_to_input_file>'
 			echo '					 : Default Value: "/usr/share/movies/bbb_sunflower_2160p_30fps_normal.mp4"'
+			;;
+		downloadUrl )
+			echo '	-u or --url			 : Path to download URL for input file '
+			echo '					 : Possible Values: <http URL for input file>'
+			echo '					 : Default Value: petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4 '
 			;;
 		outputPath )
 			echo '	-o or --output-path		 : Give path to output file '
@@ -470,7 +524,15 @@ while true; do
                         shift; shift;
                         ;;
 		-c | --codec-type)
-                        CODEC_TYPE=$2;
+			CODEC_TYPE=$2;
+                        shift; shift;
+                        ;;
+		-u | --url)
+			DEFAULT_URL=$2;
+			FILENAME="${DEFAULT_URL##*/}"
+			DEFAULT_INPUT_PATH="/home/root"
+			INPUT_PATH="$DEFAULT_INPUT_PATH/$FILENAME"
+			NEED_DOWNLOAD=1;
                         shift; shift;
                         ;;
 		--audio-type)

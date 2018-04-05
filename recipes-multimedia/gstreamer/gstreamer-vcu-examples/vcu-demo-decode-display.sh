@@ -29,15 +29,15 @@ fi
 
 source vcu-demo-functions.sh
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers" "displayDevice")
-declare -a checkEmpty=("inputPath" "sinkName" "displayDevice")
+declare -a scriptArgs=("inputPath" "downloadUrl" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers" "displayDevice")
+declare -a checkEmpty=("inputPath" "downloadUrl" "sinkName" "displayDevice")
 
 ############################################################################
 # Name:		usage
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -a <audio_type> -o <sink_name> -d <display_device> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
+	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -u <download_url> -a <audio_type> -o <sink_name> -d <display_device> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
@@ -53,6 +53,7 @@ usage () {
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc -a vorbis'
 	echo '  '$scriptName' -i /mnt/nfs/1080p_30.h264'
 	echo '  '$scriptName' -i /mnt/usb/1280p_30.h264'
+	echo '  '$scriptName' -u <download_url> -c hevc'
 	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
 }
@@ -75,7 +76,7 @@ DecodeFile() {
 	"vorbis")
 		AUDIODEC="vorbisdec";;
 	 *)
-		if ! [ -z $AUDIODEC_TYPE]; then
+		if ! [ -z $AUDIODEC_TYPE ]; then
 			ErrorMsg "Invalid audio codec type specified, please specify either vorbis or aac"
 		fi
 	esac
@@ -139,13 +140,14 @@ DecodeFile() {
 	runGstPipeline "$pipeline"
 }
 
-args=$(getopt -o "i:c:a:o:d:e:flh" --long "input-path:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,display-device:,show-fps,loop-video,help" -- "$@")
+args=$(getopt -o "i:u:c:a:o:d:e:flh" --long "input-path:,url:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,display-device:,show-fps,loop-video,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
 trap catchCTRL_C SIGINT
 parseCommandLineArgs
-killDuplicateProcess
 checkforEmptyVar "${checkEmpty[@]}"
+killDuplicateProcess
+getInputFile
 updateVar
 RegSetting
 if ! [ -z $AUDIODEC_TYPE ]; then
