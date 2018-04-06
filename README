@@ -75,7 +75,9 @@ initialized configure bblayers.conf by adding the 'meta-xilinx' layer. e.g.:
 		<path to layer>/meta-qt5 \
 		<path to layer>/meta-selftest \
 		<path to layer>/meta-skeleton \
-		<path to layer>/meta-xilinx \
+		<path to layer>/meta-xilinx/meta-xilinx-bsp \
+		<path to layer>/meta-xilinx/meta-xilinx-contrib \
+		<path to layer>/meta-xilinx-tools \
 		<path to layer>/meta-petalinux \
 		"
 
