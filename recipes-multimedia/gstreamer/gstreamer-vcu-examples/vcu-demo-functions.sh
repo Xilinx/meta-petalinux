@@ -54,8 +54,8 @@ AUDIORESAMPLE="audioresample"
 AUDIO_CAPS="audio/x-raw, channels=2"
 CODEC_TYPE="avc"
 NEED_DOWNLOAD=0
-DEFAULT_URL_AVC="petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4"
-DEFAULT_URL_HEVC="petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
+DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4"
+DEFAULT_URL_HEVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 
 #####################################################################################
 # Name:		killProcess
@@ -401,7 +401,7 @@ DisplayUsageFor () {
 		downloadUrl )
 			echo '	-u or --url			 : Path to download URL for input file '
 			echo '					 : Possible Values: <http URL for input file>'
-			echo '					 : Default Value: petalinux.test.xilinx.com/test-2018.1/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4 '
+			echo '					 : Default Value: petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4 '
 			;;
 		outputPath )
 			echo '	-o or --output-path		 : Give path to output file '
