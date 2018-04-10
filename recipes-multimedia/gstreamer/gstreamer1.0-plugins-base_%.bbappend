@@ -1,9 +1,9 @@
-BRANCH ?= "master-rel-1.8.3"
-REPO ?= "git://github.com/Xilinx/gst-plugins-base.git;protocol=https"
+BRANCH ?= "master-rel-1.12.2"
+REPO ?= "git://github.com/xilinx/gst-plugins-base.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
-PV = "1.8.3+git${SRCPV}"
+PV = "1.12.2+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
@@ -11,12 +11,12 @@ SRC_URI = " \
     file://get-caps-from-src-pad-when-query-caps.patch \
     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
     file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
-    file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
     file://make-gio_unix_2_0-dependency-configurable.patch \
+    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
     "
 
-SRCREV_base = "8539c9e86827db95027cb25e487e3f6c287c00c7"
-SRCREV_common = "6f2d2093e84cc0eb99b634fa281822ebb9507285"
+SRCREV_base = "1da3465ffdbae5a427119765a8d11114fd6b5289"
+SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
 S = "${WORKDIR}/git"

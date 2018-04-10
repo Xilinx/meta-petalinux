@@ -1,20 +1,22 @@
-BRANCH ?= "master-rel-1.8.3"
-REPO ?= "git://github.com/Xilinx/gst-plugins-good.git;protocol=https"
+BRANCH ?= "master-rel-1.12.2"
+REPO ?= "git://github.com/xilinx/gst-plugins-good.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
-PV = "1.8.3+git${SRCPV}"
+PV = "1.12.2+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
     git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
+    file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
     file://avoid-including-sys-poll.h-directly.patch \
     file://ensure-valid-sentinel-for-gst_structure_get.patch \
-    file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
+    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+    file://0001-v4l2-Fix-4K-colorimetry.patch \
     "
 
-SRCREV_base = "9fa7baf3964f4d9236af1a9606b29c2262601dcd"
-SRCREV_common = "6f2d2093e84cc0eb99b634fa281822ebb9507285"
+SRCREV_base = "81eb71f72f36369d3f763ef20fcd650b0e1f35d6"
+SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
 S = "${WORKDIR}/git"
