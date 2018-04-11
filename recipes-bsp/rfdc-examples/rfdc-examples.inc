@@ -7,8 +7,13 @@ SRCREV = "aaa566bc3fa19255de4d434ebfa57ae3a9d261b2"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
-SRC_URI = "${REPO};${BRANCHARG}"
+SRC_URI = " \
+		${REPO};${BRANCHARG} \
+		file://0001-rfdc-Add-clock-configuration-support-files.patch \
+		"
 
 PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
 
