@@ -24,6 +24,9 @@ PACKAGES = "${PN}-dbg ${PN}"
 
 S = "${WORKDIR}/git/XilinxProcessorIPLib/drivers/rfdc/examples"
 
+FLAG = ""
+FLAG_zcu111-zynqmp = "-DXPS_BOARD_ZCU111"
+
 do_compile_prepend () {
     cp ${S}/Makefile.Linux ${S}/Makefile
 }

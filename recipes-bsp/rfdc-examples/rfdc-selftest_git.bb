@@ -3,7 +3,7 @@ SUMMARY = "Simple rfdc-selftest application"
 require rfdc-examples.inc
 
 do_compile (){
-    make all OUTS=rfdc-selftest RFDC_OBJS=xrfdc_selftest_example.o
+    make all BOARD_FLAG=${FLAG} OUTS=rfdc-selftest RFDC_OBJS=xrfdc_selftest_example.o
 }
 
 do_install() {
