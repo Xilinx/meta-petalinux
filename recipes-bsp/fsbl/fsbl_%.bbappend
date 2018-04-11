@@ -5,7 +5,7 @@ do_shared_workdir() {
     :
 }
 
-do_shared_workdir_zc1254-zynqmp() {
+do_shared_workdir_zynqmpdr() {
     install -d ${STAGING_RFDC_DIR}
     install -m 0644 ${XSCTH_WS}/${XSCTH_PROJ}_bsp/${XSCTH_PROC}/libsrc/rfdc*/src/xrfdc_g.c ${STAGING_RFDC_DIR}
     install -m 0644 ${XSCTH_WS}/${XSCTH_PROJ}_bsp/${XSCTH_PROC}/include/xparameters.h ${STAGING_RFDC_DIR}
