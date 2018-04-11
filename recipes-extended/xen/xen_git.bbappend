@@ -3,7 +3,7 @@ XEN_BRANCH = "stable-${XEN_REL}"
 
 BRANCH = "xilinx/${XEN_BRANCH}"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV = "ea381e4fb2fe7ced6ae35c805f871b6ea228084f"
+SRCREV = "c227fe68589bdfb36b85f7b78c034a40c95b9a30"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
