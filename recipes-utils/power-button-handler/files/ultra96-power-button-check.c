@@ -43,7 +43,6 @@
 static void power_button_pushed(void *);
 static void usage(char *);
 
-
 static char command[256]={0};
 const char *lcd_display= "python /sbin/groove-rgb-lcd.py";
 
