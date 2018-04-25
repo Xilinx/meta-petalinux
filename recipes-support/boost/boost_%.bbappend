@@ -1,0 +1,1 @@
+PACKAGECONFIG = "locale python"
