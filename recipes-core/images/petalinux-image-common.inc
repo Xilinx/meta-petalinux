@@ -24,6 +24,8 @@ IMAGE_INSTALL = " \
 
 COMMON_INSTALL_append_zynqmp = " hellopm"
 
+CORE_IMAGE_EXTRA_INSTALL_append_ultra96-zynqmp = " packagegroup-base-extended"
+
 IMAGE_LINGUAS = " "
 
 FEATURE_PACKAGES_petalinux-base ?= "packagegroup-petalinux"
