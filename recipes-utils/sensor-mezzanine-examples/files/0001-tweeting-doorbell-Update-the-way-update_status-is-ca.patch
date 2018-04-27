@@ -1,0 +1,27 @@
+From d9e8b6f366f22b0b769bdecb6c9e15891f3c44e7 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 23 Apr 2018 12:08:01 -0700
+Subject: [meta-xilinx-extras][PATCH] tweeting doorbell: Update the way
+ update_status() is called
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ tweeting_doorbell/tweeting_doorbell.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tweeting_doorbell/tweeting_doorbell.py b/tweeting_doorbell/tweeting_doorbell.py
+index 0a10cd7..a1fd1c3 100644
+--- a/tweeting_doorbell/tweeting_doorbell.py
++++ b/tweeting_doorbell/tweeting_doorbell.py
+@@ -28,7 +28,7 @@ def tweet():
+ 		lcd.setColor(0,0,0)
+ 		return
+ 
+-	 api.update_status(msg)
++	api.update_status(status = msg)
+ 	time.sleep(1)
+ 
+ 	lcd.setColor(0,0,0)
+-- 
+2.7.4
+

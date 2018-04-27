@@ -1,0 +1,147 @@
+From 25f2009fb93edb5d37930e2c494b2a602b272d10 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 23 Apr 2018 12:01:25 -0700
+Subject: [meta-xilinx-extras][PATCH] 96Boards Sensors examples: Modify
+ examples to run on zcu100
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ button_led/Makefile                     | 1 +
+ humid_temp/Makefile                     | 1 +
+ humid_temp/humid_temp.py                | 9 +++++----
+ light_buzz/Makefile                     | 1 +
+ rgb_lcd_demo/Makefile                   | 4 ++--
+ rgb_lcd_demo/rgb_lcd_demo.cpp           | 2 +-
+ tweeting_doorbell/Makefile              | 2 ++
+ tweeting_doorbell/keys.py               | 5 +++++
+ tweeting_doorbell/tweeting_doorbell.ino | 2 ++
+ tweeting_doorbell/tweeting_doorbell.py  | 7 ++++---
+ 10 files changed, 24 insertions(+), 10 deletions(-)
+ create mode 100644 tweeting_doorbell/keys.py
+
+diff --git a/button_led/Makefile b/button_led/Makefile
+index 657b018..21f4b05 100644
+--- a/button_led/Makefile
++++ b/button_led/Makefile
+@@ -1 +1,2 @@
++MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+diff --git a/humid_temp/Makefile b/humid_temp/Makefile
+index 35b0614..4054b54 100644
+--- a/humid_temp/Makefile
++++ b/humid_temp/Makefile
+@@ -1,3 +1,4 @@
++MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+ run: upload
+         python humid_temp.py
+diff --git a/humid_temp/humid_temp.py b/humid_temp/humid_temp.py
+index ebfcec2..378034a 100644
+--- a/humid_temp/humid_temp.py
++++ b/humid_temp/humid_temp.py
+@@ -1,8 +1,9 @@
+-import serial, pyupm_i2clcd
+-
+-ard = serial.Serial('/dev/tty96B0', 9600)
+-lcd = pyupm_i2clcd.Jhd1313m1(0, 0x3e, 0x62)
++import serial
++from upm import pyupm_jhd1313m1
+ 
++ard = serial.Serial('/dev/ttyS2', 9600)
++lcd = pyupm_jhd1313m1.Jhd1313m1(0, 0x3e, 0x62)
++ 
+ def showTemp(humid, temp):
+ 	lcd.clear()
+ 	lcd.setCursor(0, 0)
+diff --git a/light_buzz/Makefile b/light_buzz/Makefile
+index 657b018..21f4b05 100644
+--- a/light_buzz/Makefile
++++ b/light_buzz/Makefile
+@@ -1 +1,2 @@
++MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+diff --git a/rgb_lcd_demo/Makefile b/rgb_lcd_demo/Makefile
+index d814ffa..50b60da 100644
+--- a/rgb_lcd_demo/Makefile
++++ b/rgb_lcd_demo/Makefile
+@@ -1,5 +1,5 @@
+-LDFLAGS=-lupm-i2clcd
+-CXXFLAGS=-Wall -g
++LDFLAGS=-lupm-i2clcd -lupm-jhd1313m1
++CXXFLAGS=-Wall -g -I/usr/include/upm
+ TARGETS=rgb_lcd_demo
+ 
+ all: ${TARGETS}
+diff --git a/rgb_lcd_demo/rgb_lcd_demo.cpp b/rgb_lcd_demo/rgb_lcd_demo.cpp
+index 88fdd85..d8e52b9 100644
+--- a/rgb_lcd_demo/rgb_lcd_demo.cpp
++++ b/rgb_lcd_demo/rgb_lcd_demo.cpp
+@@ -4,7 +4,7 @@
+  * All rights reserved.
+  * SPDX-License-Identifier: BSD-2-Clause
+  */
+-
++#include <unistd.h>
+ #include <string>
+ #include "upm/jhd1313m1.hpp"
+ 
+diff --git a/tweeting_doorbell/Makefile b/tweeting_doorbell/Makefile
+index bc26942..eb2fd56 100644
+--- a/tweeting_doorbell/Makefile
++++ b/tweeting_doorbell/Makefile
+@@ -1,3 +1,5 @@
++MONITOR_PORT=/dev/ttyS2
++
+ include /usr/share/arduino/Arduino.mk
+ 
+ run: upload
+diff --git a/tweeting_doorbell/keys.py b/tweeting_doorbell/keys.py
+new file mode 100644
+index 0000000..78f02a9
+--- /dev/null
++++ b/tweeting_doorbell/keys.py
+@@ -0,0 +1,5 @@
++consumer_key = ""
++consumer_secret = ""
++access_token = ""
++access_token_secret = ""
++
+diff --git a/tweeting_doorbell/tweeting_doorbell.ino b/tweeting_doorbell/tweeting_doorbell.ino
+index fa01697..d45bb33 100644
+--- a/tweeting_doorbell/tweeting_doorbell.ino
++++ b/tweeting_doorbell/tweeting_doorbell.ino
+@@ -14,8 +14,10 @@ void loop() {
+  	int pressed = digitalRead(buttonPin);
+ 	if (pressed == 1) {
+  		digitalWrite(ledPin, HIGH);
++		digitalWrite(buzzerPin, HIGH);
+ 		Serial.println("tweet");
+ 		delay(1000);
+ 		digitalWrite(ledPin, LOW);
++		digitalWrite(buzzerPin, LOW);
+ 	}
+ }
+diff --git a/tweeting_doorbell/tweeting_doorbell.py b/tweeting_doorbell/tweeting_doorbell.py
+index 98c6206..4343f98 100644
+--- a/tweeting_doorbell/tweeting_doorbell.py
++++ b/tweeting_doorbell/tweeting_doorbell.py
+@@ -1,12 +1,13 @@
+-import tweepy, serial, datetime, time, keys, pyupm_i2clcd
++import tweepy, serial, datetime, time, keys
++from upm import pyupm_i2clcd
+ 
+ auth = tweepy.OAuthHandler(keys.consumer_key,
+ 			   keys.consumer_secret)
+ auth.set_access_token(keys.access_token,
+ 		      keys.access_token_secret)
+ api = tweepy.API(auth)
+-ard = serial.Serial('/dev/tty96B0', 115200)
+-lcd = pyupm_i2clcd.Jhd1313m1(0, 0x3e, 0x62)
++ard = serial.Serial('/dev/ttyS2', 115200)
++lcd = pyupm_jhd1313m1.Jhd1313m1(0, 0x3e, 0x62)
+ 
+ def tweet():
+ 	lcd.clear()
+-- 
+2.7.4
+

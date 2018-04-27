@@ -1,0 +1,85 @@
+From 557f847fa449e36dc27a239727e04e9ed3e42bf0 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 23 Apr 2018 12:02:18 -0700
+Subject: [meta-xilinx-extras][PATCH] Added run_me.sh to all examples
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ button_led/run_me.sh        | 3 +++
+ humid_temp/run_me.sh        | 4 ++++
+ light_buzz/run_me.sh        | 4 ++++
+ rgb_lcd_demo/run_me.sh      | 5 +++++
+ touch_switch/run_me.sh      | 5 +++++
+ tweeting_doorbell/run_me.sh | 4 ++++
+ 6 files changed, 25 insertions(+)
+ create mode 100755 button_led/run_me.sh
+ create mode 100755 humid_temp/run_me.sh
+ create mode 100755 light_buzz/run_me.sh
+ create mode 100755 rgb_lcd_demo/run_me.sh
+ create mode 100755 touch_switch/run_me.sh
+ create mode 100755 tweeting_doorbell/run_me.sh
+
+diff --git a/button_led/run_me.sh b/button_led/run_me.sh
+new file mode 100755
+index 0000000..468b259
+--- /dev/null
++++ b/button_led/run_me.sh
+@@ -0,0 +1,3 @@
++#!/bin/bash
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/button_led
++make upload reset_stty
+diff --git a/humid_temp/run_me.sh b/humid_temp/run_me.sh
+new file mode 100755
+index 0000000..3d3aa48
+--- /dev/null
++++ b/humid_temp/run_me.sh
+@@ -0,0 +1,4 @@
++#!/bin/bash
++export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/site-packages/upm
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/humid_temp
++make run
+diff --git a/light_buzz/run_me.sh b/light_buzz/run_me.sh
+new file mode 100755
+index 0000000..6c97bb6
+--- /dev/null
++++ b/light_buzz/run_me.sh
+@@ -0,0 +1,4 @@
++#!/bin/bash
++
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/light_buzz
++make upload reset_stty
+diff --git a/rgb_lcd_demo/run_me.sh b/rgb_lcd_demo/run_me.sh
+new file mode 100755
+index 0000000..e987eb4
+--- /dev/null
++++ b/rgb_lcd_demo/run_me.sh
+@@ -0,0 +1,5 @@
++#!/bin/bash
++
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/rgb_lcd_demo
++make
++./rgb_lcd_demo
+diff --git a/touch_switch/run_me.sh b/touch_switch/run_me.sh
+new file mode 100755
+index 0000000..e51e486
+--- /dev/null
++++ b/touch_switch/run_me.sh
+@@ -0,0 +1,5 @@
++#!/bin/bash
++
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/touch_switch
++make
++./touch_switch
+diff --git a/tweeting_doorbell/run_me.sh b/tweeting_doorbell/run_me.sh
+new file mode 100755
+index 0000000..169cc33
+--- /dev/null
++++ b/tweeting_doorbell/run_me.sh
+@@ -0,0 +1,4 @@
++#!/bin/bash
++
++cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
++make run
+-- 
+2.7.4
+

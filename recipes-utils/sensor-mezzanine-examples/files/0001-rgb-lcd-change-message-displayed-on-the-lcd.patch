@@ -1,0 +1,31 @@
+From 65b23199132349ef9f8f759f347971a247a9ff50 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 23 Apr 2018 12:05:15 -0700
+Subject: [meta-xilinx-extras][PATCH] rgb lcd: change message displayed on the
+ lcd
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ rgb_lcd_demo/rgb_lcd_demo.cpp | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/rgb_lcd_demo/rgb_lcd_demo.cpp b/rgb_lcd_demo/rgb_lcd_demo.cpp
+index d8e52b9..a4bbe47 100644
+--- a/rgb_lcd_demo/rgb_lcd_demo.cpp
++++ b/rgb_lcd_demo/rgb_lcd_demo.cpp
+@@ -31,9 +31,9 @@ void display(string str1, string str2, int red, int green, int blue)
+ 
+ int main(int argc, char* argv[])
+ {
+-	string str1 = "96Boards!";
+-	string str2 = "Grove Sensors!";
+-	string str3 = "Linaro!";
++	string str1 = "Avnet";
++	string str2 = "Ultra96!";
++	string str3 = "Board!";
+ 	
+ 	lcd = new upm::Jhd1313m1(I2C_BUS, 0x3e, 0x62);
+ 
+-- 
+2.7.4
+

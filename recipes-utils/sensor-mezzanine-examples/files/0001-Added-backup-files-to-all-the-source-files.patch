@@ -1,0 +1,366 @@
+From b839f1f19cddf3f68b59dd4bc08932107a163e91 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 23 Apr 2018 12:09:55 -0700
+Subject: [meta-xilinx-extras][PATCH] Added backup files to all the source
+ files
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ button_led/button_led.ino.bak               | 31 ++++++++++++++++
+ humid_temp/humid_temp.py.bak                | 27 ++++++++++++++
+ humid_temp/read_dht.ino.bak                 | 30 ++++++++++++++++
+ light_buzz/light_buzz.ino.bak               | 21 +++++++++++
+ rgb_lcd_demo/rgb_lcd_demo.cpp.bak           | 56 +++++++++++++++++++++++++++++
+ touch_switch/touch_switch.cpp.bak           | 44 +++++++++++++++++++++++
+ tweeting_doorbell/keys.py.bak               |  4 +++
+ tweeting_doorbell/tweeting_doorbell.ino.bak | 23 ++++++++++++
+ tweeting_doorbell/tweeting_doorbell.py.bak  | 45 +++++++++++++++++++++++
+ 9 files changed, 281 insertions(+)
+ create mode 100644 button_led/button_led.ino.bak
+ create mode 100644 humid_temp/humid_temp.py.bak
+ create mode 100644 humid_temp/read_dht.ino.bak
+ create mode 100644 light_buzz/light_buzz.ino.bak
+ create mode 100644 rgb_lcd_demo/rgb_lcd_demo.cpp.bak
+ create mode 100644 touch_switch/touch_switch.cpp.bak
+ create mode 100644 tweeting_doorbell/keys.py.bak
+ create mode 100644 tweeting_doorbell/tweeting_doorbell.ino.bak
+ create mode 100644 tweeting_doorbell/tweeting_doorbell.py.bak
+
+diff --git a/button_led/button_led.ino.bak b/button_led/button_led.ino.bak
+new file mode 100644
+index 0000000..a0d5a6f
+--- /dev/null
++++ b/button_led/button_led.ino.bak
+@@ -0,0 +1,31 @@
++/*
++ * Example using a button to control an LED
++ * Copyright (c) 2016 Linaro Ltd.
++ * SPDX-License-Identifier: BSD-2-Clause
++ */
++int led_pin = 3;
++int button_pin = A0;
++ 
++void setup()
++{
++        pinMode(led_pin, OUTPUT);
++        pinMode(button_pin, INPUT);
++}
++
++bool last_button = false;
++int led_state = 0;
++
++void loop()
++{
++        bool button = digitalRead(button_pin);
++        if (last_button != button)
++        {
++                if (button) {
++                        led_state = (led_state + 1) % 4;
++                        analogWrite(led_pin, led_state * 0x3f);
++                }
++                delay(100);
++        }
++        last_button = button;
++}       
++
+diff --git a/humid_temp/humid_temp.py.bak b/humid_temp/humid_temp.py.bak
+new file mode 100644
+index 0000000..5bddd6a
+--- /dev/null
++++ b/humid_temp/humid_temp.py.bak
+@@ -0,0 +1,27 @@
++import serial
++from upm import pyupm_jhd1313m1
++
++ard = serial.Serial('/dev/ttyS2', 9600)
++lcd = pyupm_jhd1313m1.Jhd1313m1(0, 0x3e, 0x62)
++
++def showTemp(humid, temp):
++	lcd.clear()
++	lcd.setCursor(0, 0)
++	lcd.write(humid)
++	lcd.setCursor(1, 0)
++	lcd.write("Temp:" + temp + " C")
++	lcd.setColor(255, 180, 180)
++
++if __name__ == '__main__':
++	print("Welcome to the Humidity & Temperature reader!!!")
++	try:
++		while True:
++			ardOut = ard.readline()
++			if ardOut.find("Humidity:") != -1:
++				ardHumid = ardOut.split('Temperature')[0]
++				ardTemp = ardOut.split('Temperature:')[1]
++				showTemp(ardHumid,ardTemp)
++	except KeyboardInterrupt:
++		lcd.setColor(0,0,0)
++		lcd.clear()
++		print("CTRL-C!! Exiting...")
+diff --git a/humid_temp/read_dht.ino.bak b/humid_temp/read_dht.ino.bak
+new file mode 100644
+index 0000000..3ec089f
+--- /dev/null
++++ b/humid_temp/read_dht.ino.bak
+@@ -0,0 +1,30 @@
++#include "DHT.h"
++
++DHT dht(A0, DHT11);
++
++void setup()
++{
++        Serial.begin(9600);
++        dht.begin();
++}
++
++void loop()
++{
++        float h = dht.readHumidity();
++        float t = dht.readTemperature();
++
++        // check if valid, if NaN (not a number) then something went wrong!
++        if (isnan(t) || isnan(h)) {
++                Serial.println("Failed to read from DHT");
++                return;
++        }
++
++        Serial.print("Humidity: ");
++        Serial.print(h);
++        Serial.print(" %\t");
++        Serial.print("Temperature: ");
++        Serial.print(t);
++        Serial.println(" *C");
++        delay(2000);
++}
++
+diff --git a/light_buzz/light_buzz.ino.bak b/light_buzz/light_buzz.ino.bak
+new file mode 100644
+index 0000000..1ffe213
+--- /dev/null
++++ b/light_buzz/light_buzz.ino.bak
+@@ -0,0 +1,21 @@
++//pins used for components
++const int buzzer = 4;
++const int sensor = A0;
++
++//this is the threshold value for the light sensor
++//to make the light sensor more sensitive, lower this value
++int thresholdVal = 400;
++
++void setup(){
++        pinMode(sensor, INPUT);  // set pin for button input
++        pinMode(buzzer, OUTPUT); // set pin for buzzer output
++}
++
++void loop() {
++        int sensorVal = analogRead(sensor);
++        if (sensorVal < thresholdVal)
++                digitalWrite(buzzer, HIGH);
++        else
++                digitalWrite(buzzer, LOW);
++}
++
+diff --git a/rgb_lcd_demo/rgb_lcd_demo.cpp.bak b/rgb_lcd_demo/rgb_lcd_demo.cpp.bak
+new file mode 100644
+index 0000000..0d90e6a
+--- /dev/null
++++ b/rgb_lcd_demo/rgb_lcd_demo.cpp.bak
+@@ -0,0 +1,56 @@
++/*
++ * Author: Akira Tsukamoto
++ * Copyright (c) 2016 Linaro Ltd.
++ * All rights reserved.
++ * SPDX-License-Identifier: BSD-2-Clause
++ */
++
++#include <unistd.h>
++#include <string>
++#include "upm/jhd1313m1.hpp"
++
++#define I2C_BUS  0
++#define RGB_WHT 0xff,0xff,0xff
++#define RGB_RED 0xff,0x00,0x00
++#define RGB_GRN 0x00,0xff,0x00
++#define RGB_BLU 0x00,0x00,0xff
++#define SLEEP_TIME 2
++
++using namespace std;
++upm::Jhd1313m1* lcd;
++
++void display(string str1, string str2, int red, int green, int blue)
++{
++	lcd->clear();
++	lcd->setColor(red, green, blue);
++	lcd->setCursor(0,0); /* first row */
++	lcd->write(str1);
++	lcd->setCursor(1,2); /* second row */
++	lcd->write(str2);
++	sleep(SLEEP_TIME);
++}
++
++int main(int argc, char* argv[])
++{
++	string str1 = "Xilinx";
++	string str2 = "Avnet";
++	string str3 = "Board!";
++	
++	lcd = new upm::Jhd1313m1(I2C_BUS, 0x3e, 0x62);
++
++	if ((argc >= 2) && (argv[1] != NULL))
++		str1 = argv[1];
++	if ((argc >= 3) && (argv[2] != NULL))
++		str2 = argv[2];
++	if ((argc >= 4) && (argv[3] != NULL))
++		str3 = argv[3];
++
++	while (true) {
++		display(str1, "Red", RGB_RED);
++		display(str2, "Green", RGB_GRN);
++		display(str3, "Blue", RGB_BLU);
++	}
++	delete lcd;
++	return 0;
++}
++
+diff --git a/touch_switch/touch_switch.cpp.bak b/touch_switch/touch_switch.cpp.bak
+new file mode 100644
+index 0000000..6d4e811
+--- /dev/null
++++ b/touch_switch/touch_switch.cpp.bak
+@@ -0,0 +1,44 @@
++#include <signal.h>
++#include <unistd.h>
++#include "mraa.hpp"
++
++bool running = true;
++bool relay_state = false;
++int last_touch;
++void sig_handler(int signo)
++{
++        if (signo == SIGINT)
++                running = false;
++}
++int main(int argc, char* argv[])
++{
++        mraa::Gpio* touch_gpio = new mraa::Gpio(29);
++        mraa::Gpio* relay_gpio = new mraa::Gpio(27);
++        mraa::Result response;
++        int touch;
++
++        signal(SIGINT, sig_handler);
++
++        response = touch_gpio->dir(mraa::DIR_IN);
++        if (response != mraa::SUCCESS)
++                return 1;
++        response = relay_gpio->dir(mraa::DIR_OUT);
++        if (response != mraa::SUCCESS)
++                return 1;
++
++        relay_gpio->write(relay_state);
++        
++        while (running) {
++                touch = touch_gpio->read();
++                if (touch == 1 && last_touch == 0) {
++                        relay_state = !relay_state;
++                        response = relay_gpio->write(relay_state);
++                        usleep(100000);
++                }
++                last_touch = touch;
++        }
++        delete relay_gpio;
++        delete touch_gpio;
++        return response;
++}
++
+diff --git a/tweeting_doorbell/keys.py.bak b/tweeting_doorbell/keys.py.bak
+new file mode 100644
+index 0000000..4756276
+--- /dev/null
++++ b/tweeting_doorbell/keys.py.bak
+@@ -0,0 +1,4 @@
++consumer_key = ""
++consumer_secret = ""
++access_token = ""
++access_token_secret = ""
+diff --git a/tweeting_doorbell/tweeting_doorbell.ino.bak b/tweeting_doorbell/tweeting_doorbell.ino.bak
+new file mode 100644
+index 0000000..d45bb33
+--- /dev/null
++++ b/tweeting_doorbell/tweeting_doorbell.ino.bak
+@@ -0,0 +1,23 @@
++const int buttonPin = 4;
++const int ledPin = 3;
++const int buzzerPin = 5;
++
++void setup() {
++	pinMode(buttonPin, INPUT);
++	pinMode(ledPin, OUTPUT);
++	pinMode(buzzerPin, OUTPUT);
++	Serial.begin(115200);
++	Serial.println("waiting");
++}
++
++void loop() {
++ 	int pressed = digitalRead(buttonPin);
++	if (pressed == 1) {
++ 		digitalWrite(ledPin, HIGH);
++		digitalWrite(buzzerPin, HIGH);
++		Serial.println("tweet");
++		delay(1000);
++		digitalWrite(ledPin, LOW);
++		digitalWrite(buzzerPin, LOW);
++	}
++}
+diff --git a/tweeting_doorbell/tweeting_doorbell.py.bak b/tweeting_doorbell/tweeting_doorbell.py.bak
+new file mode 100644
+index 0000000..e141d09
+--- /dev/null
++++ b/tweeting_doorbell/tweeting_doorbell.py.bak
+@@ -0,0 +1,45 @@
++import tweepy, serial, datetime, time, keys, sys
++from upm import pyupm_jhd1313m1
++auth = tweepy.OAuthHandler(keys.consumer_key,
++			   keys.consumer_secret)
++auth.set_access_token(keys.access_token,
++		      keys.access_token_secret)
++api = tweepy.API(auth)
++ard = serial.Serial('/dev/ttyS2', 115200)
++lcd = pyupm_jhd1313m1.Jhd1313m1(0, 0x3e, 0x62)
++
++def tweet():
++	lcd.clear()
++	today = datetime.datetime.now()
++	lcd.setCursor(0, 0)
++	lcd.write("Ding Dong")
++	lcd.setCursor(1, 0)
++	lcd.write(today.strftime('%Y/%m/%d %H:%M:%S'))
++	lcd.setColor(0, 255, 0)
++
++	msg = '(Chatty Doorbell) Ding dong! Someone was at the door at %s' % \
++		today.strftime('%d/%m/%Y %H:%M')
++	print(msg)
++
++	if len(sys.argv) > 1:
++	    if sys.argv[1].lower() == "notweet":
++		time.sleep(1)
++		lcd.setColor(0,0,0)
++		return
++
++	api.update_status(status = msg)
++	time.sleep(1)
++	lcd.setColor(0,0,0)
++	lcd.clear()
++
++if __name__ == '__main__':
++	lcd.clear()
++	lcd.setColor(0, 0, 0)
++	print("Welcome to the tweeting doorbell! To quit, press CTRL + C")
++	try:
++		while True:
++			ardOut = ard.readline()
++			if ardOut.find("tweet") != -1:
++				tweet()
++	except KeyboardInterrupt:
++		print("CTRL-C!! Exiting...")
+-- 
+2.7.4
+
