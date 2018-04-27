@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=launch-ultra96-startup-page
+GenericName=launch-ultra96-startup-page
+Comment=This will launch ultra96 startup page
+Exec=/sbin/launch-ultra96-startup-page.sh
+Icon=/usr/share/pixmaps/program.jpg
+Terminal=false
+Type=Application
+Categories=
+OnlyShowIn=XFCE;
