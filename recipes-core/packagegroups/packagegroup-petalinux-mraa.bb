@@ -11,7 +11,7 @@ MRAA_UPM_PACKAGES = " \
 	upm \
 	upm-dev \
 	node-upm \
-	python3-upm \
+	python-upm \
 	nodejs \
 	nodejs-dev \
 	nodejs-npm \
