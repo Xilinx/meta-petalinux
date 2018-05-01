@@ -28,7 +28,7 @@ index 169cc33..2a2ba5d 100755
 @@ -1,4 +1,4 @@
  #!/bin/bash
  
- cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
+ cd /usr/share/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
 -make run
 +make run TWEET=$1
 diff --git a/tweeting_doorbell/tweeting_doorbell.py b/tweeting_doorbell/tweeting_doorbell.py
@@ -38,7 +38,7 @@ index 4343f98..0a10cd7 100644
 @@ -1,5 +1,5 @@
 -import tweepy, serial, datetime, time, keys
 -from upm import pyupm_i2clcd
-++import tweepy, serial, datetime, time, keys, sys
++import tweepy, serial, datetime, time, keys, sys
 +from upm import pyupm_jhd1313m1
  
  auth = tweepy.OAuthHandler(keys.consumer_key,

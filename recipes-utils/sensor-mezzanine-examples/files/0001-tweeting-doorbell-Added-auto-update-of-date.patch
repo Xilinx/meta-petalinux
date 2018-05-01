@@ -16,7 +16,7 @@ index 2a2ba5d..4c43d95 100755
 @@ -1,4 +1,11 @@
  #!/bin/bash
  
- cd /usr/share/Desktop/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
+ cd /usr/share/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
 -make run TWEET=$1
 +
 +ssid=$(iwgetid)
