@@ -3,7 +3,6 @@ DESCRIPTION = "Required packages for 96boards sensor mezzanine examples"
 inherit packagegroup
 
 96BOARD_SENSOR_PACKAGES = " \
-	arduino-toolchain \
 	avrdude \
 	ntp \
 	python-requests-oauthlib \
@@ -18,6 +17,6 @@ inherit packagegroup
 	libftdi	\
 	"
 
-96BOARD_SENSOR_PACKAGES_append_ultra96-zynqmp = " sensor-mezzanine-examples"
+96BOARD_SENSOR_PACKAGES_append_ultra96-zynqmp = " sensor-mezzanine-examples arduino-toolchain"
 
 RDEPENDS_${PN} = "${96BOARD_SENSOR_PACKAGES}"
