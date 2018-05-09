@@ -1,7 +1,7 @@
-PACKAGECONFIG_append = " gtkgui"
+PACKAGECONFIG_append = " gtkgui x11"
 
-do_install_append() {
-    install -m 0755 ${S}/vim ${D}/${bindir}/gvim
-}
+PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
+PACKAGECONFIG[x11] = "--with-x,--without-x,libxt,"
 
-ALTERNATIVE_TARGET = "${bindir}/gvim"
+ALTERNATIVE_${PN} = "vi vim gvim"
+ALTERNATIVE_LINK_NAME[gvim] = "${bindir}/gvim"
