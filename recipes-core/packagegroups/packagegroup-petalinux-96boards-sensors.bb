@@ -5,7 +5,6 @@ inherit packagegroup
 96BOARD_SENSOR_PACKAGES = " \
 	avrdude \
 	ntp \
-	python-twitter \
 	packagegroup-core-buildessential \
 	packagegroup-petalinux-mraa	 \
 	python-argparse \
@@ -16,10 +15,11 @@ inherit packagegroup
 	"
 
 96BOARD_SENSOR_PACKAGES_append_ultra96-zynqmp = " \
-						sensor-mezzanine-examples \
-						arduino-toolchain \
-						python-oauthlib \
-						python-requests-oauthlib \
-						"
+	sensor-mezzanine-examples \
+	arduino-toolchain \
+	python-oauthlib \
+	python-requests-oauthlib \
+	python-twitter \
+	"
 
 RDEPENDS_${PN} = "${96BOARD_SENSOR_PACKAGES}"
