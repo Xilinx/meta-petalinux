@@ -8,7 +8,7 @@ SRC_URI = " \
 	git://anongit.freedesktop.org/git/gstreamer/common.git;destsuffix=git/common;branch=master;name=common \
 	"
 
-SRCREV_gst-omx = "12c11d22703fe6bd289050ddb4a9294c2bf00e3d"
+SRCREV_gst-omx = "5c2c023185923c88982dd55d1a7ade08c9a06e97"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "gst-omx"
 
