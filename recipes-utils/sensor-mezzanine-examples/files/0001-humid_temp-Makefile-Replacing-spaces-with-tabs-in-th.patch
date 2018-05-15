@@ -1,0 +1,25 @@
+From 17dd34167b21fc26eb4a48de89b6251d25baf71f Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Mon, 14 May 2018 20:43:33 -0700
+Subject: [sensor_mezzanine_example humid_temp][PATCH] humid_temp/Makefile:
+ Replacing spaces with tabs in the Makefile
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ humid_temp/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/humid_temp/Makefile b/humid_temp/Makefile
+index 35b0614..aa718de 100644
+--- a/humid_temp/Makefile
++++ b/humid_temp/Makefile
+@@ -1,4 +1,5 @@
++MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+ run: upload
+-        python humid_temp.py
++	python humid_temp.py
+ 
+-- 
+2.7.4
+
