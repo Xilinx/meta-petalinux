@@ -12,7 +12,8 @@ SRC_URI = " \
     http://http.us.debian.org/debian/pool/main/b/binutils-avr/binutils-avr_2.26.20160125+Atmel3.5.3-1_arm64.deb;subdir=avrgcc;unpack=false;name=binutils-avr \
     http://http.us.debian.org/debian/pool/main/a/arduino/arduino-core_1.0.5+dfsg2-4.1_all.deb;subdir=avrgcc;unpack=false;name=arduino-core \
     http://http.us.debian.org/debian/pool/main/a/avr-libc/avr-libc_1.8.0%2BAtmel3.5.0-1_all.deb;subdir=avrgcc;unpack=false;name=avr-libc \
-    "
+    file://Arduino.mk \
+"
 
 SRC_URI[avr-libc.md5sum] = "99c34db66ac721c76c8ce7dfe3929eaf"
 SRC_URI[avr-libc.sha256sum] = "f1a941e6cd5252a6d049ae28125d3c302e38358aa9390a2343681a299df22f70"
@@ -57,6 +58,7 @@ do_install() {
     done
 
     cp -a --no-preserve=ownership ${WORKDIR}/avrgcc/usr/* ${D}/${prefix}
+    cp --no-preserve=ownership ${WORKDIR}/Arduino.mk ${D}/usr/share/arduino/Arduino.mk
 }
 
 FILES_${PN} += "/usr/*"
