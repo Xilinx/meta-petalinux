@@ -1,7 +1,7 @@
 meta-petalinux
 ==============
 
-This layer provides support for the Petalinux distribution for Xilinx devices.
+This layer is a distro layer supporting Xilinx devices
 
 Supported architecture
 =======================
@@ -47,7 +47,11 @@ This layer depends on:
  	URI: git://git.openembedded.org/openembedded-core
 	URI: git://git.openembedded.org/meta-openembedded
 	URI: git://git.openembedded.org/meta-qt5
-	URI: git://git.openembedded.org/meta-xilinx
+	URI: git://git.openembedded.org/meta-virtualization
+	URI: git://git.openembedded.org/meta-browser
+	URI: git://git.openembedded.org/meta-openamp
+	URI: git://git.openembedded.org/meta-xilinx-tools
+	URI: git://git.openembedded.org/meta-xilinx-bsp
 
 Build Instructions
 ==================
@@ -76,6 +80,8 @@ initialized configure bblayers.conf by adding the 'meta-xilinx' layer. e.g.:
 		<path to layer>/meta-qt5 \
 		<path to layer>/meta-selftest \
 		<path to layer>/meta-skeleton \
+		<path to layer>/meta-openamp \
+		<path to layer>/meta-browser \
 		<path to layer>/meta-xilinx/meta-xilinx-bsp \
 		<path to layer>/meta-xilinx/meta-xilinx-contrib \
 		<path to layer>/meta-xilinx-tools \
@@ -95,7 +101,7 @@ To build a specific target RPM packages configure the associated machine in loca
 
 Build the target file system image using bitbake:
 
-	$ bitbake petalinux-image
+	$ bitbake petalinux-image-full
 
 Once complete the rpm for the target machine will be available in the output
 directory 'tmp/deploy/rpm'.
