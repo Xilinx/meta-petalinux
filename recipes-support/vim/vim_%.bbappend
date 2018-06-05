@@ -1,3 +1,5 @@
+inherit pkgconfig
+
 PACKAGECONFIG_append = " gtkgui x11"
 
 PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
