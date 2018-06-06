@@ -12,7 +12,7 @@
 ### END INIT INFO
 
 DESC="ultra96-ap-setup.sh will start AP on ultra96"
-APSETUPUTIL="${datadir}/wpa_ap/ap.sh"
+APSETUPUTIL="/usr/share/wpa_ap/ap.sh"
 APSETUPUTIL_PID_NAME="ultra96-ap-setup"
 
 test -x "$APSETUPUTIL" || exit 0
