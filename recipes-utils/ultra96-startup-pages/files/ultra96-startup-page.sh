@@ -25,7 +25,7 @@ case "$1" in
     ;;
   stop)
     echo -n "Stopping Flask server deamon"
-    start-stop-daemon --stop --quiet --pidfile /var/run/$FLASK_CMD.pid
+    start-stop-daemon --stop --quiet --pidfile /var/run/$FLASK_PID_NAME.pid
     ;;
   *)
     echo "Usage: /etc/init.d/ultra96-startup-page.sh {start|stop}"
