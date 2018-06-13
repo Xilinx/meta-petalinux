@@ -202,6 +202,9 @@ BB_DISKMON_DIRS = "\
 XILINX_VER_MAIN = "2018.3"
 XILINX_SDK_TOOLCHAIN = "/proj/xbuilds/2018.3_daily_latest/installs/lin64/SDK/2018.3"
 
+# XILINX_VIVADO_DESIGN_SUIT should point to the Vivado installation directly if you are using xilinx-mcs recipe in meta-xilinx-tools
+#XILINX_VIVADO_DESIGN_SUIT = "/proj/xbuilds/2018.3_daily_latest/installs/lin64/Vivado/2018.3"
+
 # INHERIT += "externalsrc"
 # PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
 # EXTERNALSRC_pn-linux-xlnx-dev = "${BASE}/sources/linux"
