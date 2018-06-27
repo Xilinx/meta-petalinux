@@ -5,7 +5,6 @@ REQUIRED_DISTRO_FEATURES = "x11"
 
 SELF_HOSTED_PACKAGES = " \
 	packagegroup-self-hosted \
-	whetstone \
 	vim \
 	"
 
