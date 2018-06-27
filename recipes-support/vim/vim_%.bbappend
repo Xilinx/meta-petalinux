@@ -1,5 +1,10 @@
 inherit pkgconfig
 
+do_install_append (){
+	rm -f ${D}${datadir}/applications/vim.desktop
+}
+
+
 PACKAGECONFIG_append = " gtkgui x11"
 
 PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
