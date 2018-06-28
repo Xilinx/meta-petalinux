@@ -1,0 +1,162 @@
+From 4a819b00fdebc6fa818717ea0b8f5d3badb5a186 Mon Sep 17 00:00:00 2001
+From: Guillaume Desmottes <guillaume.desmottes@collabora.co.uk>
+Date: Thu, 5 Apr 2018 12:40:09 +0200
+Subject: [PATCH 2/2] poll: add API to watch for POLLPRI
+
+Windows doesn't seem to have an equivalent of POLLPRI so disabled those
+functions on this platform.
+
+This API can be used, for example, to wait for video4linux events which
+are using POLLPRI.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794977
+
+Upstream Status : Backported
+Signed-off-by: Jeegar Patel <jeegar.patel@xilinx.com>
+---
+ gst/gstpoll.c | 95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ gst/gstpoll.h |  2 ++
+ 2 files changed, 96 insertions(+), 1 deletion(-)
+
+diff --git a/gst/gstpoll.c b/gst/gstpoll.c
+index 1cc17d1..736bcbe 100644
+--- a/gst/gstpoll.c
++++ b/gst/gstpoll.c
+@@ -37,7 +37,7 @@
+  * New file descriptors are added to the set using gst_poll_add_fd(), and
+  * removed using gst_poll_remove_fd(). Controlling which file descriptors
+  * should be waited for to become readable and/or writable are done using
+- * gst_poll_fd_ctl_read() and gst_poll_fd_ctl_write().
++ * gst_poll_fd_ctl_read(), gst_poll_fd_ctl_write() and gst_poll_fd_ctl_pri().
+  *
+  * Use gst_poll_wait() to wait for the file descriptors to actually become
+  * readable and/or writable, or to timeout if no file descriptor is available
+@@ -1065,6 +1065,57 @@ gst_poll_fd_ctl_read (GstPoll * set, GstPollFD * fd, gboolean active)
+ }
+ 
+ /**
++ * gst_poll_fd_ctl_pri:
++ * @set: a file descriptor set.
++ * @fd: a file descriptor.
++ * @active: a new status.
++ *
++ * Control whether the descriptor @fd in @set will be monitored for
++ * exceptional conditions (POLLPRI).
++ *
++ * Not available on Windows.
++ *
++ * Returns: %TRUE if the descriptor was successfully updated.
++ */
++gboolean
++gst_poll_fd_ctl_pri (GstPoll * set, GstPollFD * fd, gboolean active)
++{
++#ifdef G_OS_WIN32
++  return FALSE;
++#else
++  gint idx;
++
++  g_return_val_if_fail (set != NULL, FALSE);
++  g_return_val_if_fail (fd != NULL, FALSE);
++  g_return_val_if_fail (fd->fd >= 0, FALSE);
++
++  GST_DEBUG ("%p: fd (fd:%d, idx:%d), active : %d", set,
++      fd->fd, fd->idx, active);
++
++  g_mutex_lock (&set->lock);
++
++  idx = find_index (set->fds, fd);
++  if (idx >= 0) {
++    struct pollfd *pfd = &g_array_index (set->fds, struct pollfd, idx);
++
++    if (active)
++      pfd->events |= POLLPRI;
++    else
++      pfd->events &= ~POLLPRI;
++
++    GST_LOG ("%p: pfd->events now %d (POLLPRI:%d)", set, pfd->events, POLLOUT);
++    MARK_REBUILD (set);
++  } else {
++    GST_WARNING ("%p: couldn't find fd !", set);
++  }
++
++  g_mutex_unlock (&set->lock);
++
++  return idx >= 0;
++#endif
++}
++
++/**
+  * gst_poll_fd_ignored:
+  * @set: a file descriptor set.
+  * @fd: a file descriptor.
+@@ -1285,6 +1336,48 @@ gst_poll_fd_can_write (const GstPoll * set, GstPollFD * fd)
+ }
+ 
+ /**
++ * gst_poll_fd_has_pri:
++ * @set: a file descriptor set.
++ * @fd: a file descriptor.
++ *
++ * Check if @fd in @set has an exceptional condition (POLLPRI).
++ *
++ * Not available on Windows.
++ *
++ * Returns: %TRUE if the descriptor has an exceptional condition.
++ */
++gboolean
++gst_poll_fd_has_pri (const GstPoll * set, GstPollFD * fd)
++{
++#ifdef G_OS_WIN32
++  return FALSE;
++#else
++  gboolean res = FALSE;
++  gint idx;
++
++  g_return_val_if_fail (set != NULL, FALSE);
++  g_return_val_if_fail (fd != NULL, FALSE);
++  g_return_val_if_fail (fd->fd >= 0, FALSE);
++
++  g_mutex_lock (&((GstPoll *) set)->lock);
++
++  idx = find_index (set->active_fds, fd);
++  if (idx >= 0) {
++    struct pollfd *pfd = &g_array_index (set->active_fds, struct pollfd, idx);
++
++    res = (pfd->revents & POLLPRI) != 0;
++  } else {
++    GST_WARNING ("%p: couldn't find fd !", set);
++  }
++  g_mutex_unlock (&((GstPoll *) set)->lock);
++
++  GST_DEBUG ("%p: fd (fd:%d, idx:%d) %d", set, fd->fd, fd->idx, res);
++
++  return res;
++#endif
++}
++
++/**
+  * gst_poll_wait:
+  * @set: a #GstPoll.
+  * @timeout: a timeout in nanoseconds.
+diff --git a/gst/gstpoll.h b/gst/gstpoll.h
+index ef6dcea..c606cd6 100644
+--- a/gst/gstpoll.h
++++ b/gst/gstpoll.h
+@@ -74,12 +74,14 @@ gboolean        gst_poll_remove_fd        (GstPoll *set, GstPollFD *fd);
+ 
+ gboolean        gst_poll_fd_ctl_write     (GstPoll *set, GstPollFD *fd, gboolean active);
+ gboolean        gst_poll_fd_ctl_read      (GstPoll *set, GstPollFD *fd, gboolean active);
++gboolean        gst_poll_fd_ctl_pri       (GstPoll *set, GstPollFD *fd, gboolean active);
+ void            gst_poll_fd_ignored       (GstPoll *set, GstPollFD *fd);
+ 
+ gboolean        gst_poll_fd_has_closed    (const GstPoll *set, GstPollFD *fd);
+ gboolean        gst_poll_fd_has_error     (const GstPoll *set, GstPollFD *fd);
+ gboolean        gst_poll_fd_can_read      (const GstPoll *set, GstPollFD *fd);
+ gboolean        gst_poll_fd_can_write     (const GstPoll *set, GstPollFD *fd);
++gboolean        gst_poll_fd_has_pri       (const GstPoll *set, GstPollFD *fd);
+ 
+ gint            gst_poll_wait             (GstPoll *set, GstClockTime timeout);
+ 
+-- 
+2.7.4
+

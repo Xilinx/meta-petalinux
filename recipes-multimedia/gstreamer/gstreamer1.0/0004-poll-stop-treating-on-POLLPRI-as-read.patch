@@ -1,0 +1,49 @@
+From 783de2a58e8c6fdb02718914af03f5acc29ac65e Mon Sep 17 00:00:00 2001
+From: Guillaume Desmottes <guillaume.desmottes@collabora.co.uk>
+Date: Thu, 5 Apr 2018 12:19:39 +0200
+Subject: [PATCH 1/2] poll: stop treating on POLLPRI as 'read'
+
+Current code was considering "can read" as having either POLLIN or POLLPRI being
+set.
+This may lead to client being awaken because of POLLPRI, starting a blocking
+read and getting stuck because there is actually nothing to read.
+
+This patch removes POLLPRI handling in read code and I'll add specific
+API to wait for POLLPRI.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=794977
+
+Upstream Status : Backported
+Signed-off-by: Jeegar Patel <jeegar.patel@xilinx.com>
+---
+ gst/gstpoll.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/gst/gstpoll.c b/gst/gstpoll.c
+index fd672ed..1cc17d1 100644
+--- a/gst/gstpoll.c
++++ b/gst/gstpoll.c
+@@ -1021,9 +1021,9 @@ gst_poll_fd_ctl_read_unlocked (GstPoll * set, GstPollFD * fd, gboolean active)
+     struct pollfd *pfd = &g_array_index (set->fds, struct pollfd, idx);
+ 
+     if (active)
+-      pfd->events |= (POLLIN | POLLPRI);
++      pfd->events |= POLLIN;
+     else
+-      pfd->events &= ~(POLLIN | POLLPRI);
++      pfd->events &= ~POLLIN;
+ #else
+     gst_poll_update_winsock_event_mask (set, idx, FD_READ | FD_ACCEPT, active);
+ #endif
+@@ -1201,7 +1201,7 @@ gst_poll_fd_can_read_unlocked (const GstPoll * set, GstPollFD * fd)
+ #ifndef G_OS_WIN32
+     struct pollfd *pfd = &g_array_index (set->active_fds, struct pollfd, idx);
+ 
+-    res = (pfd->revents & (POLLIN | POLLPRI)) != 0;
++    res = (pfd->revents & POLLIN) != 0;
+ #else
+     WinsockFd *wfd = &g_array_index (set->active_fds, WinsockFd, idx);
+ 
+-- 
+2.7.4
+
