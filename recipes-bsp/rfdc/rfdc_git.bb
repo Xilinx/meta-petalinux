@@ -5,9 +5,9 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/git/license.txt;md5=2a8d7a7f870f65ce77e8cc
 
 inherit pkgconfig
 
-REPO ?= "git://github.com/xilinx/embeddedsw.git;protocol=https"
-BRANCH ?= "release-2018.2"
-SRCREV = "6e82c0183bdfb9c6838966b9b87ef8385ba35504"
+REPO ??= "git://github.com/xilinx/embeddedsw.git;protocol=https"
+BRANCH ??= "release-2018.2"
+SRCREV ??= "6e82c0183bdfb9c6838966b9b87ef8385ba35504"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 COMPATIBLE_MACHINE = "^$"
