@@ -10,6 +10,7 @@ TRACING_PROFILE_FEATURES = "\
     "
 
 ZYNQ_FEATURES = " \
+    petalinux-benchmarks \
     dev-pkgs \
     package-management \
     ptest-pkgs \
