@@ -80,11 +80,10 @@ void demo_data_source_setup(XData_source_top* data_source_top,
 	XData_source_top_Set_mod_type_V(data_source_top, params->mod_type);
 	XData_source_top_Set_skip_chan_V(data_source_top, params->skip_chan);
 
-
-	factorial_11bit = (int)powf(10.0, (params->snr*0.1))*1024;
-	XData_source_top_Set_snr_V(data_source_top, factorial_11bit);
 	factorial_10bit = (int)params->snr*2048;
-	XData_source_top_Set_inv_sigma_sq_V(data_source_top, factorial_10bit);
+	factorial_11bit = (int)powf(10.0, (params->snr*0.1))*1024;
+	XData_source_top_Set_snr_V(data_source_top, factorial_10bit);
+	XData_source_top_Set_inv_sigma_sq_V(data_source_top, factorial_11bit);
 
 
 	word += 0 << 0; // Code
