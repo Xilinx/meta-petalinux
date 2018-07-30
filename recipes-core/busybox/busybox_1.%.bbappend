@@ -2,7 +2,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 FILESEXTRAPATHS_prepend := "${THISDIR}/busybox:"
 
-SRC_URI_append += " \
+SRC_URI += " \
                 file://inetd.conf \
                 file://petalinux.cfg \
                 file://ftp.cfg \
