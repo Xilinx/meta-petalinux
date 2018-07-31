@@ -1,4 +1,10 @@
-inherit core-image autologin
+inherit core-image 
+
+IMAGE_AUTOLOGIN ?= "1"
+
+AUTOLOGIN = "${@ 'autologin' if d.getVar('IMAGE_AUTOLOGIN') == '1' else '' }"
+
+inherit ${AUTOLOGIN}
 
 COMMON_FEATURES = " \
     ssh-server-dropbear \
@@ -75,4 +81,3 @@ FEATURE_PACKAGES_petalinux-ultra96-webapp ?= "packagegroup-petalinux-ultra96-web
 FEATURE_PACKAGES_petalinux-ultra96-webapp[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-96boards-sensors ?= "packagegroup-petalinux-96boards-sensors"
 FEATURE_PACKAGES_petalinux-96boards-sensors[optional] ?= "1"
-
