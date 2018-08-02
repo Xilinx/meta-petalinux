@@ -12,7 +12,6 @@ QT_EXTENDED_PACKAGES = " \
 	qtsystems-mkspecs \
 	qttranslations-qt \
 	qttranslations-qtbase \
-	qttranslations-qtconfig \
 	qttranslations-qthelp \
 	qtconnectivity-mkspecs \
 	qttranslations-qtconnectivity \
