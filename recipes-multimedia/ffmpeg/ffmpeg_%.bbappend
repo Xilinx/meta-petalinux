@@ -3,7 +3,6 @@ PACKAGECONFIG_append_class-target = " \
     jack \
     libvorbis \
     openssl \
-    schroedinger \
     sdl2 \
     speex \
     vpx \
