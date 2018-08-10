@@ -1,0 +1,86 @@
+From 43b66d46c10b3b2683f78fcf3278c0a6e10666bc Mon Sep 17 00:00:00 2001
+From: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Date: Wed, 29 Aug 2018 13:20:00 -0700
+Subject: [PATCH] gl-renderer.c: Use gr->egl_config to create pbuffer surface
+
+The original implementation always chose first egl config for pbuffer
+surface type, however the returned configs are implementation specific
+and egl config may not always match between ctx and surface. Hence,
+use gr->egl_config which already has the matching config but ensure that
+windows and pbuffer bit are set for the surface type.
+
+Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Upstream-Status: Submitted
+---
+ libweston/gl-renderer.c | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
+
+diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
+index c6091af..fd1a7fc 100644
+--- a/libweston/gl-renderer.c
++++ b/libweston/gl-renderer.c
+@@ -2917,7 +2917,7 @@ gl_renderer_setup_egl_extensions(struct weston_compositor *ec)
+ }
+ 
+ static const EGLint gl_renderer_opaque_attribs[] = {
+-	EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
++	EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
+ 	EGL_RED_SIZE, 1,
+ 	EGL_GREEN_SIZE, 1,
+ 	EGL_BLUE_SIZE, 1,
+@@ -2927,7 +2927,7 @@ static const EGLint gl_renderer_opaque_attribs[] = {
+ };
+ 
+ static const EGLint gl_renderer_alpha_attribs[] = {
+-	EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
++	EGL_SURFACE_TYPE, EGL_WINDOW_BIT | EGL_PBUFFER_BIT,
+ 	EGL_RED_SIZE, 1,
+ 	EGL_GREEN_SIZE, 1,
+ 	EGL_BLUE_SIZE, 1,
+@@ -3030,17 +3030,7 @@ output_handle_destroy(struct wl_listener *listener, void *data)
+ 
+ static int
+ gl_renderer_create_pbuffer_surface(struct gl_renderer *gr) {
+-	EGLConfig pbuffer_config;
+-
+-	static const EGLint pbuffer_config_attribs[] = {
+-		EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+-		EGL_RED_SIZE, 1,
+-		EGL_GREEN_SIZE, 1,
+-		EGL_BLUE_SIZE, 1,
+-		EGL_ALPHA_SIZE, 0,
+-		EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+-		EGL_NONE
+-	};
++	EGLint surface_type;
+ 
+ 	static const EGLint pbuffer_attribs[] = {
+ 		EGL_WIDTH, 10,
+@@ -3048,13 +3038,21 @@ gl_renderer_create_pbuffer_surface(struct gl_renderer *gr) {
+ 		EGL_NONE
+ 	};
+ 
+-	if (egl_choose_config(gr, pbuffer_config_attribs, NULL, 0, &pbuffer_config) < 0) {
+-		weston_log("failed to choose EGL config for PbufferSurface");
++	if(!eglGetConfigAttrib(gr->egl_display, gr->egl_config, EGL_SURFACE_TYPE, &surface_type)) {
++		weston_log("failed to get surface type for PbufferSurface\n");
++		return -1;
++	}
++
++	if (!((surface_type & EGL_WINDOW_BIT) && (surface_type & EGL_PBUFFER_BIT)) &&
++	    !gr->has_configless_context) {
++		weston_log("attempted to use a different EGL config for an "
++			   "output but EGL_KHR_no_config_context or "
++			   "EGL_MESA_configless_context is not supported\n");
+ 		return -1;
+ 	}
+ 
+ 	gr->dummy_surface = eglCreatePbufferSurface(gr->egl_display,
+-						    pbuffer_config,
++						    gr->egl_config,
+ 						    pbuffer_attribs);
+ 
+ 	if (gr->dummy_surface == EGL_NO_SURFACE) {
+-- 
+2.7.4
+
