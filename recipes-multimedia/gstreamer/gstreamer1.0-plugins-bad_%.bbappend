@@ -25,7 +25,7 @@ SRCREV_base = "230ad55826c3b1600fa2b57e5c02a77335d357a4"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
-PACKAGECONFIG_append = " faad gles2 kms"
+PACKAGECONFIG_append = " faac faad gles2 kms"
 
 S = "${WORKDIR}/git"
 
