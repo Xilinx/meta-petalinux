@@ -2,7 +2,7 @@ DESCRIPTION = "Creates access point(AP) on ultra96"
 SUMMARY = "Reads MAC address from board and splits the interface to create AP"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://ap.sh;beginline=2;endline=37;md5=b3a1c64c07b72476ff1ae6dc4b5574c8"
+LIC_FILES_CHKSUM = "file://ap.sh;beginline=2;endline=30;md5=3e767e675389338fba2ac437bc0d83a4"
 
 SRC_URI = "file://ap.sh \
 	file://udhcpd.conf \

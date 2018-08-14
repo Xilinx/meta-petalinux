@@ -5,7 +5,7 @@
 DESCRIPTION = "This is a Power management Linux application which will allow user to do various operations such as suspend,wakeup,reboot,shutdown the system."
 SUMMARY = "Hello PM Management Linux Application"
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/hellopm.sh;beginline=3;endline=38;md5=60d580d3edae5674cb19d747773123d8"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/hellopm.sh;beginline=3;endline=31;md5=ba7d98e5b333ea8679e8b3b5b4cf96c2"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp = "zynqmp"
