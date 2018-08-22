@@ -81,3 +81,5 @@ FEATURE_PACKAGES_petalinux-ultra96-webapp ?= "packagegroup-petalinux-ultra96-web
 FEATURE_PACKAGES_petalinux-ultra96-webapp[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-96boards-sensors ?= "packagegroup-petalinux-96boards-sensors"
 FEATURE_PACKAGES_petalinux-96boards-sensors[optional] ?= "1"
+FEATURE_PACKAGES_fpga-manager ?= "fpga-manager-script"
+FEATURE_PACKAGES_fpga-manager[optional] ?= "1"
