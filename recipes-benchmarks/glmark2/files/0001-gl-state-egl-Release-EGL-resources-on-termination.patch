@@ -1,0 +1,52 @@
+From 7638efe34ea34a8fa9d096be9bf5f09f690d8b7c Mon Sep 17 00:00:00 2001
+From: Madhurkiran Harikrishnan <madhurki@xilinx.com>
+Date: Tue, 27 Mar 2018 19:01:24 -0700
+Subject: [glmark2][PATCH v2] gl-state-egl: Release EGL resources on
+ termination
+
+Exit cleanly by releasing all EGL resources on termination.
+
+Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Upstream Status: Accepted
+---
+ src/gl-state-egl.cpp | 11 +++++++++++
+ src/gl-state-egl.h   |  1 +
+ 2 files changed, 12 insertions(+)
+
+diff --git a/src/gl-state-egl.cpp b/src/gl-state-egl.cpp
+index 016a2bf..3d6a091 100644
+--- a/src/gl-state-egl.cpp
++++ b/src/gl-state-egl.cpp
+@@ -294,6 +294,17 @@ EglConfig::print() const
+  * GLStateEGL public methods *
+  ****************************/
+ 
++GLStateEGL::~GLStateEGL()
++{
++    if(egl_display_ != nullptr){
++        if(!eglTerminate(egl_display_))
++            Log::error("eglTerminate failed\n");
++    }
++
++    if(!eglReleaseThread())
++	Log::error("eglReleaseThread failed\n");
++}
++
+ bool
+ GLStateEGL::init_display(void* native_display, GLVisualConfig& visual_config)
+ {
+diff --git a/src/gl-state-egl.h b/src/gl-state-egl.h
+index 0e1f35b..dfebfd8 100644
+--- a/src/gl-state-egl.h
++++ b/src/gl-state-egl.h
+@@ -138,6 +138,7 @@ public:
+         egl_config_(0),
+         egl_context_(0),
+         egl_surface_(0) {}
++    ~GLStateEGL();
+ 
+     bool init_display(void* native_display, GLVisualConfig& config_pref);
+     bool init_surface(void* native_window);
+-- 
+2.7.4
+
