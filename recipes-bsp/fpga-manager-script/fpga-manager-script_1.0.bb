@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/fpgautil.c;beginline=1;endline=27;md5=539c
 SRC_URI = "\
 	file://fpgautil.c \
 	"
+S = "${WORKDIR}"
+
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 do_compile() {
