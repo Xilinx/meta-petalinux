@@ -21,7 +21,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 type vcu-demo-functions.sh > "/dev/null"
 if [ $? -ne 0 ]; then
 	echo "Copy vcu-demo-functions.sh to /usr/bin/ or append it's path to PATH variable and re-run the script" && exit -1
@@ -29,7 +28,7 @@ fi
 
 source vcu-demo-functions.sh
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "downloadUrl" "codecType" "sinkName" "showFps" "audioType" "loopVideo" "internalEntropyBuffers" "displayDevice")
+declare -a scriptArgs=("inputPath" "downloadUrl" "codecType" "sinkName" "showFps" "audioType" "proxyServer" "loopVideo" "internalEntropyBuffers" "displayDevice")
 declare -a checkEmpty=("inputPath" "downloadUrl" "sinkName" "displayDevice")
 
 ############################################################################
@@ -37,7 +36,7 @@ declare -a checkEmpty=("inputPath" "downloadUrl" "sinkName" "displayDevice")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -u <download_url> -a <audio_type> -o <sink_name> -d <display_device> -e <internal_entropy_buffers> -f <show_fps> -l <loop_video>'
+	echo '	Usage : '$scriptName' -i <input_file_path> -c <codec_type> -u <download_url or youtube link> -a <audio_type> -o <sink_name> -d <display_device> -e <internal_entropy_buffers> -p <proxy_server_url> -f <show_fps> -l <loop_video>'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
@@ -54,6 +53,8 @@ usage () {
 	echo '  '$scriptName' -i /mnt/nfs/1080p_30.h264'
 	echo '  '$scriptName' -i /mnt/usb/1280p_30.h264'
 	echo '  '$scriptName' -u <download_url> -c hevc'
+	echo '  '$scriptName' -u "https://www.youtube.com/watch?v=jIGqXIAacG8"'
+	echo '  '$scriptName' -u "https://www.youtube.com/watch?v=jIGqXIAacG8" -p "http://proxy.<server>:8080"'
 	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
 }
@@ -140,7 +141,32 @@ DecodeFile() {
 	runGstPipeline "$pipeline"
 }
 
-args=$(getopt -o "i:u:c:a:o:d:e:flh" --long "input-path:,url:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,display-device:,show-fps,loop-video,help" -- "$@")
+DecodeYoutubeFile () {
+	if ! [ -z $AUDIODEC_TYPE ]; then
+		echo "-a or --audio-type is not supported for youtube link, so ignoring it"
+	fi
+
+	if ! [ -z $SET_ENTROPY_BUF ]; then
+		echo "-e or --internal-entropy-buffers is not supported for youtube link, so ignoring it"
+	fi
+
+	if [ $SHOW_FPS ]; then
+		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=\"$SINK_NAME\" sync=true -v"
+	else
+		SINK="$SINK_NAME"
+	fi
+
+	FILE_SRC=$SOUPHTTP_SRC"=\$(youtube-dl -f 22 -g "$DEFAULT_URL")"
+
+	pipeline="$GST_LAUNCH $FILE_SRC ! decodebin name=demux demux. ! $QUEUE max-size-bytes=0 ! $SINK demux. ! $QUEUE ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOSINK"
+
+	runGstPipeline "$pipeline"
+	if [ $? -ne 0 ]; then
+		ErrorMsg "Please check network connectivity or give valid URL"
+	fi
+}
+
+args=$(getopt -o "i:u:c:a:o:p:d:e:flh" --long "input-path:,url:,codec-type:,sink-name:,audio-type:,internal-entropy-buffers:,proxy:,display-device:,show-fps,loop-video,help" -- "$@")
 [ $? -ne 0 ] && usage && exit -1
 
 trap catchCTRL_C SIGINT
@@ -153,4 +179,8 @@ RegSetting
 if ! [ -z $AUDIODEC_TYPE ]; then
 	audioSetting
 fi
-DecodeFile
+if [ $YOUTUBE_LINK -eq 1 ]; then
+	DecodeYoutubeFile
+else
+	DecodeFile
+fi

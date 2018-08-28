@@ -56,6 +56,8 @@ CODEC_TYPE="avc"
 NEED_DOWNLOAD=0
 DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4"
 DEFAULT_URL_HEVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
+YOUTUBE_LINK=0
+SOUPHTTP_SRC="souphttpsrc location"
 
 #####################################################################################
 # Name:		killProcess
@@ -182,15 +184,42 @@ fi
 }
 
 #########################################################################################
+# Name:		installYoutubeDl
+# Argument:	None
+# Description:  Install youtube_dl if not found on board
+#########################################################################################
+installYoutubeDl () {
+	which youtube-dl
+	if [ $? -ne 0 ]; then
+		which pip3
+		if [ $? -ne 0 ]; then
+			ErrorMsg "pip3 command not found, Please install pip3"
+		fi
+		if [ -z $PROXY ]; then
+			pip3 install youtube_dl
+		else
+			pip3 install youtube_dl --proxy $PROXY
+		fi
+		if [ $? -ne 0 ]; then
+			ErrorMsg "Unable to download youtube_dl, Please check network connectivity"
+		fi
+	fi
+}
+
+#########################################################################################
 # Name:		getInputFile
 # Argument:	None
 # Description:  Downloads input file from server if not found in default paths
 #########################################################################################
 getInputFile () {
 	if [ $NEED_DOWNLOAD -eq 1 ]; then
-		download $DEFAULT_URL
+		if [[ $DEFAULT_URL = *www.youtube.com* ]]; then
+			YOUTUBE_LINK=1
+			installYoutubeDl
+		else
+			download $DEFAULT_URL
+		fi
 	fi
-
 }
 
 #########################################################################################
@@ -500,6 +529,10 @@ DisplayUsageFor () {
 			echo '					 : Possible Values: "192.168.1.101, 192.168.1.71, 192.168.2.112, 127.0.0.1 for loopback"'
 			echo '					 : Default Value: "192.168.0.2"'
 			;;
+		proxyServer )
+			echo '	-p or --proxy			 : Specify a proxy in form [user:passwd@]proxy.server:port, (user:passwd to be set only if required by your server)'
+			echo '					 : Possible Values: "http://proxy.<server>:<port_num>"'
+			;;
 		* )
 			echo ' Invalid option';
 	esac
@@ -608,8 +641,17 @@ while true; do
                         CPB_SIZE=$2;
                         shift; shift;
                         ;;
-		-p | --port-num)
+		-p)
+			PORT_NUM=$2;
+			PROXY=$2
+			shift; shift;
+			;;
+		--port-num)
                         PORT_NUM=$2;
+                        shift; shift;
+                        ;;
+		--proxy)
+                        PROXY=$2;
                         shift; shift;
                         ;;
 		-v | --video-capture-device)
