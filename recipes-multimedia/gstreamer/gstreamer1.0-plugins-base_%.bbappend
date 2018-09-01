@@ -19,6 +19,8 @@ SRCREV_base = "244ba6f2ad1915f6b9f62f8d8e8efbce1cf10ebb"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
+PACKAGECONFIG_append = " opus"
+
 S = "${WORKDIR}/git"
 
 do_configure_prepend() {
