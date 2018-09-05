@@ -4,4 +4,7 @@ PACKAGECONFIG_append = " \
   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gles2 eglfs', '', d)} \
   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gles2 eglfs kms gbm', '', d)} \
   "
+
+PACKAGECONFIG[gbm] = "-gbm,-no-gbm,virtual/libgbm"
+
 PACKAGECONFIG_remove = "tests"
