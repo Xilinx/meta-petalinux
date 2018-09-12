@@ -23,16 +23,11 @@ S = "${WORKDIR}/git/XilinxProcessorIPLib/drivers/rfdc/src/"
 
 PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
 
-DEPENDS = "libmetal virtual/fsbl"
+DEPENDS = "libmetal"
 
 PROVIDES = "rfdc"
 
-STAGING_RFDC_DIR = "${TMPDIR}/work-shared/${MACHINE}/rfdc-source"
-
 do_configure() {
-    cp ${STAGING_RFDC_DIR}/xrfdc_g.c ${S}
-    cp ${STAGING_RFDC_DIR}/xparameters.h ${S}
-    cp ${STAGING_RFDC_DIR}/xparameters_ps.h ${S}
     cp ${S}/Makefile.Linux ${S}/Makefile
 }
 
@@ -43,8 +38,6 @@ do_install() {
     install -m 0644 ${S}/xrfdc_hw.h ${D}${includedir}/xrfdc_hw.h
     install -m 0644 ${S}/xrfdc.h ${D}${includedir}/xrfdc.h
     install -m 0644 ${S}/xrfdc_mts.h ${D}${includedir}/xrfdc_mts.h
-    install -m 0644 ${S}/xparameters.h ${D}${includedir}/xparameters.h
-    install -m 0644 ${S}/xparameters_ps.h ${D}${includedir}/xparameters_ps.h
 }
 
 FILES_${PN} = "${libdir}/*.so.*"
