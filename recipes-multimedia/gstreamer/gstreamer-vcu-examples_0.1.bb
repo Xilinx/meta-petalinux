@@ -19,7 +19,7 @@ S = "${WORKDIR}"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpev = "zynqmpev"
 
-RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash python3-pip"
+RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash python3-pip alsa-utils"
 
 do_install() {
     install -d ${D}/${bindir}
