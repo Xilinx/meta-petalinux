@@ -48,6 +48,7 @@ usage () {
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o fakevideosink -f -l'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc'
 	echo '  '$scriptName' -i /mnt/sata/2160p_30.mp4 -c avc -a aac'
+	echo '  '$scriptName' -i /mnt/sata/2160p_30.ts -c avc -a aac'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc'
 	echo '  '$scriptName' -i /mnt/sdcard/2160p_30.mkv -c hevc -a vorbis'
 	echo '  '$scriptName' -i /mnt/nfs/1080p_30.h264'
@@ -132,6 +133,20 @@ DecodeFile() {
 				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
 			else
 				pipeline="$GST_LAUNCH $FILE_SRC ! $MTDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK demux.audio_0 ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIOSINK"
+			fi
+		fi
+	elif [ $EXT_TYPE == "ts" ]; then
+		if [ $CODEC_TYPE == "avc" ]; then
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MPEG_CAPS ! $TSDEMUX ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MPEG_CAPS ! $TSDEMUX demux. ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK demux. ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIOSINK"
+			fi
+		else
+			if [ -z $AUDIODEC ]; then
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MPEG_CAPS ! $TSDEMUX ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+			else
+				pipeline="$GST_LAUNCH $FILE_SRC ! $MPEG_CAPS ! $TSDEMUX demux. ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK demux. ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIOSINK"
 			fi
 		fi
 	else
