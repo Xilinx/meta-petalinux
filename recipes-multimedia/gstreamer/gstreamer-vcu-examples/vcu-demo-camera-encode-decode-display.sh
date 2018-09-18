@@ -30,7 +30,7 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "internalEntropyBuffers" "v4l2Device" "displayDevice")
+declare -a scriptArgs=("inputPath" "videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "audioType" "internalEntropyBuffers" "v4l2Device" "displayDevice" "compressedMode")
 declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device" "displayDevice")
 
 
@@ -39,20 +39,23 @@ declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device" "disp
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -d <display_device> -f'
+	echo '	Usage : '$scriptName' -i <device_id_string> -v <video_capture_device> -s <video_size> -c <codec_type> -a <audio_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -d <display_device> -f --compressed-mode'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
-	echo '  '$scriptName' -d "fd4a0000.zynqmp-display""'
-	echo '  '$scriptName' --display-device "fd4a0000.zynqmp-display""'
+	echo '  '$scriptName' -i "hw:1" -d "fd4a0000.zynqmp-display" -a aac'
 	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500'
-	echo '  '$scriptName' -n 500 -b 1200'
+	echo '  '$scriptName' -i "hw:1" -n 500 -b 1200 -a aac --compressed-mode'
 	echo '  '$scriptName' -f'
-	echo '  '$scriptName' -f -o fakevideosink'
-	echo '  '$scriptName' -s 1920x1080 -c avc'
+	echo '  '$scriptName' -o fakevideosink'
+	echo '  '$scriptName' -i "hw:1" -s 1920x1080 -c avc -a aac'
 	echo '  '$scriptName' -s 1920x1080 -c avc -e 3'
 	echo '  '$scriptName' -s 1280x720 -c avc'
+	echo '  '$scriptName' -i "hw:1" -s 1280x720 -c avc -a aac'
+	echo '  '$scriptName' -i "hw:1" -s 1280x720 -c avc -a vorbis'
+	echo '  '$scriptName' -s 1280x720 --compressed-mode'
+	echo '  '$scriptName' -i "hw:1" -s 1280x720 -c avc -a aac --compressed-mode'
 	echo '  "NOTE: This script depends on vcu-demo-settings.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
 }
@@ -71,9 +74,28 @@ CameraToDisplay() {
 		V4L2SRC="$V4L2SRC num-buffers=$NUM_FRAMES"
 	fi
 
+	case $AUDIODEC_TYPE in
+	"aac")
+		AUDIODEC="faad"
+		AUDIOENC="faac";;
+	"vorbis")
+		AUDIODEC="vorbisdec"
+		AUDIOENC="vorbisenc";;
+	*)
+		if ! [ -z $AUDIODEC_TYPE ]; then
+			ErrorMsg "Invalid audio codec type specified, please specify either vorbis or aac"
+		fi
+	esac
+
+	if ! [ -z $AUDIODEC_TYPE ]; then
+                if [ -z $INPUT_PATH ]; then
+                        INPUT_PATH="hw:1"
+                        echo "Alsa capture device is not specified in args hence assuming $INPUT_PATH as default device"
+                fi
+        fi
+
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
-	CAMERA_CAPS_AVC="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
-	CAMERA_CAPS_HEVC="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
+	CAMERA_CAPS="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=30/1"
 	VIDEOCONVERT="videoconvert"
 	VIDEOCONVERT_CAPS="video/x-raw, format=\(string\)NV12"
 	OMXH264ENC="omxh264enc control-rate="low-latency" target-bitrate=$BIT_RATE latency-mode="low-latency""
@@ -81,20 +103,41 @@ CameraToDisplay() {
 	if [ -z $SET_ENTROPY_BUF ]; then
 		INTERNAL_ENTROPY_BUFFERS="6"
 	fi
-	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="low-latency""
-	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="low-latency""
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
 
-	if [ $CODEC_TYPE == "avc" ]; then
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $QUEUE max-size-bytes=0 ! $OMXH264ENC ! $QUEUE ! $OMXH264DEC ! $QUEUE max-size-bytes=0 ! $SINK"
+        case $CODEC_TYPE in
+        "avc")
+		PARSER=$H264PARSE
+		ENCODER=$OMXH264ENC
+		DECODER=$OMXH264DEC
+		CAMERA_CAPS_ENC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
+	"hevc")
+		PARSER=$H265PARSE
+		ENCODER=$OMXH265ENC
+		DECODER=$OMXH265DEC
+		CAMERA_CAPS_ENC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
+	esac
+
+	if [ -z $AUDIODEC_TYPE ]; then
+		if [ $COMPRESSED_MODE -eq 1 ]; then
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $PARSER ! $DECODER ! $QUEUE ! $SINK"
+		else
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $QUEUE ! $DECODER ! $QUEUE ! $SINK"
+		fi
 	else
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $QUEUE max-size-bytes=0 ! $OMXH265ENC ! $QUEUE ! $OMXH265DEC ! $QUEUE max-size-bytes=0 ! $SINK"
+		if [ $COMPRESSED_MODE -eq 1 ]; then
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $PARSER ! $DECODER ! $QUEUE ! $SINK $AUDIO_SRC device="$INPUT_PATH" ! $QUEUE ! $AUDIOCONVERT ! $AUDIOENC ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIOSINK"
+		else
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $QUEUE ! $DECODER ! $QUEUE ! $SINK $AUDIO_SRC device="$INPUT_PATH" ! $QUEUE ! $AUDIOCONVERT ! $AUDIOENC ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIOSINK"
+		fi
 	fi
 
 	runGstPipeline "$pipeline"
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "v:d:s:c:o:b:n:e:fh" --long "video-capture-device:,display-device:,video-size:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,show-fps,help" -- "$@")
+args=$(getopt -o "i:v:d:s:c:o:a:b:n:e:fh" --long "input-path:,video-capture-device:,display-device:,video-size:,audio-type:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,show-fps,help,compressed-mode" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
@@ -108,6 +151,9 @@ fi
 
 if [ -z $BIT_RATE ];then
 	BIT_RATE=1000
+fi
+if ! [ -z $AUDIODEC_TYPE ]; then
+        audioSetting
 fi
 
 RegSetting
