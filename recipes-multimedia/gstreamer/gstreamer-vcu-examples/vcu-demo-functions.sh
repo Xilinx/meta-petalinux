@@ -61,6 +61,8 @@ DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160
 DEFAULT_URL_HEVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 YOUTUBE_LINK=0
 SOUPHTTP_SRC="souphttpsrc location"
+AUDIO_SRC="alsasrc"
+COMPRESSED_MODE=0
 
 #####################################################################################
 # Name:		killProcess
@@ -536,6 +538,9 @@ DisplayUsageFor () {
 			echo '	-p or --proxy			 : Specify a proxy in form [user:passwd@]proxy.server:port, (user:passwd to be set only if required by your server)'
 			echo '					 : Possible Values: "http://proxy.<server>:<port_num>"'
 			;;
+		compressedMode )
+			echo '	--compressed-mode		 : Captures encoded video from camera'
+			;;
 		* )
 			echo ' Invalid option';
 	esac
@@ -666,6 +671,10 @@ while true; do
                         DISPLAY_DEVICE=$2;
 			KMSSINK="kmssink bus-id=$DISPLAY_DEVICE fullscreen-overlay=1"
                         shift; shift;
+                        ;;
+		--compressed-mode)
+			COMPRESSED_MODE=1;
+                        shift;
                         ;;
 		--)
                         shift; break;
