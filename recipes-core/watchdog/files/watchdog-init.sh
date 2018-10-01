@@ -49,8 +49,8 @@
 #			restart --> stop followed by start
 #			set_healthy -> mark healthy status as true
 #			unset_healthy -> mark healthy status as false
-#			start_hb --> start wdt
-#			stop_hb	--> stop wdt
+#			start_wdt --> start wdt
+#			stop_wdt --> stop wdt
 #
 ### END INIT INFO
 
