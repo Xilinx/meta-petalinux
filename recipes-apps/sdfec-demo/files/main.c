@@ -94,9 +94,21 @@ int main(void)
 	demo_gpio_initialize(GPIO_LED1_ID);
 
 	metal_init(&metal_param);
-	demo_data_source_initialize(&data_source_top);
+	ret_val = demo_data_source_initialize(&data_source_top);
+	if (ret_val < 0) {
+		printf("Failed to initialize data source block\n");
+		exit(1);
+	}
 	demo_stats_initialize(&stats_top);
+	if (ret_val < 0) {
+		printf("Failed to initialize stats block\n");
+		exit(1);
+	}
 	demo_monitors_initialize(&mons);
+	if (ret_val < 0) {
+		printf("Failed to initialize monitor blocks\n");
+		exit(1);
+	}
 
 	// All LEDs off
 	demo_gpio_write_value(GPIO_LED0_ID, "0");
@@ -148,7 +160,7 @@ int main(void)
 				printf("Failed to perpare user ldpc code\n");
 				goto close_devices;
 			}
-			
+
 			ret_val = add_ldpc_xsdfec(enc_fd, &enc_ldpc_params);
 			if (ret_val != 0) {
 				printf("Failed to add ldpc code\n");
@@ -176,7 +188,7 @@ int main(void)
 
 		if(demo_params_changed(&params, &prev_params)) {
 			printf("Setup data source, stats and monitors\n");
-			// 
+			//
 			demo_data_source_setup(&data_source_top, &params, k, n);
 
 			// Setup stats
@@ -225,8 +237,8 @@ int main(void)
 		 * Get valid parameters, the following cases will result in valid
 		 * parmeters:
 		 *  - User continues with prev_params
-		 *  - User enters valid params 
-		 * if invalid parameters are entered then the user will be reasked 
+		 *  - User enters valid params
+		 * if invalid parameters are entered then the user will be reasked
 		 * the above options.
 		 */
 		prev_params = params;
@@ -234,7 +246,7 @@ int main(void)
 		{
 			valid_config_params = demo_params_get(&params);
 		} while (valid_config_params == 0);
-		
+
 	} while (1);
 
 

@@ -40,9 +40,9 @@
 // design
 //      o Determined in S/W to simplify H/W
 //      o tkeep indicates bytes
-void demo_data_source_initialize(XData_source_top* data_source_top)
+int  demo_data_source_initialize(XData_source_top* data_source_top)
 {
-	XData_source_top_Initialize(data_source_top, BUS_NAME, DATA_DEV_NAME);
+	return XData_source_top_Initialize(data_source_top, BUS_NAME, DATA_DEV_NAME);
 }
 
 u64 demo_data_source_calc_keep(unsigned int packet_size,
@@ -143,12 +143,32 @@ void demo_data_source_release(XData_source_top* data_source_top)
 	XData_source_top_Release(data_source_top);
 }
 
-void demo_monitors_initialize(struct demo_monitors_t* mons)
+int demo_monitors_initialize(struct demo_monitors_t* mons)
 {
-	XMonitor_Initialize(&(mons->enc_ip), BUS_NAME, ENC_IP_MON_DEV_NAME);
-	XMonitor_Initialize(&(mons->enc_op), BUS_NAME, ENC_OP_MON_DEV_NAME);
-	XMonitor_Initialize(&(mons->dec_ip), BUS_NAME, DEC_IP_MON_DEV_NAME);
-	XMonitor_Initialize(&(mons->dec_op), BUS_NAME, DEC_OP_MON_DEV_NAME);
+	int ret_val = 0;
+	if (ret_val == 0) {
+		ret_val = XMonitor_Initialize(&(mons->enc_ip),
+		                              BUS_NAME,
+		                              ENC_IP_MON_DEV_NAME);
+	}
+	if (ret_val == 0) {
+		ret_val = XMonitor_Initialize(&(mons->enc_op),
+		                              BUS_NAME,
+		                              ENC_OP_MON_DEV_NAME);
+	}
+	if (ret_val == 0) {
+		ret_val = XMonitor_Initialize(&(mons->dec_ip),
+		                              BUS_NAME,
+		                              DEC_IP_MON_DEV_NAME);
+	}
+
+	if (ret_val == 0) {
+		ret_val = XMonitor_Initialize(&(mons->dec_op),
+		                              BUS_NAME,
+		                              DEC_OP_MON_DEV_NAME);
+	}
+
+	return ret_val;
 }
 
 void demo_monitors_setup(struct demo_monitors_t* mons,
@@ -176,9 +196,9 @@ void demo_monitors_release(struct demo_monitors_t* mons)
 	XMonitor_Release(&(mons->enc_ip));
 }
 
-void demo_stats_initialize(XStats_top* stats_top)
+int demo_stats_initialize(XStats_top* stats_top)
 {
-	XStats_top_Initialize(stats_top, BUS_NAME, STATS_DEV_NAME);
+	return XStats_top_Initialize(stats_top, BUS_NAME, STATS_DEV_NAME);
 }
 
 // Helper function to determine the mask for the stats block to apply to the
@@ -297,7 +317,7 @@ static unsigned int ask_user_y(char *msg)
 	int i = 0;
 
 	printf("%s (y/n):", msg);
-	if(fgets(user_input, sizeof(user_input), stdin)) {	
+	if(fgets(user_input, sizeof(user_input), stdin)) {
 		while (1) {
 			if (user_input[i] == '\n')
 				break;
@@ -322,16 +342,16 @@ static unsigned int check_user_params(struct demo_params_t* params)
 	int valid_usr_params = 1;
 
 	if (params->code >= NUM_LDPC_CODES) {
-		printf("ERROR: Entered code, %u, is out of range(0 - %u)\n", 
-			params->code, 
+		printf("ERROR: Entered code, %u, is out of range(0 - %u)\n",
+			params->code,
 			NUM_LDPC_CODES - 1);
 		valid_usr_params = 0;
 	}
 
 	if ((params->snr < MIN_SNR_VALUE) ||
 	    (params->snr > MAX_SNR_VALUE)) {
-		printf("ERROR: Entered snr, %f, is out of range(%f - %f)\n", 
-			params->snr, 
+		printf("ERROR: Entered snr, %f, is out of range(%f - %f)\n",
+			params->snr,
 			MIN_SNR_VALUE,
 			MAX_SNR_VALUE);
 		valid_usr_params = 0;
@@ -339,8 +359,8 @@ static unsigned int check_user_params(struct demo_params_t* params)
 
 	if ((params->max_iter < SMALLEST_MAX_ITER_VALUE) ||
 	    (params->max_iter > LARGEST_MAX_ITER_VALUE)) {
-		printf("ERROR: Entered max_iter, %u, is out of range(%u - %u)\n", 
-			params->max_iter, 
+		printf("ERROR: Entered max_iter, %u, is out of range(%u - %u)\n",
+			params->max_iter,
 			SMALLEST_MAX_ITER_VALUE,
 			LARGEST_MAX_ITER_VALUE);
 		valid_usr_params = 0;
@@ -348,28 +368,28 @@ static unsigned int check_user_params(struct demo_params_t* params)
 
 	if ((params->term_on_pass != USER_BOOLEAN_TRUE) &&
 	    (params->term_on_pass != USER_BOOLEAN_FALSE) ) {
-		printf("ERROR: Entered term_on_pass, %u, is not Boolean(0 or 1)\n", 
+		printf("ERROR: Entered term_on_pass, %u, is not Boolean(0 or 1)\n",
 			params->term_on_pass);
 		valid_usr_params = 0;
 	}
 
 	if (params->mod_type > MAX_MOD_TYPE_VALUE) {
 		printf("ERROR: Entered mod_type, %u, exceeds the maximun(%u)\n",
-			params->mod_type,	 
+			params->mod_type,
 			MAX_MOD_TYPE_VALUE);
 		valid_usr_params = 0;
 	}
 
 	if ((params->zero_data != USER_BOOLEAN_TRUE) &&
 	    (params->zero_data != USER_BOOLEAN_FALSE)) {
-		printf("ERROR: Entered zero_data, %u, is not Boolean(0 or 1)\n", 
+		printf("ERROR: Entered zero_data, %u, is not Boolean(0 or 1)\n",
 			params->zero_data);
 		valid_usr_params = 0;
 	}
 
 	if ((params->skip_chan != USER_BOOLEAN_TRUE) &&
 	    (params->skip_chan != USER_BOOLEAN_FALSE) ) {
-		printf("ERROR: Entered skip_chan, %u, is not Boolean(0 or 1)\n", 
+		printf("ERROR: Entered skip_chan, %u, is not Boolean(0 or 1)\n",
 			params->skip_chan);
 		valid_usr_params = 0;
 	}
@@ -386,7 +406,7 @@ static int get_user_param(char *param_name, char *param_format, void *param)
 	printf("%s: ", param_name);
 	fgets(user_input, sizeof(user_input), stdin);
 	num_params_read = sscanf(user_input, param_format, param);
-	
+
 	tmp_ptr = strchr(user_input, '\n');
 	if (!tmp_ptr) {
 		while((ch = getchar()) != EOF && ch != '\n');
@@ -409,44 +429,44 @@ int demo_params_get(struct demo_params_t* params)
 		printf("Input new config: \n");
 
 		/* copy in the old so can partialy write a set of values */
-		memcpy(&current_config_params, 
-		       params, 
+		memcpy(&current_config_params,
+		       params,
 		       sizeof(struct demo_params_t));
 
-		num_params_read = get_user_param("code", "%u", 
+		num_params_read = get_user_param("code", "%u",
    						 &(current_config_params.code));
 		if (num_params_read == 1) {
-   			num_params_read = get_user_param("num_blocks", "%lu", 
+   			num_params_read = get_user_param("num_blocks", "%lu",
    							 &(current_config_params.num_blocks));
 		}
-		
+
 		if (num_params_read == 1)
-			num_params_read = get_user_param("snr", "%lf", 
+			num_params_read = get_user_param("snr", "%lf",
    							 &(current_config_params.snr));
-		
+
 		if (num_params_read == 1)
-			num_params_read = get_user_param("max_iter", "%u", 
+			num_params_read = get_user_param("max_iter", "%u",
    							 &(current_config_params.max_iter));
-		
+
 		if (num_params_read == 1)
-			num_params_read = get_user_param("term_on_pass", "%u", 
+			num_params_read = get_user_param("term_on_pass", "%u",
    							 &(current_config_params.term_on_pass));
-		
+
 		if (num_params_read == 1)
-			num_params_read = get_user_param("mod_type", "%u", 
+			num_params_read = get_user_param("mod_type", "%u",
    							 &(current_config_params.mod_type));
 
 		if (num_params_read == 1)
-			num_params_read = get_user_param("zero_data", "%u", 
+			num_params_read = get_user_param("zero_data", "%u",
    							 &(current_config_params.zero_data));
-		
+
 		if (num_params_read == 1)
-			num_params_read = get_user_param("skip_chan", "%u", 
+			num_params_read = get_user_param("skip_chan", "%u",
    							 &(current_config_params.skip_chan));
 
 		valid_params = check_user_params(&current_config_params);
 		if (valid_params == 1) {
-			memcpy(params, 
+			memcpy(params,
 			       &current_config_params,
 			       sizeof(struct demo_params_t));
 
@@ -487,7 +507,7 @@ void demo_stats_print(struct demo_stats_t* stats)
 	printf("\t\tDecode iteration count = %u\n", stats->iter_cnt);
 	printf("\t\tChannel bit error count = %u\n", stats->raw_berr);
 	printf("\t\tChannel block error count = %u\n", stats->raw_blerr);
-	printf("\t\tUncorrected bit error count after Decode = %u\n", 
+	printf("\t\tUncorrected bit error count after Decode = %u\n",
 		stats->cor_berr);
 	printf("\t\tUncorrected block error count after Decode = %u\n",
 		stats->cor_blerr);

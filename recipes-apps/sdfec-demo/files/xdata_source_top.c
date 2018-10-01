@@ -30,6 +30,7 @@ int XData_source_top_Initialize(XData_source_top *InstancePtr, char* BusName, ch
     Result = metal_device_open(BusName, DeviceName, &(InstancePtr->Cntrl_DevicePtr));
     if (Result < 0) {
         printf("%s(): Open device failed\n", __func__);
+        return Result;
     }
 
     /* Get shared memory device IO region */

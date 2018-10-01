@@ -29,6 +29,7 @@ int XMonitor_Initialize(XMonitor *InstancePtr, char* BusName, char* DeviceName) 
     Result = metal_device_open(BusName, DeviceName, &(InstancePtr->Cntrl_DevicePtr));
     if (Result < 0) {
         printf("%s(): Open device failed\n", __func__);
+        return Result;
     }
 
     /* Get shared memory device IO region */

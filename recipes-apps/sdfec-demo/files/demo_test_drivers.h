@@ -67,12 +67,12 @@
 
 /* Constants used to access devices other than the sd-fec */
 #define BUS_NAME             "platform"
-#define DATA_DEV_NAME        "a0010000.data_source_top"
-#define STATS_DEV_NAME       "a0060000.stats_top"
-#define ENC_IP_MON_DEV_NAME  "a0020000.monitor"
-#define ENC_OP_MON_DEV_NAME  "a0030000.monitor"
-#define DEC_IP_MON_DEV_NAME  "a0020000.monitor"
-#define DEC_OP_MON_DEV_NAME  "a0040000.monitor"
+#define DATA_DEV_NAME        "a0000000.data_source_top"
+#define STATS_DEV_NAME       "a0030000.stats_top"
+#define ENC_IP_MON_DEV_NAME  "a0010000.monitor"
+#define ENC_OP_MON_DEV_NAME  "a0020000.monitor"
+#define DEC_IP_MON_DEV_NAME  "a00d0000.monitor"
+#define DEC_OP_MON_DEV_NAME  "a00e0000.monitor"
 #define GPIO_RESET_ID        "499"
 #define GPIO_LED0_ID         "507"
 #define GPIO_LED1_ID         "508"
@@ -122,7 +122,7 @@ struct demo_monitors_t {
 
 
 /*************************** Function Prototypes ******************************/
-void demo_data_source_initialize(XData_source_top* data_source_top);
+int demo_data_source_initialize(XData_source_top* data_source_top);
 
 u64 demo_data_source_calc_keep(unsigned int packet_size,
 			       unsigned int per_trans,
@@ -139,7 +139,7 @@ void demo_data_source_start(XData_source_top* data_source_top);
 
 void demo_data_source_release(XData_source_top* data_source_top);
 
-void demo_monitors_initialize(struct demo_monitors_t* mons);
+int demo_monitors_initialize(struct demo_monitors_t* mons);
 
 void demo_monitors_setup(struct demo_monitors_t* mons,
 			 struct demo_params_t* params);
@@ -148,7 +148,7 @@ void demo_monitors_start(struct demo_monitors_t* mons);
 
 void demo_monitors_release(struct demo_monitors_t* mons);
 
-void demo_stats_initialize(XStats_top* stats_top);
+int demo_stats_initialize(XStats_top* stats_top);
 
 XStats_top_Mask_v demo_stats_calc_mask(unsigned int k);
 
