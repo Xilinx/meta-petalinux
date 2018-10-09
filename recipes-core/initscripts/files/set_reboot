@@ -8,12 +8,12 @@ type="$1"
        type=system
 
 case $type in
-	apu|APU)	code=0; type=APU    ;;
-	ps|PS)		code=1; type=PS     ;;
-	sys*|SYS*)	code=2; type=SYSTEM ;;
+	apu|APU)	scope=subsystem; type=APU    ;;
+	ps|PS)		scope=ps_only; type=PS     ;;
+	sys*|SYS*)	scope=system; type=SYSTEM ;;
 	*)		echo "Invalid reboot type $type"; exit 1 ;;
 esac
 
 echo $type > /etc/default/reboot
-echo system_shutdown 2 $code > /sys/kernel/debug/zynqmp_pm/power
-echo "Linux reboot target set to: $type ($code)"
+echo $scope > /sys/firmware/zynqmp/shutdown_scope
+echo "Linux reboot target set to: $type ($scope)"
