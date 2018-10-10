@@ -334,7 +334,7 @@ int main(int argc, char **argv)
 		gettimeofday(&t1, NULL);
 		time = gettime(t0, t1);
 		if (!fpga_state(FPGA_SYSFS)) {
-			printf("Time taken to load DTBO is %f Milli Seconds\n\r", time);
+			printf("Time taken to load BIN is %f Milli Seconds\n\r", time);
 			printf("BIN FILE loaded through zynqMP FPGA manager successfully\n\r");
 		} else {
 			printf("BIN FILE loading through zynqMP FPGA manager failed\n\r");
