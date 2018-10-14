@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 SRC_URI = "file://vcu-demo-camera-decode-display.sh \
            file://vcu-demo-camera-encode-decode-display.sh \
            file://vcu-demo-camera-encode-file.sh \
+           file://vcu-demo-camera-encode-streamout.sh \
            file://vcu-demo-decode-display.sh \
            file://vcu-demo-streamin-decode-display.sh \
            file://vcu-demo-transcode-to-file.sh \
@@ -33,6 +34,7 @@ do_install() {
     install -m 0755 ${S}/vcu-demo-camera-decode-display.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-camera-encode-decode-display.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-camera-encode-file.sh ${D}/${bindir}
+    install -m 0755 ${S}/vcu-demo-camera-encode-streamout.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-decode-display.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-streamin-decode-display.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-transcode-to-file.sh ${D}/${bindir}
