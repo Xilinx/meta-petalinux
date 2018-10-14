@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Decode and display incoming frames from input camera providing encoded data
+# Get compressed frames from Camera, decode it and display it
 #
 # Copyright (C) 2017 Xilinx
 #
@@ -29,8 +29,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("videoSize" "codecType" "sinkName" "numFrames" "showFps" "internalEntropyBuffers" "v4l2Device" "displayDevice")
-declare -a checkEmpty=("codecType" "sinkName" "v4l2Device" "displayDevice")
+declare -a scriptArgs=("inputPath" "videoSize" "codecType" "sinkName" "numFrames" "targetBitrate" "showFps" "audioType" "internalEntropyBuffers" "v4l2Device" "displayDevice" "alsaSrc" "pulseSrc" "audioOutput" "alsaSink" "pulseSink" "frameRate")
+declare -a checkEmpty=("codecType" "sinkName" "targetBitrate" "v4l2Device" "displayDevice" "frameRate")
 
 
 ############################################################################
@@ -38,26 +38,34 @@ declare -a checkEmpty=("codecType" "sinkName" "v4l2Device" "displayDevice")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -v <video_capture_device> -s <video_size> -c <codec_type> -o <sink_name> -n <number_of_frames> -e <internal_entropy_buffers> -f'
+	echo '	Usage : '$scriptName' -i <device_id_string> -v <video_capture_device> -s <video_size> -c <codec_type> -a <audio_type> -o <sink_name> -n <number_of_frames> -b <target_bitrate> -e <internal_entropy_buffers> -d <display_device> -f --use-alsasrc --use-pulsesrc --audio-output <Audio output device> --use-pulsesink --use-alsasink'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
+	echo '  '$scriptName' -a aac'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -d "fd4a0000.zynqmp-display" -a aac'
 	echo '  '$scriptName' -v "/dev/video1"'
-	echo '  '$scriptName' -d "fd4a0000.zynqmp-display"'
-	echo '  '$scriptName' --display-device "fd4a0000.zynqmp-display"'
-	echo '  '$scriptName' -n 500'
+	echo '  '$scriptName' -v "/dev/video1" -r 60'
+	echo '  '$scriptName' -n 500 --use-alsasrc'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -n 500 -b 1200 -a aac'
+	echo '  '$scriptName' --use-pulsesrc -i "alsa_input.usb-046d_C922_Pro_Stream_Webcam_FCD7727F-02.analog-stereo" -n 500 -b 1200 -a aac'
 	echo '  '$scriptName' -f'
-	echo '  '$scriptName' -f -o fakevideosink'
-	echo '  '$scriptName' -s 1920x1080 -c avc'
-	echo '  '$scriptName' -s 1920x1080 -c avc -e 2'
+	echo '  '$scriptName' -o fakevideosink'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -s 1920x1080 -c avc -a aac'
+	echo '  '$scriptName' -s 1920x1080 -c avc -e 3'
 	echo '  '$scriptName' -s 1280x720 -c avc'
-	echo '  "NOTE: This script depends on vcu-demo-functions.sh to be present in /usr/bin or its path set in $PATH"'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -s 1280x720 -c avc -a aac'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -s 1280x720 -c avc -a vorbis'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -s 1280x720 -c avc -a aac'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -s 1280x720 -c avc -a aac --audio-output "hw:0"'
+	echo '  '$scriptName' --use-pulsesrc -i "alsa_input.usb-046d_C922_Pro_Stream_Webcam_FCD7727F-02.analog-stereo" -n 500 -b 1200 -a aac'
+	echo '  "NOTE: This script depends on vcu-demo-settings.sh to be present in /usr/bin or its path set in $PATH"'
 	exit
 }
 
 ############################################################################
 # Name:		CameraToDisplay
-# Description:	Display encoded data coming from camera
+# Description:	Get RAW data from camera, encode it, decode and display it
 ############################################################################
 CameraToDisplay() {
 	if [ $SHOW_FPS ]; then
@@ -65,28 +73,75 @@ CameraToDisplay() {
 	else
 		SINK="$SINK_NAME"
 	fi
-	if [ $NUM_FRAMES ]; then
-		V4L2SRC="$V4L2SRC num-buffers=$NUM_FRAMES"
-	fi
+
+	AUDIO_SRC_BASE="$AUDIO_SRC"
+	AUDIO_SINK_BASE="$AUDIO_SINK"
+
+        if [ $NUM_FRAMES ]; then
+                V4L2SRC="$V4L2SRC num-buffers=$NUM_FRAMES"
+                AUDIO_BUFFERS=$(($NUM_FRAMES*100/$FRAME_RATE))
+        fi
+
+	case $AUDIODEC_TYPE in
+	"aac")
+		AUDIODEC="faad"
+		AUDIOENC="faac";;
+	"vorbis")
+		AUDIODEC="vorbisdec"
+		AUDIOENC="vorbisenc";;
+	*)
+		if ! [ -z $AUDIODEC_TYPE ]; then
+			ErrorMsg "Invalid audio codec type specified, please specify either vorbis or aac"
+		fi
+	esac
 
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
-	CAMERA_CAPS_AVC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1,profile=constrained-baseline,level=\(string\)4.0"
-	CAMERA_CAPS_HEVC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1"
+	CAMERA_CAPS="video/x-raw,width=$WIDTH,height=$HEIGHT,framerate=$FRAME_RATE/1"
+	VIDEOCONVERT="videoconvert"
+	VIDEOCONVERT_CAPS="video/x-raw, format=\(string\)NV12"
+	if [ -z $SET_ENTROPY_BUF ]; then
+		INTERNAL_ENTROPY_BUFFERS="6"
+	fi
 
-	OMXH264DEC="$OMXH264DEC latency-mode=reduced-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
-	OMXH265DEC="$OMXH265DEC latency-mode=reduced-latency internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH264ENC="omxh264enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=1"
+	OMXH265ENC="omxh265enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=1"
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
 
-	if [ $CODEC_TYPE == "avc" ]; then
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_AVC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $SINK"
+        case $CODEC_TYPE in
+        "avc")
+		PARSER=$H264PARSE
+		ENCODER=$OMXH264ENC
+		DECODER=$OMXH264DEC
+		CAMERA_CAPS_ENC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
+	"hevc")
+		PARSER=$H265PARSE
+		ENCODER=$OMXH265ENC
+		DECODER=$OMXH265DEC
+		CAMERA_CAPS_ENC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
+	esac
+	restartPulseAudio
+	setAudioSrcProps
+
+	if ! [ -z $AUDIO_OUTPUT ] && [ $AUDIO_SINK != "autoaudiosink" ]; then
+		AUDIO_SINK="$AUDIO_SINK device=\"$AUDIO_OUTPUT\""
+	fi
+
+	if [ -z $AUDIODEC_TYPE ]; then
+		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK"
 	else
-		pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_HEVC ! $H265PARSE ! $OMXH265DEC ! $QUEUE ! $SINK"
+		if [ "$AUDIO_SRC_BASE" == "pulsesrc" ] && [ "$AUDIO_SINK_BASE" == "pulsesink" ]; then
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC volume=2 ! $QUEUE ! $AUDIOENC ! $AUDIODEC ! $AUDIO_SINK"
+		else
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC ! $QUEUE ! $AUDIOCONVERT ! $AUDIOENC ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIO_SINK"
+		fi
 	fi
 
 	runGstPipeline "$pipeline"
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "v:s:c:o:n:e:d:fh" --long "video-capture-device:,video-size:,codec-type:,sink-name:,num-frames:,internal-entropy-buffers:,display-device:,show-fps,help" -- "$@")
+args=$(getopt -o "i:v:d:s:c:o:a:b:n:e:r:fh" --long "input-path:,video-capture-device:,display-device:,video-size:,audio-type:,codec-type:,sink-name:,num-frames:,bit-rate:,internal-entropy-buffers:,audio-output:,frame-rate:,show-fps,help,use-alsasrc,use-pulsesrc,use-alsasink,use-pulsesink" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 
@@ -94,9 +149,18 @@ trap catchCTRL_C SIGINT
 parseCommandLineArgs
 checkforEmptyVar "${checkEmpty[@]}"
 if [ -z $VIDEO_SIZE ]; then
-	VIDEO_SIZE="1920x1080"
-	echo "Video Size is not specified in args hence using 1920x1080 as default value"
+	VIDEO_SIZE="640x480"
+	echo "Video Size is not specified in args hence using 640x480 as default value"
+fi
+
+if [ -z $BIT_RATE ];then
+	BIT_RATE=1000
+fi
+if ! [ -z $AUDIODEC_TYPE ]; then
+        audioSetting
 fi
 
 RegSetting
+DisableDPMS
 CameraToDisplay
+restoreContext

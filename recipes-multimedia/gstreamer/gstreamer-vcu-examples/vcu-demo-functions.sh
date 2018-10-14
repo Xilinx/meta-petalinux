@@ -22,7 +22,6 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 #Default Globals
 DEFAULT_INPUT_PATH="/usr/share/movies/"
 GST_LAUNCH="gst-launch-1.0"
@@ -35,25 +34,30 @@ MULTIQUEUE="multiqueue"
 QTDEMUX="qtdemux name=demux demux.video_0"
 MTDEMUX="matroskademux name=demux demux.video_0"
 TSDEMUX="tsdemux name=demux"
+TSPARSE="tsparse"
 VIDEOCONVERT="videoconvert"
 OMXH264ENC="omxh264enc"
 OMXH265ENC="omxh265enc"
 RTPH264PAY="rtph264pay"
 RTPH265PAY="rtph265pay"
+RTPMP2TPAY="rtpmp2tpay"
 UDPSINK="udpsink max-lateness=-1 qos-dscp=60 async=false max-bitrate=5000000"
 FILE_SRC="filesrc location"
 FILESINK="filesink location"
 RTPH264DEPAY="rtph264depay"
 RTPH265DEPAY="rtph265depay"
+RTPMP2TDEPAY="rtpmp2tdepay"
 RTPJITTERBUFFER="rtpjitterbuffer latency=1000"
 UDP_SRC="udpsrc"
 V4L2SRC="v4l2src"
 INTERNAL_ENTROPY_BUFFERS="2"
 RTP_CAPS="application/x-rtp, media=video, clock-rate=90000, payload=96,"
-AUDIOSINK="autoaudiosink"
+MPEGTS_CAPS="video/mpegts"
+AUDIO_SINK="autoaudiosink"
+AUDIO_SINK_BASE="unknown"
 AUDIOCONVERT="audioconvert"
 AUDIORESAMPLE="audioresample"
-AUDIO_CAPS="audio/x-raw, channels=2"
+AUDIO_CAPS="audio/x-raw, channels=2, rate=48000"
 MPEG_CAPS="video/mpegts"
 CODEC_TYPE="avc"
 NEED_DOWNLOAD=0
@@ -61,8 +65,12 @@ DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160
 DEFAULT_URL_HEVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 YOUTUBE_LINK=0
 SOUPHTTP_SRC="souphttpsrc location"
-AUDIO_SRC="alsasrc"
 COMPRESSED_MODE=0
+AUDIO_SRC="autoaudiosrc"
+AUDIO_SRC_BASE="unknown"
+DISPLAY_DEVICE="fd4a0000.zynqmp-display"
+DPMS="unknown"
+PULSEAUDIO="unknown"
 
 #####################################################################################
 # Name:		killProcess
@@ -87,8 +95,6 @@ killProcess () {
 ############################################################################
 ErrorMsg() {
 	echo "$1"
-	killProcess "modetest"
-	killProcess "sleep"
 	usage
 }
 
@@ -97,11 +103,10 @@ ErrorMsg() {
 # Description:	Cleanup all the processes spawned by script when user interrupts using CTRL+C
 #############################################################################################
 catchCTRL_C() {
-	killProcess "gst-launch-1.0"
-	sleep 2
 	export DISPLAY=:0.0
 	xset dpms force on
 	modetest -D fd4a0000.zynqmp-display -w 35:alpha:255
+	restoreContext
 	exit 0
 }
 
@@ -111,31 +116,79 @@ catchCTRL_C() {
 #		set outstanding read/write requests for AFI ports where VCU is connected to 16
 ##############################################################################################
 RegSetting () {
+	# Qos = 3 for VCU
 	devmem 0xfd380008 w 0x3
-	devmem 0Xfd38001c w 0x3
-	devmem 0xfd390008 w 0x3
-	devmem 0xfd39001c w 0x3
-	devmem 0xfd3a0008 w 0x3
-	devmem 0xfd3a001c w 0x3
+	devmem 0xfd38001c w 0x3
 	devmem 0xfd3b0008 w 0x3
 	devmem 0xfd3b001c w 0x3
 
-	devmem 0xfd380004 w 0xf
-	devmem 0xfd390004 w 0xf
-	devmem 0xfd3a0004 w 0xf
-	devmem 0xfd3b0004 w 0xf
-	devmem 0xfd380018 w 0xf
-	devmem 0xfd390018 w 0xf
-	devmem 0xfd3a0018 w 0xf
-	devmem 0xfd3b0018 w 0xf
+	# 16 outstanding request for VCU
+	devmem 0xfd380004 w 0xF
+	devmem 0xfd3B0004 w 0xF
+	devmem 0xfd380018 w 0xF
+	devmem 0xfd3B0018 w 0xF
 }
+
+##############################################################################################
+# Name:		restoreContext
+# Description:  Restore the display and audio settings to previous state
+##############################################################################################
+restoreContext () {
+	if [ $DPMS == "off" ] ; then
+		xset s on +dpms
+	fi
+	if [ $PULSEAUDIO == "off" ]; then
+		pulseaudio --start -D
+	fi
+}
+
+##############################################################################################
+# Name:		DisableDPMS
+# Description:  Disable Display power management subsystem and screen saver
+##############################################################################################
+DisableDPMS () {
+	pidof "Xorg" > "/dev/null" 2>&1
+	if [ $? -eq 0 ]; then
+		export DISPLAY=:0.0
+		xset s off -dpms
+		DPMS="off"
+	fi
+}
+
+
+#############################################################################################
+# Name:		restartPulseAudio
+# Description:  Restarts the PulseAudioDaemon so that previous handles to device are released
+##############################################################################################
+restartPulseAudio () {
+        if ! [ -z $AUDIODEC_TYPE ]; then
+                which pulseaudio > "/dev/null" 2>&1
+                if [ $? -eq 0 ]; then
+			pulseaudio --check
+			if [ $? -eq 0 ]; then
+				pulseaudio -k
+				PULSEAUDIO="off"
+			fi
+			if [ $AUDIO_SRC_BASE == "pulsesrc" ] || [ $AUDIO_SINK_BASE == "pulsesink" ]; then
+                        	pulseaudio --start -D
+				PULSEAUDIO="on"
+			fi
+                fi
+        fi
+}
+
 
 #####################################################################################
 # Name:		audioSetting
 # Description:  Set the volume for DP codec to maximum
 ######################################################################################
 audioSetting () {
-	devmem 0xFD4AC000 32 0xFFFFFFFF
+	devmem 0xFD4AC000 32 0xffffffff
+        which amixer > /dev/null
+	if [ $? -eq 0 ]; then
+		amixer sset 'Master' 100%
+		amixer sset 'Capture' 100%
+	fi
 }
 
 #########################################################################################
@@ -165,14 +218,14 @@ if ! [ -f $INPUT_PATH ]; then
 	fi
 	download_complete=0
 	for i in `seq 1 6`; do
-		echo "Try number $i for download"
+		echo "Try #$i for download"
 		wget -c -T7 $1 -P $DEFAULT_INPUT_PATH
 		if [ $? -eq 0 ];then
 			echo "Download completed"
 			download_complete=1
 			break;
 		else
-			echo "Retrying..."
+			echo "No connection, Retrying..."
 		fi
 	done
 	if [ $download_complete -eq 0 ]; then
@@ -225,6 +278,30 @@ getInputFile () {
 			download $DEFAULT_URL
 		fi
 	fi
+}
+
+#########################################################################################
+# Name:		setAudioSrcProps
+# Argument:	None
+# Description:  Set AudioSrc properties like capture device and buffers to be played
+#########################################################################################
+setAudioSrcProps () {
+	if ! [ -z $AUDIO_BUFFERS ]; then
+                if  [ $AUDIO_SRC == "autoaudiosrc" ]; then
+                        echo "NOTE: You may have to exit manually as -n/num-frames only supported with use-alsasrc or use-pulsesink options"
+                fi
+        fi
+
+        if [ $AUDIO_SRC != "autoaudiosrc" ]; then
+                if ! [ -z $INPUT_PATH ]; then
+                        AUDIO_SRC="$AUDIO_SRC device=\"$INPUT_PATH\""
+                fi
+                if ! [ -z $AUDIO_BUFFERS ]; then
+                        AUDIO_SRC="$AUDIO_SRC num-buffers=$AUDIO_BUFFERS"
+                fi
+        fi
+
+	AUDIO_SRC="$AUDIO_SRC do-timestamp=true"
 }
 
 #########################################################################################
@@ -285,7 +362,7 @@ setDefaultifEmpty () {
 
 		sinkName )
 			if [ -z $SINK_NAME ]; then
-				SINK_NAME="kmssink bus-id="fd4a0000.zynqmp-display" fullscreen-overlay=1"
+				SINK_NAME="kmssink bus-id="$DISPLAY_DEVICE" fullscreen-overlay=1"
 			fi
 			;;
 		codecType )
@@ -300,27 +377,33 @@ setDefaultifEmpty () {
 				echo "No port number specified hence using $PORT_NUM as default"
 			fi
 			;;
+		frameRate )
+			if [ -z $FRAME_RATE ]; then
+				FRAME_RATE=30
+				echo "No frame rate specified hence assuming $FRAME_RATE as default"
+			fi
+			;;
 		bufferSize )
 			if [ -z $BUFFER_SIZE ]; then
-				BUFFER_SIZE="16000000"
+				BUFFER_SIZE="60000000"
 				echo "No input buffer size specified hence using $BUFFER_SIZE as default size for kernel recieved buffer"
 			fi
 			;;
 		gopLength )
 			if [ -z $GOP_LENGTH ]; then
-				GOP_LENGTH="240"
+				GOP_LENGTH="60"
 				echo "No "gop-length" parameter value specified hence using $GOP_LENGTH as default for encoding the input stream"
 			fi
 			;;
 		periodicityIdr )
 			if [ -z $PERIODICITY_IDR ]; then
-				PERIODICITY_IDR="240"
+				PERIODICITY_IDR="60"
 				echo "No "periodicity-idr" parameter value specified hence using $PERIODICITY_IDR as default for encoding input stream"
 			fi
 			;;
 		cpbSize )
 			if [ -z $CPB_SIZE ]; then
-				CPB_SIZE="1000"
+				CPB_SIZE="3000"
 				echo "No "cpbSize" parameter value specified hence using $CPB_SIZE as default for encoding input stream"
 			fi
 			;;
@@ -520,6 +603,11 @@ DisplayUsageFor () {
 			echo '					 : Possible Values: 16000000, 17000000, 18000000 e.t.c'
 			echo '					 : Default Value: 16000000"'
 			;;
+		frameRate )
+			echo '	-r or --frame-rate		: Set the frame rate of the pipeline '
+			echo '					: Possible Values: 15, 30, 60 e.t.c'
+			echo '					: Default Value: "30"'
+			;;
 		targetBitrate )
 			echo '	-b or --bit-rate		 : Bitrate with which encoder should encode input raw data using constant bitrate mode'
 			echo '					 : Possible Values: 1000 (for 1Mbits/sec)'
@@ -530,7 +618,7 @@ DisplayUsageFor () {
 			echo '				                 	  : and likewise'
 			;;
 		ipaddress )
-			echo '	-a or --address			 : Addess of host/ip/multicast group to send the packets to'
+			echo '	--address			 : Addess of host/ip/multicast group to send the packets to'
 			echo '					 : Possible Values: "192.168.1.101, 192.168.1.71, 192.168.2.112, 127.0.0.1 for loopback"'
 			echo '					 : Default Value: "192.168.0.2"'
 			;;
@@ -539,7 +627,25 @@ DisplayUsageFor () {
 			echo '					 : Possible Values: "http://proxy.<server>:<port_num>"'
 			;;
 		compressedMode )
-			echo '	--compressed-mode		 : Captures encoded video from camera'
+			echo '	--compressed-mode		 : Captures raw video from camera'
+			;;
+		alsaSink )
+			echo '	--use-alsasink                   : Play audio using ALSA library API'
+			;;
+		pulseSink )
+			echo '	--use-pulsesink			 : Play audio using pulseaudio library API'
+			;;
+		alsaSrc )
+			echo '	--use-alsasrc                    : Capture audio using ALSA API'
+			;;
+		pulseSrc )
+			echo '	--use-pulsesrc              : Captures audio using pulseaudio library API'
+			;;
+		audioOutput )
+			echo '	--audio-output              : Selects audio output device'
+			;;
+		mpegTs )
+			echo '	--use-mpegts                : Use MPEG-TS as container'
 			;;
 		* )
 			echo ' Invalid option';
@@ -658,6 +764,10 @@ while true; do
                         PORT_NUM=$2;
                         shift; shift;
                         ;;
+		-r | --frame-rate)
+                        FRAME_RATE=$2;
+                        shift; shift;
+                        ;;
 		--proxy)
                         PROXY=$2;
                         shift; shift;
@@ -676,6 +786,30 @@ while true; do
 			COMPRESSED_MODE=1;
                         shift;
                         ;;
+		--use-alsasink)
+			AUDIO_SINK="alsasink";
+			shift;
+			;;
+		--use-pulsesink)
+			AUDIO_SINK="pulsesink";
+			shift;
+			;;
+		--use-alsasrc)
+			AUDIO_SRC="alsasrc";
+			shift;
+			;;
+		--use-pulsesrc)
+			AUDIO_SRC="pulsesrc"
+			shift;
+			;;
+		--use-mpegts)
+			MPEGTS=1
+			shift;
+			;;
+		--audio-output)
+			AUDIO_OUTPUT=$2;
+                        shift; shift;
+			;;
 		--)
                         shift; break;
                         ;;

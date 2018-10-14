@@ -30,8 +30,8 @@ fi
 source vcu-demo-functions.sh
 
 scriptName=`basename $0`
-declare -a scriptArgs=("inputPath" "codecType" "showFps" "targetBitrate" "outputPath" "internalEntropyBuffers" "audioType")
-declare -a checkEmpty=("inputPath" "targetBitrate")
+declare -a scriptArgs=("inputPath" "codecType" "showFps" "targetBitrate" "outputPath" "internalEntropyBuffers" "audioType" "gopLength" "periodicityIdr")
+declare -a checkEmpty=("inputPath" "targetBitrate" "gopLength" "periodicityIdr")
 
 
 ############################################################################
@@ -40,10 +40,11 @@ declare -a checkEmpty=("inputPath" "targetBitrate")
 # Description:	To display script's command line argument help
 ############################################################################
 usage () {
-	echo '	Usage : '$scriptName' -i <input_file_path> -b <--bit-rate> -c <codec_type> -a <audio_type> -o <output_path> -e <internal_entropy_buffers> -f'
+	echo '	Usage : '$scriptName' -i <input_file_path> -b <--bit-rate> -c <codec_type> -a <audio_type> -o <output_path> -e <internal_entropy_buffers> --gop-length <gop_length> --periodicity-idr <periodicity_idr> -f'
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName' -i /run/2160p_30.h264 -b 5000'
+	echo '  '$scriptName' -i /run/2160p_30.h264 -b 5000 --gop-length 60 --periodicity-idr 60'
 	echo '  '$scriptName' -i /run/2160p_30.h264 -b 5000 -f'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -o /mnt/sata/op.h265'
 	echo '  '$scriptName' -i /run/2160p_60.h264 -f'
@@ -124,15 +125,14 @@ TranscodeFile() {
 	esac
 
 	FILE_SRC="$FILE_SRC=$INPUT_PATH"
-	QUEUE="$QUEUE max-size-bytes=0"
 	SINK="$FILESINK=$OUTPUT_PATH"
 
 	if [ $SHOW_FPS ]; then
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=fakesink sync=true -v"
 	fi
 
-	OMXH264ENC="$OMXH264ENC control-rate=2 b-frames=2 gop-length=999 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h264, profile=high"
-	OMXH265ENC="$OMXH265ENC control-rate=2 b-frames=2 gop-length=999 prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
+	OMXH264ENC="$OMXH264ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h264, profile=high"
+	OMXH265ENC="$OMXH265ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
 
 	case $CODEC_TYPE in
 	"avc")
@@ -147,16 +147,17 @@ TranscodeFile() {
 		ENCODER=$OMXH264ENC;;
 	esac
 
+	GST_LAUNCH="$GST_LAUNCH -e"
 	if [[ $DMUX && $MUX && $AUDIODEC_TYPE ]]; then #e.g .mp4 to .mkv with audio transcode
-		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $MULTIQUEUE name=mq max-size-time=0 ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $ENC_PARSER ! $QUEUE name=vq ! $MUX ! $SINK demux.audio_0 ! mq.sink_1 mq.src_1 ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOENC ! $AUDIOPARSE ! $QUEUE name=aq ! mux.audio_0"
+		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $MULTIQUEUE name=mq ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $ENC_PARSER ! $QUEUE name=vq ! $MUX ! $SINK demux.audio_0 ! mq.sink_1 mq.src_1 ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIOENC ! $AUDIOPARSE ! $QUEUE name=aq ! mux.audio_0"
 	elif [[ $DMUX && $MUX && ! $AUDIODEC_TYPE ]]; then #e.g .mp4 to .mkv without audio transcode
-		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $DEC_PARSER ! $DECODER ! $QUEUE ! $ENCODER ! $ENC_PARSER ! $MUX ! $SINK"
+		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $ENC_PARSER ! $MUX ! $SINK"
 	elif [[ $DMUX && ! $MUX ]]; then #e.g .mp4 to .h264 transcode
-		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $DEC_PARSER ! $DECODER ! $QUEUE ! $ENCODER ! $SINK"
+		pipeline="$GST_LAUNCH $FILE_SRC ! $DMUX ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $SINK"
         elif [[ ! $DMUX && $MUX ]]; then #e.g .h264 to .mp4 transcode
-                pipeline="$GST_LAUNCH $FILE_SRC ! $DEC_PARSER ! $DECODER ! $QUEUE ! $ENCODER ! $ENC_PARSER ! $MUX ! $SINK"
+                pipeline="$GST_LAUNCH $FILE_SRC ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $ENC_PARSER ! $MUX ! $SINK"
 	elif [[ ! $DMUX && ! $MUX ]]; then #e.g .h264 to .h265 transcode
-		pipeline="$GST_LAUNCH $FILE_SRC ! $DEC_PARSER ! $DECODER ! $QUEUE ! $ENCODER ! $SINK"
+		pipeline="$GST_LAUNCH $FILE_SRC ! $DEC_PARSER ! $DECODER ! $QUEUE max-size-bytes=0 ! $ENCODER ! $SINK"
 	else
 		ErrorMsg "Incorrect output file provided"
 	fi
@@ -168,7 +169,7 @@ TranscodeFile() {
 }
 
 # Command Line Argument Parsing
-args=$(getopt -o "i:c:b:a:o:e:fh" --long "input-path:,codec-type:,bit-rate:,audio-type:,output-path:,internal-entropy-buffers:,show-fps,help" -- "$@")
+args=$(getopt -o "i:c:b:a:o:e:fh" --long "input-path:,codec-type:,bit-rate:,audio-type:,output-path:,internal-entropy-buffers:,gop-length:,periodicity-idr:,show-fps,help" -- "$@")
 
 [ $? -ne 0 ] && usage && exit -1
 

@@ -65,9 +65,9 @@ TranscodeFileandStreamOut() {
 	fi
 
 	FILE_SRC="$FILE_SRC=$INPUT_PATH"
-	OMXH264ENC="$OMXH264ENC gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR control-rate=low-latency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode="low-delay-p""
-	OMXH265ENC="$OMXH265ENC gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR control-rate=low-latency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode="low-delay-p""
-	UDPSINK="udpsink host=$ADDRESS port=$PORT_NUM max-lateness=-1 qos-dscp=60 async=false max-bitrate=500000000"
+	OMXH264ENC="$OMXH264ENC num-slices=8 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR control-rate=low-latency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE prefetch-buffer=true ! video/x-h264, profile=high"
+	OMXH265ENC="$OMXH265ENC num-slices=8 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR control-rate=low-latency target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE prefetch-buffer=true ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
+	UDPSINK="udpsink host=$ADDRESS port=$PORT_NUM max-lateness=-1 qos-dscp=60 async=false buffer-size=60000000 max-bitrate=120000000"
 
 	if [ $EXT_TYPE == "h264" -o $EXT_TYPE == "avc" ]; then
 		pipeline="$GST_LAUNCH $FILE_SRC ! $H264PARSE ! $OMXH264DEC ! $QUEUE ! $OMXH265ENC ! $H265PARSE ! $QUEUE ! $RTPH265PAY ! $UDPSINK"
