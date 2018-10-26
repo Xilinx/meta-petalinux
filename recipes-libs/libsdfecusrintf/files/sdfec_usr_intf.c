@@ -93,6 +93,22 @@ int get_status_xsdfec(int fd, struct xsdfec_status * status)
 	return 0;
 }
 
+void print_stats_xsdfec(struct xsdfec_status * status,
+			struct xsdfec_stats * stats)
+{
+	if (!stats) {
+		fprintf(stderr, "Stats is NULL ... exiting\n");
+		return;
+	}
+
+	printf("-------- XSDFEC%d Stats ---------\n", status->fec_id);
+    	/* Print State */
+	printf("ISR Error Count               = %u\n",  stats->isr_err_count);
+	printf("Correctable ECC Error Count   = %u\n", stats->cecc_count);
+	printf("Uncorrectable ECC Error Count = %u\n", stats->uecc_count);
+	printf("--------------------------------\n");
+}
+
 void print_status_xsdfec(struct xsdfec_status * status)
 {
 	if (!status) {
@@ -229,9 +245,8 @@ int get_turbo_xsdfec(int fd, struct xsdfec_turbo * turbo)
     return 0;
 }
 
-int set_irq_xsdfec(int fd, bool enable)
+int set_irq_xsdfec(int fd, struct xsdfec_irq * irq)
 {
-	struct xsdfec_irq irq;
 	int rval;
 
 	if (fd < 0) {
@@ -240,9 +255,13 @@ int set_irq_xsdfec(int fd, bool enable)
 		return -EBADF;
 	}
 
-	irq.enable_isr = irq.enable_ecc_isr = enable;
+	if (!irq) {
+		fprintf(stderr, "%s : NULL irq pointer\n",
+			__func__, fd);
+		return -EINVAL;
+	}
 
-	if ((rval = ioctl(fd, XSDFEC_SET_IRQ, &irq)) < 0) {
+	if ((rval = ioctl(fd, XSDFEC_SET_IRQ, irq)) < 0) {
 		fprintf(stderr, "%s : failed with %s\n",
 		 __func__, strerror(errno));
 		return rval;
@@ -272,41 +291,6 @@ int add_ldpc_xsdfec(int fd, struct xsdfec_ldpc_params * ldpc)
 		 __func__, strerror(errno));
 		return rval;
 	}
-	return 0;
-}
-
-int get_ldpc_code_xsdfec(int fd,
-		u32 code_id,
-		struct xsdfec_ldpc_params * ldpc_params)
-{
-	int ret_val = 0;
-
-	if (fd < 0) {
-		fprintf(stderr, "%s : Invalid file descriptor %d\n",
-				__func__, fd);
-		return -EBADF;
-	}
-
-	if (!ldpc_params) {
-		fprintf(stderr, "%s : NULL status pointer\n",
-			__func__, fd);
-		return -EINVAL;
-	}
-
-	/*
-	 *  pass the request code id within the lpdc_params stucture before
-	 *  the system call, doing this allowd the library call explicit for the
-	 *  user
-	 */
-	ldpc_params->code_id = code_id;
-
-	if ((ret_val = ioctl(fd, XSDFEC_GET_LDPC_CODE_PARAMS, ldpc_params)) < 0)
-	{
-		fprintf(stderr, "%s : failed with %s\n",
-		 __func__, strerror(errno));
-		return ret_val;
-	}
-
 	return 0;
 }
 
@@ -386,7 +370,7 @@ int set_order_xsdfec(int fd, enum xsdfec_order order)
 	return 0;
 }
 
-int set_bypass_xsdfec(int fd, unsigned long bypass)
+int set_bypass_xsdfec(int fd, bool bypass)
 {
 	int rval;
 
@@ -459,10 +443,7 @@ int prepare_ldpc_code(struct xsdfec_user_ldpc_code_params * user_params,
 	ldpc_params->special_qc  = user_params->special_qc;
 	ldpc_params->no_final_parity  = user_params->no_final_parity;
 	ldpc_params->max_schedule  = user_params->max_schedule;
-/*
- * TODO Remove from driver as removed from registers
- *	ldpc->lat_ctrl  = param->lat_ctrl;
- */
+
 	ldpc_params->sc_off  = user_offsets->sc_off;
 	ldpc_params->la_off  = user_offsets->la_off;
 	ldpc_params->qc_off  = user_offsets->qc_off;
@@ -474,8 +455,7 @@ int prepare_ldpc_code(struct xsdfec_user_ldpc_code_params * user_params,
 
 	/* Prepare SC Table */
 	if (get_sc_table_size(user_params) >
-		(XSDFEC_LDPC_SC_TABLE_ADDR_HIGH -
-	                        XSDFEC_LDPC_SC_TABLE_ADDR_BASE)) {
+	    (XSDFEC_LDPC_SC_TABLE_ADDR_HIGH - XSDFEC_LDPC_SC_TABLE_ADDR_BASE)) {
 		fprintf(stderr,
 		"%s : SC Table entries for code %d exceeds reg space\n",
 		__func__, code_id);
@@ -489,14 +469,13 @@ int prepare_ldpc_code(struct xsdfec_user_ldpc_code_params * user_params,
 
 	/* Prepare LA Table */
 	if (user_params->nlayers >
-		(XSDFEC_LDPC_LA_TABLE_ADDR_HIGH -
-	                        XSDFEC_LDPC_LA_TABLE_ADDR_BASE)) {
+	    (XSDFEC_LDPC_LA_TABLE_ADDR_HIGH - XSDFEC_LDPC_LA_TABLE_ADDR_BASE)) {
 		fprintf(stderr,
 		"%s : LA Table entries for code %d exceeds reg space\n",
 		__func__, code_id);
 		return -EINVAL;
 	}
-	
+
 	for (itr = 0; itr < user_params->nlayers; itr++)
 	{
 		ldpc_params->la_table[itr] = user_params->la_table[itr];
@@ -518,6 +497,19 @@ int prepare_ldpc_code(struct xsdfec_user_ldpc_code_params * user_params,
 	}
 
 	ldpc_params->code_id = code_id;
+	return 0;
+}
+
+int update_lpdc_table_offsets(struct xsdfec_ldpc_params *ldpc_params,
+			      struct xsdfec_user_ldpc_table_offsets *user_offsets)
+{
+	struct xsdfec_ldpc_param_table_sizes table_sizes;
+
+	xsdfec_calculate_shared_ldpc_table_entry_size(ldpc_params, &table_sizes);
+	user_offsets->sc_off = ldpc_params->sc_off + table_sizes.sc_size;
+	user_offsets->la_off = ldpc_params->la_off + table_sizes.la_size;
+	user_offsets->qc_off = ldpc_params->qc_off + table_sizes.qc_size;
+
 	return 0;
 }
 

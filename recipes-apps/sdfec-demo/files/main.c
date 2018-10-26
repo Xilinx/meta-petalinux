@@ -99,12 +99,12 @@ int main(void)
 		printf("Failed to initialize data source block\n");
 		exit(1);
 	}
-	demo_stats_initialize(&stats_top);
+	ret_val = demo_stats_initialize(&stats_top);
 	if (ret_val < 0) {
 		printf("Failed to initialize stats block\n");
 		exit(1);
 	}
-	demo_monitors_initialize(&mons);
+	ret_val = demo_monitors_initialize(&mons);
 	if (ret_val < 0) {
 		printf("Failed to initialize monitor blocks\n");
 		exit(1);
