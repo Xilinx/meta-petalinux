@@ -1,0 +1,66 @@
+From d94f6c42fc989f9baac94bdb8ecea9dc1618c753 Mon Sep 17 00:00:00 2001
+From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+Date: Wed, 8 Aug 2018 17:54:17 -0700
+Subject: [PATCH] libxl/libxl_arm_acpi.c: fix 'memcpy' forming offset out of
+ the bounds
+
+gcc-8.1 complains:
+
+libxl_arm_acpi.c:208:5: error: 'memcpy' forming offset [5, 6] is out of
+the bounds [0, 4] [-Werror=array-bounds]
+     memcpy(h->oem_id, ACPI_OEM_ID, sizeof(h->oem_id));
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libxl_arm_acpi.c:209:5: error: 'memcpy' forming offset [5, 8] is out of
+the bounds [0, 4] [-Werror=array-bounds]
+     memcpy(h->oem_table_id, ACPI_OEM_TABLE_ID,
+sizeof(h->oem_table_id));
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libxl_arm_acpi.c:211:5: error: 'memcpy' forming offset 4 is out of the
+bounds [0, 3] [-Werror=array-bounds]
+     memcpy(h->asl_compiler_id, ACPI_ASL_COMPILER_ID,
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            sizeof(h->asl_compiler_id));
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+libxl_arm_acpi.c:193:5: error: 'memcpy' forming offset [5, 6] is out of
+the bounds [0, 4] [-Werror=array-bounds]
+     memcpy(rsdp->oem_id, ACPI_OEM_ID, sizeof(rsdp->oem_id));
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This patch fixes the above errors.
+
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+---
+ tools/libxl/libxl_arm_acpi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/tools/libxl/libxl_arm_acpi.c b/tools/libxl/libxl_arm_acpi.c
+index 636f724..cd664ad 100644
+--- a/tools/libxl/libxl_arm_acpi.c
++++ b/tools/libxl/libxl_arm_acpi.c
+@@ -190,7 +190,7 @@ static void make_acpi_rsdp(libxl__gc *gc, struct xc_dom_image *dom,
+     struct acpi_table_rsdp *rsdp = (void *)dom->acpi_modules[0].data + offset;
+ 
+     memcpy(rsdp->signature, "RSD PTR ", sizeof(rsdp->signature));
+-    memcpy(rsdp->oem_id, ACPI_OEM_ID, sizeof(rsdp->oem_id));
++    memcpy(rsdp->oem_id, ACPI_OEM_ID, sizeof(ACPI_OEM_ID));
+     rsdp->length = acpitables[RSDP].size;
+     rsdp->revision = 0x02;
+     rsdp->xsdt_physical_address = acpitables[XSDT].addr;
+@@ -205,11 +205,11 @@ static void make_acpi_header(struct acpi_table_header *h, const char *sig,
+     memcpy(h->signature, sig, 4);
+     h->length = len;
+     h->revision = rev;
+-    memcpy(h->oem_id, ACPI_OEM_ID, sizeof(h->oem_id));
+-    memcpy(h->oem_table_id, ACPI_OEM_TABLE_ID, sizeof(h->oem_table_id));
++    memcpy(h->oem_id, ACPI_OEM_ID, sizeof(ACPI_OEM_ID));
++    memcpy(h->oem_table_id, ACPI_OEM_TABLE_ID, sizeof(ACPI_OEM_TABLE_ID));
+     h->oem_revision = 0;
+     memcpy(h->asl_compiler_id, ACPI_ASL_COMPILER_ID,
+-           sizeof(h->asl_compiler_id));
++           sizeof(ACPI_ASL_COMPILER_ID));
+     h->asl_compiler_revision = 0;
+     h->checksum = 0;
+ }
+-- 
+2.7.4
+
