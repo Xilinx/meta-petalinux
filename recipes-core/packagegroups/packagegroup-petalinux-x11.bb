@@ -6,7 +6,6 @@ REQUIRED_DISTRO_FEATURES = "x11"
 
 X11_PACKAGES = " \
 	packagegroup-core-x11 \
-	xtscal \
 	xcursor-transparent-theme \
 	xinit \
 	xinput \

@@ -10,7 +10,6 @@ QT_EXTENDED_PACKAGES = " \
 	qtbase-mkspecs \
 	qtbase-plugins \
 	qtsystems-mkspecs \
-	qttranslations-qt \
 	qttranslations-qtbase \
 	qttranslations-qthelp \
 	qtconnectivity-mkspecs \
