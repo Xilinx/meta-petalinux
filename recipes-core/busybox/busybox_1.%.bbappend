@@ -24,8 +24,6 @@ INITSCRIPT_NAME_${PN}-inetd = "inetd.busybox"
 INITSCRIPT_PARAMS_${PN}-inetd = "start 65 S ."
 CONFFILES_${PN}-inetd = "${sysconfdir}/inetd.conf"
 
-RRECOMMENDS_${PN} =+ "${@bb.utils.contains('DISTRO_FEATURES', 'busybox-inetd', '${PN}-inetd', '', d)}"
-
 def plnx_enable_busybox_package(f, d):
     distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
     if "busybox-" + f in distro_features:
