@@ -241,7 +241,7 @@ index 0000000..6d4e811
 +}
 +int main(int argc, char* argv[])
 +{
-+        mraa::Gpio* touch_gpio = new mraa::Gpio(29);
++        mraa::Gpio* touch_gpio = new mraa::Gpio(23);
 +        mraa::Gpio* relay_gpio = new mraa::Gpio(27);
 +        mraa::Result response;
 +        int touch;

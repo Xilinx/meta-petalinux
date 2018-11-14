@@ -10,6 +10,7 @@ SRC_URI = "git://github.com/96boards/Sensor_Mezzanine_Getting_Started.git;protoc
 	file://0001-Added-backup-files-to-all-the-source-files.patch \
 	file://0001-tweeting-doorbell-Added-auto-update-of-date.patch \
 	file://0001-humid_temp-Makefile-Replacing-spaces-with-tabs-in-th.patch \
+        file://0001-touch_switch.cpp-Connect-the-touch-sensor-to-differe.patch \
 	"
 
 # Modify these as desired

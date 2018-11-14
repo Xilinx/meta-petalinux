@@ -1,0 +1,39 @@
+From 90c07e6ffe2d0e75eb6fa17346bcd062cb170c9b Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Fri, 26 Oct 2018 10:16:28 -0700
+Subject: [PATCH] touch_switch.cpp: Connect the touch sensor to different GPIO
+ pin
+
+In the current example, the touch sensor is connected on G3 GPIO pin. In
+the current Ultra96 BSP GPIO pins E-L are being used by the hardware
+desing to support MIPI Camera. The following pins are used by the
+design:
+    1. GPIO-G: Strobe        2. GPIO-H: ULPM
+    3. GPIO-I: CAM1_RESET    4. GPIO-J: CAM1_PWDN
+    5. GPIO-K: CAM2_RESET    6. GPIO-L: CAM2_PWDN
+
+The above pins cannot be used by the sensor mezzanine adapter to drive
+input, only output is possible. Hence the relay is connected to G2 while
+the touch sensor is moved to GPIO pin AB
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ touch_switch/touch_switch.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/touch_switch/touch_switch.cpp b/touch_switch/touch_switch.cpp
+index 6d4e811..01b044a 100644
+--- a/touch_switch/touch_switch.cpp
++++ b/touch_switch/touch_switch.cpp
+@@ -12,7 +12,7 @@ void sig_handler(int signo)
+ }
+ int main(int argc, char* argv[])
+ {
+-        mraa::Gpio* touch_gpio = new mraa::Gpio(29);
++        mraa::Gpio* touch_gpio = new mraa::Gpio(23);
+         mraa::Gpio* relay_gpio = new mraa::Gpio(27);
+         mraa::Result response;
+         int touch;
+-- 
+2.7.4
+
