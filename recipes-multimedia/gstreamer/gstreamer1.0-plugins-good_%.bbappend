@@ -15,7 +15,7 @@ SRC_URI = " \
     file://0001-v4l2-Fix-4K-colorimetry.patch \
     "
 
-SRCREV_base = "d7cac4c10e6365e5cc3ea06edb6646533fd5ce2c"
+SRCREV_base = "d2c7cf8d752de84c30f9675572037e0250cd3c6d"
 SRCREV_common = "48a5d85ebf4a0bad1c997c83100f710fe2154fbf"
 SRCREV_FORMAT = "base"
 
