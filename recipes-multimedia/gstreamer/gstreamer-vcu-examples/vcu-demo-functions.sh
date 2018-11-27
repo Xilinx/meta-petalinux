@@ -61,7 +61,7 @@ AUDIO_CAPS="audio/x-raw, channels=2, rate=48000"
 MPEG_CAPS="video/mpegts"
 CODEC_TYPE="avc"
 NEED_DOWNLOAD=0
-DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4"
+DEFAULT_URL_AVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc_new.mp4"
 DEFAULT_URL_HEVC="petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv"
 YOUTUBE_LINK=0
 SOUPHTTP_SRC="souphttpsrc location"
@@ -518,7 +518,7 @@ DisplayUsageFor () {
 		downloadUrl )
 			echo '	-u or --url			 : Path to download URL for input file '
 			echo '					 : Possible Values: <http URL for input file>'
-			echo '					 : Default Value: petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4 '
+			echo '					 : Default Value: petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc_new.mp4 '
 			;;
 		outputPath )
 			echo '	-o or --output-path		 : Give path to output file '

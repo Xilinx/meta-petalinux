@@ -41,7 +41,7 @@ III.  Steps to Verify Examples:
 		     export https_proxy="<private network proxy address>"
      • If the board is not connected to internet, then compressed video files can be downloaded using host machine and copy input files into
        "/home/root/" folder. Use below commands to download the content on host linux-machine.
-     • Download AVC sample file:  wget petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc.mp4
+     • Download AVC sample file:  wget petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_avc_new.mp4
      • Download HEVC sample file: wget petalinux.xilinx.com/sswreleases/video-files/bbb_sunflower_2160p_30fps_normal_hevc.mkv
 
  2. Example-1: (Decode → Display)
@@ -52,7 +52,7 @@ III.  Steps to Verify Examples:
     • 4K HEVC Decode: same as above but it uses HEVC/Voribis encoded bitstream.
     • Decode→ Display can be executed using command line option as well, use below command to run this example.
       Running the script with "-h" option shows all possible options.
-	i.  vcu-demo-decode-display.sh -i /home/root/bbb_sunflower_2160p_30fps_normal_avc.mp4 -c avc -a aac
+	i.  vcu-demo-decode-display.sh -i /home/root/bbb_sunflower_2160p_30fps_normal_avc_new.mp4 -c avc -a aac
 	ii. vcu-demo-decode-display.sh -i /home/root/bbb_sunflower_2160p_30fps_normal_hevc.mkv -c hevc -a vorbis
     • Run below command to play youtube video, make sure ethernet is connected to board.
 	i. vcu-demo-decode-display.sh -u "youtube-URL"
@@ -105,7 +105,7 @@ III.  Steps to Verify Examples:
  5 .Example-4: (Transcode → to File)
     • This example requires input sample files. If Example-1 is executed already, then sample videos are stored in "/home/root" folder.
     • Use below command to transcode sample avc file into hevc file.
-	i. vcu-demo-transcode-to-file.sh -i /home/root/bbb_sunflower_2160p_30fps_normal_avc.mp4 -c avc -a aac -o /home/root/transcode.mkv
+	i. vcu-demo-transcode-to-file.sh -i /home/root/bbb_sunflower_2160p_30fps_normal_avc_new.mp4 -c avc -a aac -o /home/root/transcode.mkv
     • Use Example-1 to view the transcoded file on the Display, sample command is mentioned below:
 	i. vcu-demo-decode-display.sh -i /home/root/transcode.mkv -c hevc -a vorbis --use-alsasink --audio-output "hw:0"
  6. Example-5 : (Transcode → Stream out using Ethernet  ... Streaming In → Decode → Display)
