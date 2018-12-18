@@ -35,6 +35,6 @@ QT_EXTENDED_PACKAGES = " \
 	qtxmlpatterns-mkspecs \
 	qttranslations-qtxmlpatterns \
 	qtwebkit-mkspecs \
-	qtx11extras \
+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'qtx11extras', '', d)} \
 	"
 RDEPENDS_${PN} = "${QT_EXTENDED_PACKAGES}"
