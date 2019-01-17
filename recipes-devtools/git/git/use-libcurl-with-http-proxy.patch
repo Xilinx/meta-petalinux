@@ -1,0 +1,51 @@
+Upstream-Status: Pending
+
+Git uses (lib)curl as a backend to fetch repos, and it can use the
+GIT_SSL_CAINFO environment variable to override its own http.sslCAInfo
+config.
+
+Since commit
+fc4a226 : Merge branch 'ws/curl-http-proxy-over-https'
+
+git now supports passing the https proxy to libcurl instead of the old
+http proxy, although this sounds nice, since curl release 7.52.0 [1]
+it can do HTTPS to the proxy separately from the connection to the server.
+This TLS connection is handled separately from the server connection by curl,
+this causes git to parse the environment variable GIT_SSL_CAINFO and call
+libcurl with that argument as the proxy for the server connection, but, the
+certificate path used for the proxy connection is left untouched, causing
+errors when the right combination of elements from the infrastructure are
+being used.
+
+The ideal solution would be for git to have a way to override the certificate
+used only for the proxy connection and align with curl, but at this point git
+has no equivalent to GIT_SSL_CAINFO.
+
+Force git to use http_proxy (as with older versions of curl) to work
+around this issue, which will avoid the error, but the connection to the
+server will still be secure.
+
+[1] https://github.com/curl/curl/blob/master/docs/SSLCERTS.md
+
+
+Signed-off-by: Alejandro Hernandez <alejandr@xilinx.com>
+---
+
+Index: git-2.18.1/http.c
+===================================================================
+--- git-2.18.1.orig/http.c
++++ git-2.18.1/http.c
+@@ -938,11 +938,11 @@ static CURL *get_curl_handle(void)
+ 			curl_easy_setopt(result,
+ 				CURLOPT_PROXYTYPE, CURLPROXY_SOCKS4);
+ #endif
+-#if LIBCURL_VERSION_NUM >= 0x073400
++/* #if LIBCURL_VERSION_NUM >= 0x073400
+ 		else if (starts_with(curl_http_proxy, "https"))
+ 			curl_easy_setopt(result,
+ 				CURLOPT_PROXYTYPE, CURLPROXY_HTTPS);
+-#endif
++#endif */
+ 		if (strstr(curl_http_proxy, "://"))
+ 			credential_from_url(&proxy_auth, curl_http_proxy);
+ 		else {
