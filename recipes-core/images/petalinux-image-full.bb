@@ -31,7 +31,6 @@ ZYNQ_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-self-hosted', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-xfce', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
     "
 
