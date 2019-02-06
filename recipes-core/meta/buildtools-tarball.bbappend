@@ -1,6 +1,4 @@
 TOOLCHAIN_HOST_TASK += "\
-	nativesdk-qttools-tools \
-	nativesdk-qtbase \
 	nativesdk-python3-sqlite3 \
 	nativesdk-python3-pyyaml \
 "
