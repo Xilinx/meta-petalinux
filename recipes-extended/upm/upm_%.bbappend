@@ -1,2 +1,0 @@
-inherit distutils-base
-
