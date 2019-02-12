@@ -20,7 +20,7 @@ SRCREV_base = "513ef5efdf85f9af4a016e8ae69f28cf16c9ec58"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 
-PACKAGECONFIG_append = " faac gles2 kms faad"
+PACKAGECONFIG_append = " faac gles2 kms faad opusparse"
 
 S = "${WORKDIR}/git"
 
