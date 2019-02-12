@@ -199,7 +199,7 @@ BB_DISKMON_DIRS = "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
 
-XILINX_VER_MAIN = "2018.3"
+XILINX_VER_MAIN = "2019.1"
 
 # XILINX_VIVADO_DESIGN_SUIT should point to the Vivado installation directly if you are using xilinx-mcs recipe in meta-xilinx-tools
 #XILINX_VIVADO_DESIGN_SUIT = "/proj/xbuilds/2018.3_daily_latest/installs/lin64/Vivado/2018.3"
