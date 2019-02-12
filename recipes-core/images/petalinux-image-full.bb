@@ -54,3 +54,5 @@ IMAGE_FEATURES_append_versal = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
 IMAGE_FEATURES_append_microblazeel = " ${TRACING_PROFILE_FEATURES}"
 
 IMAGE_FSTYPES_remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
+
+IMAGE_INSTALL_append = " haveged"
