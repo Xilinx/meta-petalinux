@@ -7,10 +7,8 @@ MRAA_UPM_PACKAGES = " \
 	mraa-dev \
 	python3-mraa \
 	mraa-utils \
-	node-mraa \
 	upm \
 	upm-dev \
-	node-upm \
 	python3-upm \
 	nodejs \
 	nodejs-dev \
