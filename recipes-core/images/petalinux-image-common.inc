@@ -1,4 +1,5 @@
-inherit core-image 
+inherit core-image
+require xsct-tarball-esdk.inc
 
 IMAGE_AUTOLOGIN ?= "1"
 
