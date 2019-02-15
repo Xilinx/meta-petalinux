@@ -1,1 +1,1 @@
-KEXECTOOLS_microblazeel = ""
+KEXECTOOLS_microblaze = ""

@@ -1,4 +1,4 @@
 RDEPENDS_${PN}_remove = "${LTTNGMODULES} ${LTTNGTOOLS}"
-VALGRIND_microblazeel = ""
-LTTNGUST_microblazeel = ""
-PERF_microblazeel = ""
+VALGRIND_microblaze = ""
+LTTNGUST_microblaze = ""
+PERF_microblaze = ""
