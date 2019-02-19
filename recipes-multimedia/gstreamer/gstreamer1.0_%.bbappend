@@ -19,6 +19,8 @@ SRCREV_gstreamer-xlnx = "afb3d1b3e0d02da8b0eb5bb501356650b38e5644"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
+PACKAGECONFIG_append = " gst-tracer-hooks"
+
 S = "${WORKDIR}/git"
 
 do_configure_prepend() {
