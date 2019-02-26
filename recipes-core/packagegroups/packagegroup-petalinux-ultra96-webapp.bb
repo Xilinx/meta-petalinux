@@ -5,11 +5,11 @@ inherit packagegroup
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	chromium \
 	ace-cloud-editor \
-	python-flask \
-	python-werkzeug \
-	python-jinja2 \
-	python-markupsafe \
-	python-itsdangerous \
+	python3-flask \
+	python3-werkzeug \
+	python3-jinja2 \
+	python3-markupsafe \
+	python3-itsdangerous \
 	"
 
 ULTRA96_STARTUP_PAGES_PACKAGES_append_ultra96-zynqmp = " ultra96-startup-pages"
