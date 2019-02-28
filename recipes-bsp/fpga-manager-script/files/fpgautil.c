@@ -1,6 +1,6 @@
 /******************************************************************************
  *
- * Copyright (C) 2018 Xilinx, Inc.  All rights reserved.
+ * Copyright (C) 2019 Xilinx, Inc.  All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,9 @@
 /**
  * @file: fpgautil.c
  * Simple command line tool to load fpga via overlay or through sysfs interface
- * and read fpga configuration using Xilinx zynqMP fpga manager
+ * and read fpga configuration using Xilinx Zynq/ZynqMP fpga manager
  * Author: Appana Durga Kedareswara Rao <appanad@xilinx.com>
+ * Author: Nava kishore Manne <navam@xilinx.com>
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,38 +53,72 @@
 #define READBACK     3
 #define ENCRYPTION_USERKEY_EN     (0x00000008U)
 
+int fpga_getplatform()
+{
+        char fpstr[100];
+        FILE *fptr;
+        char *zynqmpstr = "Xilinx ZynqMP FPGA Manager";
+
+        if ((fptr = fopen("/sys/class/fpga_manager/fpga0/name", "r")) == NULL)
+        {
+                printf("Error! opening file");
+                // Program exits if file pointer returns NULL.
+                exit(1);
+         }
+
+        // reads text until newline
+        fscanf(fptr,"%[^\n]", fpstr);
+        fclose(fptr);
+
+        if (!strcmp(zynqmpstr, fpstr))
+                return 1;
+        else
+                return 0;
+
+}
+
 void print_usage(char *prg)
 {
-	fprintf(stderr, "\n%s: FPGA Utility for Loading/reading PL Configuration in zynqMP\n\n", prg);
+	int iszynqmp = fpga_getplatform();
+
+	fprintf(stderr, "\n%s: FPGA Utility for Loading/reading PL Configuration\n\n", prg);
 	fprintf(stderr, "Usage:	%s -b <bin file path> -o <dtbo file path>\n\r", prg);
 	fprintf(stderr, "\n");
 	fprintf(stderr, "Options: -b <binfile>		(Bin file path)\n");
 	fprintf(stderr, "         -o <dtbofile>		(DTBO file path)\n");
 	fprintf(stderr, "         -f <flags>		Optional: <Bitstream type flags>\n");
 	fprintf(stderr, "				   f := <Full | Partial > \n");
-	fprintf(stderr, "				Default: <Full>\n");
-	fprintf(stderr, "	  -s <secure flags>	Optional: <Secure flags>\n");
-	fprintf(stderr, "				   s := <AuthDDR | AuthOCM | EnUsrKey | EnDevKey | AuthEnUsrKeyDDR | AuthEnUsrKeyOCM | AuthEnDevKeyDDR | AuthEnDevKeyOCM>\n");
-	fprintf(stderr, "	  -k <AesKey>		Optional: <AES User Key>\n");
-	fprintf(stderr, "	  -r <Readback> 	Optional: <file name>\n");
-	fprintf(stderr, "				Default: By default Read back contents will be stored in readback.bin file\n");
-	fprintf(stderr, "	  -t			Optional: <Readback Type>\n");
-	fprintf(stderr, "				   0 - Configuration Register readback\n");
-	fprintf(stderr, "				   1 - Configuration Data Frames readback\n");
-	fprintf(stderr, "				Default: 0 (Configuration register readback)\n");
-	fprintf(stderr, "	  -R 			Optional: Remove overlay from a live tree\n");
+
+	if (iszynqmp)
+	{
+		fprintf(stderr, "				Default: <Full>\n");
+		fprintf(stderr, "	  -s <secure flags>	Optional: <Secure flags>\n");
+		fprintf(stderr, "				   s := <AuthDDR | AuthOCM | EnUsrKey | EnDevKey | AuthEnUsrKeyDDR | AuthEnUsrKeyOCM | AuthEnDevKeyDDR | AuthEnDevKeyOCM>\n");
+		fprintf(stderr, "	  -k <AesKey>		Optional: <AES User Key>\n");
+		fprintf(stderr, "	  -r <Readback> 	Optional: <file name>\n");
+		fprintf(stderr, "				Default: By default Read back contents will be stored in readback.bin file\n");
+		fprintf(stderr, "	  -t			Optional: <Readback Type>\n");
+		fprintf(stderr, "				   0 - Configuration Register readback\n");
+		fprintf(stderr, "				   1 - Configuration Data Frames readback\n");
+		fprintf(stderr, "				Default: 0 (Configuration register readback)\n");
+		fprintf(stderr, "	  -R 			Optional: Remove overlay from a live tree\n");
+	}
+
 	fprintf(stderr, " \n");
 	fprintf(stderr, "Examples:\n");
 	fprintf(stderr, "(Load Full bitstream using Overlay)\n");
 	fprintf(stderr, "%s -b top.bit.bin -o can.dtbo\n", prg);
 	fprintf(stderr, "(Load Partial bitstream through the sysfs interface)\n");
 	fprintf(stderr, "%s -b top.bit.bin -f Partial \n", prg);
-	fprintf(stderr, "(Load Authenticated bitstream through the sysfs interface)\n");
-	fprintf(stderr, "%s -b top.bit.bin -f Full -s AuthDDR \n", prg);
-	fprintf(stderr, "(Load Parital Encrypted Userkey bitstream using Overlay)\n");
-	fprintf(stderr, "%s -b top.bit.bin -o pl.dtbo -f Partial -s EnUsrKey -k <32byte key value>\n", prg);
-	fprintf(stderr, "(Read PL Configuration Registers)\n");
-	fprintf(stderr, "%s -b top.bit.bin -r\n", prg);
+	if (iszynqmp)
+	{
+		fprintf(stderr, "(Load Authenticated bitstream through the sysfs interface)\n");
+		fprintf(stderr, "%s -b top.bit.bin -f Full -s AuthDDR \n", prg);
+		fprintf(stderr, "(Load Parital Encrypted Userkey bitstream using Overlay)\n");
+		fprintf(stderr, "%s -b top.bit.bin -o pl.dtbo -f Partial -s EnUsrKey -k <32byte key value>\n", prg);
+		fprintf(stderr, "(Read PL Configuration Registers)\n");
+		fprintf(stderr, "%s -b top.bit.bin -r\n", prg);
+	}
 	fprintf(stderr, " \n");
 }
 
@@ -121,12 +156,12 @@ int fpga_state(int flow)
 	return 1;
 }
 
-struct zynqmp_fpgaflag {
+struct fpgaflag {
         char *flag;
         unsigned int value;
 };
 
-static struct zynqmp_fpgaflag flagdump[] = {
+static struct fpgaflag flagdump[] = {
         {.flag = "Full",		.value = 0x0},
         {.flag = "Partial",		.value = 0x1},
         {.flag = "AuthDDR",		.value = 0x2},
@@ -144,7 +179,7 @@ static int cmd_flags(int argc, const char *name)
 {
 	int valid_flag = 0;
 	int flag = 0;
-	struct zynqmp_fpgaflag *p = flagdump;
+	struct fpgaflag *p = flagdump;
 
 	while (p->flag) {
 		if (!strcmp(name, p->flag)) {
@@ -160,6 +195,7 @@ static int cmd_flags(int argc, const char *name)
 int main(int argc, char **argv)
 {
 	int ret;
+	int iszynqmp = fpga_getplatform();
 	char *binfile = NULL, *overlay = NULL, *AesKey = NULL, *flag = NULL, *partial_overlay = NULL;
 	char *Module[100] = {0};
 	int opt, flags = 0, flow = 0,rm_overlay = 0, readback_type = 0, sflags = 0;
@@ -208,7 +244,8 @@ int main(int argc, char **argv)
 			printf("Flags : 0x%x\r\n", flags);
 			break;
 		case 'p':
-			partial_overlay = optarg;	
+			partial_overlay = optarg;
+			break;
 		case 'k':
 			AesKey = optarg;
 			break;	 
@@ -244,6 +281,13 @@ int main(int argc, char **argv)
 	}
 
 	if (flow == OVERLAY) {
+
+		folder = "/configfs/device-tree/overlays/full";
+		if (((stat(folder, &sb) == 0) && S_ISDIR(sb.st_mode))) {
+			printf("Error: Overlay already exists in the live tree\n\r");
+			return 1;
+		}
+
 		if (argc < 5) {
 			printf("\n\r");
 			printf("%s: For more information run %s -h\n", strerror(22), basename(argv[0]));
@@ -297,9 +341,9 @@ int main(int argc, char **argv)
 		time = gettime(t0, t1);
 		if (!fpga_state(OVERLAY)) {
 			printf("Time taken to load DTBO is %f Milli Seconds\n\r", time);
-			printf("DTBO loaded through zynqMP FPGA manager successfully\n\r");
+			printf("DTBO loaded through FPGA manager successfully\n\r");
 		} else {
-			printf("DTBO loading through zynqMP FPGA manager failed\n\r");
+			printf("DTBO loading through FPGA manager failed\n\r");
 		}
 
 		/* Delete Bin file and DTBO file*/
@@ -335,9 +379,9 @@ int main(int argc, char **argv)
 		time = gettime(t0, t1);
 		if (!fpga_state(FPGA_SYSFS)) {
 			printf("Time taken to load BIN is %f Milli Seconds\n\r", time);
-			printf("BIN FILE loaded through zynqMP FPGA manager successfully\n\r");
+			printf("BIN FILE loaded through FPGA manager successfully\n\r");
 		} else {
-			printf("BIN FILE loading through zynqMP FPGA manager failed\n\r");
+			printf("BIN FILE loading through FPGA manager failed\n\r");
 		}
 		snprintf(command, sizeof(command), "rm /lib/firmware/%s", tmp1);
 		system(command);

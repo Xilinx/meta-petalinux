@@ -1,7 +1,7 @@
 SUMMARY = "Install user script to support fpga-manager"
 DESCRIPTION = "Install user script that loads and unloads overlays using kernel fpga-manager"
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/fpgautil.c;beginline=1;endline=27;md5=539ca56f1a6518c1f8b5de9173532686"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/fpgautil.c;beginline=1;endline=35;md5=04f29024828203eaa1e2f7deaaa819d8"
 
 SRC_URI = "\
 	file://fpgautil.c \
