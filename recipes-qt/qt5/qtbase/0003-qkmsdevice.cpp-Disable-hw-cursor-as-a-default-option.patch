@@ -1,0 +1,33 @@
+From 4ff1d5d21c5c3fa9c73914efa24adfe843b1c85b Mon Sep 17 00:00:00 2001
+From: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Date: Fri, 8 Mar 2019 16:23:29 -0800
+Subject: [PATCH] qkmsdevice.cpp: Disable hw cursor as a default option.
+
+Zynqmp does not support hardware cursor, hence disable it as a default
+choice and enable pbuffer.
+
+Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Upstream-Status: Inappropriate [Xilinx specific]
+---
+ src/platformsupport/kmsconvenience/qkmsdevice.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/platformsupport/kmsconvenience/qkmsdevice.cpp b/src/platformsupport/kmsconvenience/qkmsdevice.cpp
+index 585c078..82506a7 100644
+--- a/src/platformsupport/kmsconvenience/qkmsdevice.cpp
++++ b/src/platformsupport/kmsconvenience/qkmsdevice.cpp
+@@ -780,9 +780,9 @@ QKmsScreenConfig *QKmsDevice::screenConfig() const
+ 
+ QKmsScreenConfig::QKmsScreenConfig()
+     : m_headless(false)
+-    , m_hwCursor(true)
++    , m_hwCursor(false)
+     , m_separateScreens(false)
+-    , m_pbuffers(false)
++    , m_pbuffers(true)
+     , m_virtualDesktopLayout(VirtualDesktopLayoutHorizontal)
+ {
+     loadConfig();
+-- 
+2.7.4
+
