@@ -105,20 +105,20 @@ CameraToDisplay() {
 
 	OMXH264ENC="omxh264enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=true"
 	OMXH265ENC="omxh265enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=true"
-	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
-	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS latency-mode="reduced-latency""
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
 
         case $CODEC_TYPE in
         "avc")
 		PARSER=$H264PARSE
 		ENCODER=$OMXH264ENC
 		DECODER=$OMXH264DEC
-		CAMERA_CAPS_ENC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=$FRAME_RATE/1";;
+		CAMERA_CAPS_ENC="video/x-h264, alignment=nal";;
 	"hevc")
 		PARSER=$H265PARSE
 		ENCODER=$OMXH265ENC
 		DECODER=$OMXH265DEC
-		CAMERA_CAPS_ENC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=$FRAME_RATE/1";;
+		CAMERA_CAPS_ENC="video/x-h265, alignment=nal";;
 	esac
 	restartPulseAudio
 	setAudioSrcProps
@@ -128,12 +128,12 @@ CameraToDisplay() {
 	fi
 
 	if [ -z $AUDIODEC_TYPE ]; then
-			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK"
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $CAMERA_CAPS_ENC ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK"
 	else
 		if [ "$AUDIO_SRC_BASE" == "pulsesrc" ] && [ "$AUDIO_SINK_BASE" == "pulsesink" ]; then
-			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC ! $QUEUE ! $AUDIOENC ! $AUDIODEC ! $AUDIO_SINK"
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $CAMERA_CAPS_ENC ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC ! $QUEUE ! $AUDIOENC ! $AUDIODEC ! $AUDIO_SINK"
 		else
-			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC ! $QUEUE ! $AUDIOCONVERT ! $AUDIOENC ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIO_SINK"
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $CAMERA_CAPS_ENC ! $QUEUE ! $DECODER ! $QUEUE max-size-bytes=0 ! $SINK $AUDIO_SRC ! $QUEUE ! $AUDIOCONVERT ! $AUDIOENC ! $QUEUE ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIORESAMPLE ! $AUDIO_CAPS ! $AUDIO_SINK"
 		fi
 	fi
 

@@ -202,15 +202,22 @@ V. Conguration settings for running standalone pipelines
 2. Login into the board using username and password as root
 3. Set below register values using devmem cmds. (Refer to PG252 document for more details about these register settings)
 	a. Set Read and Write QOS value to LOW_PRIORITY (0x3) for VCU.
-     • devmem 0xfd380008 w 0x3   # Set read cmd as low priority in AFIFM2_RDQoS register
-     • devmem 0xfd3b0008 w 0x3  # Set read cmd as low priority in AFIFM5_RDQoS register
-     • devmem 0xfd38001c w 0x3   # Set write cmd as low priority in AFIFM2_WRQoS register
-     • devmem 0xfd3b001c w 0x3  # Set write cmd as low priority in AFIFM5_WRQoS register
-    b. Set no. of Read & Write Issuing capability to 16 cmds from the AXI_FM to the PS-side.
-     • devmem 0xfd380004 w 0xf  # Set read capability to 0xf cmds in AFIFM2_RDISSUE reg
-	 • devmem 0xfd3b0004 w 0xf  # Set read capability to 0xf cmds in AFIFM5_RDISSUE reg
-	 • devmem 0xfd380018 w 0xf  # Set write capability to 0xf cmds in AFIFM2_WRISSUE reg
-	 • devmem 0xfd3b0018 w 0xf  # Set write capability to 0xf cmds in AFIFM5_WRISSUE reg
+     • devmem 0xfd3b0008 w 0x3   #DEC0, DEC1<->HP3_FPD
+     • devmem 0xfd3b001c w 0x3
+     • devmem 0xfd3b0004 w 0xf
+     • devmem 0xfd3b0018 w 0xf
+     • devmem 0xfd390008 w 0x3    #ENC1<->HP1_FPD
+     • devmem 0xfd39001c w 0x3
+     • devmem 0xfd390004 w 0xf
+     • devmem 0xfd390018 w 0xf
+     • devmem 0xfd3a0008 w 0x3    #ENC0<->HP2_FPD
+     • devmem 0xfd3a001c w 0x3
+     • devmem 0xfd3a0004 w 0xf
+     • devmem 0xfd3a0018 w 0xf
+     • devmem 0xfd360008 w 0x3     #MCU<->HPC0
+     • devmem 0xfd36001c w 0x3
+     • devmem 0xfd360004 w 0x7
+     • devmem 0xfd360018 w 0x7
 4. Standalone gstreamer, OMX and CtrlSW pipelines can be executed on the board.
 
 ===============================
@@ -325,14 +332,14 @@ Sample Openmax/Control-Software Pipelines
  Openmax Examples
  ================
 
- “omx_decoder –help” shows all the options for decoder application
- “omx_encoder –help” shows all the options for encoder application
+ �"omx_decoder –help�" shows all the options for decoder application
+ �"omx_encoder –help�" shows all the options for encoder application
 
  Decode File to File:
  >> omx_decoder input-file.h265 -hevc -o out.yuv
 
  Encode File to File:
- >> omx_encoder  inputfile.yuv -w 352 -h 288 -r 30 -avc -o out.h264
+ >> omx_encoder  inputfile.yuv --width 352 --height 288 --framerate 30 --avc --out out.h264
 
  (Note: Input YUV file should be in NV12 format)
 

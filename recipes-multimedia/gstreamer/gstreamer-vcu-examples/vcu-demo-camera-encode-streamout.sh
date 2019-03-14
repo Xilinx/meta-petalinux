@@ -77,8 +77,8 @@ CameraToStreamout() {
 		fi
 	esac
 
-	OMXH264ENC="$OMXH264ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode=basic periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH"
-	OMXH265ENC="$OMXH265ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE gop-mode=basic cpb-size=$CPB_SIZE periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH"
+	OMXH264ENC="$OMXH264ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode=basic periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h264, alignment=nal"
+	OMXH265ENC="$OMXH265ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE gop-mode=basic cpb-size=$CPB_SIZE periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h265, alignment=nal"
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
 
 	case $CODEC_TYPE in

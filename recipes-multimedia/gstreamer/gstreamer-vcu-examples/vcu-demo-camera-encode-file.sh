@@ -78,8 +78,8 @@ CameraToFile() {
 		fi
 	esac
 
-	OMXH264ENC="$OMXH264ENC control-rate=constant b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE  ! video/x-h264, profile=high"
-	OMXH265ENC="$OMXH265ENC control-rate=constant b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
+	OMXH264ENC="$OMXH264ENC control-rate=constant b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE  ! video/x-h264, alignment=au"
+	OMXH265ENC="$OMXH265ENC control-rate=constant b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, alignment=au"
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
 
 	case $CODEC_TYPE in

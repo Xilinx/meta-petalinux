@@ -89,15 +89,15 @@ streaminDecodeDisplay() {
 
 	if [ $CODEC_TYPE == "avc" ]; then
 		if ! [ -z $AUDIODEC_TYPE ]; then
-			pipeline="$GST_LAUNCH $UDP_SRC caps=\"application/x-rtp\" ! $RTPJITTERBUFFER ! queue ! $RTPMP2TDEPAY ! $TSPARSE ! $MPEGTS_CAPS ! $TSDEMUX ! queue ! $H264PARSE ! $OMXH264DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK demux. ! queue ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIO_SINK"
+			pipeline="$GST_LAUNCH $UDP_SRC caps=\"application/x-rtp\" ! $RTPJITTERBUFFER ! queue ! $RTPMP2TDEPAY ! $TSPARSE ! $MPEGTS_CAPS ! $TSDEMUX ! queue ! $H264PARSE ! $OMXH264DEC low-latency=1 ! $QUEUE ! $SINK demux. ! queue ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIO_SINK"
 		else
-			pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! queue ! $RTPH264DEPAY ! $H264PARSE ! $OMXH264DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK"
+			pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! queue ! $RTPH264DEPAY ! $H264PARSE ! $OMXH264DEC low-latency=1 ! $QUEUE ! $SINK"
 		fi
 	else
 		if ! [ -z $AUDIODEC_TYPE ]; then
-			pipeline="$GST_LAUNCH $UDP_SRC caps=\"application/x-rtp\" ! $RTPJITTERBUFFER ! queue ! $RTPMP2TDEPAY ! $TSPARSE ! $MPEGTS_CAPS ! $TSDEMUX ! queue ! $H265PARSE ! $OMXH265DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK demux. ! queue ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIO_SINK"
+			pipeline="$GST_LAUNCH $UDP_SRC caps=\"application/x-rtp\" ! $RTPJITTERBUFFER ! queue ! $RTPMP2TDEPAY ! $TSPARSE ! $MPEGTS_CAPS ! $TSDEMUX ! queue ! $H265PARSE ! $OMXH265DEC low-latency=1 ! $QUEUE ! $SINK demux. ! queue ! $AUDIODEC ! $AUDIOCONVERT ! $AUDIO_SINK"
 		else
-			pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! queue ! $RTPH265DEPAY ! $H265PARSE ! $OMXH265DEC latency-mode="reduced-latency" ! $QUEUE ! $SINK"
+			pipeline="$GST_LAUNCH $UDP_SRC caps=\"$RTP_CAPS\" ! $RTPJITTERBUFFER ! queue ! $RTPH265DEPAY ! $H265PARSE ! $OMXH265DEC low-latency=1 ! $QUEUE ! $SINK"
 		fi
 	fi
 
