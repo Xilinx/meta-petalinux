@@ -15,19 +15,3 @@ SRC_URI += " \
                 file://tftpd.cfg \
                 "
 
-PACKAGES =+ "${@plnx_enable_busybox_package('inetd', d)}"
-
-INITSCRIPT_PACKAGES =+ "${@plnx_enable_busybox_package('inetd', d)}"
-
-FILES_${PN}-inetd = "${sysconfdir}/init.d/busybox-inetd ${sysconfdir}/inetd.conf"
-INITSCRIPT_NAME_${PN}-inetd = "inetd.busybox"
-INITSCRIPT_PARAMS_${PN}-inetd = "start 65 S ."
-CONFFILES_${PN}-inetd = "${sysconfdir}/inetd.conf"
-
-def plnx_enable_busybox_package(f, d):
-    distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-    if "busybox-" + f in distro_features:
-        return "${PN}-" + f
-    else:
-        return ""
-
