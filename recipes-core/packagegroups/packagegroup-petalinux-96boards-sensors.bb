@@ -8,7 +8,7 @@ inherit packagegroup
 	packagegroup-core-buildessential \
 	packagegroup-petalinux-mraa	 \
 	python-argparse \
-	python-pyserial \
+	python3-pyserial \
 	readline \
 	libftdi	\
 	"
