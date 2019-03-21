@@ -3,7 +3,7 @@ DESCRIPTION = "Required packages for ultra96 startup pages"
 inherit packagegroup
 
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
-	chromium \
+	chromium-x11 \
 	ace-cloud-editor \
 	python3-flask \
 	python3-werkzeug \
