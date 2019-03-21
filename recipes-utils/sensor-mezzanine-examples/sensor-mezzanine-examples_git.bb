@@ -11,6 +11,9 @@ SRC_URI = "git://github.com/96boards/Sensor_Mezzanine_Getting_Started.git;protoc
 	file://0001-tweeting-doorbell-Added-auto-update-of-date.patch \
 	file://0001-humid_temp-Makefile-Replacing-spaces-with-tabs-in-th.patch \
         file://0001-touch_switch.cpp-Connect-the-touch-sensor-to-differe.patch \
+        file://0001-upgrade-humid-temp-examples-to-python3.patch \
+        file://0002-Upgrade-rgb-lcd-example-to-python3.patch \
+        file://0001-Upgrade-twitter-examples-to-work-with-python3.patch \
 	"
 
 # Modify these as desired

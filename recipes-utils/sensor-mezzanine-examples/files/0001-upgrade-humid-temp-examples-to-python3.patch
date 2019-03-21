@@ -1,0 +1,54 @@
+From 49faff32c99ddc8ca932a2009b6a5b491d93167f Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Wed, 20 Mar 2019 18:58:45 -0700
+Subject: [PATCH 1/4] upgrade humid temp examples to python3
+
+---
+ humid_temp/Makefile      | 2 +-
+ humid_temp/humid_temp.py | 8 ++++----
+ humid_temp/run_me.sh     | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/humid_temp/Makefile b/humid_temp/Makefile
+index aa718de..0fdd390 100644
+--- a/humid_temp/Makefile
++++ b/humid_temp/Makefile
+@@ -1,5 +1,5 @@
+ MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+ run: upload
+-	python humid_temp.py
++	python3.5 humid_temp.py
+ 
+diff --git a/humid_temp/humid_temp.py b/humid_temp/humid_temp.py
+index 378034a..0fbe75e 100644
+--- a/humid_temp/humid_temp.py
++++ b/humid_temp/humid_temp.py
+@@ -17,10 +17,10 @@ if __name__ == '__main__':
+ 	try:
+ 		while True:
+ 			ardOut = ard.readline()
+-			if ardOut.find("Humidity:") != -1:
+-				ardHumid = ardOut.split('Temperature')[0]
+-				ardTemp = ardOut.split('Temperature:')[1]
+-				showTemp(ardHumid,ardTemp)
++			if ardOut.find(b"Humidity:") != -1:
++				ardHumid = ardOut.split(b'Temperature')[0]
++				ardTemp = ardOut.split(b'Temperature:')[1]
++				showTemp(ardHumid.decode('utf-8'),ardTemp.decode('utf-8'))
+ 	except KeyboardInterrupt:
+ 		lcd.setColor(0,0,0)
+ 		lcd.clear()
+diff --git a/humid_temp/run_me.sh b/humid_temp/run_me.sh
+index 2b50a6f..ca66e12 100755
+--- a/humid_temp/run_me.sh
++++ b/humid_temp/run_me.sh
+@@ -1,4 +1,4 @@
+ #!/bin/bash
+-export PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/site-packages/upm
++export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.5/site-packages/upm
+ cd /usr/share/Sensor_Mezzanine_Getting_Started/humid_temp
+ make run
+-- 
+2.7.4
+
