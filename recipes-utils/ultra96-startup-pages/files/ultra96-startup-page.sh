@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 FLASK_SERVER="/usr/share/ultra96-startup-pages/webapp/webserver.py"
-FLASK_CMD="python ${FLASK_SERVER}"
+FLASK_CMD="python3 ${FLASK_SERVER}"
 FLASK_PID_NAME="ultra96-startup-page"
 
 test -e "$FLASK_SERVER" || exit 0

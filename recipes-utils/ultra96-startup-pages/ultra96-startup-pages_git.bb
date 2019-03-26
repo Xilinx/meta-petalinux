@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https \
 inherit update-rc.d
 
 DEPENDS += "rsync-native"
-RDEPENDS_${PN} = "ace-cloud-editor chromium python-itsdangerous python-markupsafe python-jinja2 python-werkzeug python-flask bash"
+RDEPENDS_${PN} = "ace-cloud-editor chromium python3-itsdangerous python3-markupsafe python3-jinja2 python3-werkzeug python3-flask bash"
 
 INITSCRIPT_NAME = "ultra96-startup-page.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
