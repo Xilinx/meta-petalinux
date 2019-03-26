@@ -18,7 +18,7 @@ INITSCRIPT_NAME = "ultra96-startup-page.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "141e4506c15440ce207030168972d0ec05e6838f"
+SRCREV = "9a892575be16534879fcdc333b0714b4839a869b"
 
 FILES_${PN} += "${datadir}/ultra96-startup-pages"
 FILES_${PN} += "${base_sbindir}/"
