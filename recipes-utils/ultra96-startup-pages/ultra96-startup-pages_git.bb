@@ -2,7 +2,7 @@ DESCRIPTION = "Webapp that can be accessed by connecting to the Ultra96 board us
 SUMMARY = "Webapp that provides support for Ultra96 devices"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=aac230823156ac80a4a57aeddc17f496"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a768baea9d204ad586e989c92a2afb31"
 
 SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https \
 	   file://ultra96-startup-page.sh \
