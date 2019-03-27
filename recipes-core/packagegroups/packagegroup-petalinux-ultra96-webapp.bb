@@ -10,9 +10,8 @@ ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	python3-jinja2 \
 	python3-markupsafe \
 	python3-itsdangerous \
-        ultra96-ap-setup \
 	"
 
-ULTRA96_STARTUP_PAGES_PACKAGES_append_ultra96-zynqmp = " ultra96-startup-pages"
+ULTRA96_STARTUP_PAGES_PACKAGES_append_ultra96-zynqmp = " ultra96-ap-setup ultra96-startup-pages"
 
 RDEPENDS_${PN} = "${ULTRA96_STARTUP_PAGES_PACKAGES}"
