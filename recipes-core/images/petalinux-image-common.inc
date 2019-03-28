@@ -29,7 +29,8 @@ IMAGE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     "
 
-COMMON_INSTALL_append_zynqmp = " hellopm"
+COMMON_INSTALL_append_zynqmp = " hellopm haveged"
+COMMON_INSTALL_append_zynq = " haveged"
 
 CORE_IMAGE_EXTRA_INSTALL_append_ultra96-zynqmp = " packagegroup-base-extended"
 
