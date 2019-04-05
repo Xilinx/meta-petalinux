@@ -127,24 +127,16 @@ int gettime(struct timeval  t0, struct timeval t1)
         return ((t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec -t0.tv_usec) / 1000.0f);
 }
 
-int fpga_state(int flow)
+int fpga_state()
 {
 	FILE *fptr;
 	char buf[10], *state;
 	
-	if (flow == OVERLAY) {
-		system("cat /configfs/device-tree/overlays/full/status  >> state.txt");
-		state = "applied";
-	} else {
-		system("cat /sys/class/fpga_manager/fpga0/state >> state.txt");
-		state = "operating";
-	}
+	system("cat /sys/class/fpga_manager/fpga0/state >> state.txt");
+	state = "operating";
 	fptr = fopen("state.txt", "r");
 	if (fptr) {
-		if (flow == OVERLAY)
-			fgets(buf, 8, fptr);
-		else
-			fgets(buf, 10, fptr);
+		fgets(buf, 10, fptr);
 		fclose(fptr);
 		system("rm state.txt");
 		if (strcmp(buf, state) == 0)
@@ -339,12 +331,6 @@ int main(int argc, char **argv)
 		}
 		gettimeofday(&t1, NULL);
 		time = gettime(t0, t1);
-		if (!fpga_state(OVERLAY)) {
-			printf("Time taken to load DTBO is %f Milli Seconds\n\r", time);
-			printf("DTBO loaded through FPGA manager successfully\n\r");
-		} else {
-			printf("DTBO loading through FPGA manager failed\n\r");
-		}
 
 		/* Delete Bin file and DTBO file*/
 		snprintf(command, sizeof(command), "rm /lib/firmware/%s", tmp1);
@@ -377,7 +363,7 @@ int main(int argc, char **argv)
 		system(command);
 		gettimeofday(&t1, NULL);
 		time = gettime(t0, t1);
-		if (!fpga_state(FPGA_SYSFS)) {
+		if (!fpga_state()) {
 			printf("Time taken to load BIN is %f Milli Seconds\n\r", time);
 			printf("BIN FILE loaded through FPGA manager successfully\n\r");
 		} else {
