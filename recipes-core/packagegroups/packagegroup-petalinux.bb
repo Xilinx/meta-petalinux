@@ -34,3 +34,6 @@ RDEPENDS_${PN}_append_zynq = " \
 RDEPENDS_${PN}_append_zynqmp = " \
 	${ZYNQ_EXTRAS} \
 	"
+RDEPENDS_${PN}_append_versal = " \
+	${ZYNQ_EXTRAS} \
+	"
