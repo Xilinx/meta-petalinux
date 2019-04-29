@@ -2,6 +2,8 @@ DESCRIPTION = "Required packages for ultra96 startup pages"
 
 inherit packagegroup
 
+REQUIRED_DISTRO_FEATURES = "x11"
+
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	chromium \
 	ace-cloud-editor \
