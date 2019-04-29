@@ -18,6 +18,6 @@ python copy_buildsystem_prepend() {
 #Add dir with the tools to PATH
 sdk_ext_postinst_append() {
     if [ "${COPY_XSCT_TO_ESDK}" = "1" ]; then
-        echo "export PATH=$target_sdk_dir/tmp/sysroots-xsct/SDK/${XILINX_VER_MAIN}/bin:\$PATH" >> $env_setup_script
+        echo "export PATH=$target_sdk_dir/tmp/sysroots-xsct/Scout/${XILINX_VER_MAIN}/bin:\$PATH" >> $env_setup_script
     fi
 }
