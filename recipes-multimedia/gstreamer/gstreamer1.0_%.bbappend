@@ -1,9 +1,9 @@
-BRANCH ?= "xlnx-1.14.2"
-REPO   ?= "git://gitenterprise.xilinx.com/GStreamer/gstreamer.git;protocol=https"
+BRANCH ?= "rel-v2019.1"
+REPO   ?= "git://github.com/xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
-PV = "1.14.2+git${SRCPV}"
+PV = "1.14.4+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=gstreamer-xlnx \
@@ -15,7 +15,7 @@ SRC_URI = " \
     file://run-ptest \
 "
 
-SRCREV_gstreamer-xlnx = "afb3d1b3e0d02da8b0eb5bb501356650b38e5644"
+SRCREV_gstreamer-xlnx = "791c729f72cf91679bbfa36c24b1c7da5c332808"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "gstreamer-xlnx"
 

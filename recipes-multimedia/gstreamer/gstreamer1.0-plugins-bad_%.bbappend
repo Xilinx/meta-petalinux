@@ -1,9 +1,9 @@
-BRANCH ?= "xlnx-1.14.2"
-REPO ?= "git://gitenterprise.xilinx.com/GStreamer/gst-plugins-bad.git;protocol=https"
+BRANCH ?= "rel-v2019.1"
+REPO ?= "git://github.com/xilinx/gst-plugins-bad.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
-PV = "1.14.2+git${SRCPV}"
+PV = "1.14.4+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
@@ -16,7 +16,7 @@ SRC_URI = " \
     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
 
-SRCREV_base = "513ef5efdf85f9af4a016e8ae69f28cf16c9ec58"
+SRCREV_base = "ec1ff1219c99db2a9cc5262027f9b4d20f5f4e81"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 
