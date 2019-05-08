@@ -86,3 +86,5 @@ FEATURE_PACKAGES_petalinux-96boards-sensors ?= "packagegroup-petalinux-96boards-
 FEATURE_PACKAGES_petalinux-96boards-sensors[optional] ?= "1"
 FEATURE_PACKAGES_fpga-manager ?= "fpga-manager-script fpga-manager-util"
 FEATURE_PACKAGES_fpga-manager[optional] ?= "1"
+FEATURE_PACKAGES_petalinux-syscontroller ?= "packagegroup-petalinux-syscontroller"
+FEATURE_PACKAGES_petalinux-syscontroller[optional] ?= "1"

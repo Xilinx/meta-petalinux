@@ -41,6 +41,7 @@ ZYNQMP_FEATURES = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
+    petalinux-syscontroller \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-ultra96-webapp', '', d)} \
     petalinux-96boards-sensors \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
