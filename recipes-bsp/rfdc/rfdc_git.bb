@@ -1,13 +1,13 @@
 SUMMARY = "rfdc Library"
 SECTION = "rfdc"
 LICENSE = "BSD"
-LIC_FILES_CHKSUM ="file://${WORKDIR}/git/license.txt;md5=c83c24ed6555ade24e37e6b74ade2629"
+LIC_FILES_CHKSUM="file://${WORKDIR}/git/license.txt;md5=2c0aabb3d600bd7043d0db0b47ee2a4b"
 
 inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
 BRANCH ??= "release-2019.1"
-SRCREV ??= "c53b24258d857065f45cfeca544b5f5a0eaf0feb"
+SRCREV ??= "324e7b58ecc9ea06a929fb545d73565cafb9989a"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 COMPATIBLE_MACHINE = "^$"
