@@ -1,0 +1,34 @@
+From 53d7c243ba0baa052081735b8effff4e2679ce65 Mon Sep 17 00:00:00 2001
+From: Kamal Pandey <kamal.pandey@ifm.com>
+Date: Thu, 4 Apr 2019 19:45:45 +0530
+Subject: [PATCH] FIX: weston: clients: typo in simple-dmabuf-egl.c
+
+Fix variable EGL_NO_IMAGE to EGL_NO_IMAGE_KHR in
+clients/simple-dmabuf-egl.c
+
+Signed-off-by: Kamal Pandey <pandeykamal13526@gmail.com>
+
+
+Upstream-Status: Backport
+Signed-off-by: Alejandro Hernandez <alejandr@xilinx.com>
+
+---
+ clients/simple-dmabuf-egl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/clients/simple-dmabuf-egl.c b/clients/simple-dmabuf-egl.c
+index 75d880e..2d99c47 100644
+--- a/clients/simple-dmabuf-egl.c
++++ b/clients/simple-dmabuf-egl.c
+@@ -293,7 +293,7 @@ create_fbo_for_buffer(struct display *display, struct buffer *buffer)
+ 						      EGL_NO_CONTEXT,
+ 						      EGL_LINUX_DMA_BUF_EXT,
+ 						      NULL, attribs);
+-	if (buffer->egl_image == EGL_NO_IMAGE) {
++	if (buffer->egl_image == EGL_NO_IMAGE_KHR) {
+ 		fprintf(stderr, "EGLImageKHR creation failed\n");
+ 		return false;
+ 	}
+-- 
+2.7.4
+
