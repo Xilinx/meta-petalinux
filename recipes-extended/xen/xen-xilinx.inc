@@ -5,8 +5,6 @@ SRC_URI += " \
     file://example-pvnet.cfg \
     file://example-simple.cfg \
     file://passthrough-example-part.dts \
-    file://tools-xentop-vwprintw.patch \
-    file://fix-gcc8-issue.patch \
     "
 
 FILES_${PN}-xl_append = " \
