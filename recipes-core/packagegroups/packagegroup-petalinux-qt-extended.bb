@@ -15,7 +15,6 @@ QT_EXTENDED_PACKAGES = " \
 	qtconnectivity-mkspecs \
 	qttranslations-qtconnectivity \
 	qtdeclarative-mkspecs \
-	qttranslations-qmlviewer \
 	qttranslations-qtdeclarative \
 	qtenginio-mkspecs \
 	qtimageformats-plugins \
