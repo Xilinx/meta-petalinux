@@ -1,0 +1,40 @@
+From 844a883440fb7c0c5c8bd91881209061ff7f4826 Mon Sep 17 00:00:00 2001
+From: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Date: Fri, 17 May 2019 13:48:02 -0700
+Subject: [PATCH] egl: GLContextEGL.cpp: Check the spported EGL version at
+ compile time
+
+EGL providers/headers will not provide macro definitions for higher EGL
+version. Hence, check the supported EGL version at compile time.
+
+Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+---
+ Source/WebCore/platform/graphics/egl/GLContextEGL.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp b/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
+index d6ff379..f32a655 100644
+--- a/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
++++ b/Source/WebCore/platform/graphics/egl/GLContextEGL.cpp
+@@ -401,7 +401,7 @@ EGLContext GLContextEGL::createContextForEGLVersion(PlatformDisplay& platformDis
+         // we'll use whatever is available. In order to request a concrete version of OpenGL we need EGL version
+         // 1.5 or EGL version 1.4 with the extension EGL_KHR_create_context.
+         EGLContext context = EGL_NO_CONTEXT;
+-
++#ifdef EGL_VERSION_1_5
+         if (platformDisplay.eglCheckVersion(1, 5)) {
+             contextAttributes[0] = EGL_CONTEXT_MAJOR_VERSION;
+             contextAttributes[1] = 3;
+@@ -414,6 +414,9 @@ EGLContext GLContextEGL::createContextForEGLVersion(PlatformDisplay& platformDis
+             // Try to create a context with this configuration.
+             context = eglCreateContext(platformDisplay.eglDisplay(), config, sharingContext, contextAttributes);
+         } else if (platformDisplay.eglCheckVersion(1, 4)) {
++#else
++        if (platformDisplay.eglCheckVersion(1, 4)) {
++#endif
+             const char* extensions = eglQueryString(platformDisplay.eglDisplay(), EGL_EXTENSIONS);
+             if (GLContext::isExtensionSupported(extensions, "EGL_KHR_create_context")) {
+                 contextAttributes[0] = EGL_CONTEXT_MAJOR_VERSION_KHR;
+-- 
+2.7.4
+
