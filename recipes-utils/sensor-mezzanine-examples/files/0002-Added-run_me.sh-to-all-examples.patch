@@ -1,7 +1,8 @@
-From 557f847fa449e36dc27a239727e04e9ed3e42bf0 Mon Sep 17 00:00:00 2001
+From a5f6e21fac777dec3a9a14ddf9f2bd5e259fd015 Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 23 Apr 2018 12:02:18 -0700
-Subject: [meta-xilinx-extras][PATCH] Added run_me.sh to all examples
+Subject: [sensor-mezzanine-examples][master][PATCH 2/7] Added run_me.sh to all
+ examples
 
 Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 ---
@@ -21,7 +22,7 @@ Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 
 diff --git a/button_led/run_me.sh b/button_led/run_me.sh
 new file mode 100755
-index 0000000..468b259
+index 0000000..4b19320
 --- /dev/null
 +++ b/button_led/run_me.sh
 @@ -0,0 +1,3 @@
@@ -30,7 +31,7 @@ index 0000000..468b259
 +make upload reset_stty
 diff --git a/humid_temp/run_me.sh b/humid_temp/run_me.sh
 new file mode 100755
-index 0000000..3d3aa48
+index 0000000..2b50a6f
 --- /dev/null
 +++ b/humid_temp/run_me.sh
 @@ -0,0 +1,4 @@
@@ -40,7 +41,7 @@ index 0000000..3d3aa48
 +make run
 diff --git a/light_buzz/run_me.sh b/light_buzz/run_me.sh
 new file mode 100755
-index 0000000..6c97bb6
+index 0000000..7f675ca
 --- /dev/null
 +++ b/light_buzz/run_me.sh
 @@ -0,0 +1,4 @@
@@ -50,7 +51,7 @@ index 0000000..6c97bb6
 +make upload reset_stty
 diff --git a/rgb_lcd_demo/run_me.sh b/rgb_lcd_demo/run_me.sh
 new file mode 100755
-index 0000000..e987eb4
+index 0000000..b4069c1
 --- /dev/null
 +++ b/rgb_lcd_demo/run_me.sh
 @@ -0,0 +1,5 @@
@@ -61,7 +62,7 @@ index 0000000..e987eb4
 +./rgb_lcd_demo
 diff --git a/touch_switch/run_me.sh b/touch_switch/run_me.sh
 new file mode 100755
-index 0000000..e51e486
+index 0000000..b80543c
 --- /dev/null
 +++ b/touch_switch/run_me.sh
 @@ -0,0 +1,5 @@
@@ -72,7 +73,7 @@ index 0000000..e51e486
 +./touch_switch
 diff --git a/tweeting_doorbell/run_me.sh b/tweeting_doorbell/run_me.sh
 new file mode 100755
-index 0000000..169cc33
+index 0000000..3507125
 --- /dev/null
 +++ b/tweeting_doorbell/run_me.sh
 @@ -0,0 +1,4 @@

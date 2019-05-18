@@ -1,18 +1,23 @@
-From 649db1841f3d76f3e1c8a5b7f18cff96f5245d1e Mon Sep 17 00:00:00 2001
+From 63b3705cabeae473d3e4111145c4b0a226501c55 Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 23 Apr 2018 12:03:28 -0700
-Subject: [meta-xilinx-extras][PATCH]  twitter example: Added contacting to
- twitter an option
+Subject: [sensor-mezzanine-examples][master][PATCH 4/7] tweeting_doorbell *:
+ Modify demo to work with python3
+
+Modify the tweeting doorbell demo to work with python3 as well as
+provide the following support
+	1. Added contacting to twitter an option
+	2. Update the way update_status() is called
 
 Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 ---
  tweeting_doorbell/Makefile             |  2 +-
- tweeting_doorbell/run_me.sh            |  2 +-
- tweeting_doorbell/tweeting_doorbell.py | 13 ++++++++++---
- 3 files changed, 12 insertions(+), 5 deletions(-)
+ tweeting_doorbell/run_me.sh            |  9 ++++++++-
+ tweeting_doorbell/tweeting_doorbell.py | 15 +++++++++++----
+ 3 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/tweeting_doorbell/Makefile b/tweeting_doorbell/Makefile
-index eb2fd56..c05e122 100644
+index eb2fd56..ea6ac71 100644
 --- a/tweeting_doorbell/Makefile
 +++ b/tweeting_doorbell/Makefile
 @@ -3,4 +3,4 @@ MONITOR_PORT=/dev/ttyS2
@@ -20,19 +25,26 @@ index eb2fd56..c05e122 100644
  
  run: upload
 -	python tweeting_doorbell.py
-+	python tweeting_doorbell.py $(TWEET)
++	python3 tweeting_doorbell.py $(TWEET)
 diff --git a/tweeting_doorbell/run_me.sh b/tweeting_doorbell/run_me.sh
-index 169cc33..2a2ba5d 100755
+index 3507125..f480a70 100755
 --- a/tweeting_doorbell/run_me.sh
 +++ b/tweeting_doorbell/run_me.sh
-@@ -1,4 +1,4 @@
+@@ -1,4 +1,11 @@
  #!/bin/bash
  
  cd /usr/share/Sensor_Mezzanine_Getting_Started/tweeting_doorbell
 -make run
-+make run TWEET=$1
++
++ssid=$(iw wlan0 info| grep "ssid" | cut -d " " -f 2)
++if [[ -z "${ssid// }" ]]; then
++	make run TWEET=notweet
++else
++	date -s "$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
++	make run TWEET=$1
++fi
 diff --git a/tweeting_doorbell/tweeting_doorbell.py b/tweeting_doorbell/tweeting_doorbell.py
-index 4343f98..0a10cd7 100644
+index 4343f98..42f609d 100644
 --- a/tweeting_doorbell/tweeting_doorbell.py
 +++ b/tweeting_doorbell/tweeting_doorbell.py
 @@ -1,5 +1,5 @@
@@ -51,14 +63,23 @@ index 4343f98..0a10cd7 100644
 +
 +	if len(sys.argv) > 1:
 +	    if sys.argv[1].lower() == "notweet":
-+		time.sleep(1)
-+		lcd.setColor(0,0,0)
-+		return
++                time.sleep(1)
++                lcd.setColor(0,0,0)
++                return
 +
-+	 api.update_status(msg)
++	api.update_status(status = msg)
  	time.sleep(1)
  
  	lcd.setColor(0,0,0)
+@@ -34,7 +41,7 @@ if __name__ == '__main__':
+ 	try:
+ 		while True:
+ 			ardOut = ard.readline()
+-			if ardOut.find("tweet") != -1:
++			if ardOut.find(b"tweet") != -1:
+ 				tweet()
+ 	except KeyboardInterrupt:
+ 		print("CTRL-C!! Exiting...")
 -- 
 2.7.4
 

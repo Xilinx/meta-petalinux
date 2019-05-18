@@ -1,14 +1,28 @@
-From 65b23199132349ef9f8f759f347971a247a9ff50 Mon Sep 17 00:00:00 2001
+From 99d5613cab1bc86beb7b519b1130097eccd79f5c Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 23 Apr 2018 12:05:15 -0700
-Subject: [meta-xilinx-extras][PATCH] rgb lcd: change message displayed on the
- lcd
+Subject: [sensor-mezzanine-examples][master][PATCH 3/7] rgb_lcd *: Modify demo
+ to run with python3
+
+Modify the examples to work with python3. Change the message displayed
+on the screen.
 
 Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 ---
+ rgb_lcd_demo/Makefile         | 2 +-
  rgb_lcd_demo/rgb_lcd_demo.cpp | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/rgb_lcd_demo/Makefile b/rgb_lcd_demo/Makefile
+index 50b60da..429271a 100644
+--- a/rgb_lcd_demo/Makefile
++++ b/rgb_lcd_demo/Makefile
+@@ -1,4 +1,4 @@
+-LDFLAGS=-lupm-i2clcd -lupm-jhd1313m1
++LDFLAGS=-lupm-lcd -lupm-jhd1313m1
+ CXXFLAGS=-Wall -g -I/usr/include/upm
+ TARGETS=rgb_lcd_demo
+ 
 diff --git a/rgb_lcd_demo/rgb_lcd_demo.cpp b/rgb_lcd_demo/rgb_lcd_demo.cpp
 index d8e52b9..a4bbe47 100644
 --- a/rgb_lcd_demo/rgb_lcd_demo.cpp

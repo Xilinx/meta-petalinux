@@ -1,21 +1,21 @@
-From b839f1f19cddf3f68b59dd4bc08932107a163e91 Mon Sep 17 00:00:00 2001
+From 6c23e889eae88ced00571463b7310c376cca321a Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 23 Apr 2018 12:09:55 -0700
-Subject: [meta-xilinx-extras][PATCH] Added backup files to all the source
- files
+Subject: [sensor-mezzanine-examples][master][PATCH 7/7] Added backup files to
+ all the source files
 
 Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 ---
  button_led/button_led.ino.bak               | 31 ++++++++++++++++
  humid_temp/humid_temp.py.bak                | 27 ++++++++++++++
  humid_temp/read_dht.ino.bak                 | 30 ++++++++++++++++
- light_buzz/light_buzz.ino.bak               | 21 +++++++++++
- rgb_lcd_demo/rgb_lcd_demo.cpp.bak           | 56 +++++++++++++++++++++++++++++
+ light_buzz/light_buzz.ino.bak               | 22 ++++++++++++
+ rgb_lcd_demo/rgb_lcd_demo.cpp.bak           | 55 +++++++++++++++++++++++++++++
  touch_switch/touch_switch.cpp.bak           | 44 +++++++++++++++++++++++
  tweeting_doorbell/keys.py.bak               |  4 +++
  tweeting_doorbell/tweeting_doorbell.ino.bak | 23 ++++++++++++
- tweeting_doorbell/tweeting_doorbell.py.bak  | 45 +++++++++++++++++++++++
- 9 files changed, 281 insertions(+)
+ tweeting_doorbell/tweeting_doorbell.py.bak  | 47 ++++++++++++++++++++++++
+ 9 files changed, 283 insertions(+)
  create mode 100644 button_led/button_led.ino.bak
  create mode 100644 humid_temp/humid_temp.py.bak
  create mode 100644 humid_temp/read_dht.ino.bak
@@ -65,7 +65,7 @@ index 0000000..a0d5a6f
 +
 diff --git a/humid_temp/humid_temp.py.bak b/humid_temp/humid_temp.py.bak
 new file mode 100644
-index 0000000..5bddd6a
+index 0000000..0fbe75e
 --- /dev/null
 +++ b/humid_temp/humid_temp.py.bak
 @@ -0,0 +1,27 @@
@@ -74,7 +74,7 @@ index 0000000..5bddd6a
 +
 +ard = serial.Serial('/dev/ttyS2', 9600)
 +lcd = pyupm_jhd1313m1.Jhd1313m1(0, 0x3e, 0x62)
-+
++ 
 +def showTemp(humid, temp):
 +	lcd.clear()
 +	lcd.setCursor(0, 0)
@@ -88,10 +88,10 @@ index 0000000..5bddd6a
 +	try:
 +		while True:
 +			ardOut = ard.readline()
-+			if ardOut.find("Humidity:") != -1:
-+				ardHumid = ardOut.split('Temperature')[0]
-+				ardTemp = ardOut.split('Temperature:')[1]
-+				showTemp(ardHumid,ardTemp)
++			if ardOut.find(b"Humidity:") != -1:
++				ardHumid = ardOut.split(b'Temperature')[0]
++				ardTemp = ardOut.split(b'Temperature:')[1]
++				showTemp(ardHumid.decode('utf-8'),ardTemp.decode('utf-8'))
 +	except KeyboardInterrupt:
 +		lcd.setColor(0,0,0)
 +		lcd.clear()
@@ -134,13 +134,14 @@ index 0000000..3ec089f
 +
 diff --git a/light_buzz/light_buzz.ino.bak b/light_buzz/light_buzz.ino.bak
 new file mode 100644
-index 0000000..1ffe213
+index 0000000..1bd4537
 --- /dev/null
 +++ b/light_buzz/light_buzz.ino.bak
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,22 @@
 +//pins used for components
-+const int buzzer = 4;
-+const int sensor = A0;
++const int buzzer = 4;   // Arduino port pin PD4
++const int sensor = A0;  // Arduino analog ping ADC0
++
 +
 +//this is the threshold value for the light sensor
 +//to make the light sensor more sensitive, lower this value
@@ -161,17 +162,16 @@ index 0000000..1ffe213
 +
 diff --git a/rgb_lcd_demo/rgb_lcd_demo.cpp.bak b/rgb_lcd_demo/rgb_lcd_demo.cpp.bak
 new file mode 100644
-index 0000000..0d90e6a
+index 0000000..a4bbe47
 --- /dev/null
 +++ b/rgb_lcd_demo/rgb_lcd_demo.cpp.bak
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,55 @@
 +/*
 + * Author: Akira Tsukamoto
 + * Copyright (c) 2016 Linaro Ltd.
 + * All rights reserved.
 + * SPDX-License-Identifier: BSD-2-Clause
 + */
-+
 +#include <unistd.h>
 +#include <string>
 +#include "upm/jhd1313m1.hpp"
@@ -199,8 +199,8 @@ index 0000000..0d90e6a
 +
 +int main(int argc, char* argv[])
 +{
-+	string str1 = "Xilinx";
-+	string str2 = "Avnet";
++	string str1 = "Avnet";
++	string str2 = "Ultra96!";
 +	string str3 = "Board!";
 +	
 +	lcd = new upm::Jhd1313m1(I2C_BUS, 0x3e, 0x62);
@@ -223,7 +223,7 @@ index 0000000..0d90e6a
 +
 diff --git a/touch_switch/touch_switch.cpp.bak b/touch_switch/touch_switch.cpp.bak
 new file mode 100644
-index 0000000..6d4e811
+index 0000000..01b044a
 --- /dev/null
 +++ b/touch_switch/touch_switch.cpp.bak
 @@ -0,0 +1,44 @@
@@ -312,12 +312,13 @@ index 0000000..d45bb33
 +}
 diff --git a/tweeting_doorbell/tweeting_doorbell.py.bak b/tweeting_doorbell/tweeting_doorbell.py.bak
 new file mode 100644
-index 0000000..e141d09
+index 0000000..42f609d
 --- /dev/null
 +++ b/tweeting_doorbell/tweeting_doorbell.py.bak
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,47 @@
 +import tweepy, serial, datetime, time, keys, sys
 +from upm import pyupm_jhd1313m1
++
 +auth = tweepy.OAuthHandler(keys.consumer_key,
 +			   keys.consumer_secret)
 +auth.set_access_token(keys.access_token,
@@ -341,12 +342,13 @@ index 0000000..e141d09
 +
 +	if len(sys.argv) > 1:
 +	    if sys.argv[1].lower() == "notweet":
-+		time.sleep(1)
-+		lcd.setColor(0,0,0)
-+		return
++                time.sleep(1)
++                lcd.setColor(0,0,0)
++                return
 +
 +	api.update_status(status = msg)
 +	time.sleep(1)
++
 +	lcd.setColor(0,0,0)
 +	lcd.clear()
 +
@@ -357,7 +359,7 @@ index 0000000..e141d09
 +	try:
 +		while True:
 +			ardOut = ard.readline()
-+			if ardOut.find("tweet") != -1:
++			if ardOut.find(b"tweet") != -1:
 +				tweet()
 +	except KeyboardInterrupt:
 +		print("CTRL-C!! Exiting...")

@@ -1,8 +1,8 @@
-From 25f2009fb93edb5d37930e2c494b2a602b272d10 Mon Sep 17 00:00:00 2001
+From eb816263176b317ebd79cded47b5c9db29087f3a Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Mon, 23 Apr 2018 12:01:25 -0700
-Subject: [meta-xilinx-extras][PATCH] 96Boards Sensors examples: Modify
- examples to run on zcu100
+Subject: [sensor-mezzanine-examples][master][PATCH 1/7] 96Boards Sensors
+ examples: Modify examples to run on zcu100
 
 Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 ---

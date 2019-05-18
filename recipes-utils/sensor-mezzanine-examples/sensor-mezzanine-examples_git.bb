@@ -2,19 +2,14 @@ LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6ec9b8bb223a49edcf575e97fbf78061"
 
 SRC_URI = "git://github.com/96boards/Sensor_Mezzanine_Getting_Started.git;protocol=https \
-	file://0001-96Boards-Sensors-examples-Modify-examples-to-run-on-.patch \
-	file://0001-Added-run_me.sh-to-all-examples.patch \
-	file://0001-twitter-example-Added-contacting-to-twitter-an-optio.patch \
-	file://0001-rgb-lcd-change-message-displayed-on-the-lcd.patch \
-	file://0001-tweeting-doorbell-Update-the-way-update_status-is-ca.patch \
-	file://0001-Added-backup-files-to-all-the-source-files.patch \
-	file://0001-tweeting-doorbell-Added-auto-update-of-date.patch \
-	file://0001-humid_temp-Makefile-Replacing-spaces-with-tabs-in-th.patch \
-        file://0001-touch_switch.cpp-Connect-the-touch-sensor-to-differe.patch \
-        file://0001-upgrade-humid-temp-examples-to-python3.patch \
-        file://0002-Upgrade-rgb-lcd-example-to-python3.patch \
-        file://0001-Upgrade-twitter-examples-to-work-with-python3.patch \
-	"
+        file://0001-96Boards-Sensors-examples-Modify-examples-to-run-on-.patch \
+        file://0002-Added-run_me.sh-to-all-examples.patch \
+        file://0003-rgb_lcd-Modify-demo-to-run-with-python3.patch \
+        file://0004-tweeting_doorbell-Modify-demo-to-work-with-python3.patch \
+        file://0005-touch_switch.cpp-Connect-the-touch-sensor-to-differe.patch \
+        file://0006-upgrade-humid-temp-examples-to-python3.patch \
+        file://0007-Added-backup-files-to-all-the-source-files.patch \
+"
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"

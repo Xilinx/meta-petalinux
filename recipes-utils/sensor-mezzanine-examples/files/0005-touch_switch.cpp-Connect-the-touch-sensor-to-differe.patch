@@ -1,8 +1,8 @@
-From 90c07e6ffe2d0e75eb6fa17346bcd062cb170c9b Mon Sep 17 00:00:00 2001
+From 7cc2028fe71ddc93bf1f64b2b0a76a54c8f8cb69 Mon Sep 17 00:00:00 2001
 From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
 Date: Fri, 26 Oct 2018 10:16:28 -0700
-Subject: [PATCH] touch_switch.cpp: Connect the touch sensor to different GPIO
- pin
+Subject: [sensor-mezzanine-examples][master][PATCH 5/7] touch_switch.cpp:
+ Connect the touch sensor to different GPIO pin
 
 In the current example, the touch sensor is connected on G3 GPIO pin. In
 the current Ultra96 BSP GPIO pins E-L are being used by the hardware
