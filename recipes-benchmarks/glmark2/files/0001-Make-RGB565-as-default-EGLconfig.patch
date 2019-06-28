@@ -6,8 +6,7 @@ Subject: [PATCH] Make RGB565 as default EGLconfig
 Make RGB565 as default EGL config as that way user need not pass
 explicit parameters for RGB565 EGLconfig. In the orignial scenario, if
 user does not pass the gl-visual-config to RGB565 there will be color
-conversion resulting in lower performance. Further, for DRM backend make
-GBM_FORMAT_RGB565 as the default format while requesting bo's.
+conversion resulting in lower performance.
 
 Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
 Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
@@ -30,28 +29,6 @@ index dc035cd..113b721 100644
      GLVisualConfig(int r, int g, int b, int a, int d, int s, int buf):
          red(r), green(g), blue(b), alpha(a), depth(d), stencil(s), buffer(buf) {}
      GLVisualConfig(const std::string &s);
-diff --git a/src/native-state-drm.cpp b/src/native-state-drm.cpp
-index 62566ee..84a4e3f 100644
---- a/src/native-state-drm.cpp
-+++ b/src/native-state-drm.cpp
-@@ -403,7 +403,7 @@ NativeStateDRM::fb_get_from_bo(gbm_bo* bo)
-     unsigned int stride = gbm_bo_get_stride(bo);
-     unsigned int handle = gbm_bo_get_handle(bo).u32;
-     unsigned int fb_id(0);
--    int status = drmModeAddFB(fd_, width, height, 24, 32, stride, handle, &fb_id);
-+    int status = drmModeAddFB(fd_, width, height, 16, 16, stride, handle, &fb_id);
-     if (status < 0) {
-         Log::error("Failed to create FB: %d\n", status);
-         return 0;
-@@ -428,7 +428,7 @@ NativeStateDRM::init_gbm()
-     }
- 
-     surface_ = gbm_surface_create(dev_, mode_->hdisplay, mode_->vdisplay,
--                                  GBM_FORMAT_XRGB8888,
-+                                  GBM_FORMAT_RGB565,
-                                   GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
-     if (!surface_) {
-         Log::error("Failed to create GBM surface\n");
 -- 
 2.7.4
 
