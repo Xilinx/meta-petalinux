@@ -1,4 +1,4 @@
-From 17386d97614d662f393f95e8158f9d3dd949e077 Mon Sep 17 00:00:00 2001
+From 886d6366d23456d16edc87da44f92342331d4cd2 Mon Sep 17 00:00:00 2001
 From: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
 Date: Tue, 29 Jan 2019 15:39:43 -0800
 Subject: [PATCH] egl_kms: Modify the default color format to RGB565
@@ -8,11 +8,11 @@ DP supports RGB565 hence modify the default color format to RGB565.
 Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
 Upstream-Status: Inappropriate [Xilinx specific]
 ---
- src/platformsupport/kmsconvenience/qkmsdevice.cpp                   | 4 ++--
- .../eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmcursor.cpp        | 6 +++---
- .../eglfs/deviceintegration/eglfs_kms/qeglfskmsgbmintegration.cpp   | 2 +-
- .../deviceintegration/eglfs_kms_support/qeglfskmsintegration.cpp    | 6 +++---
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ src/platformsupport/kmsconvenience/qkmsdevice.cpp        |  4 ++--
+ .../deviceintegration/eglfs_kms/qeglfskmsgbmcursor.cpp   |  6 +++---
+ .../eglfs_kms/qeglfskmsgbmintegration.cpp                |  2 +-
+ .../eglfs_kms_support/qeglfskmsintegration.cpp           | 16 +++++++++++++---
+ 4 files changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/src/platformsupport/kmsconvenience/qkmsdevice.cpp b/src/platformsupport/kmsconvenience/qkmsdevice.cpp
 index a589555..585c078 100644
@@ -81,19 +81,29 @@ index 4023381..6f4805b 100644
  
      return reinterpret_cast<EGLNativeWindowType>(surface);
 diff --git a/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_support/qeglfskmsintegration.cpp b/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_support/qeglfskmsintegration.cpp
-index 06bc272..1c2cf13 100644
+index 06bc272..415a3aa 100644
 --- a/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_support/qeglfskmsintegration.cpp
 +++ b/src/plugins/platforms/eglfs/deviceintegration/eglfs_kms_support/qeglfskmsintegration.cpp
-@@ -102,9 +102,9 @@ QSurfaceFormat QEglFSKmsIntegration::surfaceFormatFor(const QSurfaceFormat &inpu
+@@ -102,9 +102,19 @@ QSurfaceFormat QEglFSKmsIntegration::surfaceFormatFor(const QSurfaceFormat &inpu
      QSurfaceFormat format(inputFormat);
      format.setRenderableType(QSurfaceFormat::OpenGLES);
      format.setSwapBehavior(QSurfaceFormat::DoubleBuffer);
 -    format.setRedBufferSize(8);
 -    format.setGreenBufferSize(8);
 -    format.setBlueBufferSize(8);
-+    format.setRedBufferSize(5);
-+    format.setGreenBufferSize(6);
-+    format.setBlueBufferSize(5);
++
++    static const bool force888 = qEnvironmentVariableIntValue("QT_QPA_EGLFS_FORCE888");
++    if (force888){
++        format.setRedBufferSize(8);
++        format.setGreenBufferSize(8);
++        format.setBlueBufferSize(8);
++    }
++    else{
++        format.setRedBufferSize(5);
++        format.setGreenBufferSize(6);
++        format.setBlueBufferSize(5);
++    }
++
      return format;
  }
  
