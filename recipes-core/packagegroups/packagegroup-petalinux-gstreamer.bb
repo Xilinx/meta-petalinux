@@ -12,5 +12,7 @@ GSTREAMER_PACKAGES = " \
 	gstreamer1.0-rtsp-server \
 	gst-shark \
 	gstd \
+	gst-perf \
+	gst-interpipes \
 	"
 RDEPENDS_${PN} = "${GSTREAMER_PACKAGES}"
