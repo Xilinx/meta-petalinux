@@ -27,6 +27,7 @@ ZYNQ_FEATURES = " \
     petalinux-utils \
     petalinux-v4lutils \
     petalinux-lmsensors \
+    petalinux-jupyter \
     ${TRACING_PROFILE_FEATURES} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'petalinux-self-hosted', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
