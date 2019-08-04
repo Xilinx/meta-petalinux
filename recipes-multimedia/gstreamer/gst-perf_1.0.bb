@@ -12,18 +12,9 @@ DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 
 SRCBRANCH ?= "master"
 SRCREV ?= "939eee167c6e95ed1c2f2013246b1f0b671a378b"
-SRC_URI ?= "git://github.com/RidgeRun/gst-perf.git;protocol=https;branch=${SRCBRANCH}"
+SRC_URI = "git://github.com/RidgeRun/gst-perf.git;protocol=https;branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
 
-do_configure() {
-	${S}/autogen.sh
-	oe_runconf
-}
-
-INSANE_SKIP_${PN} = "dev-so"
-FILES_${PN} += "${libdir}/gstreamer-1.0/libgstperf.so \
-                ${libdir}/gstreamer-1.0/libgstperf.so.0 \
-                ${libdir}/gstreamer-1.0/libgstperf.so.0.0.0 \
-               "
+FILES_${PN} += "${libdir}/gstreamer-1.0/libgstperf.so"
 
