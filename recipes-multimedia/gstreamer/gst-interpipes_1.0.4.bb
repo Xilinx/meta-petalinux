@@ -12,14 +12,13 @@ DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base"
 
 SRCBRANCH ?= "master"
 SRCREV ?= "9af5b40d106f35ce75f8baa5efc8c59fc5f7eda1"
-SRC_URI ?= "git://github.com/RidgeRun/gst-interpipe.git;protocol=https;branch=${SRCBRANCH}"
+SRC_URI = "git://github.com/RidgeRun/gst-interpipe.git;protocol=https;branch=${SRCBRANCH}"
 
 S = "${WORKDIR}/git"
-
 
 do_configure() {
 	${S}/autogen.sh --noconfigure
 	oe_runconf
 }
 
-FILES_${PN} += "${libdir}/gstreamer-1.0/libgstinterpipe.so "
+FILES_${PN} += "${libdir}/gstreamer-1.0/libgstinterpipe.so"
