@@ -1,0 +1,14 @@
+[global]
+OfflineMode=false
+
+[Bluetooth]
+Enable=true
+Tethering=false
+
+[WiFi]
+Enable=true
+Tethering=false
+
+[P2P]
+Enable=false
+Tethering=false
