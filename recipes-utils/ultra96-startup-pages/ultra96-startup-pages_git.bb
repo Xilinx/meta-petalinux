@@ -19,7 +19,7 @@ INITSCRIPT_NAME = "ultra96-startup-page.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "9a892575be16534879fcdc333b0714b4839a869b"
+SRCREV = "78537d89fdd9db9f877b508acb60c7843f728c8f"
 
 FILES_${PN} += "${datadir}/ultra96-startup-pages"
 FILES_${PN} += "${base_sbindir}/ /var/lib/connman/"
