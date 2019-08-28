@@ -90,3 +90,5 @@ FEATURE_PACKAGES_petalinux-syscontroller ?= "packagegroup-petalinux-syscontrolle
 FEATURE_PACKAGES_petalinux-syscontroller[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-jupyter ?= "packagegroup-petalinux-jupyter"
 FEATURE_PACKAGES_petalinux-jupyter[optional] ?= "1"
+FEATURE_PACKAGES_petalinux-xrt ?= "packagegroup-petalinux-xrt"
+FEATURE_PACKAGES_petalinux-xrt[optional] ?= "1"

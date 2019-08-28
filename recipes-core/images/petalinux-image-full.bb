@@ -42,12 +42,14 @@ ZYNQMP_FEATURES = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
+    petalinux-xrt \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-ultra96-webapp', '', d)} \
     petalinux-96boards-sensors \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
+
 IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
 
 IMAGE_FEATURES_append_versal = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
