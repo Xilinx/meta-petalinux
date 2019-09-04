@@ -28,7 +28,7 @@ S="${WORKDIR}/git"
 FILES_${PN} += "${datadir}/Board_Framework_Phase1Alpha /usr/bin"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_a2197-zynqmp = "a2197-zynqmp"
+COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
 
 do_configure[noexec]="1"
 do_compile[noexec]="1"
