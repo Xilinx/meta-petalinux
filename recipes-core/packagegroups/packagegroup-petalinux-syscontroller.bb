@@ -14,6 +14,7 @@ SYSTEM_CONTROLLER_PACKAGES = " \
         packagegroup-petalinux-lmsensors \
         i2c-tools \
         libgpiod \
-        fru-tools \
 "
 RDEPENDS_${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
+
+SYSTEM_CONTROLLER_PACKAGES_append_a2197-zynqmp = " fru-tools"
