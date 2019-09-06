@@ -2,7 +2,7 @@
 #
 # Transcode input h264 file to h265 and vice versa and stream it out to host
 #
-# Copyright (C) 2017 Xilinx
+# Copyright (C) 2019 Xilinx
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

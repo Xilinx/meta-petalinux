@@ -1,0 +1,3 @@
+recipes-devtools/luajit/luajit_2.1.0-beta3.bb:LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=10a96c93403affcc34765f4c2612bc22"
+earcipes-benchmarks/glmark2/files/0001-fbdev-Add-support-for-fbdev-backend.patch:+ * Copyright © 2018 Xilinx Inc
+recipes-benchmarks/glmark2/files/0001-fbdev-Add-support-for-fbdev-backend.patch:+ * Copyright © 2018 Xilinx Inc

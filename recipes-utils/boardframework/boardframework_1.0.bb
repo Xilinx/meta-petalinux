@@ -2,7 +2,7 @@ DESCRIPTION = "Python application to monitor voltages, clocks, power for versal 
 SUMMARY = "Python application to monitor voltages, clocks, power for versal boards"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=27;md5=783f0ad9d0cdfd553f68250d61daa99f"
+LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=96049fee8887e8f457bca7d8472fd4a5"
 
 SRC_URI = "git://gitenterprise.xilinx.com/sethm/BoardFramework.git;branch=master;protocol=https \
            file://LICENSE "

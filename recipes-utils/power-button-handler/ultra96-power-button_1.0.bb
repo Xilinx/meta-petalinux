@@ -2,7 +2,7 @@ DESCRIPTION = "User space power off support for ultra96"
 SUMMARY = "A mraa based power button montior to display power-off message on LCD"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://ultra96-power-button-check.c;beginline=1;endline=29;md5=3d06ba301eafa825e49f161970efa3d1"
+LIC_FILES_CHKSUM = "file://ultra96-power-button-check.c;beginline=1;endline=25;md5=1c552ff04522a3bd79001dbc21152402"
 
 SRC_URI = " \
 	file://Makefile \

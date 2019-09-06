@@ -3,7 +3,7 @@
 #
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://${WORKDIR}/watchdog-init.sh;beginline=3;endline=31;md5=3da9d00ad07c09b1c5d373fa9a25b0ed"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/watchdog-init.sh;beginline=3;endline=26;md5=4c5a34c2563a32257921e046334fbb6e"
 
 SRC_URI = "\
 	file://watchdog-init.sh \
