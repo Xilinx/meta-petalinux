@@ -2,7 +2,7 @@ DESCRIPTION = "Webapp that can be accessed by connecting to the Ultra96 board us
 SUMMARY = "Webapp that provides support for Ultra96 devices"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a768baea9d204ad586e989c92a2afb31"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7b4e2c1c8ac64078f34f4eef8d3b4f46"
 
 SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https \
 	   file://ultra96-startup-page.sh \
@@ -19,7 +19,7 @@ INITSCRIPT_NAME = "ultra96-startup-page.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 PV = "1.0+git${SRCPV}"
-SRCREV = "78537d89fdd9db9f877b508acb60c7843f728c8f"
+SRCREV = "276b6efd462fc14f22dcea1af4c51cc3d31d1c95"
 
 FILES_${PN} += "${datadir}/ultra96-startup-pages"
 FILES_${PN} += "${base_sbindir}/ /var/lib/connman/"
