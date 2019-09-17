@@ -1,0 +1,84 @@
+From 1b8b1bce9e53af91b469f5c585e6365dc6f106ed Mon Sep 17 00:00:00 2001
+From: Michal Simek <monstr@monstr.eu>
+Date: Thu, 20 Jun 2019 13:30:35 +0200
+Subject: [PATCH] sensors: Scale voltage and current values
+
+scale_value is generic function for scaling values. There is a lower
+resolution then json format provides for voltage and current.
+The patch is calling scale_value() and showing values with higher
+resolution.
+For example on Xilinx ZynqMP platform:
+ina226-i2c-3-41
+Adapter: i2c-0-mux (chan_id 0)
+in0:           2.00 mV
+in1:         848.00 mV
+power1:      287.50 mW
+curr1:       330.00 mA
+
+Upstream-Status: Backport [https://github.com/lm-sensors/lm-sensors/commit/1b8b1bce9e53af91b469f5c585e6365dc6f106ed]
+
+Signed-off-by: Michal Simek <monstr@monstr.eu>
+---
+ prog/sensors/chips.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/prog/sensors/chips.c b/prog/sensors/chips.c
+index 99426a4..1c5b6cf 100644
+--- a/prog/sensors/chips.c
++++ b/prog/sensors/chips.c
+@@ -32,6 +32,8 @@
+ 
+ #define ARRAY_SIZE(arr) (int)(sizeof(arr) / sizeof((arr)[0]))
+ 
++static void scale_value(double *value, const char **prefixstr);
++
+ void print_chip_raw(const sensors_chip_name *name)
+ {
+ 	int a, b, err;
+@@ -433,6 +435,7 @@ static void print_chip_in(const sensors_chip_name *name,
+ {
+ 	const sensors_subfeature *sf;
+ 	char *label;
++	const char *unit;
+ 	struct sensor_subfeature_data sensors[NUM_IN_SENSORS];
+ 	struct sensor_subfeature_data alarms[NUM_IN_ALARMS];
+ 	int sensor_count, alarm_count;
+@@ -448,9 +451,10 @@ static void print_chip_in(const sensors_chip_name *name,
+ 
+ 	sf = sensors_get_subfeature(name, feature,
+ 				    SENSORS_SUBFEATURE_IN_INPUT);
+-	if (sf && get_input_value(name, sf, &val) == 0)
+-		printf("%+6.2f V  ", val);
+-	else
++	if (sf && get_input_value(name, sf, &val) == 0) {
++		scale_value(&val, &unit);
++		printf("%6.2f %sV%*s", val, unit, 2 - (int)strlen(unit), "");
++	} else
+ 		printf("     N/A  ");
+ 
+ 	sensor_count = alarm_count = 0;
+@@ -789,6 +793,7 @@ static void print_chip_curr(const sensors_chip_name *name,
+ 	const sensors_subfeature *sf;
+ 	double val;
+ 	char *label;
++	const char *unit;
+ 	struct sensor_subfeature_data sensors[NUM_CURR_SENSORS];
+ 	struct sensor_subfeature_data alarms[NUM_CURR_ALARMS];
+ 	int sensor_count, alarm_count;
+@@ -803,9 +808,10 @@ static void print_chip_curr(const sensors_chip_name *name,
+ 
+ 	sf = sensors_get_subfeature(name, feature,
+ 				    SENSORS_SUBFEATURE_CURR_INPUT);
+-	if (sf && get_input_value(name, sf, &val) == 0)
+-		printf("%+6.2f A  ", val);
+-	else
++	if (sf && get_input_value(name, sf, &val) == 0) {
++		scale_value(&val, &unit);
++		printf("%6.2f %sA%*s", val, unit, 2 - (int)strlen(unit), "");
++	} else
+ 		printf("     N/A  ");
+ 
+ 	sensor_count = alarm_count = 0;
+-- 
+1.8.3.1
+
