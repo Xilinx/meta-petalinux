@@ -63,8 +63,6 @@ MACHINE ??= "qemuzynq"
 #
 #TMPDIR = "${TOPDIR}/tmp"
 
-TMPDIR_versal = "${TOPDIR}/tmp-versal"
-
 #
 # Default policy config
 #
