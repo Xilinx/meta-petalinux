@@ -33,3 +33,6 @@ RDEPENDS_${PN}_append_zynqmp = " \
 	libmetal-demos \
 	open-amp-demos \
 	"
+RDEPENDS_${PN}_remove_versal-generic = "${OPENAMP_FW_PACKAGES}"
+RDEPENDS_${PN}_remove_zynqmp-generic = "${OPENAMP_FW_PACKAGES}"
+
