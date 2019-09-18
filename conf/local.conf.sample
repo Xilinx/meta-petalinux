@@ -62,6 +62,8 @@ MACHINE ??= "qemuzynq"
 # The default is a tmp directory under TOPDIR.
 #
 #TMPDIR = "${TOPDIR}/tmp"
+#
+#TMPDIR_versal = "${TOPDIR}/tmp-versal"
 
 #
 # Default policy config
