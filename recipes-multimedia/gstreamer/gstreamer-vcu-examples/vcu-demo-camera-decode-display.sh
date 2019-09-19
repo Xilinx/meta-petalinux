@@ -103,8 +103,8 @@ CameraToDisplay() {
 		INTERNAL_ENTROPY_BUFFERS="6"
 	fi
 
-	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
-	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
         case $CODEC_TYPE in
         "avc")

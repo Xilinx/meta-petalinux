@@ -77,8 +77,8 @@ CameraToStreamout() {
 		fi
 	esac
 
-	OMXH264ENC="$OMXH264ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode=basic periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h264, alignment=nal"
-	OMXH265ENC="$OMXH265ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE gop-mode=basic cpb-size=$CPB_SIZE periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h265, alignment=nal"
+	OMXH264ENC="$OMXH264ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE cpb-size=$CPB_SIZE gop-mode=basic periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h264"
+	OMXH265ENC="$OMXH265ENC control-rate=low-latency num-slices=8 prefetch-buffer=true target-bitrate=$BIT_RATE gop-mode=basic cpb-size=$CPB_SIZE periodicity-idr=$PERIODICITY_IDR gop-length=$GOP_LENGTH ! video/x-h265"
 	IFS='x' read WIDTH HEIGHT <<< "$VIDEO_SIZE"
 
 	case $CODEC_TYPE in
@@ -86,11 +86,13 @@ CameraToStreamout() {
 		ENC_PARSER=$H264PARSE
 		DEC_PARSER=$H264PARSE
 		ENCODER=$OMXH264ENC
+		RTPPAY=$RTPH264PAY
 		CAMERA_CAPS_ENC="video/x-h264,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
 	"hevc")
 		ENC_PARSER=$H265PARSE
 		DEC_PARSER=$H265PARSE
 		ENCODER=$OMXH265ENC
+		RTPPAY=$RTPH265PAY
 		CAMERA_CAPS_ENC="video/x-h265,width=$WIDTH,height=$HEIGHT,framerate=30/1";;
 	esac
 
@@ -116,9 +118,9 @@ CameraToStreamout() {
 
 	if [ -z $AUDIODEC_TYPE ]; then
 		if [ $COMPRESSED_MODE -eq 1 ]; then
-			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $DEC_PARSER ! $MUX ! $RTPMP2TPAY ! $UDPSINK"
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS_ENC ! $DEC_PARSER ! $QUEUE ! $RTPPAY ! $UDPSINK"
 		else
-			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $ENC_PARSER ! $MUX ! $RTPMP2TPAY ! $UDPSINK"
+			pipeline="$GST_LAUNCH $V4L2SRC ! $CAMERA_CAPS ! $VIDEOCONVERT ! $VIDEOCONVERT_CAPS ! $ENCODER ! $ENC_PARSER ! $QUEUE ! $RTPPAY ! $UDPSINK"
 		fi
 	else
 		if [ $COMPRESSED_MODE -eq 1 ]; then

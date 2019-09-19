@@ -105,20 +105,20 @@ CameraToDisplay() {
 
 	OMXH264ENC="omxh264enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=true"
 	OMXH265ENC="omxh265enc num-slices=8 control-rate="low-latency" target-bitrate=$BIT_RATE prefetch-buffer=true"
-	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
-	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS low-latency=1"
+	OMXH264DEC="$OMXH264DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
+	OMXH265DEC="$OMXH265DEC internal-entropy-buffers=$INTERNAL_ENTROPY_BUFFERS"
 
         case $CODEC_TYPE in
         "avc")
 		PARSER=$H264PARSE
 		ENCODER=$OMXH264ENC
 		DECODER=$OMXH264DEC
-		CAMERA_CAPS_ENC="video/x-h264, alignment=nal";;
+		CAMERA_CAPS_ENC="video/x-h264";;
 	"hevc")
 		PARSER=$H265PARSE
 		ENCODER=$OMXH265ENC
 		DECODER=$OMXH265DEC
-		CAMERA_CAPS_ENC="video/x-h265, alignment=nal";;
+		CAMERA_CAPS_ENC="video/x-h265";;
 	esac
 	restartPulseAudio
 	setAudioSrcProps
