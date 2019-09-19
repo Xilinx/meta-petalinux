@@ -259,7 +259,7 @@ VI. Sample Gstreamer Pipelines
 
  4:2:2-8bit (NV16):
 
- >> gst-launch-1.0 filesrc location="input-file.yuv" ! videoparse format=nv16 width=3840 height=2160 framerate=30/1 !  omxh265enc ! filesink location=”output.h265”
+ >> gst-launch-1.0 filesrc location="input-file.yuv" ! videoparse format=nv16 width=3840 height=2160 framerate=30/1 !  omxh264enc ! filesink location=”output.h264”
 
  4:2:0-10bit (NV12_10LE32):
 
