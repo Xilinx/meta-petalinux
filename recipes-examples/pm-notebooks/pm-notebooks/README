@@ -1,15 +1,22 @@
 # PM-Notebooks
 --------------
-> Jupyter Notebook Demos for Power Management (PM) Features
-> [Xilinx wiki](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842232)
+> Jupyter Notebook Demos for Platform Management (PM) Features
+> Xilinx wiki: https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842232
 
 NOTE
 ----
-The demos have a dependency on 'python3-ipywidgets' package which is an extension to Jupyter Notebook core.
-This comes pre-installed in the rootfs from official Petalinux BSPs.
-However, you need to enable it once before running the demos. Run following from linux command line:
+The notebooks have a dependency on following packages:
+ - 'python3-ipywidgets': an extension to Jupyter Notebook core for displaying widgets
+ - 'python3-pydot' used in "clktree" demo to generate a directed graph (uses graphviz)
+These are pre-installed in the rootfs from official Petalinux BSPs.
 
+However, you need to run the following commands from shell once before running the demos:
+
+This is to enable Jupyter notebook widget extension:
 	$ jupyter nbextension enable --py widgetsnbextension
+
+This is in case graphviz isn't configured:
+	$ dot -c
 
 To spawn a Jupyter notebook server pointing to default notebook directory for pm-notebooks, run:
 
@@ -20,3 +27,4 @@ Now use the link provided by the server to connect to it from any browser client
 The demos included are:
 - CPU Hotplug Demo
 - CPU Frequency Scaling Demo
+- CPU Clock Tree Demo
