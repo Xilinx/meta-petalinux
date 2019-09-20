@@ -2,6 +2,8 @@ DESCRIPTION = "Jupyter notebook examples for Power Management (PM) in Versal dev
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
 
+inherit jupyter-examples
+
 SRC_URI = "file://LICENSE \
            file://README \
            file://pm-cpufreq.ipynb \
@@ -19,11 +21,6 @@ SRC_URI = "file://LICENSE \
            file://pmutil/data/cpu-icon-freq-4.png \
            file://pmutil/data/cpu-icon-freq-def.png \
            "
-
-S = "${WORKDIR}"
-
-FILES_${PN} += "${datadir}"
-
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal = "versal"
 
@@ -32,16 +29,11 @@ RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
                   "
 
 do_install() {
-    install -d ${D}/${datadir}/pm-notebooks
-    install -d ${D}/${datadir}/pm-notebooks/pmutil
-    install -d ${D}/${datadir}/pm-notebooks/pmutil/data
+    install -d ${D}/${JUPYTER_DIR}/pm-notebooks
+    install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
+    install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 
-    install -m 0755 ${S}/*.ipynb ${D}/${datadir}/pm-notebooks
-    install -m 0755 ${S}/pmutil/*.py ${D}/${datadir}/pm-notebooks/pmutil
-    install -m 0755 ${S}/pmutil/data/*.png ${D}/${datadir}/pm-notebooks/pmutil/data
+    install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/pm-notebooks
+    install -m 0755 ${S}/pmutil/*.py ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
+    install -m 0755 ${S}/pmutil/data/*.png ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 }
-
-# These libraries shouldn't get installed in world builds unless something
-# explicitly depends upon them.
-
-EXCLUDE_FROM_WORLD = "1"
