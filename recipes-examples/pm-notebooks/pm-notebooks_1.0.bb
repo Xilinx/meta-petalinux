@@ -8,9 +8,11 @@ SRC_URI = "file://LICENSE \
            file://README \
            file://pm-cpufreq.ipynb \
            file://pm-hotplug.ipynb \
+           file://pm-clktree.ipynb \
            file://pmutil/__init__.py \
            file://pmutil/cpufreq.py \
            file://pmutil/hotplug.py \
+           file://pmutil/clktree.py \
            file://pmutil/data/cpu-icon-0-off.png \
            file://pmutil/data/cpu-icon-0-on.png \
            file://pmutil/data/cpu-icon-1-off.png \
@@ -26,6 +28,7 @@ COMPATIBLE_MACHINE_versal = "versal"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
+                  python3-pydot \
                   "
 
 do_install() {
@@ -33,7 +36,9 @@ do_install() {
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 
+    install -m 0644 ${S}/README ${D}/${datadir}/pm-notebooks
     install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/pm-notebooks
     install -m 0755 ${S}/pmutil/*.py ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -m 0755 ${S}/pmutil/data/*.png ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 }
+
