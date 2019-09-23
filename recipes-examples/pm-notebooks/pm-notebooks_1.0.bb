@@ -36,7 +36,7 @@ do_install() {
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 
-    install -m 0644 ${S}/README ${D}/${datadir}/pm-notebooks
+    install -m 0644 ${S}/README ${D}/${JUPYTER_DIR}/pm-notebooks
     install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/pm-notebooks
     install -m 0755 ${S}/pmutil/*.py ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -m 0755 ${S}/pmutil/data/*.png ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
