@@ -29,7 +29,7 @@ notebook_args="--no-browser --allow-root --ip=192.168.2.1 --port=8888"
 export BOARD="PLACEHOLDER"
 
 #check if jupyter notebook is already started,if so then dont start
-ip=ifconfig wlan1 | grep "inet addr" | cut -d : -f 2 | cut -d ' ' -f 1
+ip=$(ifconfig wlan1 | grep "inet addr" | cut -d : -f 2 | cut -d ' ' -f 1)
 i=0
 while [ "${ip:0:3}" != "192" ]
 do
@@ -40,6 +40,6 @@ do
 done
 sleep 10
 echo "Connected to WLAN1" >> /var/log/jupyter.log
-f_ip=ifconfig wlan1 | grep "inet addr" | cut -d : -f 2 | cut -d ' ' -f 1
+f_ip=$(ifconfig wlan1 | grep "inet addr" | cut -d : -f 2 | cut -d ' ' -f 1)
 echo $f_ip >> /var/log/jupyter.log
 jupyter notebook $notebook_args >> /var/log/jupyter.log  2>&1 &
