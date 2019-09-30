@@ -1,0 +1,369 @@
+new_bif:
+{
+ id_code = 0x04ca8093
+ id = 0x2
+ image
+ {
+  name = WDI_FLAT
+  id = 0x1c000000
+  partition
+  {
+   id = 0x1
+   type = bootloader
+   file = versal_plm/executable.elf
+  }
+  partition
+  {
+   id = 0x9
+   type = pmcdata, load = 0xf2000000
+   file = pmc_data.cdo
+  }
+  partition
+  {
+   id = 0xb
+   core = psm
+   file = psm_fw.elf
+  }
+  partition
+  {
+   id = 0x3
+   type = cdo
+   file = aie_hw_wrapper.rcdo
+  }
+  partition
+  {
+   id = 0x4
+   file = aie_hw_wrapper.rcfi
+  }
+  partition
+  {
+   id = 0x5
+   type = cdo
+   file = aie_hw_wrapper.rnpi
+  }
+  partition
+  {
+   id = 0x7
+   type = cdo
+   file = aie_init/ai_engine_data.cdo
+  }
+  partition
+  {
+   id = 0x8
+   type = cdo
+   file = pspmc_init/ps_data.cdo
+  }
+  partition
+  {
+   id = 0xd
+   type = cdo
+   file = pspmc_init/subsystem.cdo
+  }
+  partition
+  {
+   id = 0x10
+   type = cdo
+   file = Work/ps/cdo/aie_cdo.bin
+  }
+  partition
+  {
+   id = 0x12
+   core = aie
+   file = Work/aie/0_0/Release/0_0 
+  }
+  partition
+  {
+   id = 0x13
+   core = aie
+   file = Work/aie/1_0/Release/1_0 
+  }
+  partition
+  {
+   id = 0x14
+   core = aie
+   file = Work/aie/2_0/Release/2_0 
+  }
+  partition
+  {
+   id = 0x15
+   core = aie
+   file = Work/aie/3_0/Release/3_0 
+  }
+  partition
+  {
+   id = 0x16
+   core = aie
+   file = Work/aie/4_0/Release/4_0 
+  }
+  partition
+  {
+   id = 0x17
+   core = aie
+   file = Work/aie/5_0/Release/5_0 
+  }
+  partition
+  {
+   id = 0x18
+   core = aie
+   file = Work/aie/6_0/Release/6_0 
+  }
+  partition
+  {
+   id = 0x19
+   core = aie
+   file = Work/aie/7_0/Release/7_0 
+  }
+  partition
+  {
+   id = 0x1a
+   core = aie
+   file = Work/aie/8_0/Release/8_0 
+  }
+  partition
+  {
+   id = 0x1b
+   core = aie
+   file = Work/aie/9_0/Release/9_0 
+  }
+  partition
+  {
+   id = 0x1c
+   core = aie
+   file = Work/aie/10_0/Release/10_0 
+  }
+  partition
+  {
+   id = 0x1d
+   core = aie
+   file = Work/aie/11_0/Release/11_0 
+  }
+  partition
+  {
+   id = 0x1e
+   core = aie
+   file = Work/aie/12_0/Release/12_0 
+  }
+  partition
+  {
+   id = 0x1f
+   core = aie
+   file = Work/aie/13_0/Release/13_0 
+  }
+  partition
+  {
+   id = 0x20
+   core = aie
+   file = Work/aie/14_0/Release/14_0 
+  }
+  partition
+  {
+   id = 0x21
+   core = aie
+   file = Work/aie/15_0/Release/15_0 
+  }
+  partition
+  {
+   id = 0x22
+   core = aie
+   file = Work/aie/16_0/Release/16_0 
+  }
+  partition
+  {
+   id = 0x23
+   core = aie
+   file = Work/aie/17_0/Release/17_0 
+  }
+  partition
+  {
+   id = 0x24
+   core = aie
+   file = Work/aie/18_0/Release/18_0 
+  }
+  partition
+  {
+   id = 0x25
+   core = aie
+   file = Work/aie/19_0/Release/19_0 
+  }
+  partition
+  {
+   id = 0x26
+   core = aie
+   file = Work/aie/20_0/Release/20_0 
+  }
+  partition
+  {
+   id = 0x27
+   core = aie
+   file = Work/aie/21_0/Release/21_0 
+  }
+  partition
+  {
+   id = 0x28
+   core = aie
+   file = Work/aie/22_0/Release/22_0 
+  }
+  partition
+  {
+   id = 0x29
+   core = aie
+   file = Work/aie/23_0/Release/23_0 
+  }
+  partition
+  {
+   id = 0x2a
+   core = aie
+   file = Work/aie/24_0/Release/24_0 
+  }
+  partition
+  {
+   id = 0x2b
+   core = aie
+   file = Work/aie/25_0/Release/25_0 
+  }
+  partition
+  {
+   id = 0x2c
+   core = aie
+   file = Work/aie/26_0/Release/26_0 
+  }
+  partition
+  {
+   id = 0x2d
+   core = aie
+   file = Work/aie/27_0/Release/27_0 
+  }
+  partition
+  {
+   id = 0x2e
+   core = aie
+   file = Work/aie/28_0/Release/28_0 
+  }
+  partition
+  {
+   id = 0x2f
+   core = aie
+   file = Work/aie/29_0/Release/29_0 
+  }
+  partition
+  {
+   id = 0x30
+   core = aie
+   file = Work/aie/30_0/Release/30_0 
+  }
+  partition
+  {
+   id = 0x31
+   core = aie
+   file = Work/aie/31_0/Release/31_0 
+  }
+  partition
+  {
+   id = 0x32
+   core = aie
+   file = Work/aie/32_0/Release/32_0 
+  }
+  partition
+  {
+   id = 0x33
+   core = aie
+   file = Work/aie/33_0/Release/33_0 
+  }
+  partition
+  {
+   id = 0x34
+   core = aie
+   file = Work/aie/34_0/Release/34_0 
+  }
+  partition
+  {
+   id = 0x35
+   core = aie
+   file = Work/aie/35_0/Release/35_0 
+  }
+  partition
+  {
+   id = 0x36
+   core = aie
+   file = Work/aie/36_0/Release/36_0 
+  }
+  partition
+  {
+   id = 0x37
+   core = aie
+   file = Work/aie/37_0/Release/37_0 
+  }
+  partition
+  {
+   id = 0x38
+   core = aie
+   file = Work/aie/38_0/Release/38_0 
+  }
+  partition
+  {
+   id = 0x39
+   core = aie
+   file = Work/aie/39_0/Release/39_0 
+  }
+  partition
+  {
+   id = 0x3a
+   core = aie
+   file = Work/aie/40_0/Release/40_0 
+  }
+  partition
+  {
+   id = 0x3b
+   core = aie
+   file = Work/aie/41_0/Release/41_0 
+  }
+  partition
+  {
+   id = 0x3c
+   core = aie
+   file = Work/aie/42_0/Release/42_0 
+  }
+  partition
+  {
+   id = 0x3d
+   core = aie
+   file = Work/aie/43_0/Release/43_0 
+  }
+  partition
+  {
+   id = 0x3e
+   core = aie
+   file = Work/aie/44_0/Release/44_0 
+  }
+  partition
+  {
+   id = 0x3f
+   core = aie
+   file = Work/aie/45_0/Release/45_0 
+  }
+  partition
+  {
+   id = 0x40
+   core = aie
+   file = Work/aie/46_0/Release/46_0 
+  }
+  partition
+  {
+   id = 0x41
+   core = aie
+   file = Work/aie/47_0/Release/47_0 
+  }
+  partition
+  {
+   id = 0x42
+   core = aie
+   file = Work/aie/48_0/Release/48_0 
+  }
+  partition
+  {
+   id = 0x43
+   core = aie
+   file = Work/aie/49_0/Release/49_0 
+  }
+ }
+}

@@ -1,0 +1,20 @@
+APP = aie-matrix-multiplication
+
+CC := aarch64-linux-gnu-gcc
+CXX := aarch64-linux-gnu-g++
+CARDANO_ROOT ?=
+SYSROOT ?=
+
+.PHONY: all
+all: $(APP)
+
+$(APP): src/xgemm.cpp Work/ps/c_rts/aie_control.cpp
+	$(CXX) $(CFLAGS) --sysroot $(SYSROOT) -I$(CARDANO_ROOT)/include -DXAIE_DEBUG -I./ -DPS_INIT_AIE -DPS_ENABLE_AIE src/xgemm.cpp Work/ps/c_rts/aie_control.cpp -o $@ -lxaiengine -L$(CARDANO_ROOT)/lib/aarch64.o/ -lcardano_api -Wall
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -I$(INCLUDEDIR) $< -o $@
+
+.PHONY: clean
+clean:
+	rm -rf $(APP)
+
