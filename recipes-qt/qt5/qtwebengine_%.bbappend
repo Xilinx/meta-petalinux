@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = " ffmpeg"
+PACKAGECONFIG_append = " ffmpeg opus"
