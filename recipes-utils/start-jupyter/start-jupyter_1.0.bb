@@ -6,13 +6,14 @@ SRC_URI = " file://start-jupyter.sh \
 	"
 
 LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://start-jupyter.sh;beginline=2;endline=24;md5=25cc4ae6006012bbc275b3b0c6577996"
+LIC_FILES_CHKSUM = "file://start-jupyter.sh;beginline=2;endline=24;md5=f29b6e59838b939312f578e77087ada3"
 
 JUPYTER_STARTUP_PACKAGES += " \
         python3-jupyter \
         bash \
         "
 
+inherit update-rc.d
 RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
 INITSCRIPT_NAME = "jupyter-setup.sh"
