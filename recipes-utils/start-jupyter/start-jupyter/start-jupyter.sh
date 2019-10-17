@@ -35,5 +35,6 @@ do
         i=$(( $i + 2 ))
 done
 
+jupyter nbextension enable --py widgetsnbextension
 notebook_args="--no-browser --allow-root --ip=$net_ip"
 jupyter notebook $notebook_args >> /var/log/jupyter.log  2>&1 &
