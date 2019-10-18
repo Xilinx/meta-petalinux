@@ -3,6 +3,8 @@ REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
+PV = "1.16.0+git${SRCPV}"
+
 SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \
 	git://anongit.freedesktop.org/git/gstreamer/common.git;destsuffix=git/common;branch=master;name=common \

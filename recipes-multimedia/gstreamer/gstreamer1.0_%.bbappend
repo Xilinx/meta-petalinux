@@ -3,7 +3,7 @@ REPO   ?= "git://github.com/xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
-PV = "1.14.4+git${SRCPV}"
+PV = "1.16.0+git${SRCPV}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
