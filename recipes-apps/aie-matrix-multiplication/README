@@ -1,19 +1,16 @@
 =======================================================
-XGEMM: Xilinx AIE Matrix Multiplication Application
+AI Engine With PL Example
 =======================================================
 
-Xilinx AIE Matrix Multiplication Application application demonstrates square
-matrix multiplication that is accelerated on AIE using standard matrix
-multiplication algorithm. The user can change the matrix size and
-the number of the core utilized at compile-time. The expected matrix size must be
-a multiple of 50 (number of cores used) with the minimum and maximum value as
-100x100 and 500x500, respectively. The speed-up for a matrix size of 500x500 is 
-42x when compared with a naive implementation of matrix multiplication on ARM
-Cortex-A72.
-
-Please note that this example is intended to be a proof of concept only. There
-can be other ways of implementation, which can leverage more of the AIE resource
-and hence can result in better performance figures.
+The AI engine with PL example demonstrates how to use AI engine for
+computation, and use PL for data movement. In this example, to run the matrix
+multiplication on AI engine, we use standard matrix multiplication algorithm.
+The user can change the matrix size and the number of cores utilized at
+compile-time. The expected matrix size must be a multiple of 50 (number of
+cores used) with the minimum and maximum value as 100x100 and 500x500
+respectively. Please note that this example is intended to be a proof of
+concept only. There can be other ways of implementation, which can leverage
+more of the AIE resource and hence can result in better performance figures.
 
 Introduction
 ============
@@ -269,43 +266,29 @@ Build Application Using PetaLinux
 By default, the AIE matrix multiplication application is enabled. To enable,
 do following:
 
+```
 petalinux-config -c rootfs
 
-    [*] apps --->
+    [*] user packages --->
         [*] aie-matrix-multiplication
-
+```
 To rebuild the project run,
 
 petalinux-build.
 
 The generated FIT image will be in images/linux/image.ub.
 
-Prebuilt Images
-=============
-
-The prebuilt images are in pre-built/linux/images/ directory:
- * bootgen.bif: BIF file to generate the BOOT.BIN. You can copy the BIF to
-                the PetaLinux project directory and run bootgen to generate
-                BOOT.BIN.
- * BOOT.BIN: PDI, it also includes u-boot, and FIT image.
-	     After you load this PDI, it will boot into u-boot.
- * image.ub: FIT image includes Linux kernel, rootfs, and DTB
-
-Watch the u-boot console while loading the PDI.
-After loading the PDI, as soon you see the u-boot prompt, stop auto boot.
-As the FIT image is already loaded into memory address 0x14000000, you can boot
-the FIT image, with
-
- ```
-   Versal> bootm 14000000
- ```
-
-After you see the Linux login prompt, you can log in with user "root" and
-password "root".
-
 Sample Output
 =============
 
+Follow PetaLinux boot process to launch the Linux on the target.
+After you see the Linux login prompt, you can log in with user "root" and
+password "root".
+
+The AIE ELFs are installed in the `/lib/firmware` directory.
+We will need to go to `/lib/firmware` to run the application.
+
+```
 root@xilinx-vc-p-a2197-00-reva-x-prc-01-reva-2019_2_siea:~# cd /lib/firmware/aie
 root@xilinx-vc-p-a2197-00-reva-x-prc-01-reva-2019_2_siea:~# aie-matrix-multiplication
 PLIO MCDMA> reset_dma
@@ -318,8 +301,8 @@ metal: error:     device platform:f70a0000.aie-npi not found
 metal: error:     device platform:f70a0000.aie-npi not found
 PLIO MCDMA> allocated ddr mem: 0x7f95e28000.
 PLIO MCDMA> pa = 0x70100000.
-PLIO MCDMA> Speedup  = 35.856923151194145304999x
 PLIO MCDMA> Successful
+```
 
 Customizing and Rebuilding
 ==========================
@@ -346,7 +329,7 @@ set the CARDANO_ROOT and then call AI engine compiler to build:
   aiecompiler --constraints graph_aie_constraints.aiecst \
               --dataflow src/xgemm.cpp --test-iterations=4096 --verbose \
               -full-program=true --use-phy-shim -use-real-noc=true \
-              -Xmapper=-c0 -genArchive=true -device VC1902 -phydevice xcvc1902 \
+              -Xmapper=-c0 -device VC1902 -phydevice xcvc1902 \
               -stacksize=4608 -heapsize=27136 --enable-async-window
 ```
 After the AIE application is customized and compiled, user can run
@@ -451,9 +434,3 @@ References
 [2] Vitis User Guide - for AIE application.
 [3] Versal TRM - General subsystem overview.
 
-
-Known Issues
-==========
-* With this version of Vivado, any editing of the hardware design in this BSP is
-  not supported.
-* Needs to manually enable ethernet GEM at run time with this version of Vivado.
