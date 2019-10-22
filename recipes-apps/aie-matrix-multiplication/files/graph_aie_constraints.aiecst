@@ -2,13 +2,13 @@
   "NodeConstraints": {
     "plioin0": {
       "shim": {
-        "column": 7,
+        "column": 6,
         "channel": 0
       }
     },
    "plioout0": {
       "shim": {
-        "column": 7,
+        "column": 6,
         "channel": 0
       }
     }
