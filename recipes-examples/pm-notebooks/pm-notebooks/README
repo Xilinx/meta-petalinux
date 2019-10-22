@@ -1,7 +1,7 @@
 # PM-Notebooks
 --------------
 > Jupyter Notebook Demos for Platform Management (PM) Features
-> Xilinx wiki: https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842232
+> Xilinx wiki for Zynq UltraScale+: https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842232
 
 NOTE
 ----
@@ -10,7 +10,8 @@ The notebooks have a dependency on following packages:
  - 'python3-pydot' used in "clktree" demo to generate a directed graph (uses graphviz)
 These are pre-installed in the rootfs from official Petalinux BSPs.
 
-However, you need to run the following commands from shell once before running the demos:
+However, you need to run the following commands from shell once before running the demos,
+if the server is not already running using default init script:
 
 This is to enable Jupyter notebook widget extension:
 	$ jupyter nbextension enable --py widgetsnbextension
