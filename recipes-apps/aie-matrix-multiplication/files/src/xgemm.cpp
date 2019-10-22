@@ -45,6 +45,7 @@ static uint64_t xaxidma_mm2s_addr, xaxidma_s2mm_addr;
 static uint64_t xaxidma_va;
 static uint64_t xaxidma_addr;
 
+/* Send data to AIE with PL DMA */
 static uint32_t send_dma(uint32_t chan_id, uint64_t mm2s_addr, uint32_t mm2s_bufsize)
 {
 	uint32_t offset = 0x40U * chan_id;
@@ -121,6 +122,7 @@ static uint32_t send_dma(uint32_t chan_id, uint64_t mm2s_addr, uint32_t mm2s_buf
 	return mm2s_bufsize;
 }
 
+/* Receive data from AIE with PL DMA */
 static uint32_t recv_dma(uint32_t chan_id, uint64_t s2mm_addr, uint32_t s2mm_bufsize)
 {
 	uint32_t offset = 0x40U * chan_id;
@@ -197,6 +199,7 @@ static uint32_t recv_dma(uint32_t chan_id, uint64_t s2mm_addr, uint32_t s2mm_buf
 	return s2mm_bufsize;
 }
 
+/* Reset PL DMA */
 static void reset_dma()
 {
 	LPRINTF("%s\r\n", __func__);
@@ -207,6 +210,7 @@ static void reset_dma()
 	*((volatile uint32_t *)(xaxidma_va + 0x500)) = 0;
 }
 
+/* Poll PL DMA status */
 static void poll_dma()
 {
 	uint32_t mm2sval, s2mmval;
@@ -216,6 +220,7 @@ static void poll_dma()
 	LPRINTF("%s: mm2s=0x%x,s2mm=0x%x\n", __func__, mm2sval, s2mmval);
 }
 
+/* Wait for PL DMA RX status */
 static void wait_dma_recv()
 {
 	uint32_t s2mmval;
@@ -244,8 +249,7 @@ int main(void) {
 	unsigned int page_size=sysconf(_SC_PAGESIZE);
 	void *ptr;
 
-	struct timeval startAIE, endAIE, startAPU, endAPU;
-
+	LPRINTF("%u x %u Matrix Multiplication.\n", NUM_COLS, NUM_ROWS);
 	for(int i = 0; i < NUM_ROWS; i++) {
 	  for(int j = 0; j < NUM_COLS; j++){
 		input_a[i][j] = i * NUM_ROWS + j + 1;
@@ -253,14 +257,14 @@ int main(void) {
 	  }
 	}
 
-	/* mmap AXI DMA */
+	/* mmap PL DMA */
 	fd = open("/dev/mem", O_RDWR);
 	if (fd < 1) {
 		LPERROR("Failed to open devmem.\r\n");
 		return -EINVAL;
 	}
 
-	xaxidma_addr = 0xa4010000;
+	xaxidma_addr = 0xa4000000;
 	page_addr = (xaxidma_addr & ~(page_size - 1));
 	page_offset = (unsigned int)xaxidma_addr - page_addr;
 	ptr = mmap(NULL, page_size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, page_addr);
@@ -291,7 +295,6 @@ int main(void) {
 	}
 
 	outIntBuf = (int *)outBuf;
-	gettimeofday(&startAIE, NULL);
 	/**
 	 * transpose for AIE
 	 */
@@ -305,9 +308,8 @@ int main(void) {
 	memset(outBuf, 0, NUM_ELMNTS * sizeof(int32));
 	memcpy(inBuf, input_ab, NUM_ELMNTS * 2 * sizeof(int32));
 
-
 	my_graph.init();
-	my_graph.run();
+	my_graph.run(1);
 	/* Set up DMA */
 	recv_dma(1, xaxidma_s2mm_addr, (NUM_ELMNTS) * sizeof(int32));
 	send_dma(1, xaxidma_mm2s_addr, (NUM_ELMNTS * 2) * sizeof(int32));
@@ -317,33 +319,13 @@ int main(void) {
 		for(int j = 0; j < NUM_COLS; j++)
 			outputAIE[j][i] = outIntBuf[i * NUM_ROWS + j];
 
-	gettimeofday(&endAIE, NULL);
-#ifdef DEBUG
-	FILE *apuf;
-	apuf = fopen("apuf", "w+");
-	if (apuf == NULL) {
-	  fprintf(stderr, "Failed to open apuf\n");
-	  return -1;
-	}
-	fprintf(apuf, "APU matrix results:\n");
-#endif
-	gettimeofday(&startAPU, NULL);
 	 for(int i = 0; i < NUM_ROWS; i++) {
 	  for(int j = 0; j < NUM_COLS; j++) {
 		for(int k = 0; k < NUM_COLS; k++) {
 			outputAPU[i][j] += input_a[i][k] * input_b[k][j];
 		}
-#ifdef DEBUG
-		fprintf(apuf, "0x%08x\n", outputAPU[i][j]);
-#endif
 	  }
 	}
-#ifdef DEBUG
-	fclose(apuf);
-#endif
-
-	gettimeofday(&endAPU, NULL);
-
 
 	for(int i = 0; i < NUM_ROWS; i++) {
 	  for(int j = 0; j < NUM_COLS; j++) {
@@ -355,12 +337,8 @@ int main(void) {
 	  }
 	}
 
-	double timeAIE = (endAIE.tv_sec - startAIE.tv_sec) * 1000000 + endAIE.tv_usec - startAIE.tv_usec;
-	double timeAPU = (endAPU.tv_sec - startAPU.tv_sec) * 1000000 + endAPU.tv_usec - startAPU.tv_usec;
-	double speed = timeAPU/timeAIE;
-
-	LPRINTF("Speedup  = %.21fx\n", speed);
 	LPRINTF("Successful\n");
+	my_graph.end();
 
 	return 0;
 }
