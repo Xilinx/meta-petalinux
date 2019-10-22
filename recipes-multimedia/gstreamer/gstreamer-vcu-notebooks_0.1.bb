@@ -26,7 +26,7 @@ SRC_URI = "file://LICENSE \
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpev = "zynqmpev"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-jupyter packagegroup-petalinux-gstreamer gstreamer-vcu-examples"
+RDEPENDS_${PN} = "packagegroup-petalinux-jupyter packagegroup-petalinux-gstreamer gstreamer-vcu-examples start-jupyter"
 
 do_install() {
     install -d ${D}/${JUPYTER_DIR}/vcu-notebooks
