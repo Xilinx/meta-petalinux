@@ -1,4 +1,4 @@
-BRANCH ?= "rel-v2019.1"
+BRANCH ?= "release-2019.2"
 REPO ?= "git://github.com/xilinx/gst-plugins-good.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
@@ -18,7 +18,7 @@ SRC_URI = " \
     file://ensure-valid-sentinel-for-gst_structure_get.patch \
 "
 
-SRCREV_base = "265c66765515d09a578c401cdcb70327239b1b3d"
+SRCREV_base = "29b75b92985f58770c9580b58582404eadbb256a"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 

@@ -1,8 +1,8 @@
 LICENSE = "BSD"
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ??= "release-2019.1"
-SRCREV ??= "26c14d9861010a0e3a55c73fb79efdb816eb42ca"
+BRANCH ??= "release-2019.2"
+SRCREV ??= "da1b622355c9bc0a80f1f08d88b01cbab6dc2698"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 

@@ -1,4 +1,4 @@
-BRANCH ?= "rel-v2019.1"
+BRANCH ?= "release-2019.2"
 REPO ?= "git://github.com/xilinx/gst-plugins-base.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
@@ -28,7 +28,7 @@ SRC_URI = " \
     file://link-with-libvchostif.patch \
 "
 
-SRCREV_base = "334c48fb4ad71ba95502a68cb31f505d85b10b2d"
+SRCREV_base = "0deb29a2e32b92cfd92d61136576d9fa310528c1"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 

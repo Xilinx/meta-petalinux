@@ -1,4 +1,4 @@
-BRANCH ?= "rel-v2019.1"
+BRANCH ?= "release-2019.2"
 REPO ?= "git://github.com/xilinx/gst-plugins-bad.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
@@ -21,7 +21,7 @@ SRC_URI = " \
     file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
 
-SRCREV_base = "ec1ff1219c99db2a9cc5262027f9b4d20f5f4e81"
+SRCREV_base = "33016ba0374828b3188f9c9b236b185a5496cfe7"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 

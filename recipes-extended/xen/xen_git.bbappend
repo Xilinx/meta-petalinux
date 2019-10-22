@@ -1,9 +1,9 @@
 XEN_REL = "4.11"
 XEN_BRANCH = "stable-${XEN_REL}"
 
-BRANCH = "xilinx/release-2019.1"
+BRANCH = "xilinx/release-2019.2"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV = "e4547c663f7fc36fa90d0ee2c344624e5dbe2033"
+SRCREV = "0bb0d1c1f59da1a0fbc8d3fea843434678bcd6d9"
 
 RDEPENDS_${PN}-base_remove = "${PN}-blktap ${PN}-libblktapctl ${PN}-libvhd"
 

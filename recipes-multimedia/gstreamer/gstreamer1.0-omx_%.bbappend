@@ -1,4 +1,4 @@
-BRANCH ?= "rel-v2019.1"
+BRANCH ?= "release-2019.2"
 REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
@@ -8,7 +8,7 @@ SRC_URI = " \
 	git://anongit.freedesktop.org/git/gstreamer/common.git;destsuffix=git/common;branch=master;name=common \
 	"
 
-SRCREV_gst-omx = "b2aa6a8a5e30d347d573378cf8968a127e2bd495"
+SRCREV_gst-omx = "f511f62c737318dc329a6417dca5d38065d70a77"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "gst-omx"
 
