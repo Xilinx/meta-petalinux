@@ -13,7 +13,6 @@
 #include <cardano.h>
 
 #ifndef __AIESIM__
-#define HW_TARGET 1 
 
   #include "src/xgemm.h"
 
@@ -38,8 +37,8 @@ extern "C"
 
   cardano::PLIOConfig PLIOConfigurations[] = {
   //{id, shim_column, slaveOrMaster, streamId}
-    {0, 7, 0, 0}, //gin0, i0
-    {1, 7, 1, 0}, //gout0, i1
+    {0, 6, 0, 0}, //gin0, i0
+    {1, 6, 1, 0}, //gout0, i1
   };
   const int NUM_PLIO = 2;
 
@@ -84,16 +83,20 @@ extern "C"
 
 
 	XAieLib_print("Configuring PL-Interface for graph my_graph...\n");
-	XAieTile_PlIntfDownszrSetBypass(&(TileInst[7][0]), 0, 0);
-	XAieTile_PlIntfStrmWidCfg(&(TileInst[7][0]), 1, 0,64);
-	XAieTile_PlIntfStrmWidCfg(&(TileInst[7][0]), 0, 0,64);
-	// S_EAST_ch0_C23_R0 M_SOUTH_ch0_C23_R0 net99
+	XAieTile_PlIntfDownszrSetBypass(&(TileInst[6][0]), 0, 0);
+	XAieTile_PlIntfStrmWidCfg(&(TileInst[6][0]), 1, 0,64);
+	XAieTile_PlIntfStrmWidCfg(&(TileInst[6][0]), 0, 0,64);
+	// S_EAST_ch0_C22_R0 M_SOUTH_ch0_C22_R0 net99
 
-	XAieTile_StrmConnectCct(&(TileInst[23][1]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[23][1])), 0), XAIETILE_STRSW_MPORT_SOUTH((&(TileInst[23][1])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[22][1]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[22][1])), 0), XAIETILE_STRSW_MPORT_SOUTH((&(TileInst[22][1])), 0), XAIE_ENABLE);
 
-	// S_EAST_ch3_C24_R0 M_WEST_ch0_C24_R0 net99
+	// S_EAST_ch3_C23_R0 M_WEST_ch0_C23_R0 net99
 
-	XAieTile_StrmConnectCct(&(TileInst[24][1]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[24][1])), 3), XAIETILE_STRSW_MPORT_WEST((&(TileInst[24][1])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[23][1]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[23][1])), 3), XAIETILE_STRSW_MPORT_WEST((&(TileInst[23][1])), 0), XAIE_ENABLE);
+
+	// S_EAST_ch3_C24_R0 M_WEST_ch3_C24_R0 net99
+
+	XAieTile_StrmConnectCct(&(TileInst[24][1]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[24][1])), 3), XAIETILE_STRSW_MPORT_WEST((&(TileInst[24][1])), 3), XAIE_ENABLE);
 
 	// S_EAST_ch3_C25_R0 M_WEST_ch3_C25_R0 net99
 
@@ -255,10 +258,6 @@ extern "C"
 
 	XAieTile_StrmConnectCct(&(TileInst[21][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[21][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[21][0])), 0), XAIE_ENABLE);
 
-	// S_SHIM_EAST_ch0_C22 M_SHIM_WEST_ch0_C22 net99
-
-	XAieTile_StrmConnectCct(&(TileInst[22][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[22][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[22][0])), 0), XAIE_ENABLE);
-
 	// S_SHIM_EAST_ch0_C3 M_SHIM_WEST_ch0_C3 net0
 
 	XAieTile_StrmConnectCct(&(TileInst[3][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[3][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[3][0])), 0), XAIE_ENABLE);
@@ -271,13 +270,13 @@ extern "C"
 
 	XAieTile_StrmConnectCct(&(TileInst[5][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[5][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[5][0])), 0), XAIE_ENABLE);
 
-	// S_SHIM_EAST_ch0_C6 M_SHIM_WEST_ch0_C6 net0
+	// S_SHIM_EAST_ch0_C6 M_SHIM_SOUTH_ch0_C6 net99
 
-	XAieTile_StrmConnectCct(&(TileInst[6][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[6][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[6][0])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[6][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[6][0])), 0), XAIETILE_STRSW_MPORT_SOUTH((&(TileInst[6][0])), 0), XAIE_ENABLE);
 
-	// S_SHIM_EAST_ch0_C7 M_SHIM_SOUTH_ch0_C7 net99
+	// S_SHIM_EAST_ch0_C7 M_SHIM_WEST_ch0_C7 net99
 
-	XAieTile_StrmConnectCct(&(TileInst[7][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[7][0])), 0), XAIETILE_STRSW_MPORT_SOUTH((&(TileInst[7][0])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[7][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[7][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[7][0])), 0), XAIE_ENABLE);
 
 	// S_SHIM_EAST_ch0_C8 M_SHIM_WEST_ch0_C8 net99
 
@@ -287,17 +286,21 @@ extern "C"
 
 	XAieTile_StrmConnectCct(&(TileInst[9][0]), XAIETILE_STRSW_SPORT_EAST((&(TileInst[9][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[9][0])), 0), XAIE_ENABLE);
 
-	// S_SHIM_NORTH_ch0_C23 M_SHIM_WEST_ch0_C23 net99
+	// S_SHIM_NORTH_ch0_C22 M_SHIM_WEST_ch0_C22 net99
 
-	XAieTile_StrmConnectCct(&(TileInst[23][0]), XAIETILE_STRSW_SPORT_NORTH((&(TileInst[23][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[23][0])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[22][0]), XAIETILE_STRSW_SPORT_NORTH((&(TileInst[22][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[22][0])), 0), XAIE_ENABLE);
 
-	// S_SHIM_SOUTH_ch0_C7 M_SHIM_WEST_ch0_C7 net0
+	// S_SHIM_SOUTH_ch0_C6 M_SHIM_WEST_ch0_C6 net0
 
-	XAieTile_StrmConnectCct(&(TileInst[7][0]), XAIETILE_STRSW_SPORT_SOUTH((&(TileInst[7][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[7][0])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[6][0]), XAIETILE_STRSW_SPORT_SOUTH((&(TileInst[6][0])), 0), XAIETILE_STRSW_MPORT_WEST((&(TileInst[6][0])), 0), XAIE_ENABLE);
 
-	// S_SOUTH_ch0_C0_R0 M_S2MM_DMA_ch0_C0_R0 net0
+	// S_SOUTH_ch0_C0_R0 M_NORTH_ch0_C0_R0 net0
 
-	XAieTile_StrmConnectCct(&(TileInst[0][1]), XAIETILE_STRSW_SPORT_SOUTH((&(TileInst[0][1])), 0), XAIETILE_STRSW_MPORT_DMA((&(TileInst[0][1])), 0), XAIE_ENABLE);
+	XAieTile_StrmConnectCct(&(TileInst[0][1]), XAIETILE_STRSW_SPORT_SOUTH((&(TileInst[0][1])), 0), XAIETILE_STRSW_MPORT_NORTH((&(TileInst[0][1])), 0), XAIE_ENABLE);
+
+	// S_SOUTH_ch0_C0_R1 M_S2MM_DMA_ch0_C0_R1 net0
+
+	XAieTile_StrmConnectCct(&(TileInst[0][2]), XAIETILE_STRSW_SPORT_SOUTH((&(TileInst[0][2])), 0), XAIETILE_STRSW_MPORT_DMA((&(TileInst[0][2])), 0), XAIE_ENABLE);
 
 	 //Bypass elf loading while generating AIE CDO 
 	#ifndef __CDO__
@@ -356,17 +359,17 @@ extern "C"
 
 	XAieLib_print("Configuring DMAs of graph my_graph...\n");
 
-	XAieDma_TileInitialize(&(TileInst[0][1]), &TileDmaInst);
+	XAieDma_TileInitialize(&(TileInst[0][2]), &TileDmaInst);
 
 	//Setting buffer buf0
 	XAieDma_TileBdSetLock(&TileDmaInst, 0, XAIEDMA_TILE_BD_ADDRA, 0, XAIE_ENABLE, 1, XAIE_ENABLE, 0);
-	XAieDma_TileBdSetAdrLenMod(&TileDmaInst, 0, 0x3820, 0, 2000, XAIE_DISABLE, XAIE_DISABLE);
+	XAieDma_TileBdSetAdrLenMod(&TileDmaInst, 0, 0x0, 0, 2000, XAIE_DISABLE, XAIE_DISABLE);
 	XAieDma_TileBdSetNext(&TileDmaInst, 0, 1);
 	XAieDma_TileBdWrite(&TileDmaInst, 0);
 
 	//Setting buffer buf0d
 	XAieDma_TileBdSetLock(&TileDmaInst, 1, XAIEDMA_TILE_BD_ADDRA, 1, XAIE_ENABLE, 1, XAIE_ENABLE, 0);
-	XAieDma_TileBdSetAdrLenMod(&TileDmaInst, 1, 0x5000, 0, 2000, XAIE_DISABLE, XAIE_DISABLE);
+	XAieDma_TileBdSetAdrLenMod(&TileDmaInst, 1, 0x5820, 0, 2000, XAIE_DISABLE, XAIE_DISABLE);
 	XAieDma_TileBdSetNext(&TileDmaInst, 1, 0);
 	XAieDma_TileBdWrite(&TileDmaInst, 1);
 
@@ -390,7 +393,7 @@ extern "C"
 	XAieDma_TileSetStartBd((&TileDmaInst) , XAIEDMA_TILE_CHNUM_MM2S0, 0);
 	XAieDma_TileChControl((&TileDmaInst) , XAIEDMA_TILE_CHNUM_MM2S0, XAIE_RESETDISABLE, XAIE_ENABLE);
 
-	XAieTile_PlIntfDownszrEnable(&(TileInst[7][0]),0);
+	XAieTile_PlIntfDownszrEnable(&(TileInst[6][0]),0);
 
 
     #endif
@@ -574,7 +577,7 @@ extern "C"
   {
 
     // Set test-iterations for the core(s) of graph my_graph
-    XAieTile_DmWriteWord(&(TileInst[0][2]), 0x4, test_iterations);
+    XAieTile_DmWriteWord(&(TileInst[0][1]), 0x824, test_iterations);
     XAieTile_DmWriteWord(&(TileInst[1][2]), 0x4, test_iterations);
     XAieTile_DmWriteWord(&(TileInst[2][2]), 0x4, test_iterations);
     XAieTile_DmWriteWord(&(TileInst[3][2]), 0x4, test_iterations);
@@ -965,7 +968,7 @@ extern "C"
   void my_graph_end(bool &is_graph_running)
   {
 
-	XAieLib_print("Waiting for core(s) of graph my_graphto finish execution...\n");
+	XAieLib_print("Waiting for core(s) of graph my_graph to finish execution...\n");
     while(!(unsigned)XAieTile_CoreWaitStatus(&(TileInst[0][1]), 0, XAIETILE_CORE_STATUS_DONE)); 
     XAieTile_CoreControl(&(TileInst[0][1]), XAIE_DISABLE, XAIE_DISABLE);
     while(!(unsigned)XAieTile_CoreWaitStatus(&(TileInst[1][1]), 0, XAIETILE_CORE_STATUS_DONE)); 
@@ -1071,7 +1074,7 @@ extern "C"
 
 	XAieLib_print("core(s) are done executing...\n");
 
-	XAieTile_PlIntfDownszrDisable(&(TileInst[7][0]),0);
+	XAieTile_PlIntfDownszrDisable(&(TileInst[6][0]),0);
     return;
   }
 
@@ -1144,7 +1147,7 @@ extern "C"
       is_graph_running = false;
     }
 
-	XAieTile_PlIntfDownszrDisable(&(TileInst[7][0]),0);
+	XAieTile_PlIntfDownszrDisable(&(TileInst[6][0]),0);
     return;
   }
 
@@ -1152,7 +1155,7 @@ extern "C"
  void my_graph_wait(bool &is_graph_running)
  {
 
-	XAieLib_print("Waiting for core(s) of graph my_graphto finish execution...\n");
+	XAieLib_print("Waiting for core(s) of graph my_graph to finish execution...\n");
     while(!(unsigned)XAieTile_CoreWaitStatus(&(TileInst[0][1]), 0, XAIETILE_CORE_STATUS_DONE)); 
     XAieTile_CoreControl(&(TileInst[0][1]), XAIE_DISABLE, XAIE_DISABLE);
     while(!(unsigned)XAieTile_CoreWaitStatus(&(TileInst[1][1]), 0, XAIETILE_CORE_STATUS_DONE)); 
