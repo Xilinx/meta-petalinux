@@ -18,7 +18,7 @@ SRC_URI = " \
 "
 
 SRCREV_gstreamer-xlnx = "c3c502011e3585749c664e6d2125c49419bb9889"
-SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
+SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
 PACKAGECONFIG_append = " gst-tracer-hooks"

@@ -29,7 +29,7 @@ SRC_URI = " \
 "
 
 SRCREV_base = "0deb29a2e32b92cfd92d61136576d9fa310528c1"
-SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
+SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
 PACKAGECONFIG_append = " opus"

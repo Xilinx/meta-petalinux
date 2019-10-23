@@ -11,7 +11,7 @@ SRC_URI = " \
 	"
 
 SRCREV_gst-omx = "f511f62c737318dc329a6417dca5d38065d70a77"
-SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
+SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gst-omx"
 
 S = "${WORKDIR}/git"
