@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 DEPENDS += "libmetal"
 
-SRC_URI = "git://gitenterprise.xilinx.com/Linux/linux-examples.git;protocol=https;nobranch=1"
+SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;nobranch=1"
 SRCREV = "06501085caa27d3141d10c687e07bb49acfd7b81"
 
 COMPATIBLE_MACHINE = "^$"
