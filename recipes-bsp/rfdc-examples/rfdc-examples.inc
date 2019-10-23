@@ -1,8 +1,10 @@
 LICENSE = "BSD"
+LIC_FILES_CHKSUM="file://license.txt;md5=cdeb576635c5f585881bc24b1339765f"
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
 BRANCH ??= "release-2019.2"
 SRCREV ??= "da1b622355c9bc0a80f1f08d88b01cbab6dc2698"
+
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 
