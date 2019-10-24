@@ -33,7 +33,7 @@ case "$1" in
     else
         echo "Starting $name"
         cd "$dir"
-        $cmd >> "$stdout_log" 2>> "$stderr_log" &
+        $cmd &
         echo $! > "$pid_file"
         if ! is_running; then
             echo "Unable to start, see $stdout_log and $stderr_log"
