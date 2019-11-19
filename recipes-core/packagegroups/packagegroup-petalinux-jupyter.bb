@@ -4,7 +4,7 @@ inherit packagegroup
 
 JUPYTER_NOTEBOOK_PACKAGES = " \
 	packagegroup-python3-jupyter \
-	python3-runpy \
+	python3-core \
 	python3-ipywidgets \
 	liberation-fonts \
 	start-jupyter \
