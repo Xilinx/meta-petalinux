@@ -8,9 +8,7 @@ PYTHON_MODULES = " \
 	python-pip \
 	python-multiprocessing \
 	python3-multiprocessing \
-	python-numpy \
 	python3-numpy \
-	python-scons \
 	python-shell \
 	python3-shell \
 	python-threading \
