@@ -13,9 +13,6 @@ SRC_URI = " \
     git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
-    file://0001-gstrtpmp4gpay-set-dafault-value-for-MPEG4-without-co.patch \
-    file://avoid-including-sys-poll.h-directly.patch \
-    file://ensure-valid-sentinel-for-gst_structure_get.patch \
 "
 
 SRCREV_base = "29b75b92985f58770c9580b58582404eadbb256a"

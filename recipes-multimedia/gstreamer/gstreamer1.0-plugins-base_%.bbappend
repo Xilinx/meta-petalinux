@@ -17,14 +17,11 @@ SRC_URI = " \
     file://get-caps-from-src-pad-when-query-caps.patch \
     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
     file://make-gio_unix_2_0-dependency-configurable.patch \
-    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
     file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
     file://0003-riff-add-missing-include-directories-when-calling-in.patch \
     file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
     file://0009-glimagesink-Downrank-to-marginal.patch \
     file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
-    file://0010-gl-Add-switch-for-explicitely-enabling-disabling-GBM.patch \
-    file://0011-gl-Add-switches-for-explicitely-enabling-disabling-P.patch \
     file://link-with-libvchostif.patch \
 "
 

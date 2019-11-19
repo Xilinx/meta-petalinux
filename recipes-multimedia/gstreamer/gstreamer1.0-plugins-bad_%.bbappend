@@ -18,7 +18,6 @@ SRC_URI = " \
     file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
     file://avoid-including-sys-poll.h-directly.patch \
     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
-    file://0001-Makefile.am-don-t-hardcode-libtool-name-when-running.patch \
 "
 
 SRCREV_base = "33016ba0374828b3188f9c9b236b185a5496cfe7"
