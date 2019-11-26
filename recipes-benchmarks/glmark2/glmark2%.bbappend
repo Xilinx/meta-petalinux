@@ -1,7 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " file://0001-fbdev-Add-support-for-fbdev-backend.patch \
-                   file://0001-Make-RGB565-as-default-EGLconfig.patch \
+SRC_URI_append = " file://0001-Make-RGB565-as-default-EGLconfig.patch \
                    file://0001-src-options.cpp-Add-options-to-configure-bpp-and-dep.patch \
 		"
 
