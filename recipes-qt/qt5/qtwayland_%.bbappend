@@ -10,5 +10,5 @@ PACKAGECONFIG = " \
     wayland-client \
     wayland-server \
     wayland-egl \
-    drm-egl-server \
+    wayland-drm-egl-server-buffer \
 "
