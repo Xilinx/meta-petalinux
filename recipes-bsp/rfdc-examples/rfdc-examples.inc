@@ -8,7 +8,7 @@ SRCREV ??= "e8db5fb118229fdc621e0ec7848641a23bf60998"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
+BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
 PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"

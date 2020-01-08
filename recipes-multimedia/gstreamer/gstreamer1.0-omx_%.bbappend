@@ -1,7 +1,7 @@
 BRANCH ?= "release-2019.2"
 REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
 
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
+BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 PV = "1.16.0+git${SRCPV}"
 

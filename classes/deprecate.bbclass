@@ -1,8 +1,8 @@
 ALTERNATIVE ?= ""
 
 python do_deprecate() {
-  package = d.getVar('PN', True)
-  alternative = d.getVar('ALTERNATIVE', True)
+  package = d.getVar('PN')
+  alternative = d.getVar('ALTERNATIVE')
   if alternative:
     bb.warn("Deprecated package %s, use %s instead" % (package, alternative))
   else:
