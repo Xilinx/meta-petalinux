@@ -11,6 +11,7 @@ SYSTEM_CONTROLLER_PACKAGES = " \
         python3-itsdangerous \
         python3-twisted \
         python3-gevent \
+        python3-matplotlib \
         packagegroup-petalinux-lmsensors \
         i2c-tools \
         libgpiod \
