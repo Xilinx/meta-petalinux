@@ -1,0 +1,35 @@
+From 8fc42666657eed2dbcbcc6673d8e18c1f57f6792 Mon Sep 17 00:00:00 2001
+From: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+Date: Tue, 28 Jan 2020 16:17:46 -0800
+Subject: [PATCH 2/2] src: egl: eglinfo: Use EGL_PLATFORM_DEVICE_EXT only if
+ the EGL provider supports it
+
+Compiling against the other EGL provider like mali fails, as they dont
+support this macro as one of thier supported platforms
+
+Signed-off-by: Madhurkiran Harikrishnan <madhurkiran.harikrishnan@xilinx.com>
+upstream-status: Inappropritate [Xilinx specific]
+---
+ src/egl/opengl/eglinfo.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/egl/opengl/eglinfo.c b/src/egl/opengl/eglinfo.c
+index c65ad38..cd90b30 100644
+--- a/src/egl/opengl/eglinfo.c
++++ b/src/egl/opengl/eglinfo.c
+@@ -234,10 +234,12 @@ main(int argc, char *argv[])
+            ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_X11_KHR,
+                                                   EGL_DEFAULT_DISPLAY,
+                                                   NULL), "X11 platform");
++#ifdef EGL_PLATFORM_DEVICE_EXT
+        if (strstr(clientext, "EGL_EXT_platform_device"))
+            ret += doOneDisplay(getPlatformDisplay(EGL_PLATFORM_DEVICE_EXT,
+                                                   EGL_DEFAULT_DISPLAY,
+                                                   NULL), "Device platform");
++#endif
+    }
+    else {
+       ret = doOneDisplay(eglGetDisplay(EGL_DEFAULT_DISPLAY), "Default display");
+-- 
+2.7.4
+
