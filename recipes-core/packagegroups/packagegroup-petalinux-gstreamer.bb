@@ -14,5 +14,5 @@ GSTREAMER_PACKAGES = " \
 	gst-perf \
 	gst-interpipes \
 	"
-GSTREAMER_PACKAGES_zynqmp = " gstreamer1.0-omx"
+GSTREAMER_PACKAGES_append_zynqmp = " gstreamer1.0-omx"
 RDEPENDS_${PN} = "${GSTREAMER_PACKAGES}"
