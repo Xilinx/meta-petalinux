@@ -9,7 +9,7 @@ UTILS_PACKAGES = " \
 	mtd-utils \
 	usbutils \
 	pciutils \
-	canutils \
+	can-utils \
 	i2c-tools \
 	smartmontools \
 	e2fsprogs \

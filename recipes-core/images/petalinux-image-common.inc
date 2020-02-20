@@ -18,7 +18,7 @@ COMMON_INSTALL = " \
     tcf-agent \
     mtd-utils \
     bridge-utils \
-    canutils \
+    can-utils \
     pciutils \
     kernel-modules \
     "
