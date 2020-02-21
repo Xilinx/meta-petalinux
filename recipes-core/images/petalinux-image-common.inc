@@ -27,6 +27,7 @@ IMAGE_INSTALL = " \
     packagegroup-core-boot \
     ${COMMON_INSTALL} \
     ${CORE_IMAGE_EXTRA_INSTALL} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'packagegroup-petalinux-ocicontainers', '', d)} \
     "
 
 COMMON_INSTALL_append_zynqmp = " hellopm haveged"
