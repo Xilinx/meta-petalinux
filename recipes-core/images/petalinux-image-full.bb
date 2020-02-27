@@ -44,6 +44,7 @@ ZYNQMP_FEATURES = " \
     petalinux-mraa \
     petalinux-xrt \
     petalinux-96boards-sensors \
+    petalinux-vitisai \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
