@@ -8,6 +8,8 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 SRC_URI = "${REPO};${BRANCHARG}"
 
+DEPENDS += "image-builder-native"
+
 require xen-xilinx.inc
 
 DEFAULT_PREFERENCE = "+1"
