@@ -7,16 +7,14 @@ SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = " \
-	   file://reset-aie-array.sh \
-	   file://aie-matrix-multiplication \
-	   file://Work \
-	  "
+SRC_URI = "git://gitenterprise.xilinx.com/ai-engine/xgemm.git;protocol=https;branch=rel-v2020.1"
+SRCREV = "ab12d373f21aac893163ee706141e0f37b37d88d"
+
 DEPENDS = "ai-engine-driver"
 RDEPENDS_${PN}  = "ai-engine-driver"
 INSANE_SKIP_${PN} += " arch"
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/git/"
 
 do_install() {
 	install -d ${D}${bindir}
