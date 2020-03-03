@@ -1,0 +1,128 @@
+From a2d588fe12dd55b222bcd31d683bd17a41326df7 Mon Sep 17 00:00:00 2001
+From: Devarsh Thakkar <devarsh.thakkar@xilinx.com>
+Date: Fri, 15 Nov 2019 06:31:00 -0800
+Subject: [PATCH] modetest: Add support for setting mode having floating
+ vertical refresh rate
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+For the scenario where user may require to modeset with a mode
+supporting a fractional value for vertical refresh-rate,
+appropriate mode can be selected by searching for mode
+having matching fractional vertical refresh rate using
+below equation.
+
+vrefresh = (1000 * pixel clock) / (htotal * vtotal) Hz.
+
+We do this way since driver doesn't return float value of vrefresh
+as it use int for vrefresh in struct drm_mode_info, but we can derive
+the actual value using pixel clock, horizontal total size and
+vertical total size values.
+
+So for e.g. if user want to select mode having 59.94 Hz as refresh rate
+then with this patch it be can done as shown in below command,
+given there is an appropriate mode is available :
+
+modetest -M xlnx -s 39:1920x1080-59.94@BG24 -v
+
+NOTE: Above command was tested on xilinx DRM driver with DP
+monitor which was supporting mode having 59.94 Hz refresh rate.
+
+V2: Update commit message
+V3: Update with below changes as per review comments :
+  1) Use epsilon for vrefresh comparison
+  2) Use implicit type-casting wherever possible
+V4: Keep patch version history on main commit message
+
+Upstream-Status: Backport
+
+Signed-off-by: Devarsh Thakkar <devarsh.thakkar@xilinx.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ tests/modetest/modetest.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+index e66be66..b4edfcb 100644
+--- a/tests/modetest/modetest.c
++++ b/tests/modetest/modetest.c
+@@ -54,6 +54,7 @@
+ #ifdef HAVE_SYS_SELECT_H
+ #include <sys/select.h>
+ #endif
++#include <math.h>
+ 
+ #include "xf86drm.h"
+ #include "xf86drmMode.h"
+@@ -795,7 +796,7 @@ struct pipe_arg {
+ 	uint32_t crtc_id;
+ 	char mode_str[64];
+ 	char format_str[5];
+-	unsigned int vrefresh;
++	float vrefresh;
+ 	unsigned int fourcc;
+ 	drmModeModeInfo *mode;
+ 	struct crtc *crtc;
+@@ -822,11 +823,12 @@ struct plane_arg {
+ 
+ static drmModeModeInfo *
+ connector_find_mode(struct device *dev, uint32_t con_id, const char *mode_str,
+-        const unsigned int vrefresh)
++	const float vrefresh)
+ {
+ 	drmModeConnector *connector;
+ 	drmModeModeInfo *mode;
+ 	int i;
++	float mode_vrefresh;
+ 
+ 	connector = get_connector_by_id(dev, con_id);
+ 	if (!connector || !connector->count_modes)
+@@ -839,9 +841,11 @@ connector_find_mode(struct device *dev, uint32_t con_id, const char *mode_str,
+ 			 * first mode that match with the name. Else, return the mode that match
+ 			 * the name and the specified vertical refresh frequency.
+ 			 */
++			mode_vrefresh = mode->clock * 1000.00
++					/ (mode->htotal * mode->vtotal);
+ 			if (vrefresh == 0)
+ 				return mode;
+-			else if (mode->vrefresh == vrefresh)
++			else if (fabs(mode_vrefresh - vrefresh) < 0.005)
+ 				return mode;
+ 		}
+ 	}
+@@ -1393,8 +1397,8 @@ static void atomic_set_mode(struct device *dev, struct pipe_arg *pipes, unsigned
+ 		if (pipe->mode == NULL)
+ 			continue;
+ 
+-		printf("setting mode %s-%dHz on connectors ",
+-		       pipe->mode_str, pipe->mode->vrefresh);
++		printf("setting mode %s-%.2fHz on connectors ",
++		       pipe->mode_str, pipe->vrefresh);
+ 		for (j = 0; j < pipe->num_cons; ++j) {
+ 			printf("%s, ", pipe->cons[j]);
+ 			add_property(dev, pipe->con_ids[j], "CRTC_ID", pipe->crtc->crtc->crtc_id);
+@@ -1476,8 +1480,8 @@ static void set_mode(struct device *dev, struct pipe_arg *pipes, unsigned int co
+ 		if (pipe->mode == NULL)
+ 			continue;
+ 
+-		printf("setting mode %s-%dHz@%s on connectors ",
+-		       pipe->mode_str, pipe->mode->vrefresh, pipe->format_str);
++		printf("setting mode %s-%.2fHz@%s on connectors ",
++		       pipe->mode_str, pipe->vrefresh, pipe->format_str);
+ 		for (j = 0; j < pipe->num_cons; ++j)
+ 			printf("%s, ", pipe->cons[j]);
+ 		printf("crtc %d\n", pipe->crtc->crtc->crtc_id);
+@@ -1713,7 +1717,7 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
+ 	pipe->mode_str[len] = '\0';
+ 
+ 	if (*p == '-') {
+-		pipe->vrefresh = strtoul(p + 1, &endp, 10);
++		pipe->vrefresh = strtof(p + 1, &endp);
+ 		p = endp;
+ 	}
+ 
+-- 
+2.7.4
+
