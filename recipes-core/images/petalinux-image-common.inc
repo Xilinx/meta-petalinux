@@ -103,3 +103,5 @@ FEATURE_PACKAGES_petalinux-pynq-helloworld ?= "packagegroup-petalinux-pynq-hello
 FEATURE_PACKAGES_petalinux-pynq-helloworld[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
 FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
+FEATURE_PACKAGES_petalinux-updateboot ?= "packagegroup-petalinux-updateboot"
+FEATURE_PACKAGES_petalinux-updateboot[optional] ?= "1"
