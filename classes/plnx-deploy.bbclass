@@ -134,7 +134,7 @@ python plnx_deploy() {
 
     if pn == 'u-boot-zynq-scr':
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
-        d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxeboot.cfg' )
+        d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
     
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
