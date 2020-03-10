@@ -38,4 +38,4 @@ do_install() {
 
 }
 
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY}${SOC_VARIANT}"
+PACKAGE_ARCH_zynqmp = "${SOC_VARIANT_ARCH}"

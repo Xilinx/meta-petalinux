@@ -11,7 +11,7 @@ COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
 
-PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
+PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 
 DEPENDS = "rfdc"
 RDEPENDS_${PN} = "rfdc"

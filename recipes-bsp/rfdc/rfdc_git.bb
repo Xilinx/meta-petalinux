@@ -22,7 +22,7 @@ SRC_URI = " \
 
 S = "${WORKDIR}/git"
 
-PACKAGE_ARCH = "${SOC_FAMILY}${SOC_VARIANT}"
+PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 
 DEPENDS = "libmetal"
 

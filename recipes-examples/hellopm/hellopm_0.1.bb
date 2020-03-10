@@ -22,4 +22,4 @@ do_install() {
 	install -Dm 0755 ${S}/hellopm.sh ${D}${bindir}/hellopm
 }
 
-PACKAGE_ARCH = "${SOC_FAMILY}"
+PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"

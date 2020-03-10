@@ -47,4 +47,4 @@ do_install() {
 
 EXCLUDE_FROM_WORLD = "1"
 
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY}${SOC_VARIANT}"
+PACKAGE_ARCH_zynqmp = "${SOC_VARIANT_ARCH}"

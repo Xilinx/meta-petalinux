@@ -13,5 +13,5 @@ do_install() {
 
 EXCLUDE_FROM_WORLD = "1"
 
-PACKAGE_ARCH = "${SOC_FAMILY}"
+PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"
 
