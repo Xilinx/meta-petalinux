@@ -27,7 +27,6 @@ IMAGE_INSTALL = " \
     packagegroup-core-boot \
     ${COMMON_INSTALL} \
     ${CORE_IMAGE_EXTRA_INSTALL} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'packagegroup-petalinux-ocicontainers', '', d)} \
     "
 
 COMMON_INSTALL_append_zynqmp = " hellopm haveged"
@@ -105,3 +104,5 @@ FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
 FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-updateboot ?= "packagegroup-petalinux-updateboot"
 FEATURE_PACKAGES_petalinux-updateboot[optional] ?= "1"
+FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainers"
+FEATURE_PACKAGES_petalinux-ocicontainers[optional] ?= "1"
