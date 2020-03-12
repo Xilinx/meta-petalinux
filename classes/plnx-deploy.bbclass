@@ -56,12 +56,8 @@ QEMU_MULTI_HWDTBS_zynqmp ?= " \
 		qemu-hw-devicetrees/multiarch/zcu102-arm.dtb:zynqmp-qemu-multiarch-arm.dtb \
 		qemu-hw-devicetrees/multiarch/zynqmp-pmu.dtb:zynqmp-qemu-multiarch-pmu.dtb"
 
-QEMU_HWDTBS_versal ?= "qemu-hw-devicetrees/board-versal-ps-virt.dtb:versal-qemu-ps.dtb"
-QEMU_HWDTBS_vc-p-a2197-00-versal ?= "qemu-hw-devicetrees/board-versal-ps-vc-p-a2197-00.dtb:versal-qemu-ps.dtb"
+QEMU_HWDTBS_versal ?= "qemu-hw-devicetrees/board-versal-ps-vc-p-a2197-00.dtb:versal-qemu-ps.dtb"
 QEMU_MULTI_HWDTBS_versal ?= " \
-		qemu-hw-devicetrees/multiarch/board-versal-ps-virt.dtb:versal-qemu-multiarch-ps.dtb \
-		qemu-hw-devicetrees/multiarch/board-versal-pmc-virt.dtb:versal-qemu-multiarch-pmc.dtb"
-QEMU_MULTI_HWDTBS_vc-p-a2197-00-versal ?= " \
 		qemu-hw-devicetrees/multiarch/board-versal-ps-vc-p-a2197-00.dtb:versal-qemu-multiarch-ps.dtb \
 		qemu-hw-devicetrees/multiarch/board-versal-pmc-vc-p-a2197-00.dtb:versal-qemu-multiarch-pmc.dtb"
 
