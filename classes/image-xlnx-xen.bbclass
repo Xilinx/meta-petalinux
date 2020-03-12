@@ -37,7 +37,8 @@ EOL
 
 do_compile_image_builder() {
 	if [ -f "${XEN_CONFIG}" ]; then
-		${STAGING_BINDIR_NATIVE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}")
+		${STAGING_BINDIR_NATIVE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o xen_boot_tftp
+		${STAGING_BINDIR_NATIVE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o xen_boot_sd
 	fi
 }
 
