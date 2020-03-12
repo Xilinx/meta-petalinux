@@ -9,7 +9,7 @@ RDEPENDS_${PN} += "bash"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 SRC_URI = "git://gitenterprise.xilinx.com/Xen/imagebuilder.git;branch=master;protocol=https"
 BRANCH ??= "master"
-SRCREV ??= "779a2203bad52ab786f371f77c8d25f0cb186bca"
+SRCREV ??= "4f53c7af211f919f34651828b97cae84cd00d7e7"
 
 S = "${WORKDIR}/git"
 
