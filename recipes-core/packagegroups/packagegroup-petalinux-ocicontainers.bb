@@ -8,7 +8,8 @@ OCI_PACKAGES = " \
 	docker \
 	runc-opencontainers \
 	containerd-opencontainers \
-	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)} \
 	"
+OCI_PACKAGES_append_zynqmp = " ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)}"
+OCI_PACKAGES_append_versal = " ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)}"
 
 RDEPENDS_${PN} = "${OCI_PACKAGES}"
