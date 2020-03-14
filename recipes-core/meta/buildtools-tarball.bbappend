@@ -18,6 +18,8 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-tftp-hpa \
 	nativesdk-diffstat \
 	nativesdk-gnupg \
+	nativesdk-bzip2 \
+	nativesdk-kconfig-frontends \
 "
 
 create_sdk_files_append () {
