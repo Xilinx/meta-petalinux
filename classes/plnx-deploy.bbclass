@@ -6,6 +6,7 @@ python () {
     if pn in packagelist:
         copyfiles_append(d)
         d.appendVarFlag('do_deploy', 'postfuncs', ' plnx_deploy')
+        d.appendVarFlag('do_deploy_setscene', 'postfuncs', ' plnx_deploy')
 }
 
 DEFAULT_LIST ?= "u-boot-xlnx device-tree linux-xlnx"
