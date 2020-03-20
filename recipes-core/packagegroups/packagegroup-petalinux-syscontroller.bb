@@ -19,4 +19,4 @@ SYSTEM_CONTROLLER_PACKAGES = " \
 RDEPENDS_${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
 
 SYSTEM_CONTROLLER_PACKAGES_append_a2197-zynqmp = " fru-tools"
-SYSTEM_CONTROLLER_PACKAGES_append_vck-sc-zynqmp = "labtool-jtag-support"
+SYSTEM_CONTROLLER_PACKAGES_append_vck-sc-zynqmp = "labtool-jtag-support power-advantage-tool"
