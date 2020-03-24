@@ -24,8 +24,7 @@ SRCREV_base = "33016ba0374828b3188f9c9b236b185a5496cfe7"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
-PACKAGECONFIG[xlnxvideoscale] = "--enable-xlnxvideoscale,--disable-xlnxvideoscale"
-PACKAGECONFIG_append = " faac kms faad opusparse xlnxvideoscale"
+PACKAGECONFIG_append = " faac kms faad opusparse"
 
 S = "${WORKDIR}/git"
 
