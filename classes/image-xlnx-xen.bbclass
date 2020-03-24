@@ -7,8 +7,6 @@ python () {
         d.appendVarFlag('do_deploy', 'postfuncs', ' do_compile_image_builder')
 }
 
-inherit deploy
-
 DEST_PATH = "${OUTPUT_PATH}"
 XEN_CONFIG ?= "${DEST_PATH}/xen.cfg"
 MEMORY_START ?= "0x0"
@@ -37,8 +35,8 @@ EOL
 
 do_compile_image_builder() {
 	if [ -f "${XEN_CONFIG}" ]; then
-		${STAGING_BINDIR_NATIVE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o xen_boot_tftp
-		${STAGING_BINDIR_NATIVE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o xen_boot_sd
+		uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o xen_boot_tftp
+		uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o xen_boot_sd
 	fi
 }
 
