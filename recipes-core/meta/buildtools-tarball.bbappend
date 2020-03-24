@@ -24,5 +24,4 @@ TOOLCHAIN_HOST_TASK += "\
 
 create_sdk_files_append () {
 	echo 'export PETALINUX_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
-	echo 'export PETALINUX_NATIVE_QEMU="${SDKPATHNATIVE}${bindir}/qemu-xilinx"' >> $script
 }
