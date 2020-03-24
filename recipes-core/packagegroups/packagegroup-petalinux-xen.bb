@@ -12,7 +12,7 @@ XEN_EXTRA_PACKAGES = " \
 	kernel-module-xen-wdt \
 	xen-base \
 	xen-xenstat \
-	qemu \
+	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-system-i386', 'qemu', d)} \
 	"
 
 RDEPENDS_${PN} = "${XEN_EXTRA_PACKAGES}"
