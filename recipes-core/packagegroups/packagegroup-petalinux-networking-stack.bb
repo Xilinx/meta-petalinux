@@ -11,6 +11,8 @@ NETWORKING_STACK_PACKAGES = " \
 	iproute2 \
 	iptables \
 	rpcbind \
+	iperf2 \
+	iperf3 \
 	"
 
 RDEPENDS_${PN} = "${NETWORKING_STACK_PACKAGES}"
