@@ -9,7 +9,6 @@ RDEPENDS_${PN} = "\
     protobuf \
     python3-pip \
     opencv \
-    dnndk \
 	"
 
 RDEPENDS_${PN}-dev += "\
