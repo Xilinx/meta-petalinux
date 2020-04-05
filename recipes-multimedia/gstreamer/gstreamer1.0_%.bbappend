@@ -15,6 +15,7 @@ SRC_URI = " \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
     file://add-a-target-to-compile-tests.patch \
     file://run-ptest \
+    file://0001-gst-inspect.c-Set-DEFAULT_PAGER-more-instead-of-less.patch \
 "
 
 SRCREV_gstreamer-xlnx = "c3c502011e3585749c664e6d2125c49419bb9889"
