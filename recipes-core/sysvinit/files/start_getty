@@ -45,7 +45,7 @@ for line in $active_serial; do
 				then
 					if [ -f /bin/autologin ]
 					then
-					    ${setsid:-} ${getty} -l /bin/autologin -L $1 $2 $3
+					    ${setsid:-} ${getty} -n -l /bin/autologin -L $1 $2 $3
 					else
 					    ${setsid:-} ${getty} -L $1 $2 $3
 					fi
