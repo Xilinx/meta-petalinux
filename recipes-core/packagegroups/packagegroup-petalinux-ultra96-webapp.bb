@@ -5,7 +5,7 @@ inherit packagegroup
 REQUIRED_DISTRO_FEATURES = "x11"
 
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
-	chromium \
+	chromium-x11 \
 	ace-cloud-editor \
 	python3-flask \
 	python3-werkzeug \
