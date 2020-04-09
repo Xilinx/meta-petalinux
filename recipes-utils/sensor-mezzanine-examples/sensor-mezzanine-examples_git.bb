@@ -25,6 +25,8 @@ S = "${WORKDIR}/git"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 do_install () {
     install -d ${D}${datadir}/Sensor_Mezzanine_Getting_Started
     rsync -r --exclude=".*" ${S}/* ${D}${datadir}/Sensor_Mezzanine_Getting_Started

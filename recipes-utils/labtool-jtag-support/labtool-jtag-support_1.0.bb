@@ -32,6 +32,8 @@ FILES_${PN} += "${prefix}/local ${prefix}/local/bin ${prefix}/local/lib ${prefix
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 do_configure[noexec]="1"
 do_compile[noexec]="1"
 

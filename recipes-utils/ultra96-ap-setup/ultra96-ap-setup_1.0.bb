@@ -20,6 +20,8 @@ INITSCRIPT_PARAMS = "start 99 S ."
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 RDEPENDS_${PN} = "wpa-supplicant busybox"
 
 S = "${WORKDIR}"

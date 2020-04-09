@@ -30,6 +30,8 @@ FILES_${PN} += "${datadir}/Board_Framework_Phase1Alpha /usr/bin"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 do_configure[noexec]="1"
 do_compile[noexec]="1"
 

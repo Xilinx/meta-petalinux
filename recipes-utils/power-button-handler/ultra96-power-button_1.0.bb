@@ -18,6 +18,8 @@ S = "${WORKDIR}"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 INITSCRIPT_NAME = "ultra96-power-button.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 

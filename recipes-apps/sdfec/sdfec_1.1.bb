@@ -15,6 +15,8 @@ SRCREV = "06501085caa27d3141d10c687e07bb49acfd7b81"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
 
+PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
+
 S = "${WORKDIR}/git/sd-fec-1.1"
 
 TARGETS_APPS ?= "sdfec-demo sdfec-interrupts sdfec-multi-ldpc-codes"

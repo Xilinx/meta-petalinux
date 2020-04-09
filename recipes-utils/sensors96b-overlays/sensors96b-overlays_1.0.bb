@@ -16,6 +16,8 @@ SRC_URI = "git://github.com/Avnet/Ultra96-PYNQ.git;branch=image_v2.4;protocol=ht
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 SRCREV = "bc6675a8c492f17c12b6acdc477343b874a1f217"
 
 S = "${WORKDIR}/git"

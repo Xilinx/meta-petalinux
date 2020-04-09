@@ -27,6 +27,8 @@ FILES_${PN} += "${base_sbindir}/ /var/lib/connman/"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 S = "${WORKDIR}/git"
 
 do_install () {
