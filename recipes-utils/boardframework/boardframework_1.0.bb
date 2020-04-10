@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=96049fee8887e8f
 SRC_URI = "git://gitenterprise.xilinx.com/sethm/BoardFramework.git;branch=master;protocol=https \
            file://LICENSE "
 
-SRCREV="ea6fdee3939112a9246430276c5bf09e24a98485"
+SRCREV="5b08389365ddda2e8d39a8cfa2cb4cb3e147542f"
 
 SRC_URI[md5sum] = "30a3955eeb89f69b8fd56e67c04c787c"
 SRC_URI[sha256sum] = "7b847e57d537a02d5d866d8af0302ef1411b061caf1e0adc2d2486d6929b8e98"
