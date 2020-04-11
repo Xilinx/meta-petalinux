@@ -1,0 +1,36 @@
+new_bif:
+{
+	extended_id_code = 0x01
+
+	image
+	{
+		name = pmc_subsys, id = 0x1c000001
+
+		{type = bootloader, file = plm.elf }
+		{type = pmcdata, load = 0xf2000000, file = pmc_data.cdo}
+	}
+	image
+	{
+		name = pl_cfi, id = 0x1c000009
+		{type = cdo, file = project.rcdo }
+		{type = cdo, file = project.rnpi }
+	}
+	image
+	{
+		name = ss_psm, id = 0x4210002
+		{type = cdo,file = lpd_data.cdo}
+		{core = psm, file = psm_fw.elf }
+	}
+	image
+	{
+		name = fpd, id = 0x420c003
+		{type = cdo, file = fpd_data.cdo}
+	}
+	image
+	{
+		name = subsystem, id = 0x1c000000
+		{type = cdo, file = subsystem.cdo}
+		{file = u-boot.elf }
+		{core = a72-0, exception_level = el-3, trustzone, file = bl31.elf }
+	}
+}
