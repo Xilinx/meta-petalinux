@@ -29,3 +29,5 @@ The demos included are:
 - CPU Hotplug Demo
 - CPU Frequency Scaling Demo
 - CPU Clock Tree Demo
+- PM Suspend-Resume Demo
+- PM Subsystem Restart Demo
