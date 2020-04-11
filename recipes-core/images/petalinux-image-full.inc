@@ -61,5 +61,3 @@ IMAGE_FEATURES_append_microblaze = " ${TRACING_PROFILE_FEATURES}"
 IMAGE_FSTYPES_remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
 
 IMAGE_INSTALL_append = " haveged"
-
-SDK_RDEPENDS_append_task-populate-sdk-ext = " nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
