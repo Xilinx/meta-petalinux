@@ -13,3 +13,5 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gl x
 PACKAGECONFIG[fbdev-glesv2] = ",,virtual/libgles2 virtual/egl"
 
 EXTRA_OECONF_append = "${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', ' --with-flavors=fbdev-glesv2', '', d)}"
+
+PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
