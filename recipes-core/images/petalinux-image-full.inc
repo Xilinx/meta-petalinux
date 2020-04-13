@@ -9,7 +9,7 @@ TRACING_PROFILE_FEATURES = "\
     tools-testapps \
     "
 
-ZYNQ_FEATURES = " \
+PLNX_COMMON_FEATURES = " \
     petalinux-benchmarks \
     dev-pkgs \
     package-management \
@@ -36,25 +36,31 @@ ZYNQ_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
     "
 
-IMAGE_FEATURES_append_zynq = " ${ZYNQ_FEATURES}"
-
-ZYNQMP_FEATURES = " \
-    petalinux-benchmarks \
+PLNX_COMMON_FEATURES_append_aarch64 = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
     petalinux-xrt \
-    petalinux-96boards-sensors \
-    petalinux-vitisai \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-ultra96-webapp', '', d)} \ 
     "
 
-IMAGE_FEATURES_append_zynqmp = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
+ZYNQ_FEATURES = ""
 
-IMAGE_FEATURES_append_versal = " ${ZYNQ_FEATURES} ${ZYNQMP_FEATURES}"
+ZYNQMP_FEATURES = " \
+    petalinux-96boards-sensors \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-ultra96-webapp', '', d)} \ 
+    petalinux-vitisai \
+    "
+
+VERSAL_FEATURES = ""
+
+IMAGE_FEATURES_append_zynq = " ${PLNX_COMMON_FEATURES} ${ZYNQ_FEATURES}"
+
+IMAGE_FEATURES_append_zynqmp = " ${PLNX_COMMON_FEATURES} ${ZYNQMP_FEATURES}"
+
+IMAGE_FEATURES_append_versal = " ${PLNX_COMMON_FEATURES} ${VERSAL_FEATURES}"
 
 IMAGE_FEATURES_append_microblaze = " ${TRACING_PROFILE_FEATURES}"
 
