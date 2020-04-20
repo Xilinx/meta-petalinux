@@ -1,0 +1,38 @@
+#!/bin/sh
+###############################################################################
+# This script is used to automatically set up the xen console(s) on startup.
+# The variable XEN_CONSOLES can be set in meta/conf/machine/*.conf.
+# Script enhancement has been done based on Bug YOCTO #10844.
+# Most of the information is retrieved from /proc virtual filesystem containing
+# all the runtime system information (eg. system memory, device mount, etc).
+###############################################################################
+
+# busybox' getty does this itself, util-linux' agetty needs extra help
+getty="/sbin/getty"
+case $(readlink -f "${getty}") in
+    */busybox*)
+        ;;
+    *)
+        if [ -x "/usr/bin/setsid" ] ; then
+            setsid="/usr/bin/setsid"
+        fi
+        ;;
+esac
+
+# Backup $IFS.
+DEFAULT_IFS=$IFS
+# Customize Internal Field Separator.
+IFS="$(printf '\n\t')"
+
+if [ -c /dev/$2 ]
+then
+    if [ -f /bin/autologin ]
+    then
+        ${setsid:-} ${getty} -n -l /bin/autologin -L $1 $2 $3
+    else
+        ${setsid:-} ${getty} -L $1 $2 $3
+    fi
+fi
+
+# Restore $IFS.
+IFS=$DEFAULT_IFS
