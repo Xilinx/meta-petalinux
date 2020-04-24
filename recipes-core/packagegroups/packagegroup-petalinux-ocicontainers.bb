@@ -10,6 +10,7 @@ OCI_PACKAGES = " \
 	docker \
 	runc-opencontainers \
 	containerd-opencontainers \
+        cgroup-lite \
 	"
 OCI_PACKAGES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)}"
 
