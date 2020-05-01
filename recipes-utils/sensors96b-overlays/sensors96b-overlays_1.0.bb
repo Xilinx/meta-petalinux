@@ -23,16 +23,16 @@ SRCREV = "bc6675a8c492f17c12b6acdc477343b874a1f217"
 S = "${WORKDIR}/git"
 
 FILES_${PN}-notebooks += " \
-    /usr/lib/python3.5/site-packages/pynq/overlays/sensors96b/ \
+    ${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b/ \
 "
 
 do_install () {
    PYNQ_JUPYTER_NOTEBOOKS="${D}${PYNQ_NOTEBOOK_DIR}"
    install -d ${PYNQ_JUPYTER_NOTEBOOKS}/sensors96b
-   install -d ${D}/usr/lib/python3.5/site-packages/pynq/overlays/sensors96b
+   install -d ${D}${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b
 
    cp -r ${S}/${BOARD_NAME}/sensors96b/notebooks/*  ${PYNQ_JUPYTER_NOTEBOOKS}/sensors96b
-   cp -r ${S}/${BOARD_NAME}/sensors96b/* ${D}/usr/lib/python3.5/site-packages/pynq/overlays/sensors96b
+   cp -r ${S}/${BOARD_NAME}/sensors96b/* ${D}${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b
 }
 
 

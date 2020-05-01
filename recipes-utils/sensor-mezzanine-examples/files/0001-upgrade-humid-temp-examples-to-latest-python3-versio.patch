@@ -1,0 +1,36 @@
+From c96804732283ad78e382829286c5d1ef444d27a7 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Thu, 30 Apr 2020 17:38:34 -0700
+Subject: [master][sensor-mezzanine-examples][PATCH] upgrade humid temp
+ examples to latest python3 version
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ humid_temp/Makefile  | 2 +-
+ humid_temp/run_me.sh | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/humid_temp/Makefile b/humid_temp/Makefile
+index 0fdd390..40c0ade 100644
+--- a/humid_temp/Makefile
++++ b/humid_temp/Makefile
+@@ -1,5 +1,5 @@
+ MONITOR_PORT=/dev/ttyS2
+ include /usr/share/arduino/Arduino.mk
+ run: upload
+-	python3.5 humid_temp.py
++	python3 humid_temp.py
+ 
+diff --git a/humid_temp/run_me.sh b/humid_temp/run_me.sh
+index ca66e12..926e5ea 100755
+--- a/humid_temp/run_me.sh
++++ b/humid_temp/run_me.sh
+@@ -1,4 +1,4 @@
+ #!/bin/bash
+-export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.5/site-packages/upm
++export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.7/site-packages/upm
+ cd /usr/share/Sensor_Mezzanine_Getting_Started/humid_temp
+ make run
+-- 
+2.7.4
+

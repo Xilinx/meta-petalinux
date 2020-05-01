@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/96boards/Sensor_Mezzanine_Getting_Started.git;protoc
         file://0005-touch_switch.cpp-Connect-the-touch-sensor-to-differe.patch \
         file://0006-upgrade-humid-temp-examples-to-python3.patch \
         file://0007-Added-backup-files-to-all-the-source-files.patch \
+        file://0001-upgrade-humid-temp-examples-to-latest-python3-versio.patch \
 "
 
 # Modify these as desired

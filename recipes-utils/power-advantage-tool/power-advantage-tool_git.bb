@@ -26,11 +26,11 @@ RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
 do_install() {
     install -d ${D}/${JUPYTER_DIR}/power-advantage-tool
     install -d ${D}/${JUPYTER_DIR}/power-advantage-tool/img
-    install -d ${D}${libdir}/python3.5/site-packages/poweradvantage
+    install -d ${D}${PYTHON_SITEPACKAGES_DIR}/poweradvantage
 
     install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/power-advantage-tool
     install -m 0755 ${S}/img/* ${D}/${JUPYTER_DIR}/power-advantage-tool/img
-    install -m 0755 ${S}/poweradvantage/* ${D}${libdir}/python3.5/site-packages/poweradvantage
+    install -m 0755 ${S}/poweradvantage/* ${D}${PYTHON_SITEPACKAGES_DIR}/poweradvantage
 }
 
 FILES_${PN} += "${libdir}/* ${JUPYTER_DIR}/*"
