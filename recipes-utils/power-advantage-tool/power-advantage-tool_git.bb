@@ -7,7 +7,7 @@ SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-inherit jupyter-examples
+inherit jupyter-examples python3-dir
 
 SRC_URI = "git://gitenterprise.xilinx.com/PowerAdvantageTool/jupyter-pat.git;protocol=https;nobranch=1"
 
@@ -33,4 +33,4 @@ do_install() {
     install -m 0755 ${S}/poweradvantage/* ${D}${PYTHON_SITEPACKAGES_DIR}/poweradvantage
 }
 
-FILES_${PN} += "${libdir}/* ${JUPYTER_DIR}/*"
+FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}/poweradvantage/* ${JUPYTER_DIR}/*"

@@ -2,7 +2,7 @@ SUMMARY = "Xilinx sensors96b overlays"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
 
-inherit xilinx-pynq
+inherit xilinx-pynq python3-dir
 
 RDEPENDS_${PN} += "\
     python3-pynq \
