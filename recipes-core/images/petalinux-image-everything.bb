@@ -16,5 +16,3 @@ IMAGE_INSTALL_append_ultra96-zynqmp = " sensor-mezzanine-examples"
 
 # vck-sc-zynqmp recipes
 IMAGE_INSTALL_append_vck-sc-zynqmp = " power-advantage-tool labtool-jtag-support boardframework"
-
-IMAGE_INSTALL_append = " qtgraphicaleffects qtgraphicaleffects-qmlplugins"
