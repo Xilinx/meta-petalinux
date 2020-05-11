@@ -37,7 +37,7 @@ plnx_compile_image_builder() {
 		plnx_config_image_builder
 	fi
 	if [ -f "${XEN_CONFIG}" ]; then
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d ${WORKDIR}/image_builder/ -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d ${WORKDIR}/image_builder/ -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
+                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
+                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
         fi
 }
