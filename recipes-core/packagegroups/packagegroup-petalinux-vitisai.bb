@@ -16,7 +16,8 @@ RDEPENDS_${PN} = "\
     python3-pip \
     opencv \
     dnndkdeploy \
-	"
+    python3-pybind11 \
+    "
 
 RDEPENDS_${PN}-dev += "\
     protobuf-c \
