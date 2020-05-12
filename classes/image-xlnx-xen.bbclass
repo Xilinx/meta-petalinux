@@ -1,5 +1,16 @@
-XEN_CONFIG ?= "${PLNX_DEPLOY_DIR}/xen.cfg"
-XEN_CONFIG_SKIP ?= "0"
+python () {
+    pn = d.getVar("PN")
+    if pn == 'xen':
+        d.appendVarFlag('do_deploy', 'postfuncs', ' do_config_image_builder')
+    if pn == 'linux-xlnx':
+        d.appendVarFlag('do_deploy', 'depends', ' image-builder-native:do_populate_sysroot')
+        d.appendVarFlag('do_deploy', 'postfuncs', ' do_compile_image_builder')
+}
+
+inherit deploy
+
+DEST_PATH = "${OUTPUT_PATH}"
+XEN_CONFIG ?= "${DEST_PATH}/xen.cfg"
 MEMORY_START ?= "0x0"
 MEMORY_END ?= "0x80000000"
 DEVICE_TREE ?= "${@bb.utils.contains('PREFERRED_PROVIDER_virtual/dtb', 'device-tree', 'system.dtb', d.getVar('KERNELDT'), d)}"
@@ -10,13 +21,7 @@ NUM_DOMUS ?= "0"
 UBOOT_SOURCE ?= "xen_boot.source"
 UBOOT_SCRIPT ?= "xen_boot.scr"
 
-deltask do_deploy_setscene
-
-plnx_config_image_builder() {
-	cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.cpio.gz" "${WORKDIR}/image_builder/rootfs.cpio.gz"
-	cp "${DEPLOY_DIR_IMAGE}/${XEN}" "${WORKDIR}/image_builder/"
-	cp "${DEPLOYDIR}/${DOM0_KERNEL}" "${WORKDIR}/image_builder/"
-	cp "${DEPLOY_DIR_IMAGE}/${DEVICE_TREE}" "${WORKDIR}/image_builder/"
+do_config_image_builder() {
 	cat > ${XEN_CONFIG} << EOL
 MEMORY_START=${MEMORY_START}
 MEMORY_END=${MEMORY_END}
@@ -30,14 +35,10 @@ UBOOT_SCRIPT=${UBOOT_SCRIPT}
 EOL
 }
 
-plnx_compile_image_builder[dirs] ?= "${WORKDIR}/image_builder"
-plnx_compile_image_builder[dirs] ?= "${PLNX_DEPLOY_DIR}"
-plnx_compile_image_builder() {
-	if [ "${XEN_CONFIG_SKIP}" != "1" ];then
-		plnx_config_image_builder
-	fi
+do_compile_image_builder() {
 	if [ -f "${XEN_CONFIG}" ]; then
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d ${WORKDIR}/image_builder/ -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d ${WORKDIR}/image_builder/ -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
-        fi
+		uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o xen_boot_tftp
+		uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o xen_boot_sd
+	fi
 }
+

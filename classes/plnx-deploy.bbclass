@@ -37,7 +37,7 @@ PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
 		mb-realoc \
 		"
 
-PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
+OUTPUT_PATH ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
 PACKAGE_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
@@ -122,7 +122,7 @@ def copy_files(inputfile,outputfile):
        else:
            shutil.copy2(inputfile,outputfile)
 
-plnx_deploy[dirs] ?= "${PLNX_DEPLOY_DIR}"
+plnx_deploy[dirs] ?= "${OUTPUT_PATH}"
 python plnx_deploy() {
     pn = d.getVar('PN')
 
@@ -141,8 +141,6 @@ python plnx_deploy() {
         copy_files(inputfile,outputfile)
 }
 
-
-plnx_deploy_rootfs[dirs] ?= "${PLNX_DEPLOY_DIR}"
 python plnx_deploy_rootfs() {
     import os
     import re
