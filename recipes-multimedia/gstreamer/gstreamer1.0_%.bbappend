@@ -1,4 +1,4 @@
-BRANCH ?= "release-2019.2"
+BRANCH ?= "release-2020.1"
 REPO   ?= "git://github.com/xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
@@ -18,7 +18,7 @@ SRC_URI = " \
     file://0001-gst-inspect.c-Set-DEFAULT_PAGER-more-instead-of-less.patch \
 "
 
-SRCREV_gstreamer-xlnx = "c3c502011e3585749c664e6d2125c49419bb9889"
+SRCREV_gstreamer-xlnx = "10db9688beab0b11ea2e8c5b05d78c57a589ad03"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
