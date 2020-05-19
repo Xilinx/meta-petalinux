@@ -5,7 +5,7 @@ LICENSE = "BSD"
 inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ??= "release-2020.2"
+BRANCH ??= "release-2020.1"
 SRCREV ??= "9a6cb8ffdf112a33c0c02b81d860eff638c44866"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
