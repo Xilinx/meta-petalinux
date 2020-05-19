@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ??= "master"
-SRCREV ??= "961b3c93ee780e7d0ee74feeaebd7d8c696b9d35"
+BRANCH ??= "release-2020.1"
+SRCREV ??= "9a6cb8ffdf112a33c0c02b81d860eff638c44866"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 COMPATIBLE_MACHINE = "^$"
