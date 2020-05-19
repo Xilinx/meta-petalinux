@@ -7,8 +7,8 @@ SECTION = "PETALINUX/apps"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "git://gitenterprise.xilinx.com/ai-engine/xgemm.git;protocol=https;branch=rel-v2020.1"
-SRCREV = "2141ce072a25dbe9fddb192e13c778dc88485713"
+SRC_URI = "git://github.com/Xilinx/plnx-aie-examples.git;protocol=https;branch=rel-v2020.1"
+SRCREV = "9c125bff3643e59effb2dea05fcf6592f014b1ce"
 
 DEPENDS = "ai-engine-driver"
 RDEPENDS_${PN}  = "ai-engine-driver"
