@@ -14,6 +14,9 @@ DEPENDS = "ai-engine-driver"
 RDEPENDS_${PN}  = "ai-engine-driver"
 INSANE_SKIP_${PN} += " arch"
 
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_versal = "versal"
+
 S = "${WORKDIR}/git/"
 
 do_install() {
