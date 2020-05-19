@@ -1,8 +1,8 @@
 XEN_REL = "4.12"
 
-BRANCH = "master"
+BRANCH = "xilinx/release-2020.1"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV = "997d6248a9ae932d0dbaac8d8755c2b15fec25dc"
+SRCREV = "775913b2892a8c9b08dfa3db81b1cf93798399aa"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
