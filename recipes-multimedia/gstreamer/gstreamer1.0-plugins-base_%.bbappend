@@ -23,6 +23,7 @@ SRC_URI = " \
     file://0009-glimagesink-Downrank-to-marginal.patch \
     file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
     file://link-with-libvchostif.patch \
+    file://0001-wayland-fix-build-break-in-yocto.patch \
 "
 
 SRCREV_base = "ffc05bce0bc02cb2cafd50914f01640dab47f274"
