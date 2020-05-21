@@ -11,6 +11,7 @@ SRC_URI = "file://LICENSE \
            file://pics/compilation_flow.png \
            file://pics/runtime_execution.png \
            file://pics/aie_app_data_movement.png \
+           file://pics/work_directory.png \
            "
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal = "versal"
