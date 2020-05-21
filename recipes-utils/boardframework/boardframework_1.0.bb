@@ -18,10 +18,6 @@ RDEPENDS_${PN} = "python3-periphery \
                   python3-pickle \
                   python3-pip \
 "
-inherit update-rc.d
-
-INITSCRIPT_NAME = "start_boardframework.sh"
-INITSCRIPT_PARAMS = "start 99 S ."
 
 S="${WORKDIR}/git"
 
@@ -37,11 +33,9 @@ do_compile[noexec]="1"
 
 do_install () {
     install -d ${D}${datadir}/Board_Framework_Phase1Alpha
-    install -d ${D}${sysconfdir}/init.d/
     install -d ${D}/usr/bin/
 
     cp -r  ${S}/src/* ${D}${datadir}/Board_Framework_Phase1Alpha/
     chmod -R 755 ${D}${datadir}/Board_Framework_Phase1Alpha/
-    install -m 0755  ${S}/src/start_boardframework.sh ${D}/etc/init.d/
     install -m 0755  ${S}/src/boardframework.sh ${D}/usr/bin/boardframework.sh
 }
