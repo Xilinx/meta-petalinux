@@ -3,7 +3,7 @@ LIC_FILES_CHKSUM="file://license.txt;md5=8b565227e1264d677db8f841c2948cba"
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
 BRANCH ??= "release-2020.1"
-SRCREV ??= "9a6cb8ffdf112a33c0c02b81d860eff638c44866"
+SRCREV ??= "86ab9c5b1a780fa1d4d9e7a6a4cceccbba161db6"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
