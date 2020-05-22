@@ -7,7 +7,7 @@ inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
 BRANCH ??= "release-2020.1"
-SRCREV ??= "86ab9c5b1a780fa1d4d9e7a6a4cceccbba161db6"
+SRCREV ??= "6cbb920f4de9e650dc361b8e487f139fd4c3c743"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 COMPATIBLE_MACHINE = "^$"
