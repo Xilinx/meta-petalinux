@@ -64,7 +64,3 @@ do_install_append() {
 
     install -m 0644 ${WORKDIR}/passthrough-example-part.dtb ${D}/etc/xen/passthrough-example-part.dtb
 }
-
-# Force this to rebuild each time
-deltask do_deploy_setscene
-deltask do_populate_sysroot_setscene
