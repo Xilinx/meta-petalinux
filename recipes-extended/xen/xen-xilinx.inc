@@ -24,6 +24,8 @@ do_compile_append() {
     dtc -I dts -O dtb ${WORKDIR}/passthrough-example-part.dts -o ${WORKDIR}/passthrough-example-part.dtb
 }
 
+do_deploy[depends] += "u-boot-mkimage-native:do_populate_sysroot xen:do_install"
+do_deploy[dirs] = "${DEPLOYDIR} ${D}"
 do_deploy() {
     install -d ${DEPLOYDIR}
 
