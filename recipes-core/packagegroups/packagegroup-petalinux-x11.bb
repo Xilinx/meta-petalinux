@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux X11 related packages"
 
-inherit packagegroup distro_features_check
+inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
 

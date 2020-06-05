@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux oci containers related packages"
 
-inherit packagegroup distro_features_check
+inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = " virtualization"
 REQUIRED_DISTRO_FEATURES_append_zynqmp = " vmsep"

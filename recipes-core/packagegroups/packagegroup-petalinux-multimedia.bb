@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux packages to enhance out of box multimedia experience"
 
-inherit packagegroup distro_features_check
+inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
 

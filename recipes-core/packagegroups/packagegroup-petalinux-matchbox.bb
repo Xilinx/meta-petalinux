@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux Matchbox related packages"
 
-inherit packagegroup distro_features_check
+inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
 
