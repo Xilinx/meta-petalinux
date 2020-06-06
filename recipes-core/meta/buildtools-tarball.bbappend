@@ -13,7 +13,7 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-socat \
 	nativesdk-unzip \
 	nativesdk-gzip \
-	nativesdk-python \
+	nativesdk-python3 \
 	nativesdk-python3-links \
 	nativesdk-tftp-hpa \
 	nativesdk-diffstat \
