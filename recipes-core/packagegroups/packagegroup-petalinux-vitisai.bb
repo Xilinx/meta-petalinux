@@ -17,6 +17,11 @@ RDEPENDS_${PN} = "\
     opencv \
     dnndk-deploy \
     python3-pybind11 \
+    vitis-ai-library-deploy \
+    xir-deploy \
+    target-factory-deploy \
+    vart-deploy \
+    unilog-deploy \
     "
 
 RDEPENDS_${PN}-dev += "\
