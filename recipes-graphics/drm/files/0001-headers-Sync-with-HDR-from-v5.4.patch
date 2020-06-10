@@ -1,0 +1,147 @@
+From 8a41fb5fe4e8cdfcda43844ca020e815963e393a Mon Sep 17 00:00:00 2001
+From: Dylan Yip <dylan.yip@xilinx.com>
+Date: Wed, 10 Jun 2020 09:56:43 -0700
+Subject: [PATCH] headers: Sync with HDR from v5.4
+
+Sync drm_mode.h with linux-xlnx/include/uapi/drm/drm_mode.h for HDR
+
+Signed-off-by: Dylan Yip <dylan.yip@xilinx.com>
+---
+ include/drm/drm_mode.h | 121 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
+
+diff --git a/include/drm/drm_mode.h b/include/drm/drm_mode.h
+index 5fe6c64..5f1bb82 100644
+--- a/include/drm/drm_mode.h
++++ b/include/drm/drm_mode.h
+@@ -630,6 +630,127 @@ struct drm_color_lut {
+ 	__u16 reserved;
+ };
+ 
++enum drm_hdr_type {
++	/*
++	 * This is for the gen_hdr_output_metadata structure.
++	 * MSB differentiates static (0) or dynamic (1) metadata.
++	 * Other 15 bits represent specific HDR standards.
++	 */
++
++	/* static HDR */
++	DRM_HDR_TYPE_HDR10     = 0x0000,
++
++	/* dynamic HDR */
++	DRM_HDR_TYPE_HDR10P    = 1 << 15 | DRM_HDR_TYPE_HDR10,
++};
++
++/**
++ * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
++ *
++ * HDR Metadata Infoframe as per CTA 861.G spec. This is expected
++ * to match exactly with the spec.
++ *
++ * Userspace is expected to pass the metadata information as per
++ * the format described in this structure.
++ */
++struct hdr_metadata_infoframe {
++	/**
++	 * @eotf: Electro-Optical Transfer Function (EOTF)
++	 * used in the stream.
++	 */
++	__u8 eotf;
++	/**
++	 * @metadata_type: Static_Metadata_Descriptor_ID.
++	 */
++	__u8 metadata_type;
++	/**
++	 * @display_primaries: Color Primaries of the Data.
++	 * These are coded as unsigned 16-bit values in units of
++	 * 0.00002, where 0x0000 represents zero and 0xC350
++	 * represents 1.0000.
++	 * @display_primaries.x: X cordinate of color primary.
++	 * @display_primaries.y: Y cordinate of color primary.
++	 */
++	struct {
++		__u16 x, y;
++		} display_primaries[3];
++	/**
++	 * @white_point: White Point of Colorspace Data.
++	 * These are coded as unsigned 16-bit values in units of
++	 * 0.00002, where 0x0000 represents zero and 0xC350
++	 * represents 1.0000.
++	 * @white_point.x: X cordinate of whitepoint of color primary.
++	 * @white_point.y: Y cordinate of whitepoint of color primary.
++	 */
++	struct {
++		__u16 x, y;
++		} white_point;
++	/**
++	 * @max_display_mastering_luminance: Max Mastering Display Luminance.
++	 * This value is coded as an unsigned 16-bit value in units of 1 cd/m2,
++	 * where 0x0001 represents 1 cd/m2 and 0xFFFF represents 65535 cd/m2.
++	 */
++	__u16 max_display_mastering_luminance;
++	/**
++	 * @min_display_mastering_luminance: Min Mastering Display Luminance.
++	 * This value is coded as an unsigned 16-bit value in units of
++	 * 0.0001 cd/m2, where 0x0001 represents 0.0001 cd/m2 and 0xFFFF
++	 * represents 6.5535 cd/m2.
++	 */
++	__u16 min_display_mastering_luminance;
++	/**
++	 * @max_cll: Max Content Light Level.
++	 * This value is coded as an unsigned 16-bit value in units of 1 cd/m2,
++	 * where 0x0001 represents 1 cd/m2 and 0xFFFF represents 65535 cd/m2.
++	 */
++	__u16 max_cll;
++	/**
++	 * @max_fall: Max Frame Average Light Level.
++	 * This value is coded as an unsigned 16-bit value in units of 1 cd/m2,
++	 * where 0x0001 represents 1 cd/m2 and 0xFFFF represents 65535 cd/m2.
++	 */
++	__u16 max_fall;
++};
++
++/**
++ * struct hdr_output_metadata - HDR output metadata
++ *
++ * Metadata Information to be passed from userspace
++ */
++struct hdr_output_metadata {
++	/**
++	 * @metadata_type: Static_Metadata_Descriptor_ID.
++	 */
++	__u32 metadata_type;
++	/**
++	 * @hdmi_metadata_type1: HDR Metadata Infoframe.
++	 */
++	union {
++		struct hdr_metadata_infoframe hdmi_metadata_type1;
++	};
++};
++
++/**
++ * struct gen_hdr_output_metadata - Generic HDR output metadata
++ *
++ * Generic HDR Metadata Information to be passed from userspace
++ */
++struct gen_hdr_output_metadata {
++	/**
++	 * @metadata_type: HDR type.
++	 */
++	__u16 metadata_type;
++	/**
++	 * @size: size of payload/metadata.
++	 */
++	__u16 size;
++	/**
++	 * @payload: Actual metadata - HDR Metadata Infoframe.
++	 * Currently the largest extended HDR infoframe is 4000 bytes.
++	 */
++	__u8 payload[4000];
++};
++
+ #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+ #define DRM_MODE_PAGE_FLIP_ASYNC 0x02
+ #define DRM_MODE_PAGE_FLIP_TARGET_ABSOLUTE 0x4
+-- 
+2.7.4
+
