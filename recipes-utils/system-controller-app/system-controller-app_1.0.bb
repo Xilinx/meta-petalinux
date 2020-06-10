@@ -34,7 +34,7 @@ do_install(){
 
 	cp ${S}/build/sc_app ${D}/usr/bin/
 	cp ${S}/src/vccaux_workaround_vck190.sh ${D}/usr/bin/
-	cp ${S}/src/system_controller.sh ${D}${sysconfdir}/init.d/
+	install -m 0755 ${S}/src/system_controller.sh ${D}${sysconfdir}/init.d/
 }
 
 FILES_${PN}+="/usr/bin"
