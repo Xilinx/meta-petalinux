@@ -16,7 +16,6 @@ QT_EXTENDED_PACKAGES = " \
 	qttranslations-qtconnectivity \
 	qtdeclarative-mkspecs \
 	qttranslations-qtdeclarative \
-	qtenginio-mkspecs \
 	qtimageformats-plugins \
 	qtlocation-mkspecs \
 	qtlocation-plugins \
