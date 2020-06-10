@@ -10,8 +10,8 @@ XEN_EXTRA_PACKAGES = " \
 	kernel-module-xen-gntdev \
 	kernel-module-xen-netback \
 	kernel-module-xen-wdt \
-	xen-base \
-	xen-xenstat \
+	xen-tools \
+	xen-tools-xenstat \
 	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-system-i386 qemu-keymaps', 'qemu', d)} \
 	"
 
