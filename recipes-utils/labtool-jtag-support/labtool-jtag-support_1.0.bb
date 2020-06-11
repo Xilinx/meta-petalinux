@@ -50,6 +50,6 @@ do_install () {
     cp -r ${S}${prefix}/local/lib/tcl8.5 ${D}${prefix}/local/lib/
     cp  ${S}${prefix}/local/bin/* ${D}${prefix}/local/bin/
     cp -r  ${S}${prefix}/local/xilinx_vitis ${D}${prefix}/local/
-    cp  ${S}${sysconfdir}/init.d/xsdb ${D}${sysconfdir}/init.d/
-
+    install -m 0755 ${S}${sysconfdir}/init.d/xsdb ${D}${sysconfdir}/init.d/
+    echo 'echo "xsdbserver start -host localhost -port 2000" | /usr/local/xilinx_vitis/xsdb 1>/dev/NULL &' >> ${D}${sysconfdir}/init.d/xsdb
 }
