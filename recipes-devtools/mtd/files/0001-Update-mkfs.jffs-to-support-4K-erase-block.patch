@@ -1,0 +1,41 @@
+From 49ffea9fef91cbff4452bda8cc74234b2f3c2a8a Mon Sep 17 00:00:00 2001
+From: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
+Date: Tue, 2 Jun 2020 16:02:32 +0530
+Subject: [PATCH] Update mkfs.jffs to support 4K erase block
+
+Flash erase size granularity can be starting from 4k, 8k upto 128K.
+When we use 4k as erase sector with jffs2, then we get erase block
+size error, this patch removes that check in order to support lower
+granularities like 4k.
+
+Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
+---
+ jffsX-utils/mkfs.jffs2.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/jffsX-utils/mkfs.jffs2.c b/jffsX-utils/mkfs.jffs2.c
+index 9cc5eaf..8852281 100644
+--- a/jffsX-utils/mkfs.jffs2.c
++++ b/jffsX-utils/mkfs.jffs2.c
+@@ -1667,13 +1667,11 @@ int main(int argc, char **argv)
+ 						  }
+ 						  erase_block_size *= units;
+ 
+-						  /* If it's less than 8KiB, they're not allowed */
+-						  if (erase_block_size < 0x2000) {
+-							  fprintf(stderr, "Erase size 0x%x too small. Increasing to 8KiB minimum\n",
+-									  erase_block_size);
+-							  erase_block_size = 0x2000;
+-						  }
+-						  break;
++						/* If it's less than 8KiB, print a warning message*/
++						if (erase_block_size < 0x2000)
++							fprintf(stderr, "Erase size 0x%x too small. It may cause data corruption.\n",
++								erase_block_size);
++						break;
+ 					  }
+ 
+ 			case 'l':
+-- 
+2.7.4
+
