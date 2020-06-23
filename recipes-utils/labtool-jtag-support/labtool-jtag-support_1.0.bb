@@ -51,5 +51,5 @@ do_install () {
     cp  ${S}${prefix}/local/bin/* ${D}${prefix}/local/bin/
     cp -r  ${S}${prefix}/local/xilinx_vitis ${D}${prefix}/local/
     install -m 0755 ${S}${sysconfdir}/init.d/xsdb ${D}${sysconfdir}/init.d/
-    echo 'echo "xsdbserver start -host localhost -port 2000" | /usr/local/xilinx_vitis/xsdb 1>/dev/NULL &' >> ${D}${sysconfdir}/init.d/xsdb
+    sed -i 's/server/server 1\>\/dev\/NULL/' ${D}${sysconfdir}/init.d/xsdb
 }
