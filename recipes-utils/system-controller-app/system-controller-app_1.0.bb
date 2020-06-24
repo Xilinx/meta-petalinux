@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=24248f11cbed04b
 SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller;branch=master;protocol=https \
 		   file://LICENSE "
 
-SRCREV="29b415118c8aa0dfbeb43e2fbed2202cf0a8f313"
+SRCREV="191482f368cbb69f0d099d69dfde20a0d6eb82ea"
 
 inherit update-rc.d
 
@@ -31,10 +31,12 @@ do_compile(){
 do_install(){
 	install -d ${D}/usr/bin/
 	install -d ${D}${sysconfdir}/init.d/
+	install -d ${D}${datadir}/system-controller-app
 
 	cp ${S}/build/sc_app ${D}/usr/bin/
 	cp ${S}/src/vccaux_workaround_vck190.sh ${D}/usr/bin/
+	cp -r ${S}/BIT ${D}${datadir}/system-controller-app/
 	install -m 0755 ${S}/src/system_controller.sh ${D}${sysconfdir}/init.d/
 }
 
-FILES_${PN}+="/usr/bin"
+FILES_${PN} += "${datadir}/system-controller-app /usr/bin"
