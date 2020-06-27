@@ -1,0 +1,32 @@
+SUMMARY = "Simple cmc application"
+SECTION = "PETALINUX/apps"
+LICENSE = "Proprietary"
+LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENCE;beginline=1;endline=41;md5=4c9ba52878e7a4d68948d70f1ef41236"
+TARGET_CC_ARCH += " ${LDFLAGS}"
+DEPENDS += "libmetal"
+
+SRC_URI = "git://gitenterprise.xilinx.com/CMC/CMC_Core.git;protocol=ssh;branch=master"
+SRCREV = "46ce05b76d1bf2b45374b2e95bc233f134d3b2b6"
+
+COMPATIBLE_MACHINE = "^$"
+COMPATIBLE_MACHINE_vck5000-versal = "vck5000-versal"
+
+S="${WORKDIR}/git"
+GEN_SOURCE="${WORKDIR}/cmc-gen-source"
+B="${WORKDIR}/build"
+
+PROFILE?=""
+PROFILE_vck5000-versal="PROFILE_LINUX_VERSAL_V350"
+
+do_configure() {
+	rm -rf ${B}
+	${S}/build_files/CMC_git_scripts/create_distro.sh ${PROFILE} ${S}/src/ ${B}
+	cp ${S}/build_files/CMC_V350_2020_1/Makefile ${B}
+}
+
+do_compile() {
+	     cd ${B}/
+	     oe_runmake
+}
+
+FILES_${PN} += "${bindir}/cmc"
