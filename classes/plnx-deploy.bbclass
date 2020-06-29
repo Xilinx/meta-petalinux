@@ -70,6 +70,9 @@ def copyfiles_append(d):
     pn = d.getVar("PN")
     d.setVarFlag('PACKAGES_LIST', 'fsbl', pn + '-' + machine_arch + '.elf:' + soc_family + '_' + pn + '.elf' )
     d.setVarFlag('PACKAGES_LIST', 'fs-boot', pn + '-' + machine_arch + '.elf:' + 'fs-boot.elf' )
+    d.setVarFlag('PACKAGES_LIST', 'prefsbl', pn + '-' + machine_arch + '.elf:' + 'prefsbl.elf' )
+    d.setVarFlag('PACKAGES_LIST', 'xbl', pn + '-' + machine_arch + '.elf:' + 'xbl.elf' )
+
     d.setVarFlag('PACKAGES_LIST', 'pmu-firmware', pn + '-' + machine_arch + '.elf:' + 'pmufw.elf' )
     d.setVarFlag('PACKAGES_LIST', 'psm-firmware', pn + '-' + machine_arch + '.elf:' + 'psmfw.elf' )
     d.setVarFlag('PACKAGES_LIST', 'plm', pn + '-' + machine_arch + '.elf:' + 'plm.elf' )
