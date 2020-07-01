@@ -105,7 +105,7 @@ def copyfiles_append(d):
     else:
         kernel_images += 'fitImage-' + machine_arch + '.bin:' + fitimage_name + ' '
     if kernel_images:
-        d.appendVarFlag('PACKAGES_LIST', 'linux-xlnx', ' ' + kernel_images )
+        d.setVarFlag('PACKAGES_LIST', 'linux-xlnx', kernel_images )
 
     qemuhw_dir = "qemu-hw-devicetrees/"
     multi_qemuhw_dir = qemuhw_dir + "multiarch/"
@@ -138,9 +138,6 @@ python plnx_deploy() {
     
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
-        if ':' not in package_bin:
-            bb.warn('Skip PACKAGES_LIST[%s] value "%s"' % (pn, package_bin))
-            continue
         input, output = package_bin.split(':')
         inputfile = deploy_dir + '/' + input
         outputfile = output_path + '/' + output
