@@ -14,3 +14,5 @@ do_install_append_zynqmp() {
 	install -m 0644 ${WORKDIR}/reboot_init.sh ${D}${sysconfdir}/init.d
 	update-rc.d -r ${D} reboot_init.sh start 01 S 6 .
 }
+
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
