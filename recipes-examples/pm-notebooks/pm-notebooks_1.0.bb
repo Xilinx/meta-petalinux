@@ -1,32 +1,17 @@
-DESCRIPTION = "Jupyter notebook examples for Power Management (PM) in Versal devices"
+DESCRIPTION = "Jupyter notebook examples for Platform Management (PM) in Versal devices"
 LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
+LIC_FILES_CHKSUM = "file://../../LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
 
 inherit jupyter-examples
 
-SRC_URI = "file://LICENSE \
-           file://README \
-           file://pm-cpufreq.ipynb \
-           file://pm-hotplug.ipynb \
-           file://pm-clktree.ipynb \
-           file://pm-suspend-resume.ipynb \
-           file://pm-subsys-restart.ipynb \
-           file://images/boot-demo.bif \
-           file://images/boot-demo.bin \
-           file://pmutil/__init__.py \
-           file://pmutil/cpufreq.py \
-           file://pmutil/hotplug.py \
-           file://pmutil/clktree.py \
-           file://pmutil/data/cpu-icon-0-off.png \
-           file://pmutil/data/cpu-icon-0-on.png \
-           file://pmutil/data/cpu-icon-1-off.png \
-           file://pmutil/data/cpu-icon-1-on.png \
-           file://pmutil/data/cpu-icon-freq-1.png \
-           file://pmutil/data/cpu-icon-freq-2.png \
-           file://pmutil/data/cpu-icon-freq-3.png \
-           file://pmutil/data/cpu-icon-freq-4.png \
-           file://pmutil/data/cpu-icon-freq-def.png \
+SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/oob-demos;branch=master;protocol=https \
+           file://LICENSE \
            "
+
+SRCREV = "a51c7e87eb9a365c8c15fab5ef1faadd84c845d0"
+
+S = "${WORKDIR}/git/pm-notebooks"
+
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal = "versal"
 
