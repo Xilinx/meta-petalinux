@@ -4,7 +4,7 @@ SUMMARY = "System Controller App"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=24248f11cbed04b4a7a0609c5d0ff97a"
 
-SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller;branch=master;protocol=https \
+SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller.git;branch=master;protocol=https \
 		   file://LICENSE "
 
 SRCREV="32248448ffdd4768b1651b16552368fcd1f7b234"
