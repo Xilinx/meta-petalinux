@@ -77,7 +77,7 @@ def copyfiles_append(d):
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
-    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' ' + machine_arch + '-system.dtbo:' + 'pl.dtbo' )
+    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo' )
     type = d.getVar('KERNEL_IMAGETYPE') or ""
     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
     types = d.getVar('KERNEL_IMAGETYPES') or ""
