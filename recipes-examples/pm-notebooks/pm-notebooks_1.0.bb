@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://../../LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
 
 inherit jupyter-examples
 
-SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/oob-demos;branch=master;protocol=https \
+SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/oob-demos.git;branch=master;protocol=https \
            file://LICENSE \
            "
 
-SRCREV = "a51c7e87eb9a365c8c15fab5ef1faadd84c845d0"
+SRCREV = "1a19aea2d47e681f3b85c4a74e8cbfc4c30acfa4"
 
 S = "${WORKDIR}/git/pm-notebooks"
 
@@ -22,13 +22,11 @@ RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
 
 do_install() {
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks
-    install -d ${D}/${JUPYTER_DIR}/pm-notebooks/images
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -d ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 
     install -m 0644 ${S}/README ${D}/${JUPYTER_DIR}/pm-notebooks
     install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/pm-notebooks
-    install -m 0755 ${S}/images/* ${D}/${JUPYTER_DIR}/pm-notebooks/images
     install -m 0755 ${S}/pmutil/*.py ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil
     install -m 0755 ${S}/pmutil/data/*.png ${D}/${JUPYTER_DIR}/pm-notebooks/pmutil/data
 }
