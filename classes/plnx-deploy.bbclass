@@ -142,7 +142,6 @@ python plnx_deploy() {
         copy_files(inputfile,outputfile)
 }
 
-
 plnx_deploy_rootfs[dirs] ?= "${PLNX_DEPLOY_DIR}"
 python plnx_deploy_rootfs() {
     import os
@@ -153,13 +152,15 @@ python plnx_deploy_rootfs() {
     output_path = d.getVarFlag('plnx_deploy', 'dirs')
     search_str = image_name + image_suffix
     search_str = re.escape(search_str)
-    dest_name=''
     if os.path.exists(deploy_dir):
         for _file in os.listdir(deploy_dir):
             if re.search(search_str, _file):
+                if image_name.find('initramfs') != -1:
+                    dest_name='ramdisk'
+                else:
+                    dest_name='rootfs'
                 source_name=str(_file)
-                dest_name=source_name.split(image_suffix)[1]
-                dest_name= 'rootfs' + dest_name
+                dest_name=dest_name + source_name.split(image_suffix)[1]
                 copy_files(deploy_dir + '/' + source_name,output_path + '/' + dest_name)
 
     extra_files = d.getVar('EXTRA_FILESLIST') or ""
