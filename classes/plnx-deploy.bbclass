@@ -40,6 +40,7 @@ PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
 PACKAGE_DTB_NAME ?= ""
+PACKAGE_UBOOT_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
 
 PACKAGES_LIST[u-boot-xlnx] = "u-boot.elf:u-boot.elf u-boot.bin:u-boot.bin u-boot-s.bin:u-boot-s.bin"
@@ -78,6 +79,9 @@ def copyfiles_append(d):
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
     d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo' )
+    uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
+    if uboot_dtb_name:
+        d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'u-boot.dtb' + uboot_dtb_name )
     type = d.getVar('KERNEL_IMAGETYPE') or ""
     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
     types = d.getVar('KERNEL_IMAGETYPES') or ""
