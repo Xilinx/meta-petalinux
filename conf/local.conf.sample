@@ -230,5 +230,3 @@ PMU_FIRMWARE_IMAGE_NAME = "pmu-firmware-${MACHINE}"
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
-PNBLACKLIST[qemu-native]="blacklist"
-PNBLACKLIST[nativesdk-qemu]="blacklist"
