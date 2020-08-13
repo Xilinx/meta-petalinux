@@ -230,3 +230,6 @@ PMU_FIRMWARE_IMAGE_NAME = "pmu-firmware-${MACHINE}"
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
+
+#Enable the below line to use pmu-rom.elf from a specific path
+#PMU_ROM = "/proj/yocto/pmu-rom/pmu-rom.elf"
