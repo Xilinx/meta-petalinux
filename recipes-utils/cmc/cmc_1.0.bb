@@ -23,15 +23,11 @@ BUILDFILE_DIR?=""
 BUILDFILE_DIR_vck5000-versal="CMC_V350_2020_1"
 BUILDFILE_DIR_zynqmp-generic="CMC_U30"
 
+do_configure[cleandirs] = "${B}"
+
 do_configure() {
-	rm -rf ${B}
 	${S}/build_files/CMC_git_scripts/create_distro.sh ${PROFILE} ${S}/src/ ${B}
 	cp ${S}/build_files/${BUILDFILE_DIR}/Makefile ${B}
-}
-
-do_compile() {
-	     cd ${B}/
-	     oe_runmake
 }
 
 FILES_${PN} += "${bindir}/cmc"
