@@ -16,3 +16,6 @@ IMAGE_INSTALL_append_ultra96-zynqmp = " sensor-mezzanine-examples"
 
 # vck-sc-zynqmp recipes
 IMAGE_INSTALL_append_vck-sc-zynqmp = " power-advantage-tool labtool-jtag-support boardframework system-controller-app"
+
+IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
+IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
