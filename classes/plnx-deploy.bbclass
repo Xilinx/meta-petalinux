@@ -78,7 +78,7 @@ def copyfiles_append(d):
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
-    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo' )
+    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'u-boot.dtb' + uboot_dtb_name )
