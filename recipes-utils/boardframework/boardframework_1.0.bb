@@ -19,6 +19,11 @@ RDEPENDS_${PN} = "python3-periphery \
                   python3-pip \
 "
 
+inherit update-rc.d
+
+INITSCRIPT_NAME = "start_boardframework.sh"
+INITSCRIPT_PARAMS = "start 99 S ."
+
 S="${WORKDIR}/git"
 
 FILES_${PN} += "${datadir}/Board_Framework_Phase1Alpha /usr/bin"
@@ -37,5 +42,7 @@ do_install () {
 
     cp -r  ${S}/src/* ${D}${datadir}/Board_Framework_Phase1Alpha/
     chmod -R 755 ${D}${datadir}/Board_Framework_Phase1Alpha/
+    install -m 0755  ${S}/src/start_boardframework.sh ${D}/etc/init.d/
     install -m 0755  ${S}/src/boardframework.sh ${D}/usr/bin/boardframework.sh
+    sed -i '/vccaux/s/^/#/' ${D}/usr/bin/boardframework.sh
 }
