@@ -38,6 +38,7 @@ do_compile[noexec]="1"
 
 do_install () {
     install -d ${D}${datadir}/Board_Framework_Phase1Alpha
+    install -d ${D}${sysconfdir}/init.d/
     install -d ${D}/usr/bin/
 
     cp -r  ${S}/src/* ${D}${datadir}/Board_Framework_Phase1Alpha/
