@@ -17,6 +17,7 @@ RDEPENDS_${PN} = "python3-periphery \
                   python3-threading \
                   python3-pickle \
                   python3-pip \
+                  python3-ruamel-yaml \
 "
 
 inherit update-rc.d
