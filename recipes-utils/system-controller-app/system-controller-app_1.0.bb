@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=24248f11cbed04b
 SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller.git;branch=master;protocol=https \
 		   file://LICENSE "
 
-SRCREV="c2a5b37ae25f24cdfc1f2cf7ccbafc6c05f4b193"
+SRCREV="74c7ae2a0163247422a1d9af613d6ac014f5acdc"
 
 inherit update-rc.d
 
