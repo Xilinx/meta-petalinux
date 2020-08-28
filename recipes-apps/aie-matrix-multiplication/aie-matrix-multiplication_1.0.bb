@@ -15,7 +15,7 @@ RDEPENDS_${PN}  = "ai-engine-driver"
 INSANE_SKIP_${PN} += " arch"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_versal = "versal"
+COMPATIBLE_MACHINE_versal-ai-core = "versal-ai-core"
 
 S = "${WORKDIR}/git/"
 
@@ -31,3 +31,4 @@ FILES_${PN} += " \
 	${bindir}/aie-matrix-multiplication \
 "
 
+PACKAGE_ARCH_versal-ai-core = "${SOC_VARIANT_ARCH}"
