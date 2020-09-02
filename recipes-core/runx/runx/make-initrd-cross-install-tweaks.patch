@@ -1,0 +1,83 @@
+From 7e3498ab7c375bd545de501920acffa77eb24120 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@xilinx.com>
+Date: Mon, 16 Dec 2019 20:42:04 -0800
+Subject: [PATCH] make-kernel: cross-compilation tweaks
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+---
+ kernel/make-kernel | 41 +++++++++++++++++++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 8 deletions(-)
+
+Index: git/kernel/make-kernel
+===================================================================
+--- git.orig/kernel/make-kernel
++++ git/kernel/make-kernel
+@@ -13,6 +13,7 @@
+ 
+ kernel_stuffdir=`readlink -f kernel`
+ kernel_outpath=$kernel_stuffdir/out
++kernel_srcdir=$kernel_stuffdir/src
+ kernel_builddir=$kernel_stuffdir/build
+ kernel_out=$kernel_outpath/kernel
+ 
+@@ -22,28 +23,52 @@
+ kernel_url=https://www.kernel.org/pub/linux/kernel/v5.x/"$kernel_tarball"
+ kernel_src_config="$kernel_stuffdir"/cutdown-config."$ARCH"
+ kernel_patchesdir="$kernel_stuffdir"/patches
+-kernel_image="$kernel_builddir"/"$kernel_name"/arch/"$ARCH"/boot/"$image"
++kernel_image="$kernel_builddir"/arch/"$ARCH"/boot/"$image"
+ 
++echo "#########################"
++echo "kernel build summary:"
++echo "   version:    $kernel_version"
++echo "   url:        $kernel_url"
++echo "   src dir:    $kernel_srcdir"
++echo "   out dir:    $kernel_builddir"
++echo "   artifacts:  $kernel_out"
++echo "   image:      $image"
++echo "   build vars: $build_vars"
++echo "#########################"
+ 
+-rm -rf $kernel_outpath
++if [ ! -e "$kernel_builddir/.config" ];
++then
++    rm -rf $kernel_buildir
++fi
+ mkdir -p $kernel_outpath
+ mkdir -p $kernel_builddir
++mkdir -p $kernel_srcdir
+ 
+ if [[ ! -f $kernel_builddir/$kernel_tarball ]]
+ then
++    echo "fetching the kernel .."
+     wget -O $kernel_builddir/$kernel_tarball --tries=20 $kernel_url
+ fi
+-if [[ ! -d $kernel_builddir/$kernel_name ]]
++
++if [[ ! -d $kernel_srcdir/$kernel_name ]]
+ then
+-    tar --extract --xz --touch --file="$kernel_builddir/$kernel_tarball" --directory="$kernel_builddir"
+-    cd $kernel_builddir/$kernel_name
++    echo "extracting the kernel ..."
++    echo "  tar --extract --xz --touch --file=\"$kernel_builddir/$kernel_tarball\" --directory=\"$kernel_srcdir\""
++    tar --extract --xz --touch --file="$kernel_builddir/$kernel_tarball" --directory="$kernel_srcdir"
++    cd $kernel_srcdir/$kernel_name
+     for i in $kernel_patchesdir/*
+     do
+         patch -p1 < $i
+     done
+ fi
+-cd $kernel_builddir/$kernel_name
+-cp $kernel_src_config .config
+-make -j "$(getconf _NPROCESSORS_ONLN)" $image
++if [[ ! -f $kernel_builddir/.config ]]
++then
++    cp $kernel_src_config $kernel_builddir/.config
++fi
++cd $kernel_srcdir/$kernel_name
++
++echo "building the kernel ..."
++eval make O=$kernel_builddir $build_vars oldconfig
++eval make -j "$(getconf _NPROCESSORS_ONLN)" O=$kernel_builddir $build_vars $image
+ 
+ cp $kernel_image $kernel_out

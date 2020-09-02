@@ -1,0 +1,39 @@
+From d8bd5749e6fc6e0c86a8720044ec78167bab3569 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@xilinx.com>
+Date: Mon, 16 Dec 2019 22:03:14 -0800
+Subject: [PATCH] make-initrd: cross install tweaks
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+---
+ kernel/make-initrd | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+Index: git/initrd/make-initrd
+===================================================================
+--- git.orig/initrd/make-initrd
++++ git/initrd/make-initrd
+@@ -23,8 +23,22 @@
+ mkdir -p $tmpdir/lib
+ mkdir -p $tmpdir/var
+ mkdir -p $tmpdir/mnt
+-cp "$busybox" $tmpdir/bin/busybox
+-$tmpdir/bin/busybox --install $tmpdir/bin
++
++
++if [ -z "$BUSYBOX" ]; then
++    BUSYBOX=`which busybox`
++fi
++cp $BUSYBOX $tmpdir/bin
++if [ -n "$CROSS_COMPILE" ]; then
++    echo "cross compiling, busybox --install emulation"
++    if [ -n "$QEMU_USER" ]; then
++        $QEMU_USER $tmpdir/bin/busybox --install $tmpdir/bin
++    else
++        echo "QEMU_USER is not defined, no binary symlinks will be available"
++    fi
++else
++    $tmpdir/bin/busybox --install $tmpdir/bin
++fi
+ 
+ mkdir -p $tmpdir/etc/init.d
+ cp $init $tmpdir/etc/init.d/rcS
