@@ -14,6 +14,7 @@ SRC_URI = "file://LICENSE \
            file://vcu-demo-streamin-decode-display.ipynb \
            file://vcu-demo-transcode-to-file.ipynb \
            file://vcu-demo-transcode-to-streamout.ipynb \
+	   file://vcu-demo-videotestsrc-hdr-to-file.ipynb \
 	   file://pictures/block-diagram-camera-decode-diaplay.png \
 	   file://pictures/block-diagram-camera-encode-decode-diaplay.png \
 	   file://pictures/block-diagram-camera-encode-file.png \
@@ -21,7 +22,8 @@ SRC_URI = "file://LICENSE \
 	   file://pictures/block-diagram-decode-display.png \
 	   file://pictures/block-diagram-streamin-decode.png \
 	   file://pictures/block-diagram-transcode-file.png \
-	   file://pictures/block-diagram-transcode-streamout.png "
+	   file://pictures/block-diagram-transcode-streamout.png \
+	   file://pictures/block-diagram-videotestsrc-hdr-to-file.png "
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmpev = "zynqmpev"
