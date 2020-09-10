@@ -51,16 +51,20 @@ PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-tru
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
 
-QEMU_HWDTBS_zynqmp ?= "qemu-hw-devicetrees/zcu102-arm.dtb:zynqmp-qemu-arm.dtb"
-QEMU_HWDTBS_zc1751-zynqmp ?= "qemu-hw-devicetrees/zc1751-dc2-arm.dtb:zynqmp-qemu-arm.dtb"
-QEMU_HWDTBS_ultra96-zynqmp ?= "qemu-hw-devicetrees/zcu100-arm.dtb:zynqmp-qemu-arm.dtb"
+QEMU_HWDTB_NAME_zynqmp ?= "zcu102-arm.dtb"
+QEMU_HWDTB_NAME_zc1751-zynqmp ?= "zc1751-dc2-arm.dtb"
+QEMU_HWDTB_NAME_ultra96-zynqmp ?= "zcu100-arm.dtb"
+QEMU_HWDTB_NAME_versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
+
+QEMU_HWDTBS_zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
+
 QEMU_MULTI_HWDTBS_zynqmp ?= " \
-		qemu-hw-devicetrees/multiarch/zcu102-arm.dtb:zynqmp-qemu-multiarch-arm.dtb \
+		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:zynqmp-qemu-multiarch-arm.dtb \
 		qemu-hw-devicetrees/multiarch/zynqmp-pmu.dtb:zynqmp-qemu-multiarch-pmu.dtb"
 
-QEMU_HWDTBS_versal ?= "qemu-hw-devicetrees/board-versal-ps-vc-p-a2197-00.dtb:versal-qemu-ps.dtb"
+QEMU_HWDTBS_versal ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:versal-qemu-ps.dtb"
 QEMU_MULTI_HWDTBS_versal ?= " \
-		qemu-hw-devicetrees/multiarch/board-versal-ps-vc-p-a2197-00.dtb:versal-qemu-multiarch-ps.dtb \
+		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:versal-qemu-multiarch-ps.dtb \
 		qemu-hw-devicetrees/multiarch/board-versal-pmc-vc-p-a2197-00.dtb:versal-qemu-multiarch-pmc.dtb"
 
 def copyfiles_append(d):
