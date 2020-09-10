@@ -403,3 +403,54 @@ class common_vcu_demo_transcode_to_streamout:
         CMD_LINE_ARGS = " ".join(CMD_LINE_ARGS)
         print("sh common_vcu_demo_transcode_to_streamout.sh", CMD_LINE_ARGS)
         return CMD_LINE_ARGS
+
+class common_vcu_demo_videotestsrc_hdr_to_file:
+    def cmd_line_args_generator(VIDEO_SIZE, CODEC_TYPE, OUTPUT_PATH, NO_OF_FRAMES, BIT_RATE, FRAME_RATE, GOP_LENGTH, PERIODICITY_IDR, COLOR_FORMAT, RED_X, RED_Y, GREEN_X, GREEN_Y, BLUE_X, BLUE_Y, WHITE_X, WHITE_Y, MAX_DISPLAY_LUMINANCE, MIN_DISPLAY_LUMINANE, MAX_CLL, MAX_FALL, SHOW_FPS):
+        CMD_LINE_ARGS = []
+        if(len(VIDEO_SIZE) != 0):
+        	CMD_LINE_ARGS.append('-s')
+        	CMD_LINE_ARGS.append(VIDEO_SIZE)
+        if(len(CODEC_TYPE) != 0):
+        	CMD_LINE_ARGS.append('-c')
+        	CMD_LINE_ARGS.append(CODEC_TYPE)
+        if(len(OUTPUT_PATH) != 0):
+        	CMD_LINE_ARGS.append('-o')
+        	CMD_LINE_ARGS.append(OUTPUT_PATH)
+        if(len(NO_OF_FRAMES) != 0):
+        	CMD_LINE_ARGS.append('-n')
+        	CMD_LINE_ARGS.append(NO_OF_FRAMES)
+        if(len(BIT_RATE) != 0):
+        	CMD_LINE_ARGS.append('-b')
+        	CMD_LINE_ARGS.append(BIT_RATE)
+        if(len(FRAME_RATE) != 0):
+        	CMD_LINE_ARGS.append('-r')
+        	CMD_LINE_ARGS.append(FRAME_RATE)
+        if(len(GOP_LENGTH) != 0):
+        	CMD_LINE_ARGS.append('--gop-length')
+        	CMD_LINE_ARGS.append(GOP_LENGTH)
+        if(len(PERIODICITY_IDR) != 0):
+        	CMD_LINE_ARGS.append('--periodicity-idr')
+        	CMD_LINE_ARGS.append(PERIODICITY_IDR)
+        if(len(COLOR_FORMAT) != 0):
+        	CMD_LINE_ARGS.append('--color-format')
+        	CMD_LINE_ARGS.append(COLOR_FORMAT)
+        if(len(RED_X) != 0) and (len(RED_Y) != 0) and (len(GREEN_X) != 0) and (len(GREEN_Y) != 0) and (len(BLUE_X) != 0) and (len(BLUE_Y) != 0):
+        	CMD_LINE_ARGS.append('--display-primaries')
+        	CMD_LINE_ARGS.append((RED_X + ':' + RED_Y + ':' + GREEN_X + ':' + GREEN_Y + ':' + BLUE_X + ':' + BLUE_Y))
+        if(len(WHITE_X) != 0) and (len(WHITE_Y) != 0):
+        	CMD_LINE_ARGS.append('--white-point')
+        	CMD_LINE_ARGS.append(WHITE_X + ':' + WHITE_Y)
+        if(len(MAX_DISPLAY_LUMINANCE) != 0) and (len(MIN_DISPLAY_LUMINANE) != 0):
+        	CMD_LINE_ARGS.append('--display-luminance')
+        	CMD_LINE_ARGS.append(MAX_DISPLAY_LUMINANCE + ':' + MIN_DISPLAY_LUMINANE)
+        if(len(MAX_CLL) != 0):
+        	CMD_LINE_ARGS.append('--max-cll')
+        	CMD_LINE_ARGS.append(MAX_CLL)
+        if(len(MAX_FALL) != 0):
+        	CMD_LINE_ARGS.append('--max-fall')
+        	CMD_LINE_ARGS.append(MAX_FALL)
+        if(SHOW_FPS == 1):
+        	CMD_LINE_ARGS.append('-f')
+        CMD_LINE_ARGS = " ".join(CMD_LINE_ARGS)
+        print("sh common_vcu_demo_videotestsrc_hdr_to_file.sh", CMD_LINE_ARGS)
+        return CMD_LINE_ARGS
