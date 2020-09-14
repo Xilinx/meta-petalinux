@@ -131,8 +131,8 @@ TranscodeFile() {
 		SINK="fpsdisplaysink name=fpssink text-overlay=false video-sink=fakesink sync=true -v"
 	fi
 
-	OMXH264ENC="$OMXH264ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h264, profile=high"
-	OMXH265ENC="$OMXH265ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE ! video/x-h265, profile=main,level=\(string\)6.2,tier=main"
+	OMXH264ENC="$OMXH264ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE "
+	OMXH265ENC="$OMXH265ENC num-slices=8 control-rate=2 b-frames=2 gop-length=$GOP_LENGTH periodicity-idr=$PERIODICITY_IDR prefetch-buffer=true target-bitrate=$BIT_RATE "
 
 	case $CODEC_TYPE in
 	"avc")
