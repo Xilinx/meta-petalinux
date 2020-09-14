@@ -71,6 +71,7 @@ AUDIO_SRC_BASE="unknown"
 DISPLAY_DEVICE="fd4a0000.zynqmp-display"
 DPMS="unknown"
 PULSEAUDIO="unknown"
+VIDEOTESTSRC="videotestsrc"
 
 #####################################################################################
 # Name:		killProcess
@@ -432,6 +433,42 @@ setDefaultifEmpty () {
 				echo "No host address specified hence using $ADDRESS as default host address"
 			fi
 			;;
+		colorFormat )
+			if [ -z $COLOR_FORMAT ]; then
+				COLOR_FORMAT="NV12"
+				echo "No "color-format" parameter value specified hence using $COLOR_FORMAT as default for encoding input stream"
+			fi
+			;;
+		displayPrimaries )
+			if [ -z $DISPLAY_PRIMARIES ]; then
+				DISPLAY_PRIMARIES="0:0:0:0:0:0"
+				echo "No "display-primaries" parameter value specified hence using $DISPLAY_PRIMARIES as default for encoding input stream"
+			fi
+			;;
+		whitePoint )
+			if [ -z $WHITE_POINT ]; then
+				WHITE_POINT="0:0"
+				echo "No "white-point" parameter value specified hence using $WHITE_POINT as default for encoding input stream"
+			fi
+			;;
+		displayLuminance )
+			if [ -z $DISPLAY_LUMINANCE ]; then
+				DISPLAY_LUMINANCE="0:0"
+				echo "No "display-luminance" parameter value specified hence using $DISPLAY_LUMINANCE as default for encoding input stream"
+			fi
+			;;
+		maxCLL )
+			if [ -z $MAX_CLL ]; then
+				MAX_CLL=0
+				echo "No "max-cll" parameter value specified hence using $MAX_CLL as default for encoding input stream"
+			fi
+			;;
+		maxFALL )
+			if [ -z $MAX_FALL ]; then
+				MAX_FALL=0
+				echo "No "max-fall" parameter value specified hence using $MAX_FALL as default for encoding input stream"
+			fi
+			;;
 		* )
 			echo ' Invalid option';
 	esac
@@ -656,6 +693,36 @@ DisplayUsageFor () {
 		mpegTs )
 			echo '	--use-mpegts                : Use MPEG-TS as container'
 			;;
+		colorFormat )
+			echo '	--color-format		 	:  Color format of input yuv'
+			echo '					 : Possible Values: NV12, NV16, NV12_10LE32, NV16_10LE32'
+			echo '					 : Default Value: NV12"'
+			;;
+		displayPrimaries )
+			echo '	--display-primaries		 :  HDR display primaries'
+			echo '					 : Possible Values: <RED_X>:<RED_Y>:<GREEN_X>:<GREEN_Y>:<BLUE_X>:<BLUE_Y>'
+			echo '					 : Default Value: 0:0:0:0:0:0"'
+			;;
+		whitePoint )
+			echo '	--white-point		 	:  HDR white point'
+			echo '					 : Possible Values: <WHITE_X>:<WHITE_Y>'
+			echo '					 : Default Value: 0:0"'
+			;;
+		displayLuminance )
+			echo '	--display-luminance		 :  HDR display luminance'
+			echo '					 : Possible Values: <MAX>:<MIN>'
+			echo '					 : Default Value: 0:0"'
+			;;
+		maxCLL )
+			echo '	--max-cll		 	:  HDR max content light level'
+			echo '					 : Possible Values: 0-65535'
+			echo '					 : Default Value: 0"'
+			;;
+		maxFALL )
+			echo '	--max-fall		 	:  HDR max frame average light level'
+			echo '					 : Possible Values: 0-65535'
+			echo '					 : Default Value: 0"'
+			;;
 		* )
 			echo ' Invalid option';
 	esac
@@ -818,6 +885,30 @@ while true; do
 		--audio-output)
 			AUDIO_OUTPUT=$2;
                         shift; shift;
+			;;
+		--color-format)
+			COLOR_FORMAT=$2;
+			shift; shift;
+			;;
+		--display-primaries)
+			DISPLAY_PRIMARIES=$2;
+			shift; shift;
+			;;
+		--white-point)
+			WHITE_POINT=$2;
+			shift; shift;
+			;;
+		--display-luminance)
+			DISPLAY_LUMINANCE=$2;
+			shift; shift;
+			;;
+		--max-cll)
+			MAX_CLL=$2;
+			shift; shift;
+			;;
+		--max-fall)
+			MAX_FALL=$2;
+			shift; shift;
 			;;
 		--)
                         shift; break;
