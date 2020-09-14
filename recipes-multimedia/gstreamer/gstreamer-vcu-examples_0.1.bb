@@ -10,6 +10,7 @@ SRC_URI = "file://vcu-demo-camera-decode-display.sh \
            file://vcu-demo-streamin-decode-display.sh \
            file://vcu-demo-transcode-to-file.sh \
            file://vcu-demo-transcode-to-streamout.sh \
+           file://vcu-demo-videotestsrc-hdr-to-file.sh \
            file://vcu-demo-functions.sh \
            file://4K_AVC_Decode.desktop \
            file://4K_HEVC_Decode.desktop \
@@ -39,6 +40,7 @@ do_install() {
     install -m 0755 ${S}/vcu-demo-streamin-decode-display.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-transcode-to-file.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-transcode-to-streamout.sh ${D}/${bindir}
+    install -m 0755 ${S}/vcu-demo-videotestsrc-hdr-to-file.sh ${D}/${bindir}
     install -m 0755 ${S}/vcu-demo-functions.sh ${D}/${bindir}
 }
 
