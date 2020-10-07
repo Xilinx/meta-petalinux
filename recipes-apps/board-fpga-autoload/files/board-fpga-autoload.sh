@@ -10,6 +10,8 @@ if [ ! -z $dev_eeprom ] && [ -f $dev_eeprom ]; then
 	if [ -d ${BD_DTPATH} ];then
 		BIN="$(find ${BD_DTPATH}/ -name *.bin | head -1)"
 		DTBO="$(find ${BD_DTPATH}/ -name *.dtbo | head -1)"
+	else
+		echo -e "\033[1mValid Board Information Not Found, Please Load bitstream and dtbo manually using fpgautil\033[0m"
 	fi
 	if [ ! -z "${BIN}" ] && [ ! -z "${DTBO}" ]; then
 		echo "Loading dtbo and bitstream for ${board_name}_${board_rev}"
