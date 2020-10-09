@@ -9,7 +9,7 @@ SRC_URI = "git://gitenterprise.xilinx.com/smartlynq/systemctl-labtool-yocto.git;
 SRC_URI[md5sum] = "a476e19d5c4666e91bcab4cd8b09c3dd"
 SRC_URI[sha256sum] = "0da1edcb0177f844b69ceb70aed864672983fa40bbe92b4df01e0d6c34795c15"
 
-SRCREV = "b221c0ccccb3231b7ff4e32e2b537f3873d5d366"
+SRCREV = "4f2af84d367a0aa281be518be0f527c04d20e5fa"
 
 inherit update-rc.d
 
