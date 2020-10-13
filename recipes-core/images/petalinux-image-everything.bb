@@ -3,7 +3,7 @@ LICENSE = "MIT"
 
 require petalinux-image-full.inc
 
-IMAGE_INSTALL_append_zynqmp = " openamp-demo-notebooks watchdog-init hellopm"
+IMAGE_INSTALL_append_zynqmp = " openamp-demo-notebooks watchdog-init hellopm cppzmq jansson"
 IMAGE_INSTALL_append_zynqmpev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmpdr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
