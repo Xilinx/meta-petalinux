@@ -23,7 +23,6 @@ RDEPENDS_${PN} = "python3-periphery \
 inherit update-rc.d
 
 INITSCRIPT_NAME = "start_boardframework.sh"
-INITSCRIPT_PARAMS = "start 99 S ."
 
 S="${WORKDIR}/git"
 
