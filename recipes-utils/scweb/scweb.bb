@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "git://gitenterprise.xilinx.com/PAEG/SystemController.git;branch=master;protocol=https \
                   "
-SRCREV = "6e6944b1de10f25747179e75f85ceedf29f1a3d6"
+SRCREV = "3e0b2bc080402eb525cb94d7a50e15387cdbc8fc"
 
 inherit update-rc.d
 
