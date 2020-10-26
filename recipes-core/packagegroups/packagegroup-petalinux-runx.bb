@@ -5,7 +5,7 @@ inherit packagegroup features_check
 REQUIRED_DISTRO_FEATURES = " virtualization vmsep"
 
 RUNX_PACKAGES = " \
-	go-build \
+	go-build-xlnx \
 	runx-xlnx \
 	socat \
 	daemonize \
