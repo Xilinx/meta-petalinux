@@ -6,7 +6,7 @@ REQUIRED_DISTRO_FEATURES = " virtualization vmsep"
 
 RUNX_PACKAGES = " \
 	go-build \
-	runx \
+	runx-xlnx \
 	socat \
 	daemonize \
 	packagegroup-petalinux-xen \

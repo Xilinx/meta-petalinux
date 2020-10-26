@@ -1,19 +1,50 @@
+HOMEPAGE = "https://github.com/lf-edge/runx"
+SUMMARY = "runx stuff"
+DESCRIPTION = "Xen Runtime for OCI"
+
 REPO ?= "git://gitenterprise.xilinx.com/Xen/runx.git"
-SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
 BRANCH ?= "xilinx/release-2020.2"
+REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
+SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
+FILESEXTRAPATHS_prepend := "${THISDIR}/runx:"
 
-SRC_URI_remove = " \
-	 file://0001-make-kernel-cross-compilation-tweaks.patch \
-	 file://0001-make-initrd-cross-install-tweaks.patch \
-"
+SRC_URI = "\
+	  ${REPO};${REPO_BRANCH};name=runx \
+          https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.15.tar.xz;destsuffix=git/kernel/build \
+          file://0002-make-kernel-cross-compilation-tweaks.patch \
+          file://0001-make-initrd-cross-install-tweaks.patch \
+	  "
+SRC_URI[md5sum] = "0d701ac1e2a67d47ce7127432df2c32b"
+SRC_URI[sha256sum] = "5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769"
 
-FILESEXTRAPATHS_append := "${THISDIR}/${PN}:"
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=945fc9aa694796a6337395cc291ddd8c"
 
-SRC_URI_append = " \
-	file://make-kernel-cross-compilation-tweaks.patch \
-	file://make-initrd-cross-install-tweaks.patch \	
-"
+S = "${WORKDIR}/git"
+PV = "0.1-git${SRCREV_runx}"
+
+inherit features_check
+REQUIRED_DISTRO_FEATURES = "vmsep"
+
+inherit pkgconfig
+
+# for the kernel build
+inherit kernel-arch
+
+# we have a busybox bbappend that makes /bin available to the
+# sysroot, and hence gets us the target binary that we need
+DEPENDS = "busybox go-build"
+
+# for the kernel build phase
+DEPENDS += "openssl-native coreutils-native util-linux-native xz-native bc-native"
+DEPENDS += "qemu-native"
+
+RDEPENDS_${PN} += " jq bash"
+RDEPENDS_${PN} += " xen-tools-xl go-build socat daemonize"
+
+# This is typically machine specific, but we want this to be generic
+STAGING_KERNEL_DIR = "${WORKDIR}"
 
 do_compile() {
 
@@ -74,3 +105,10 @@ do_install() {
 
 }
 
+
+deltask compile_ptest_base
+
+FILES_${PN} += "${bindir}/* ${datadir}/runX/*"
+
+INHIBIT_PACKAGE_STRIP = "1"
+INSANE_SKIP_${PN} += "ldflags already-stripped"

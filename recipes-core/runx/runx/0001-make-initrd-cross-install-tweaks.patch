@@ -1,18 +1,20 @@
-From d8bd5749e6fc6e0c86a8720044ec78167bab3569 Mon Sep 17 00:00:00 2001
+From da29d6f068161ac2121899a671ba5bf1e5fc6655 Mon Sep 17 00:00:00 2001
 From: Bruce Ashfield <bruce.ashfield@xilinx.com>
 Date: Mon, 16 Dec 2019 22:03:14 -0800
-Subject: [PATCH] make-initrd: cross install tweaks
+Subject: [PATCH 1/2] make-initrd: cross install tweaks
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+
+%% original patch: 0001-make-kernel-cross-compilation-tweaks.patch
 ---
- kernel/make-initrd | 18 ++++++++++++++++--
+ initrd/make-initrd | 18 ++++++++++++++++--
  1 file changed, 16 insertions(+), 2 deletions(-)
 
-Index: git/initrd/make-initrd
-===================================================================
---- git.orig/initrd/make-initrd
-+++ git/initrd/make-initrd
-@@ -23,8 +23,22 @@
+diff --git a/initrd/make-initrd b/initrd/make-initrd
+index 779f109..f526f19 100755
+--- a/initrd/make-initrd
++++ b/initrd/make-initrd
+@@ -22,8 +22,22 @@ mkdir -p $tmpdir/sys
  mkdir -p $tmpdir/lib
  mkdir -p $tmpdir/var
  mkdir -p $tmpdir/mnt
@@ -35,5 +37,8 @@ Index: git/initrd/make-initrd
 +    $tmpdir/bin/busybox --install $tmpdir/bin
 +fi
  
- mkdir -p $tmpdir/etc/init.d
- cp $init $tmpdir/etc/init.d/rcS
+ cp $init $tmpdir/init
+ chmod +x $tmpdir/init
+-- 
+2.7.4
+

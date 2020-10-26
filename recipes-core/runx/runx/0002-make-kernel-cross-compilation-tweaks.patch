@@ -1,18 +1,20 @@
-From 7e3498ab7c375bd545de501920acffa77eb24120 Mon Sep 17 00:00:00 2001
+From 7621415de199044337c2af347b53e71f6157c9ec Mon Sep 17 00:00:00 2001
 From: Bruce Ashfield <bruce.ashfield@xilinx.com>
 Date: Mon, 16 Dec 2019 20:42:04 -0800
-Subject: [PATCH] make-kernel: cross-compilation tweaks
+Subject: [PATCH 2/2] make-kernel: cross-compilation tweaks
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+
+%% original patch: 0001-make-initrd-cross-install-tweaks.patch
 ---
  kernel/make-kernel | 41 +++++++++++++++++++++++++++++++++--------
  1 file changed, 33 insertions(+), 8 deletions(-)
 
-Index: git/kernel/make-kernel
-===================================================================
---- git.orig/kernel/make-kernel
-+++ git/kernel/make-kernel
-@@ -13,6 +13,7 @@
+diff --git a/kernel/make-kernel b/kernel/make-kernel
+index af4172e..eb5b1d3 100755
+--- a/kernel/make-kernel
++++ b/kernel/make-kernel
+@@ -13,6 +13,7 @@ fi
  
  kernel_stuffdir=`readlink -f kernel`
  kernel_outpath=$kernel_stuffdir/out
@@ -20,8 +22,8 @@ Index: git/kernel/make-kernel
  kernel_builddir=$kernel_stuffdir/build
  kernel_out=$kernel_outpath/kernel
  
-@@ -22,28 +23,52 @@
- kernel_url=https://www.kernel.org/pub/linux/kernel/v5.x/"$kernel_tarball"
+@@ -22,28 +23,52 @@ kernel_tarball="$kernel_name".tar.xz
+ kernel_url=https://www.kernel.org/pub/linux/kernel/v4.x/"$kernel_tarball"
  kernel_src_config="$kernel_stuffdir"/cutdown-config."$ARCH"
  kernel_patchesdir="$kernel_stuffdir"/patches
 -kernel_image="$kernel_builddir"/"$kernel_name"/arch/"$ARCH"/boot/"$image"
@@ -81,3 +83,6 @@ Index: git/kernel/make-kernel
 +eval make -j "$(getconf _NPROCESSORS_ONLN)" O=$kernel_builddir $build_vars $image
  
  cp $kernel_image $kernel_out
+-- 
+2.7.4
+
