@@ -34,14 +34,14 @@ inherit kernel-arch
 
 # we have a busybox bbappend that makes /bin available to the
 # sysroot, and hence gets us the target binary that we need
-DEPENDS = "busybox go-build"
+DEPENDS = "busybox go-build-xlnx"
 
 # for the kernel build phase
 DEPENDS += "openssl-native coreutils-native util-linux-native xz-native bc-native"
 DEPENDS += "qemu-native"
 
 RDEPENDS_${PN} += " jq bash"
-RDEPENDS_${PN} += " xen-tools-xl go-build socat daemonize"
+RDEPENDS_${PN} += " xen-tools-xl go-build-xlnx socat daemonize"
 
 # This is typically machine specific, but we want this to be generic
 STAGING_KERNEL_DIR = "${WORKDIR}"
