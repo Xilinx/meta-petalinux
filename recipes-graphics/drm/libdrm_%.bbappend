@@ -8,4 +8,5 @@ SRC_URI_append = " \
     file://0005-modetest-Add-semiplanar-10bit-pattern-support-for-mo.patch \
     file://0006-modetest-fix-smpte-colour-pattern-issue-for-XV20-and.patch \
     file://0001-headers-Sync-with-HDR-from-v5.4.patch \
+    file://0001-modetest-Convert-vrefresh-input-to-frame-level-for-i.patch \
 	"

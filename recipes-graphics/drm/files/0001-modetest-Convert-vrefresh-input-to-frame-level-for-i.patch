@@ -1,0 +1,33 @@
+From 123935d78a0a460a930ebf3bf549d5e4a789760b Mon Sep 17 00:00:00 2001
+From: Jianqiang Chen <jianqiang.chen@xilinx.com>
+Date: Thu, 29 Oct 2020 09:52:02 -0700
+Subject: [PATCH] modetest: Convert vrefresh input to frame level for
+ interlaced video
+
+vrefresh for interlaced video has been changed to frame level. The
+modetest application still expects the vrefesh as field level. For
+exampale, if the user input is 1920x1080i-59.94, this patch converts
+it to 1920x1080i-29.97
+
+Upstream-Status: Pending
+Signed-off-by: Jianqiang Chen <jianqiang.chen@xilinx.com>
+---
+ tests/modetest/modetest.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
+index b1b0815..9b32004 100644
+--- a/tests/modetest/modetest.c
++++ b/tests/modetest/modetest.c
+@@ -1729,6 +1729,8 @@ static int parse_connector(struct pipe_arg *pipe, const char *arg)
+ 
+ 	if (*p == '-') {
+ 		pipe->vrefresh = strtof(p + 1, &endp);
++		if (pipe->mode_str[len - 1] == 'i')
++			pipe->vrefresh /= 2;
+ 		p = endp;
+ 	}
+ 
+-- 
+2.7.4
+
