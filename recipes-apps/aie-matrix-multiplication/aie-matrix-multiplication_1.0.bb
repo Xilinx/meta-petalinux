@@ -17,7 +17,7 @@ INSANE_SKIP_${PN} += " arch"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal-ai-core = "versal-ai-core"
 
-S = "${WORKDIR}/git/"
+S = "${WORKDIR}/git"
 
 do_compile[noexec] = "1"
 
