@@ -1,4 +1,4 @@
-REPO ?= "git://gitenterprise.xilinx.com/Xen/runx.git"
+REPO ?= "git://github.com/Xilinx/runx.git"
 SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
 BRANCH ?= "xilinx/release-2020.2"
 

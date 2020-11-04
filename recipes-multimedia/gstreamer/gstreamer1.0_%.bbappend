@@ -1,4 +1,4 @@
-BRANCH ?= "release-2020.1"
+BRANCH ?= "release-2020.2"
 REPO   ?= "git://github.com/xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"

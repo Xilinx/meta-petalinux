@@ -1,4 +1,4 @@
-BRANCH ?= "release-2020.1"
+BRANCH ?= "release-2020.2"
 REPO ?= "git://github.com/xilinx/gst-plugins-base.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
@@ -26,7 +26,7 @@ SRC_URI = " \
     file://0001-wayland-fix-build-break-in-yocto.patch \
 "
 
-SRCREV_base = "ffc05bce0bc02cb2cafd50914f01640dab47f274"
+SRCREV_base = "a46ce57c6ddd1146c118133d9eecd5e7a10d2cf7"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
