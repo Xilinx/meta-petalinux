@@ -10,7 +10,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI_remove = " file://gtk-doc-tweaks.patch"
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
-    git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
+    git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
 "

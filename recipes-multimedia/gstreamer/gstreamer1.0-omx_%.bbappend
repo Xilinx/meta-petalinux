@@ -7,7 +7,7 @@ PV = "1.16.0+git${SRCPV}"
 
 SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \
-	git://anongit.freedesktop.org/git/gstreamer/common.git;destsuffix=git/common;branch=master;name=common \
+	git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
 	"
 
 SRCREV_gst-omx = "f3061fb074c6ef86df252bfe769ca5bf124fa3bf"
