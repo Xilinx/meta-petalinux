@@ -9,7 +9,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=gstreamer-xlnx \
-    git://anongit.freedesktop.org/git/gstreamer/common.git;destsuffix=git/common;branch=master;name=common \
+    git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
