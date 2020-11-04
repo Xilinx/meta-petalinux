@@ -1,13 +1,13 @@
 SUMMARY = "rfclk Library"
 SECTION = "rfclk"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=64f55aaa4b1bbdab348c0703190d558a"
 
 inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ??= "release-2020.1"
-SRCREV ??= "6cbb920f4de9e650dc361b8e487f139fd4c3c743"
+BRANCH ??= "master-rel-2020.2"
+SRCREV ??= "abf960cf328005f18d0c25b0960e2ba08e55c4f7"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 COMPATIBLE_MACHINE = "^$"
