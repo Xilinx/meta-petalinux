@@ -20,7 +20,7 @@ SRC_URI = " \
     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
 "
 
-SRCREV_base = "892d51999b193cb1d5946e050d69afc72d552aa5"
+SRCREV_base = "34f6d133877dd667002824169bf467ef6de04cb3"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
