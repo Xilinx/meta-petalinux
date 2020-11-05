@@ -2,7 +2,7 @@ HOMEPAGE = "https://github.com/lf-edge/runx"
 SUMMARY = "runx stuff"
 DESCRIPTION = "Xen Runtime for OCI"
 
-REPO ?= "git://gitenterprise.xilinx.com/Xen/runx.git"
+REPO ?= "git://github.com/Xilinx/runx.git"
 BRANCH ?= "xilinx/release-2020.2"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
