@@ -29,6 +29,8 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-jupyter \
     ##OEROOT##/../meta-vitis-ai \
     ##OEROOT##/../meta-som \
+    ##OEROOT##/../meta-security \
+    ##OEROOT##/../meta-security/meta-tpm \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
