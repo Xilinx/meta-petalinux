@@ -1,4 +1,4 @@
-REPO ?= "git://github.com/Xilinx/runx.git"
+REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
 SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
 BRANCH ?= "xilinx/release-2020.2"
 
@@ -71,6 +71,7 @@ do_install() {
     install -m 755 ${S}/files/state ${D}/${datadir}/runX
     install -m 755 ${S}/files/delete ${D}/${datadir}/runX
     install -m 755 ${S}/files/serial_start ${D}/${datadir}/runX
+    install -m 755 ${S}/files/create ${D}/${datadir}/runX
 
 }
 
