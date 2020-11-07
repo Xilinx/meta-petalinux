@@ -13,6 +13,8 @@ FILESEXTRAPATHS_append := "${THISDIR}/${PN}:"
 SRC_URI_append = " \
 	file://make-kernel-cross-compilation-tweaks.patch \
 	file://make-initrd-cross-install-tweaks.patch \	
+	file://0001-Add-busybox-cross-build-for-arm64.patch \
+        file://0001-initrd-changes-for-busybox.patch \
 "
 
 do_compile() {
