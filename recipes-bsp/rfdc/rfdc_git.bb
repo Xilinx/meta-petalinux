@@ -6,7 +6,7 @@ inherit pkgconfig
 
 REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
 BRANCH ??= "master-rel-2020.2"
-SRCREV ??= "e4a21586907f1d8a23cdef48bc1dd6c2b131cac0"
+SRCREV ??= "ab200970da5333d4287b128c9ccd78786fb2ebab"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 LIC_FILES_CHKSUM="file://license.txt;md5=3a6e22aebf6516f0f74a82e1183f74f8"
