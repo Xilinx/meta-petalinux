@@ -1,0 +1,53 @@
+From d46bef88256b22145491758fe36b5ec59dc8f99e Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Fri, 6 Nov 2020 16:43:09 -0800
+Subject: [PATCH] initrd changes for busybox
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ initrd/make-initrd | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/initrd/make-initrd b/initrd/make-initrd
+index f526f19..f71f595 100755
+--- a/initrd/make-initrd
++++ b/initrd/make-initrd
+@@ -9,10 +9,34 @@ rm -rf $tmpdir
+ 
+ if test -z "$busybox"
+ then
+-    busybox=$(which busybox)
++    busybox_version=1.32.0
++    busybox_name=busybox-$busybox_version
++    busybox_tarball="$busybox_name".tar.bz2
++    busybox_url="https://busybox.net/downloads/""$busybox_tarball"
++    busybox_src_config="$base"/config."$ARCH"
++    busybox_image="$builddir"/"$busybox_name"/busybox
++    
++    rm -rf $outpath
++    mkdir -p $outpath
++    mkdir -p $builddir
++    
++    if [[ ! -f $builddir/$busybox_tarball ]]
++    then
++        wget -O $builddir/$busybox_tarball --tries=20 $busybox_url
++    fi
++    if [[ ! -d $builddir/$busybox_name ]]
++    then
++        tar --extract --bzip2 --touch --file="$builddir/$busybox_tarball" --directory="$builddir"
++    fi
++    cd $builddir/$busybox_name
++    cp $busybox_src_config .config
++    make -j "$(getconf _NPROCESSORS_ONLN)"
++    export busybox="$busybox_image"
++
+ fi
+ 
+ mkdir -p $outpath
++
+ mkdir -p $tmpdir/bin
+ mkdir -p $tmpdir/sbin
+ mkdir -p $tmpdir/etc
+-- 
+2.7.4
+
