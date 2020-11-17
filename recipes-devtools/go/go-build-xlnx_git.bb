@@ -6,7 +6,7 @@ SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
 SRCREV_runc = "e4363b038787addfa12e8b0acf5417d4fba01693"
 
 BRANCH ?= "xilinx/release-2020.2"
-REPO ?= "git://github.com/Xilinx/runx.git"
+REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 
 SRC_URI = "\

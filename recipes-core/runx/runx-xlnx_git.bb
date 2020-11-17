@@ -2,7 +2,7 @@ HOMEPAGE = "https://github.com/lf-edge/runx"
 SUMMARY = "runx stuff"
 DESCRIPTION = "Xen Runtime for OCI"
 
-REPO ?= "git://github.com/Xilinx/runx.git"
+REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
 BRANCH ?= "xilinx/release-2020.2"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
@@ -102,6 +102,7 @@ do_install() {
     install -m 755 ${S}/files/state ${D}/${datadir}/runX
     install -m 755 ${S}/files/delete ${D}/${datadir}/runX
     install -m 755 ${S}/files/serial_start ${D}/${datadir}/runX
+    install -m 755 ${S}/files/create ${D}/${datadir}/runX
 
 }
 
