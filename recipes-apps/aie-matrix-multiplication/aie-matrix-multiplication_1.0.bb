@@ -23,10 +23,10 @@ do_compile[noexec] = "1"
 
 do_install() {
 	install -d ${D}${bindir}
-	install -m 0755 ${S}aie-matrix-multiplication ${D}${bindir}
+	install -m 0755 ${S}/aie-matrix-multiplication ${D}${bindir}
 	install -d ${D}/lib/firmware/aie/
-	cp -r ${S}Work ${D}/lib/firmware/aie
-	cp ${S}aie-matrix-multiplication.xclbin ${D}/lib/firmware/aie
+	cp -r ${S}/Work ${D}/lib/firmware/aie
+	cp ${S}/aie-matrix-multiplication.xclbin ${D}/lib/firmware/aie
 }
 
 FILES_${PN} += " \
