@@ -10,7 +10,7 @@ fi
 #(but will only affect if the values match up to a repo arch value)
 
 #Add board_variant and board archs right after first level hiearchy which is MACHINE
-cat /etc/dnf/vars/arch | sed "0,/:/s//:${BOARD_VARIANT}:${BOARD}:/">/etc/dnf/vars/arch
+sed -i "s/:/:${BOARD_VARIANT}:${BOARD}:/" /etc/dnf/vars/arch
 
 #Add board_variant and board archs to arch_compat (order doesnt matter here)
-cat /etc/rpmrc | sed "s/^arch_compat.*/& ${BOARD} ${BOARD_VARIANT}/">/etc/rpmrc
+sed -i "s/^arch_compat.*/& ${BOARD} ${BOARD_VARIANT}/"  /etc/rpmrc
