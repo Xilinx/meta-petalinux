@@ -19,6 +19,7 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-diffstat \
 	nativesdk-gnupg \
 	nativesdk-bzip2 \
+	nativesdk-xz \
 	nativesdk-kconfig-frontends \
 "
 
