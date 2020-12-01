@@ -12,7 +12,8 @@ inherit jupyter-examples python3-dir
 SRC_URI = "git://gitenterprise.xilinx.com/PowerAdvantageTool/jupyter-pat.git;protocol=https;nobranch=1"
 
 PV = "2.2.0+git${SRCPV}"
-SRCREV = "51878b8d93cb91e26af67b04d46635b212ca93b9"
+SRCREV = "caec49c66e436ff0c47239c168054f02ac641790"
+
 
 S = "${WORKDIR}/git"
 
