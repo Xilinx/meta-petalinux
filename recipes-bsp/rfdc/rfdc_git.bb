@@ -43,7 +43,6 @@ do_install() {
     oe_libinstall -so librfdc ${D}${libdir}
     install -m 0644 xrfdc_hw.h ${D}${includedir}/xrfdc_hw.h
     install -m 0644 xrfdc.h ${D}${includedir}/xrfdc.h
-    install -m 0644 xrfdc_mts.h ${D}${includedir}/xrfdc_mts.h
 }
 
 FILES_${PN} = "${libdir}/*.so.*"
