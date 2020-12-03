@@ -1,0 +1,95 @@
+From 190c589a936dc0458911a5ca36d7442672bb07cc Mon Sep 17 00:00:00 2001
+From: Jaewon Lee <jaewon.lee@xilinx.com>
+Date: Mon, 7 Dec 2020 13:34:47 -0800
+Subject: [PATCH] fru.py: Modifying for xilinx specific specs
+
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+---
+ fru.py | 54 +++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 49 insertions(+), 5 deletions(-)
+
+diff --git a/fru.py b/fru.py
+index 2fe9aa8..2631fcc 100644
+--- a/fru.py
++++ b/fru.py
+@@ -147,10 +147,26 @@ def extract_values(blob, offset, names):
+         if type_length == 0xc1:
+             return data
+         length = type_length & 0x3f
+-        # encoding = (ord(blob[offset:offset + 1]) & 0xc0) >> 6
+-        data[name] = blob[offset + 1:offset + length + 1].decode('ascii')
++        encoding = (ord(blob[offset:offset+1]) & 0xc0) >> 6
++        #encoding 3 means ascii, encoding 0 means binary
++        if encoding == 3:
++            data[name] = blob[offset+1 :offset + length+1].decode('ascii').strip('\x00').strip()
++        else:
++            data[name] = blob[offset+1 :offset + length+1].hex().strip()
++
+         offset += length + 1
+ 
++def extract_freeform_values(blob, offset, lengths, names):
++    data={}
++    for name,length in  zip(names,lengths):
++        if name != 'null':
++            if (length & 0xc0) >> 6 == 3:
++                length = length & 0x3f
++                data[name] = blob[offset :offset + length].decode('ascii').strip('\x00').strip()
++            else:
++                data[name] = blob[offset :offset + length].hex().strip()
++        offset += length
++    return data
+ 
+ def load(path=None, blob=None):
+     """Load binary FRU information from a file or binary data blob.
+@@ -178,8 +194,7 @@ def load(path=None, blob=None):
+     chassis_offset = ord(blob[2:3]) * 8
+     board_offset = ord(blob[3:4]) * 8
+     product_offset = ord(blob[4:5]) * 8
+-    # multirecord_offset = ord(blob[5:6]) * 8
+-
++    multirecord_offset = ord(blob[5:6]) * 8
+     data = {'common': {'version': version, 'size': len(blob)}}
+ 
+     if internal_offset:
+@@ -209,8 +224,37 @@ def load(path=None, blob=None):
+                 ord(blob[board_offset + 5:board_offset + 6]) << 16,
+             ]),
+         }
+-        names = ['manufacturer', 'product', 'serial', 'part', 'fileid']
++        names = ['manufacturer', 'product', 'serial', 'part', 'fileid', 'revision', 'pcieinfo', 'uuid']
+         data['board'].update(extract_values(blob, board_offset + 6, names))
++        #as per xilinx spec, pcieinfo is split up with four different fields with each being 2 bytes (vendor, device, subvendor, subdevice)
++        #pcie info also expected to be displayed in hex
++        temp  = data['board']['pcieinfo']
++        data['board']['pcieinfo'] = { \
++            'Vendor_ID':temp[0:4], \
++            'Device_ID':temp[4:8], \
++            'SubVendor_ID':temp[8:12], \
++            'SubDevice_ID':temp[12:16] \
++        }
++
++    if multirecord_offset:
++        if blob[multirecord_offset:multirecord_offset+1] == b'\x02':
++            dcloadrecord_offset = 0x68
++            names = ['output_number', 'nominal_voltage', 'min_V','max_V','ripple/noise pk-pk','min_mA','max_mA']
++            lengths = [1,2,2,2,2,2,2]
++            data['multirecord']={'DC_Load_Record': extract_freeform_values(blob, dcloadrecord_offset+5, lengths, names)}
++
++        SOM_macaddr_offset = 0x7A
++        if blob[SOM_macaddr_offset:SOM_macaddr_offset+1] == b'\xd2':
++            names=['Xilinx_IANA_ID','Version','MAC_ID_0']
++            lengths=[3,1,6]
++            data['multirecord'].update({'MAC_Addr':extract_freeform_values(blob, SOM_macaddr_offset+5, lengths, names)})
++
++        SOM_memconf_offset = 0x9B
++        if blob[SOM_memconf_offset:SOM_memconf_offset+1] == b'\xd3':
++            names=['Xilinx_IANA_ID','null','Primary_boot_device','null','null','SOM_secondary_boot_device','null','null','SOM_PS_DDR_memory','null','null','SOM_PL_DDR_memory','null']
++            #aligning with spec for board area where bits 7:6 define encoding, or-ing length with 0xc0 if ascii data
++            lengths=[3,8,12|0xc0,1,8,12|0xc0,1,8,12|0xc0,1,8,12|0xc0,1]
++            data['multirecord'].update({'SoM_Memory_Config':extract_freeform_values(blob, SOM_memconf_offset+5, lengths, names)})
+ 
+     if product_offset:
+         length = ord(blob[product_offset + 1:product_offset + 2]) * 8
+-- 
+2.25.0
+
