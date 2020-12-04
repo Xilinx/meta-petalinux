@@ -6,7 +6,7 @@ TARGET_CC_ARCH += " ${LDFLAGS}"
 DEPENDS += "libmetal"
 
 SRC_URI = "git://gitenterprise.xilinx.com/CMC/CMC_Core.git;protocol=ssh;branch=master"
-SRCREV = "46ce05b76d1bf2b45374b2e95bc233f134d3b2b6"
+SRCREV = "e78b6723d20edd9a96b924b42ff1bee6cb57bb1b"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck5000-versal = "vck5000-versal"
