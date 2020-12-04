@@ -1,4 +1,4 @@
-XEN_REL = "4.12"
+XEN_REL = "4.14"
 
 BRANCH = "xilinx/release-2020.2"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
