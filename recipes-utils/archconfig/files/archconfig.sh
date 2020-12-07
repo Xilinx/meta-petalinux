@@ -1,16 +1,18 @@
 #!/bin/bash
+somnum=`echo $(fru-print.py -b som -f product) | sed 's/.*-K\([0-9]*\).*/\1/'`
+som=`echo $(fru-print.py -b som -f product) | sed 's/.*-\(K[0-9]*\).*/\1/' | tr '[:upper:]' '[:lower:]'`
+cc=`echo $(fru-print.py -b cc -f product) | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
 
-dev_eeprom=$(find /sys/bus/i2c/devices/*54/ -name eeprom | head -1)
-if [ ! -z $dev_eeprom ] && [ -f $dev_eeprom ]; then
-#TODO will need to update the following info to match som board eeprom info
-	BOARD=$(dd if=$dev_eeprom bs=1 count=6 skip=208 2>/dev/null)
-	BOARD_VARIANT=$(dd if=$dev_eeprom bs=1 count=3 skip=224 2>/dev/null)
-fi
 #TODO Possibly check BOARD/BOARD_VARIANT values before changing arch file
 #(but will only affect if the values match up to a repo arch value)
+BOARD=${som}
+BOARD_VARIANT=${cc}${somnum}0
 
-#Add board_variant and board archs right after first level hiearchy which is MACHINE
-sed -i "s/:/:${BOARD_VARIANT}:${BOARD}:/" /etc/dnf/vars/arch
-
-#Add board_variant and board archs to arch_compat (order doesnt matter here)
-sed -i "s/^arch_compat.*/& ${BOARD} ${BOARD_VARIANT}/"  /etc/rpmrc
+#check if dnf configs already updated based off BOARD value
+if ! grep "${BOARD}" /etc/dnf/vars/arch > /dev/null
+then
+        #Add board_variant and board archs right after first level hiearchy which is MACHINE
+        sed -i "s/:/:${BOARD_VARIANT}:${BOARD}:/" /etc/dnf/vars/arch
+        #Add board_variant and board archs to arch_compat (order doesnt matter here)
+        sed -i "s/^arch_compat.*/& ${BOARD} ${BOARD_VARIANT}/"  /etc/rpmrc
+fi
