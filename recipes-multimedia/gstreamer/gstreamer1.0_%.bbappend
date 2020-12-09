@@ -24,10 +24,18 @@ SRCREV_gstreamer-xlnx = "10db9688beab0b11ea2e8c5b05d78c57a589ad03"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
-PACKAGECONFIG_append = " gst-tracer-hooks"
+PACKAGECONFIG_append = " tracer-hooks"
 
 S = "${WORKDIR}/git"
 
 do_configure_prepend() {
         ${S}/autogen.sh --noconfigure
 }
+
+delete_pkg_m4_file() {
+        # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+        rm "${S}/common/m4/pkg.m4" || true
+        rm -f "${S}/common/m4/gtk-doc.m4"
+}
+
+do_configure[prefuncs] += "delete_pkg_m4_file"

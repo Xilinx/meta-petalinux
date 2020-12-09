@@ -21,6 +21,7 @@ RDEPENDS_${PN}_append_zynqmp = " libomxil-xlnx"
 DEPENDS_append_zynqmp = " libomxil-xlnx"
 
 EXTRA_OECONF_append_zynqmp =  " --with-omx-header-path=${STAGING_INCDIR}/vcu-omx-il"
+EXTRA_OEMESON += " -Dheader_path=${STAGING_INCDIR}/vcu-omx-il"
 
 GSTREAMER_1_0_OMX_TARGET_zynqmp ?= "zynqultrascaleplus"
 GSTREAMER_1_0_OMX_CORE_NAME_zynqmp ?= "${libdir}/libOMX.allegro.core.so.1"
