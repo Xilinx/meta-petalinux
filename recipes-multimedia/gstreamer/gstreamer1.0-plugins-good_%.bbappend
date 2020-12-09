@@ -13,6 +13,8 @@ SRC_URI = " \
     git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
+    file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch \
+    file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
 "
 
 SRCREV_base = "9aa8f9b9f1b5de43fa8557485d23fcb42d77d95d"

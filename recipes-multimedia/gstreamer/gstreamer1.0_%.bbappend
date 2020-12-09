@@ -13,9 +13,11 @@ SRC_URI = " \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
-    file://add-a-target-to-compile-tests.patch \
-    file://run-ptest \
     file://0001-gst-inspect.c-Set-DEFAULT_PAGER-more-instead-of-less.patch \
+    file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+    file://0003-meson-Add-valgrind-feature.patch \
+    file://0004-meson-Add-option-for-installed-tests.patch \
+    file://0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch \
 "
 
 SRCREV_gstreamer-xlnx = "10db9688beab0b11ea2e8c5b05d78c57a589ad03"
