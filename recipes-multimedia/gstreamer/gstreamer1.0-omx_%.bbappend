@@ -3,7 +3,7 @@ REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.0+git${SRCPV}"
+PV = "1.16.3+git${SRCPV}"
 
 SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \
