@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=VCU Examples ReadMe
+Comment=VCU Examples ReadMe Document
+Exec=l3afpad /usr/bin/VCU-Examples-ReadMe.txt
+Icon=l3afpad
+Terminal=false
+Categories=GTK;Utility;TextEditor;
+StartupNotify=true

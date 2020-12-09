@@ -1,0 +1,30 @@
+From 7ac6773f3fa716d6c794bd05d6d8f9bde6b345d7 Mon Sep 17 00:00:00 2001
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Sat, 4 Apr 2020 16:47:54 -0700
+Subject: [PATCH] gst-inspect.c: Set DEFAULT_PAGER=more instead of less
+
+On the target, with petalinux distro, if we inspect any elements with gstreamer
+, It throws characters that are not readable.  As a workaround set the default
+PAGER value to more instead of less
+
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ tools/gst-inspect.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/gst-inspect.c b/tools/gst-inspect.c
+index 1b5ed83..2cf4432 100644
+--- a/tools/gst-inspect.c
++++ b/tools/gst-inspect.c
+@@ -51,7 +51,7 @@
+ gboolean colored_output = TRUE;
+ 
+ #ifdef G_OS_UNIX
+-static const gchar DEFAULT_PAGER[] = "less";
++static const gchar DEFAULT_PAGER[] = "more";
+ GPid child_pid = -1;
+ #endif
+ GMainLoop *loop = NULL;
+-- 
+2.7.4
+
