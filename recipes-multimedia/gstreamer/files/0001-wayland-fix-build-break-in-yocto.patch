@@ -1,0 +1,35 @@
+From 266fbefee9501eb38d94b9afc33bf8ed39471d3e Mon Sep 17 00:00:00 2001
+From: Haihua Hu <jared.hu@nxp.com>
+Date: Tue, 18 Jun 2019 10:41:06 +0800
+Subject: [PATCH] wayland: fix build break in yocto
+
+In some thirdpart building system, eg. yocto. when generate protocol
+code file, the file will be put out side of the source dir, As a result,
+below build break will happen:
+
+fatal error: xdg-shell-client-protocol.h: No such file or directory
+
+need put the protocol code into source dir
+---
+ gst-libs/gst/gl/wayland/Makefile.am | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gst-libs/gst/gl/wayland/Makefile.am b/gst-libs/gst/gl/wayland/Makefile.am
+index 07fd889..b68a6aa 100644
+--- a/gst-libs/gst/gl/wayland/Makefile.am
++++ b/gst-libs/gst/gl/wayland/Makefile.am
+@@ -4,9 +4,9 @@ noinst_LTLIBRARIES = libgstgl-wayland.la
+ 
+ xdg_shell_protocol_spec = $(WAYLAND_PROTOCOLS_DATADIR)/stable/xdg-shell/xdg-shell.xml
+ xdg-shell-client-protocol.h: $(xdg_shell_protocol_spec)
+-	$(AM_V_GEN) $(WAYLAND_SCANNER) client-header < $< > $@
++	$(AM_V_GEN) $(WAYLAND_SCANNER) client-header < $< > $(top_srcdir)/gst-libs/gst/gl/wayland/$@
+ xdg-shell-client-protocol.c: $(xdg_shell_protocol_spec)
+-	$(AM_V_GEN) $(WAYLAND_SCANNER) private-code < $< > $@
++	$(AM_V_GEN) $(WAYLAND_SCANNER) private-code < $< > $(top_srcdir)/gst-libs/gst/gl/wayland/$@
+ 
+ built_sources = xdg-shell-client-protocol.c
+ built_headers = xdg-shell-client-protocol.h
+-- 
+2.7.4
+
