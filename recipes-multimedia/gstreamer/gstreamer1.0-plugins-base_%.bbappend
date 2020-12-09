@@ -15,15 +15,11 @@ SRC_URI = " \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
     file://get-caps-from-src-pad-when-query-caps.patch \
+    file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+    file://0002-meson-Add-variables-for-gir-files.patch \
     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-    file://make-gio_unix_2_0-dependency-configurable.patch \
-    file://0002-Makefile.am-prefix-calls-to-pkg-config-with-PKG_CONF.patch \
-    file://0003-riff-add-missing-include-directories-when-calling-in.patch \
-    file://0004-rtsp-drop-incorrect-reference-to-gstreamer-sdp-in-Ma.patch \
+    file://0005-viv-fb-Make-sure-config.h-is-included.patch \
     file://0009-glimagesink-Downrank-to-marginal.patch \
-    file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
-    file://link-with-libvchostif.patch \
-    file://0001-wayland-fix-build-break-in-yocto.patch \
 "
 
 SRCREV_base = "ffc05bce0bc02cb2cafd50914f01640dab47f274"

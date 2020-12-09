@@ -14,10 +14,11 @@ SRC_URI = " \
     git://anongit.freedesktop.org/gstreamer/common;destsuffix=git/common;name=common \
     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
-    file://configure-allow-to-disable-libssh2.patch \
     file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
     file://avoid-including-sys-poll.h-directly.patch \
     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
+    file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+    file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
 "
 
 SRCREV_base = "19b2018f2c31c0011c78fa7300544165739dc91a"
