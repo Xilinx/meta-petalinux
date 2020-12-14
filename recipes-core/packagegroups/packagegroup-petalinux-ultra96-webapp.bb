@@ -17,6 +17,10 @@ ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	connman-tools \
 	"
 
-ULTRA96_STARTUP_PAGES_PACKAGES_append_ultra96-zynqmp = " ultra96-ap-setup ultra96-startup-pages"
+ULTRA96_STARTUP_PAGES_PACKAGES_append_ultra96 = " ultra96-ap-setup ultra96-startup-pages"
 
 RDEPENDS_${PN} = "${ULTRA96_STARTUP_PAGES_PACKAGES}"
+
+COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+
+PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"

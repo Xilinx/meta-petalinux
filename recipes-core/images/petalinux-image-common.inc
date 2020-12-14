@@ -33,7 +33,7 @@ COMMON_INSTALL_append_zynqmp = " hellopm haveged"
 COMMON_INSTALL_append_zynq = " haveged"
 COMMON_INSTALL_append_versal = " haveged"
 
-CORE_IMAGE_EXTRA_INSTALL_append_ultra96-zynqmp = " packagegroup-base-extended"
+CORE_IMAGE_EXTRA_INSTALL_append_ultra96 = " packagegroup-base-extended"
 
 IMAGE_LINGUAS = " "
 

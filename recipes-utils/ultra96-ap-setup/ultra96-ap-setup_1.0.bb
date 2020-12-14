@@ -18,7 +18,7 @@ INITSCRIPT_NAME = "ultra96-ap-setup.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96-zynqmp = "ultra96-zynqmp"
+COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -37,3 +37,4 @@ do_install () {
 
 }
 
+PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
