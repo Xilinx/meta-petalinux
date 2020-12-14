@@ -11,9 +11,9 @@ IMAGE_INSTALL_append_versal = " pm-notebooks openamp-demo-notebooks"
 IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks"
 
 # ultra96-zynqmp recipes
-IMAGE_INSTALL_append_ultra96-zynqmp = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
-IMAGE_INSTALL_append_ultra96-zynqmp = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
-IMAGE_INSTALL_append_ultra96-zynqmp = " sensor-mezzanine-examples"
+IMAGE_INSTALL_append_ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
+IMAGE_INSTALL_append_ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
+IMAGE_INSTALL_append_ultra96 = " sensor-mezzanine-examples"
 
 # vck-sc-zynqmp recipes
 IMAGE_INSTALL_append_vck-sc-zynqmp = " power-advantage-tool labtool-jtag-support boardframework system-controller-app scweb"
