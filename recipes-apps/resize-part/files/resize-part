@@ -29,19 +29,13 @@ ROOT_PART=$1
 ROOT_DEV=$(echo $ROOT_PART | cut -c 1-12)
 PART_NUM=$(echo -n $ROOT_PART | tail -c 1)
 
-#back up data before extend partition, otherwise data might be lost
 do_expand_rootfs() {
 
     local target=$1
     local root_part=$2
     local part_num=$3
 
-    if [[ `mount | grep ${root_part}` ]]
-    then 
-        parted ${target} resizepart ${part_num} yes 100%
-    else 
-        parted ${target} resizepart ${part_num} 100%
-    fi
+    parted ${target} resizepart ${part_num} 100%
 }
 
 do_check_media() {
