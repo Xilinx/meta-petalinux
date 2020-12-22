@@ -1,0 +1,8 @@
+[Unit]
+Description=Start ultra96 python flask server
+
+[Service]
+ExecStart=/usr/bin/ultra96-startup-commands.sh
+
+[Install]
+WantedBy=multi-user.target
