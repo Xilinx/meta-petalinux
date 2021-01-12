@@ -2,7 +2,7 @@ DESCRIPTION = "PetaLinux Vitis AI packages"
 
 inherit packagegroup
 
-# Since dnndk-deploy is SOC_FAMILY specific, this package must be also
+# Since dnndk is SOC_FAMILY specific, this package must be also
 PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"
 
 COMPATIBLE_MACHINE = "^$"
@@ -15,13 +15,13 @@ RDEPENDS_${PN} = "\
     protobuf \
     python3-pip \
     opencv \
-    dnndk-deploy \
+    dnndk \
     python3-pybind11 \
-    vitis-ai-library-deploy \
-    xir-deploy \
-    target-factory-deploy \
-    vart-deploy \
-    unilog-deploy \
+    vitis-ai-library \
+    xir \
+    target-factory \
+    vart \
+    unilog \
     "
 
 RDEPENDS_${PN}-dev += "\
