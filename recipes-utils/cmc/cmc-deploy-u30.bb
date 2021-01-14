@@ -9,13 +9,15 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp-generic = "zynqmp-generic"
 
 RDEPENDS_${PN} = "libmetal"
-CMCPATH="/proj/yocto/cmc/zynqmp-generic/cmc_latest"
+XILINX_RELEASE_VERSION="2021.1"
+CMCPATH="/proj/yocto/cmc/${XILINX_RELEASE_VERSION}/zynqmp-generic/cmc_latest"
 SRC_URI = "file://${CMCPATH} file://cmc-start.sh"
 
 inherit update-rc.d 
 
 INITSCRIPT_NAME = "cmc-start.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
+
 
 do_install() {
 	install -d ${D}${bindir}
