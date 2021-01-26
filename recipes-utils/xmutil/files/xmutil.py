@@ -6,9 +6,9 @@ cmds = { 'boardid':'/usr/bin/fru-print.py', \
         'bootfw':'', \
 	'bootfwupd':'', \
 	'getpkgs':'', \
-	'listapps':'', \
-	'loadapp':'', \
-	'unloadapp':'', \
+	'listapps':'dfx-mgr-client', \
+	'loadapp':'dfx-mgr-client', \
+	'unloadapp':'dfx-mgr-client', \
 	'perfmon':'', \
 	'ddrqos':'', \
 	'axiqos':'', \
@@ -30,13 +30,13 @@ def getpkgs(args):
     subprocess.run([cmds['getpkgs']]+args)
 
 def listapps(args):
-    subprocess.run([cmds['listapps']]+args)
+    subprocess.run([cmds['listapps'],'-listPackage'])
 
 def loadapp(args):
-    subprocess.run([cmds['loadapp']]+args)
+    subprocess.run([cmds['loadapp'],'-load']+args)
 
 def unloadapp(args):
-    subprocess.run([cmds['unloadapp']]+args)
+    subprocess.run([cmds['unloadapp'],'-remove'])
 
 def perfmon(args):
     subprocess.run([cmds['perfmon']]+args)
