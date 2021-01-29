@@ -4,8 +4,8 @@ LICENSE = "MIT"
 require petalinux-image-full.inc
 
 IMAGE_INSTALL_append_zynqmp = " openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson"
-IMAGE_INSTALL_append_zynqmpev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
-IMAGE_INSTALL_append_zynqmpdr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
+IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
+IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
 IMAGE_INSTALL_append_versal = " pm-notebooks openamp-demo-notebooks"
 IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks"
