@@ -6,7 +6,7 @@ BRANCH ??= "master-rel-2020.2"
 SRCREV ??= "08b9f4304d1634ed632f4276d603d834940fd55a"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
+COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"

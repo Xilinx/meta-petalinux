@@ -12,7 +12,7 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 LIC_FILES_CHKSUM="file://license.txt;md5=3a6e22aebf6516f0f74a82e1183f74f8"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
+COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
