@@ -20,7 +20,7 @@ SRC_URI = "file://vcu-demo-camera-decode-display.sh \
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmpev = "zynqmpev"
+COMPATIBLE_MACHINE_zynqmp-ev = "zynqmp-ev"
 
 RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash python3-pip alsa-utils"
 
