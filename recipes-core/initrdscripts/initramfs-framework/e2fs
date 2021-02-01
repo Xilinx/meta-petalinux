@@ -21,12 +21,17 @@ e2fs_run() {
 		    path=`expr "$fs_options" : '[^:]*:\([^:]*\).*'`
 
 		    info "Mounting $dev as $fs on $path as $fs..."
-			mkdir -p $path
-		    while [ ! -b "$dev" ]; do
-			echo "Waiting for $dev to pop up";
-			sleep 1;
+		    mkdir -p $path
+		    count=10
+		    for i in $(seq $count); do
+			if [ -b "$dev" ]; then
+			    mount -t $fs $dev $path
+			    return 0
+			fi
+			echo "Waiting for $dev to pop up (attempt $i)"
+		        sleep 1
 		    done
-		    mount -t $fs $dev $path
+		    echo "Device $dev not found"
 		fi
 	done
 }
