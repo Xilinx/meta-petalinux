@@ -1,6 +1,6 @@
 #!/bin/bash
-som=`echo $(fru-print.py -b som -f product) | sed 's/.*-\(K[0-9]*\).*/\1/' | tr '[:upper:]' '[:lower:]'`
-cc=`echo $(fru-print.py -b cc -f product) | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
+som=`fru-print.py -b som -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
+cc=`fru-print.py -b cc -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
 
 #TODO Possibly check BOARD/BOARD_VARIANT values before changing arch file
 #(but will only affect if the values match up to a repo arch value)
