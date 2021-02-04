@@ -1,5 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI += "file://e2fs"
+
+SRC_URI += "file://e2fs \
+	file://udhcpc"
+
+PACKAGES += "initramfs-module-udhcpc"
 
 do_install() {
     install -d ${D}/init.d
@@ -22,6 +26,9 @@ do_install() {
     # e2fs
     install -m 0755 ${WORKDIR}/e2fs ${D}/init.d/91-e2fs
 
+    # udhcpc
+    install -m 0755 ${WORKDIR}/udhcpc ${D}/init.d/01-udhcpc
+
     # debug
     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
 
@@ -35,3 +42,7 @@ do_install() {
 }
 
 FILES_initramfs-module-e2fs = "/init.d/91-e2fs"
+
+SUMMARY_initramfs-module-udhcpc = "Enable udhcpc"
+RDEPENDS_initramfs-module-udhcpc = "${PN}-base"
+FILES_initramfs-module-udhcpc = "/init.d/01-udhcpc"
