@@ -6,12 +6,12 @@ RDEPENDS_${PN} = "python3-core fru-print dfx-mgr"
 inherit python3-dir
 
 SRC_URI += " \
-    file://xmutil.py \
+    file://xmutil \
     "
 
 do_install() {
     install -d ${D}${bindir}/
-    install -m 0755 ${WORKDIR}/xmutil.py ${D}${bindir}/
+    install -m 0755 ${WORKDIR}/xmutil ${D}${bindir}/
 }
 
-FILES_${PN} += "${bindir}/xmutil.py"
+FILES_${PN} += "${bindir}/xmutil"
