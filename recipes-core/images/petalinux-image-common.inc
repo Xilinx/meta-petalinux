@@ -29,9 +29,11 @@ IMAGE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     "
 
-COMMON_INSTALL_append_zynqmp = " hellopm haveged libdfx"
-COMMON_INSTALL_append_zynq = " haveged"
-COMMON_INSTALL_append_versal = " haveged libdfx"
+COMMON_INSTALL_append_zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm libdfx"
+COMMON_INSTALL_append_zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
+COMMON_INSTALL_append_versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} libdfx"
+
+INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged"
 
 CORE_IMAGE_EXTRA_INSTALL_append_ultra96 = " packagegroup-base-extended"
 
