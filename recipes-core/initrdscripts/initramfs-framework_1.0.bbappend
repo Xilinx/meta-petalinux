@@ -1,5 +1,9 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI += "file://e2fs"
+SRC_URI += "file://e2fs \
+	file://searche2fs \
+	"
+
+PACKAGES += "initramfs-module-searche2fs"
 
 do_install() {
     install -d ${D}/init.d
@@ -22,6 +26,9 @@ do_install() {
     # e2fs
     install -m 0755 ${WORKDIR}/e2fs ${D}/init.d/91-e2fs
 
+    # getext4
+    install -m 0755 ${WORKDIR}/searche2fs ${D}/init.d/92-searche2fs
+
     # debug
     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
 
@@ -35,3 +42,7 @@ do_install() {
 }
 
 FILES_initramfs-module-e2fs = "/init.d/91-e2fs"
+
+SUMMARY_initramfs-module-searche2fs = "search for the ext partitions available and mounts it"
+RDEPENDS_initramfs-module-searche2fs = "${PN}-base"
+FILES_initramfs-module-searche2fs = "/init.d/92-searche2fs"

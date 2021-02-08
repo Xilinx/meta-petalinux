@@ -6,6 +6,7 @@ first 'init' program more efficiently."
 INITRAMFS_SCRIPTS ?= "initramfs-framework-base \
 		initramfs-module-e2fs \
 		initramfs-module-exec \
+		initramfs-module-searche2fs \
 		"
 
 INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
