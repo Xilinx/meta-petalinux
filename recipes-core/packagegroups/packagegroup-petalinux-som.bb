@@ -8,6 +8,9 @@ SOM_PACKAGES = " \
         tpm2-abrmd \
         tpm2-tss-engine \
         tpm2-pkcs11 \
+        xmutil \
+        fru-print \
+        archconfig \
 	"
 
 RDEPENDS_${PN} = "${SOM_PACKAGES}"
