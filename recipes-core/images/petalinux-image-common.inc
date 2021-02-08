@@ -33,7 +33,7 @@ COMMON_INSTALL_append_zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm libdfx"
 COMMON_INSTALL_append_zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
 COMMON_INSTALL_append_versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} libdfx"
 
-INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged"
+INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged htop iperf3 meson"
 
 CORE_IMAGE_EXTRA_INSTALL_append_ultra96 = " packagegroup-base-extended"
 
