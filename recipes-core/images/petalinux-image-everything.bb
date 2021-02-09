@@ -22,3 +22,5 @@ IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
 
 IMAGE_INSTALL_append = " tree ttf-bitstream-vera"
+
+IMAGE_FEATURES_append = " package-management"
