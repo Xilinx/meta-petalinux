@@ -1,0 +1,32 @@
+#!/bin/sh
+
+searche2fs_enabled() {
+        return 0
+}
+
+searche2fs_run() {
+	if [ -z "$ROOTFS_DIR" ]; then
+		return 0
+	fi
+	if [ -z "${bootparam_ext2}" ] && [ -z "${bootparam_ext3}" ] && [ -z "${bootparam_ext4}" ]; then
+		boot_devices=""
+		for i in $(ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"); do
+			boot_devices=$(blkid /dev/${i}* | grep "TYPE=\"ext" | cut -d: -f 1)
+			for boot_device in $boot_devices; do
+				if [ -e ${boot_device} ]; then
+					boot_device_type="$(blkid ${boot_device} | grep -o 'TYPE=.*' | cut -d\" -f 2)"
+					mkdir -p "$ROOTFS_DIR"
+					if ! mount -t $boot_device_type $boot_device $ROOTFS_DIR; then
+						echo "Failed to mount selected root filesystem ($boot_device)"
+					fi
+					if [ ! -d $ROOTFS_DIR/dev ]; then
+						umount $ROOTFS_DIR
+						echo "There's no '/dev' on $boot_device_type(${boot_device}) partition."
+					else
+						return 0
+					fi
+				fi
+			done
+		done
+	fi
+}
