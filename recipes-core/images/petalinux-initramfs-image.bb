@@ -6,8 +6,10 @@ first 'init' program more efficiently."
 INITRAMFS_SCRIPTS ?= "initramfs-framework-base \
 		initramfs-module-e2fs \
 		initramfs-module-udhcpc \
-		initramfs-module-exec \
+		initramfs-module-searche2fs \
 		"
+
+INITRAMFS_SCRIPTS_append_k26 = " initramfs-module-exec"
 
 INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		base-passwd \

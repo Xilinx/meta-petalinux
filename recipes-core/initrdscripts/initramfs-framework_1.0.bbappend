@@ -1,9 +1,11 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-
 SRC_URI += "file://e2fs \
-	file://udhcpc"
+	file://udhcpc \
+	file://searche2fs \
+	"
 
-PACKAGES += "initramfs-module-udhcpc"
+PACKAGES += "initramfs-module-udhcpc \
+	initramfs-module-searche2fs"
 
 do_install() {
     install -d ${D}/init.d
@@ -29,6 +31,9 @@ do_install() {
     # udhcpc
     install -m 0755 ${WORKDIR}/udhcpc ${D}/init.d/01-udhcpc
 
+    # searche2fs
+    install -m 0755 ${WORKDIR}/searche2fs ${D}/init.d/92-searche2fs
+
     # debug
     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
 
@@ -46,3 +51,7 @@ FILES_initramfs-module-e2fs = "/init.d/91-e2fs"
 SUMMARY_initramfs-module-udhcpc = "Enable udhcpc"
 RDEPENDS_initramfs-module-udhcpc = "${PN}-base"
 FILES_initramfs-module-udhcpc = "/init.d/01-udhcpc"
+
+SUMMARY_initramfs-module-searche2fs = "search for the ext partitions available and mounts it"
+RDEPENDS_initramfs-module-searche2fs = "${PN}-base"
+FILES_initramfs-module-searche2fs = "/init.d/92-searche2fs"
