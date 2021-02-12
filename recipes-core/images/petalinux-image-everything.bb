@@ -3,11 +3,13 @@ LICENSE = "MIT"
 
 require petalinux-image-full.inc
 
-IMAGE_INSTALL_append_zynqmp = " openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som"
-IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
+INSTALL_ZYNQMP_VERSAL = " openamp-demo-notebooks ivas-gst ivas-utils ivas-accel-libs"
+
+IMAGE_INSTALL_append_zynqmp = " watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som ${INSTALL_ZYNQMP_VERSAL}"
+#IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL_append_versal = " pm-notebooks openamp-demo-notebooks"
+IMAGE_INSTALL_append_versal = " pm-notebooks ${INSTALL_ZYNQMP_VERSAL}"
 IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks"
 
 # ultra96-zynqmp recipes
