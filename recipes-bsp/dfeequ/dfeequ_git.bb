@@ -11,7 +11,7 @@ SRCREV ??= "08b9f4304d1634ed632f4276d603d834940fd55a"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmpdr = "zynqmpdr"
+COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
