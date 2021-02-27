@@ -34,4 +34,48 @@ do_install() {
     install -m 0755 ${S}/poweradvantage/* ${D}${PYTHON_SITEPACKAGES_DIR}/poweradvantage
 }
 
+#
+# The install_customize task 
+# configures Power_Advantage_Tool.ipynb to the proper board and processor
+# and copies the proper artwork to match the Jupyter Notebook background color
+#
+python do_install_customize () {
+    import os
+    import shutil
+    token_old = "\\\"VCK190\\\", \\\"SC\\\")\\n"
+    path_source = d.getVar('S') + "/img_on_black"
+    path_destination = d.getVar('D') + d.getVar('JUPYTER_DIR') + "/power-advantage-tool/img"
+    path_ipynb = d.getVar('D') + d.getVar('JUPYTER_DIR') + "/power-advantage-tool/Power_Advantage_Tool.ipynb"
+    if d.getVar('MACHINE') == 'vck-sc-zynqmp':
+        token_new = "\\\"VCK190\\\", \\\"SC\\\")\\n"
+    elif d.getVar('MACHINE') == 'vmk-sc-zynqmp':
+        token_new = "\\\"VMK180\\\", \\\"SC\\\")\\n"
+    elif d.getVar('MACHINE') == 'vpk-sc-zynqmp':
+        token_new = "\\\"VPK120\\\", \\\"SC\\\")\\n"
+    elif d.getVar('MACHINE') == 'vck190-versal':
+        token_new = "\\\"VCK190\\\", \\\"\\\")\\n"
+        shutil.rmtree(path_destination)
+        shutil.copytree(path_source, path_destination)
+    elif d.getVar('MACHINE') == 'vmk180-versal':
+        token_new = "\\\"VMK180\\\", \\\"\\\")\\n"
+        shutil.rmtree(path_destination)
+        shutil.copytree(path_source, path_destination)
+    elif d.getVar('MACHINE') == 'vpk120-versal':
+        token_new = "\\\"VPK120\\\", \\\"\\\")\\n"
+        shutil.rmtree(path_destination)
+        shutil.copytree(path_source, path_destination)
+    elif d.getVar('MACHINE') == 'vpk180-versal':
+        token_new = "\\\"VPK180\\\", \\\"\\\")\\n"
+        shutil.rmtree(path_destination)
+        shutil.copytree(path_source, path_destination)
+    file = open(path_ipynb, 'r')
+    lines = file.readlines()
+    file.close()
+    file = open(path_ipynb, 'w')
+    for line in lines:
+        file.write(line.replace(token_old, token_new).replace("\n", "\r\n"))
+    file.close()
+}
+addtask install_customize after do_install before do_build
+
 FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}/poweradvantage/* ${JUPYTER_DIR}/*"
