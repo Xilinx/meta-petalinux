@@ -10,7 +10,7 @@ run_udhcpc() {
 	if [ "$status" = "pre" ] && [ "$module" = "finish" ]; then
 		if [ ! -d $ROOTFS_DIR/dev ]; then
 			if [ -x $_UDHCPC ]; then
-				$_UDHCPC
+				$_UDHCPC $_UDHCPC_ARGS
 			fi
 		fi
 	fi
@@ -18,6 +18,8 @@ run_udhcpc() {
 }
 
 _UDHCPC="/sbin/udhcpc"
+# -n to exit if no lease
+_UDHCPC_ARGS="-n"
 
 udhcpc_run() {
 	add_module_pre_hook "run_udhcpc"
