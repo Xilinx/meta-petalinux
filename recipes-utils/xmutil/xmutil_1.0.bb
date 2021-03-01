@@ -8,7 +8,7 @@ inherit python3-dir
 S = "${WORKDIR}/git"
 
 SRC_URI += " \
-    git://gitenterprise.xilinx.com/PAEG/xmutil.git;branch=master;protocol=https \
+    git://gitenterprise.xilinx.com/SOM/xmutil.git;branch=master;protocol=https \
     "
 SRCREV="931e1ad2f4c15c4040784dbaa6bb2d25f7908b43"
 
