@@ -23,4 +23,4 @@ IMAGE_INSTALL_append_vck-sc-zynqmp = " power-advantage-tool labtool-jtag-support
 IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
 
-IMAGE_INSTALL_append = " tree ttf-bitstream-vera"
+IMAGE_INSTALL_append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
