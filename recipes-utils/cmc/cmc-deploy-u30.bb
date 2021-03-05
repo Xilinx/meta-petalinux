@@ -10,7 +10,7 @@ COMPATIBLE_MACHINE_zynqmp-generic = "zynqmp-generic"
 
 RDEPENDS_${PN} = "libmetal"
 XILINX_RELEASE_VERSION="2021.1"
-CMCPATH="/proj/yocto/cmc/${XILINX_RELEASE_VERSION}/zynqmp-generic/cmc_latest"
+CMCPATH="/proj/yocto/${XILINX_RELEASE_VERSION}/cmc/zynqmp-generic/cmc_latest"
 SRC_URI = "file://${CMCPATH} file://cmc-start.sh"
 
 inherit update-rc.d 
