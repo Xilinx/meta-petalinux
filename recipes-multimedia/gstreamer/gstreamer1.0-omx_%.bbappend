@@ -1,4 +1,4 @@
-BRANCH ?= "release-2020.2"
+BRANCH ?= "xlnx-rebase-v1.16.1"
 REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
