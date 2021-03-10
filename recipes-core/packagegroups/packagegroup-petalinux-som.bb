@@ -3,14 +3,14 @@ DESCRIPTION = "SOM related packages"
 inherit packagegroup
 
 SOM_PACKAGES = " \
-        ntp \
-        tpm2-tools \
-        tpm2-abrmd \
-        tpm2-tss-engine \
-        tpm2-pkcs11 \
-        xmutil \
-        fru-print \
         archconfig \
+        fru-print \
+        ntp \
+        tpm2-abrmd \
+        tpm2-pkcs11 \
+        tpm2-tools \
+        tpm2-tss-engine \
+        xmutil \
 	"
 
 RDEPENDS_${PN} = "${SOM_PACKAGES}"
