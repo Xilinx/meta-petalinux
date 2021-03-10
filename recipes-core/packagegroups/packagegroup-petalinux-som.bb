@@ -9,6 +9,7 @@ SOM_PACKAGES = " \
         packagegroup-petalinux-jupyter \
         packagegroup-petalinux-networking-stack \
         packagegroup-petalinux-python-modules \
+        packagegroup-petalinux-tpm \
         packagegroup-petalinux-utils \
         packagegroup-petalinux \
         archconfig \
@@ -16,10 +17,6 @@ SOM_PACKAGES = " \
         ldd \
         ntp \
         resize-part \
-        tpm2-abrmd \
-        tpm2-pkcs11 \
-        tpm2-tools \
-        tpm2-tss-engine \
         tree \
         tzdata \
         xmutil \
