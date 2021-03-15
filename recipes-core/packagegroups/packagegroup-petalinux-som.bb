@@ -14,6 +14,7 @@ SOM_PACKAGES = " \
         packagegroup-petalinux \
         archconfig \
         fru-print \
+        image-update \
         ldd \
         ntp \
         resize-part \
