@@ -24,6 +24,7 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-file \
 	nativesdk-patch \
 	nativesdk-kconfig-frontends \
+	nativesdk-u-boot-tools \
 "
 
 create_sdk_files_append () {
