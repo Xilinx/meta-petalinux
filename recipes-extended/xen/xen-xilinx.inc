@@ -7,7 +7,7 @@ SRC_URI += " \
     file://passthrough-example-part.dts \
     "
 
-FILES_${PN}-xl_append = " \
+FILES_${PN}-tools-xl_append = " \
     /etc/xen/example-passnet.cfg \
     /etc/xen/example-pvnet.cfg \
     /etc/xen/example-simple.cfg \
