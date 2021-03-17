@@ -2,6 +2,8 @@ DESCRIPTION = "SOM related packages"
 
 inherit packagegroup
 
+DEFAULT_FW_PACKAGE_k26 = "kv260-dp"
+
 SOM_PACKAGES = " \
         packagegroup-core-full-cmdline \
         packagegroup-core-tools-debug \
@@ -21,6 +23,7 @@ SOM_PACKAGES = " \
         tree \
         tzdata \
         xmutil \
+	${DEFAULT_FW_PACKAGE} \
 	"
 
 RDEPENDS_${PN} = "${SOM_PACKAGES}"
