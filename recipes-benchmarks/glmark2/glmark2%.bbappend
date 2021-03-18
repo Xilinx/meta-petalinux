@@ -4,6 +4,7 @@ SRC_URI_append = " file://0001-Make-RGB565-as-default-EGLconfig.patch \
                    file://0001-src-options.cpp-Add-options-to-configure-bpp-and-dep.patch \
                    file://0001-native-state-fbdev-Add-support-for-glmark2-es2-fbdev.patch \
                    file://0001-src-gl-state-egl-Use-native_display-to-load-EGL-func.patch \
+                   file://0001-EGL-eglplatform.h-Remove-the-eglplatform.h-header.patch  \
 		"
 
 PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gl x11-gles2', '', d)} \
