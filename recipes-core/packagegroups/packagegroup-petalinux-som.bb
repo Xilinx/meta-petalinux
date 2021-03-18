@@ -2,6 +2,7 @@ DESCRIPTION = "SOM related packages"
 
 inherit packagegroup
 
+DEFAULT_FW_PACKAGE ?= ""
 DEFAULT_FW_PACKAGE_k26 = "kv260-dp"
 
 SOM_PACKAGES = " \
