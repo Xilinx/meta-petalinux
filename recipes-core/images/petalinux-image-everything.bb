@@ -24,3 +24,5 @@ IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
 
 IMAGE_INSTALL_append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
+
+IMAGE_INSTALL_append_k26-kv = " packagegroup-kv260-smartcam-aa1 packagegroup-kv260-defect-detection-aa4 packagegroup-kv260-aibox-aa2"
