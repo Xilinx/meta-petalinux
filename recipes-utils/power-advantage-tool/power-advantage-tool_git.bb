@@ -18,7 +18,7 @@ SRCREV = "caec49c66e436ff0c47239c168054f02ac641790"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
+COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
@@ -46,25 +46,25 @@ python do_install_customize () {
     path_source = d.getVar('S') + "/img_on_black"
     path_destination = d.getVar('D') + d.getVar('JUPYTER_DIR') + "/power-advantage-tool/img"
     path_ipynb = d.getVar('D') + d.getVar('JUPYTER_DIR') + "/power-advantage-tool/Power_Advantage_Tool.ipynb"
-    if d.getVar('MACHINE') == 'vck-sc-zynqmp':
+    if d.getVar('BOARD') == 'vck-sc':
         token_new = "\\\"VCK190\\\", \\\"SC\\\")\\n"
-    elif d.getVar('MACHINE') == 'vmk-sc-zynqmp':
+    elif d.getVar('BOARD') == 'vmk-sc':
         token_new = "\\\"VMK180\\\", \\\"SC\\\")\\n"
-    elif d.getVar('MACHINE') == 'vpk-sc-zynqmp':
+    elif d.getVar('BOARD') == 'vpk-sc':
         token_new = "\\\"VPK120\\\", \\\"SC\\\")\\n"
-    elif d.getVar('MACHINE') == 'vck190-versal':
+    elif d.getVar('BOARD') == 'vck190':
         token_new = "\\\"VCK190\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
         shutil.copytree(path_source, path_destination)
-    elif d.getVar('MACHINE') == 'vmk180-versal':
+    elif d.getVar('BOARD') == 'vmk180':
         token_new = "\\\"VMK180\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
         shutil.copytree(path_source, path_destination)
-    elif d.getVar('MACHINE') == 'vpk120-versal':
+    elif d.getVar('BOARD') == 'vpk120':
         token_new = "\\\"VPK120\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
         shutil.copytree(path_source, path_destination)
-    elif d.getVar('MACHINE') == 'vpk180-versal':
+    elif d.getVar('BOARD') == 'vpk180':
         token_new = "\\\"VPK180\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
         shutil.copytree(path_source, path_destination)
