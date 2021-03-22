@@ -30,7 +30,7 @@ S="${WORKDIR}/git"
 FILES_${PN} += "${datadir}/Board_Framework_Phase1Alpha /usr/bin"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
+COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

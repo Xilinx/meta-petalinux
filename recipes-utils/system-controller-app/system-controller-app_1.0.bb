@@ -17,7 +17,7 @@ INITSCRIPT_PARAMS = "start 99 S ."
 S="${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc-zynqmp = "vck-sc-zynqmp"
+COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
