@@ -23,7 +23,7 @@ PACKAGES_LIST_zynq ?= "${DEFAULT_LIST} \
 		u-boot-zynq-scr \
 		"
 PACKAGES_LIST_versal ?= "${DEFAULT_LIST} \
-		plm \
+		plm-firmware \
 		extract-cdo \
 		psm-firmware \
 		arm-trusted-firmware \
@@ -85,7 +85,7 @@ def copyfiles_append(d):
     d.setVarFlag('PACKAGES_LIST', 'imgsel', pn + '-' + machine_arch + '.elf:' + 'imgsel.elf ' + pn + '-' + machine_arch + '.bin:' + 'imgsel.bin' )
     d.setVarFlag('PACKAGES_LIST', 'pmu-firmware', pn + '-' + machine_arch + '.elf:' + 'pmufw.elf' )
     d.setVarFlag('PACKAGES_LIST', 'psm-firmware', pn + '-' + machine_arch + '.elf:' + 'psmfw.elf' )
-    d.setVarFlag('PACKAGES_LIST', 'plm', pn + '-' + machine_arch + '.elf:' + 'plm.elf' )
+    d.setVarFlag('PACKAGES_LIST', 'plm-firmware', 'plm' + '-' + machine_arch + '.elf:' + 'plm.elf' )
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
