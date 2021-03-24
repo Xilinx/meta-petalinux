@@ -48,6 +48,7 @@ PLNX_COMMON_FEATURES_append_aarch64 = " \
 ZYNQ_FEATURES = ""
 
 ZYNQMP_FEATURES = " \
+    petalinux-vitisai \
     "
 
 ULTRA96_FEATURES = " \
