@@ -43,7 +43,12 @@ PACKAGE_DTB_NAME ?= ""
 PACKAGE_UBOOT_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
 
-PACKAGES_LIST[u-boot-xlnx] = "u-boot.elf:u-boot.elf u-boot.bin:u-boot.bin u-boot-s.bin:u-boot-s.bin"
+UBOOT_IMAGES ?= "u-boot-nodtb.bin:u-boot.bin u-boot-nodtb.elf:u-boot.elf \
+		u-boot.elf:u-boot-dtb.elf u-boot.bin:u-boot-dtb.bin \
+		u-boot-s.bin:u-boot-s.bin"
+UBOOT_IMAGES_microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
+			   u-boot-s.bin:u-boot-s.bin"
+
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
 PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
 PACKAGES_LIST[uboot-device-tree] = "u-boot.dtb:u-boot.dtb"
@@ -74,6 +79,7 @@ def copyfiles_append(d):
     initramfs_image = d.getVar('INITRAMFS_IMAGE') or ""
     bundle_image = d.getVar('INITRAMFS_IMAGE_BUNDLE') or ""
     pn = d.getVar("PN")
+    d.setVarFlag('PACKAGES_LIST', 'u-boot-xlnx',d.getVar('UBOOT_IMAGES'))
     d.setVarFlag('PACKAGES_LIST', 'fsbl', pn + '-' + machine_arch + '.elf:' + soc_family + '_' + pn + '.elf' )
     d.setVarFlag('PACKAGES_LIST', 'fs-boot', pn + '-' + machine_arch + '.elf:' + 'fs-boot.elf' )
     d.setVarFlag('PACKAGES_LIST', 'imgsel', pn + '-' + machine_arch + '.elf:' + 'imgsel.elf ' + pn + '-' + machine_arch + '.bin:' + 'imgsel.bin' )
