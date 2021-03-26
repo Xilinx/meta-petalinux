@@ -25,4 +25,10 @@ IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
 
 IMAGE_INSTALL_append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
 
-IMAGE_INSTALL_append_k26-kv = " packagegroup-kv260-smartcam-aa1 packagegroup-kv260-defect-detection-aa4 packagegroup-kv260-aibox-aa2"
+KV260_PACKAGES = " \
+	packagegroup-kv260-aibox-reid \
+	packagegroup-kv260-defect-detect \
+	packagegroup-kv260-nlp-smartvision \
+	packagegroup-kv260-smartcam \
+	"
+IMAGE_INSTALL_append_k26-kv = " ${KV260_PACKAGES}"
