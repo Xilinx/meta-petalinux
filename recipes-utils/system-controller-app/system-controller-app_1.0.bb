@@ -1,13 +1,12 @@
 DESCRIPTION = "System Contoller App"
 SUMMARY = "System Controller App"
 
-LICENSE = "Proprietary"
-LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=24248f11cbed04b4a7a0609c5d0ff97a"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller.git;branch=master;protocol=https \
-		   file://LICENSE "
+SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/system-controller.git;branch=master;protocol=https"
 
-SRCREV="dde1d2a50485a7ad8892b88b52f9250e4de2ae25"
+SRCREV="17e83d3e17d8969a6886ef6f7627b87b017a6c5a"
 
 inherit update-rc.d
 
