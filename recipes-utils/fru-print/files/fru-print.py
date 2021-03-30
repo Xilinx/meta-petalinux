@@ -36,13 +36,17 @@ elif args.board and args.field is None:
     print(yaml.dump(load(eval(args.board)), default_flow_style=False, allow_unicode=True))
 
 elif args.board and args.field:
-    if len(args.field) == 1:
-        print(load(eval(args.board))['board'][args.field[0]])
-    else:
-        data = load(eval(args.board))
-        for field in args.field:
-            data = data[field]
-        print(data)
+    try:
+        if len(args.field) == 1:
+            print(load(eval(args.board))['board'][args.field[0]])
+        else:
+            data = load(eval(args.board))
+            for field in args.field:
+                data = data[field]
+            print(data)
+    except KeyError:
+        print("ERROR: "+str(args.field)+" is not a valid input for field.\nmultiple key values can be provided to the field arg, ex. -f multirecord DC_Load_Record max_V\n\
+If just one value is given, it is assumed the field is under the board area.\n")
 else:
     both={'som':load(som), 'cc':load(cc)}
     print(yaml.dump(both,default_flow_style=False, allow_unicode=True))
