@@ -1,0 +1,4 @@
+SUBSYSTEM=="i2c", DEVPATH=="*0-005*", RUN+="/bin/chown root:petalinux /sys$env{DEVPATH}/eeprom", RUN+="/bin/chmod 0640 /sys$env{DEVPATH}/eeprom"
+KERNEL=="allegroIP", SUBSYSTEM=="allegro_encode_class", MODE="0660", GROUP="video"
+KERNEL=="allegroDecodeIP", SUBSYSTEM=="allegro_decode_class", MODE="0660", GROUP="video"
+KERNEL=="dmaproxy", SUBSYSTEM=="char", MODE="0660", GROUP="video"
