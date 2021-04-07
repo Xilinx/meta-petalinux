@@ -15,6 +15,7 @@ SYSTEM_CONTROLLER_PACKAGES = " \
         packagegroup-petalinux-lmsensors \
         i2c-tools \
         libgpiod \
+        system-controller-app \
 "
 RDEPENDS_${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
 
