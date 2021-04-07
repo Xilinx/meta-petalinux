@@ -2,13 +2,16 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI += "file://e2fs \
 	file://udhcpc \
 	file://searche2fs \
+	file://functions \
 	"
 
 PACKAGES += "initramfs-module-udhcpc \
+	initramfs-module-scripts \
 	initramfs-module-searche2fs"
 
 do_install() {
     install -d ${D}/init.d
+    install -d ${D}/scripts
 
     # base
     install -m 0755 ${WORKDIR}/init ${D}/init
@@ -40,6 +43,9 @@ do_install() {
     # lvm
     install -m 0755 ${WORKDIR}/lvm ${D}/init.d/09-lvm
 
+    # scripts
+    install -m 0755 ${WORKDIR}/functions ${D}/scripts/functions
+
     # Create device nodes expected by some kernels in initramfs
     # before even executing /init.
     install -d ${D}/dev
@@ -47,11 +53,15 @@ do_install() {
 }
 
 FILES_initramfs-module-e2fs = "/init.d/91-e2fs"
+RDEPENDS_initramfs-module-e2fs += "initramfs-module-scripts"
 
 SUMMARY_initramfs-module-udhcpc = "Enable udhcpc"
 RDEPENDS_initramfs-module-udhcpc = "${PN}-base"
 FILES_initramfs-module-udhcpc = "/init.d/01-udhcpc"
 
 SUMMARY_initramfs-module-searche2fs = "search for the ext partitions available and mounts it"
-RDEPENDS_initramfs-module-searche2fs = "${PN}-base"
+RDEPENDS_initramfs-module-searche2fs = "${PN}-base initramfs-module-scripts"
 FILES_initramfs-module-searche2fs = "/init.d/92-searche2fs"
+
+SUMMARY_initramfs-module-scripts = "scripts for initramfs"
+FILES_initramfs-module-scripts = "/scripts/functions"

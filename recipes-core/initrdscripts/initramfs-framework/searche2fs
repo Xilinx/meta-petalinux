@@ -3,6 +3,10 @@
 searche2fs_enabled() {
         return 0
 }
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+# sourcing the required functions
+. /scripts/functions
 
 searche2fs_run() {
 	if [ -z "$ROOTFS_DIR" ]; then
@@ -16,13 +20,17 @@ searche2fs_run() {
 				if [ -e ${boot_device} ]; then
 					boot_device_type="$(blkid ${boot_device} | grep -o 'TYPE=.*' | cut -d\" -f 2)"
 					mkdir -p "$ROOTFS_DIR"
+					check_fsck "$boot_device" "$boot_device_type"
 					if ! mount -t $boot_device_type $boot_device $ROOTFS_DIR; then
-						echo "Failed to mount selected root filesystem ($boot_device)"
+						msg "Failed to mount selected root filesystem ($boot_device)"
 					fi
 					if [ ! -d $ROOTFS_DIR/dev ]; then
 						umount $ROOTFS_DIR
-						echo "There's no '/dev' on $boot_device_type(${boot_device}) partition."
+						msg "There's no '/dev' on $boot_device_type(${boot_device}) partition."
 					else
+						if ! check_init $ROOTFS_DIR; then
+							umount $ROOTFS_DIR
+						fi
 						return 0
 					fi
 				fi

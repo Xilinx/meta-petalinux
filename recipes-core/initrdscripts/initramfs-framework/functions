@@ -1,0 +1,29 @@
+#!/bin/sh
+
+check_fsck() {
+	boot_device="$1"
+	boot_device_type="$2"
+	if ! command -v fsck >/dev/null 2>&1; then
+		msg "Warning: fsck not present, so skipping $boot_device file system"
+		return 0
+	fi
+	if [ "${bootparam_fsckfix}" = "no" ]; then
+		msg "Warning: fsckfix=no provided in bootargs, so skipping file system check"
+		return 0
+	fi
+	if ! fsck -a -T -t $boot_device_type $boot_device; then
+		msg "Warning: fsck failed, try running fsck manually"
+	fi
+}
+
+check_init () {
+	rootfs_dir="$1"
+	for inittest in ${bootparam_init:-/sbin/init} /etc; do
+		if [ ! -e "${rootfs_dir}/${inittest}" ]; then
+			msg "Warning: ${inittest} file/directory missing in file system, so skipping file system"
+			return 1
+		fi
+	done
+	return 0
+}
+

@@ -6,6 +6,9 @@ e2fs_enabled() {
 	return 0
 }
 
+# sourcing the required functions
+. /scripts/functions
+
 e2fs_run() {
 	filesystems="ext4 ext3 ext2"
 
@@ -25,13 +28,17 @@ e2fs_run() {
 		    count=10
 		    for i in $(seq $count); do
 			if [ -b "$dev" ]; then
+			    check_fsck "$dev" "$fs"
 			    mount -t $fs $dev $path
+			    if ! check_init $path; then
+				umount $path
+                            fi
 			    return 0
 			fi
-			echo "Waiting for $dev to pop up (attempt $i)"
+			msg "Waiting for $dev to pop up (attempt $i)"
 		        sleep 1
 		    done
-		    echo "Device $dev not found"
+		    msg "Device $dev not found"
 		fi
 	done
 }
