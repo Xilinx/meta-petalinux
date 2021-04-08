@@ -1,9 +1,9 @@
-BRANCH ?= "release-2020.2"
-REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
+BRANCH ?= "release-2020.2.2_k26"
+REPO   ?= "git://github.com/Xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.0+git${SRCPV}"
+PV = "1.16.1+git${SRCPV}"
 
 SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \

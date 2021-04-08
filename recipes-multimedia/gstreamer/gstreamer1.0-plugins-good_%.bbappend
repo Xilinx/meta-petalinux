@@ -1,9 +1,9 @@
-BRANCH ?= "release-2020.2"
-REPO ?= "git://github.com/xilinx/gst-plugins-good.git;protocol=https"
+BRANCH ?= "release-2020.2.2_k26"
+REPO ?= "git://github.com/Xilinx/gst-plugins-good.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.0+git${SRCPV}"
+PV = "1.16.1+git${SRCPV}"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
@@ -15,7 +15,7 @@ SRC_URI = " \
     file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
 "
 
-SRCREV_base = "7b1c7fbeac702c5f1d648074d7b7191c9512af9f"
+SRCREV_base = "764451f9cfb41417a0db7017544bc1f403274f2d"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 
