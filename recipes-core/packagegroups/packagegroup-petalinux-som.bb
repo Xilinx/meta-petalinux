@@ -6,6 +6,7 @@ DEFAULT_FW_PACKAGE ?= ""
 DEFAULT_FW_PACKAGE_k26 = "kv260-dp"
 
 SOM_PACKAGES = " \
+        accelize-repo \
         packagegroup-core-full-cmdline \
         packagegroup-core-tools-debug \
         packagegroup-core-ssh-dropbear \
