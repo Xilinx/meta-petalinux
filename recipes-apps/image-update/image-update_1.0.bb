@@ -6,8 +6,8 @@ SUMMARY = "Image update is used to update alternate image on SOM. \
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSES/MIT;md5=2ac09a7a37dd6ee0ba23ce497d57d09b"
 
-SRC_URI = "git://github.com/Xilinx/linux-image_update.git;protocol=https"
-SRCREV = "456aaa87a25523c0bae8a3c93132a0179788b804"
+SRC_URI = "git://github.com/Xilinx/linux-image_update.git;branch=release-2020.2.2_k26;protocol=https"
+SRCREV = "f4aa8d1b399698ca7a4348c2e105c705119b1094"
 
 RDEPENDS_${PN} += "fru-print"
 
