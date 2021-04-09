@@ -11,7 +11,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 MAKE_ARCH_microblaze = "microblaze"
 
 SRC_URI = " \
-	git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=master;protocol=https \
+	git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=master;protocol=git \
 	file://fix_ranlib.patch;striplevel=2 \
 	file://ldflags.patch \
 	file://tcf-agent.init \
