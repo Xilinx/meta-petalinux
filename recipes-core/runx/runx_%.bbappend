@@ -1,6 +1,6 @@
 REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
-SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
-BRANCH ?= "xilinx/release-2020.2"
+SRCREV_runx ?= "f9af081618f5f2e05d66c25887bd8f816633759e"
+BRANCH ?= "xilinx/release-2020.2.2_k26"
 
 
 SRC_URI_remove = " \
