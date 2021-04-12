@@ -102,8 +102,6 @@ FEATURE_PACKAGES_petalinux-pynq-helloworld ?= "packagegroup-petalinux-pynq-hello
 FEATURE_PACKAGES_petalinux-pynq-helloworld[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-scweb ?= "packagegroup-petalinux-scweb"
 FEATURE_PACKAGES_petalinux-scweb[optional] ?= "1"
-FEATURE_PACKAGES_petalinux-syscontroller-app?= "packagegroup-petalinux-syscontroller-app"
-FEATURE_PACKAGES_petalinux-syscontroller-app[optional] ?= "1"
 
 # Vitis AI is only built for zynqmp at this time, but allow
 # the FEATURE_PACKAGES to not error on no zynqmp systems
