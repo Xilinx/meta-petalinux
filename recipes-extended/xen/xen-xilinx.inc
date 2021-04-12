@@ -7,7 +7,7 @@ SRC_URI += " \
     file://passthrough-example-part.dts \
     "
 
-FILES_${PN}-tools-xl_append = " \
+FILES_${PN}_append = " \
     /etc/xen/example-passnet.cfg \
     /etc/xen/example-pvnet.cfg \
     /etc/xen/example-simple.cfg \
@@ -16,7 +16,7 @@ FILES_${PN}-tools-xl_append = " \
 
 DEPENDS += "u-boot-mkimage-native"
 DEPENDS += "dtc-native"
-RDEPENDS_${PN}-efi += "bash python"
+RDEPENDS_${PN}-efi += "bash python3"
 
 XENIMAGE_KERNEL_LOADADDRESS ?= "0x6000000"
 
