@@ -9,8 +9,7 @@ SYS_CONTROLLER_SCWEB_PACKAGES = " \
         python3-flask-restful \
         packagegroup-petalinux-syscontroller-app \
         packagegroup-petalinux-lmsensors \
-	scweb \
-	"
+        scweb \
+       "
 
 RDEPENDS_${PN} = "${SYS_CONTROLLER_SCWEB_PACKAGES}"
-
