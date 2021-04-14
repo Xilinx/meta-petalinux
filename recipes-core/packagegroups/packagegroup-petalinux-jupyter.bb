@@ -3,7 +3,7 @@ DESCRIPTION = "Required packges for running jupyter notebook with python3 "
 inherit packagegroup
 
 START_JUPYTER_PKG ?= "start-jupyter"
-#START_JUPYTER_PKG_k26 = "start-jupyterlab"
+START_JUPYTER_PKG_k26 = "start-jupyterlab"
 
 JUPYTER_NOTEBOOK_PACKAGES = " \
 	packagegroup-python3-jupyter \
