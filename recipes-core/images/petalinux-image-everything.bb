@@ -5,6 +5,10 @@ require petalinux-image-full.inc
 
 INSTALL_ZYNQMP_VERSAL = " openamp-demo-notebooks ivas-gst ivas-utils ivas-accel-libs"
 
+# We include docker (via IMAGE_FEATURES and packagegroup-ocicontainers)
+# but also want docker-compose to be available.  Use same switch method.
+IMAGE_INSTALL_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'python3-docker-compose', '', d)}"
+
 IMAGE_INSTALL_append_zynqmp = " watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som ${INSTALL_ZYNQMP_VERSAL}"
 #IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
