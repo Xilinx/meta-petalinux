@@ -8,6 +8,10 @@ DEPENDS_append_zynq   = " libeigen"
 DEPENDS_append_zynqmp = " libeigen"
 DEPENDS_append_versal = " libeigen"
 
+# We include docker (via IMAGE_FEATURES and packagegroup-ocicontainers)
+# but also want docker-compose to be available.  Use same switch method.
+IMAGE_INSTALL_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', ' python3-docker-compose', '', d)}"
+
 IMAGE_INSTALL_append_zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
