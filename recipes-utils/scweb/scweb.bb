@@ -8,7 +8,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 
-SRC_URI = "git://gitenterprise.xilinx.com/PAEG/SystemController.git;branch=master;protocol=https \
+SRC_URI ?= "git://github.com/Xilinx/SystemController.git;branch=master;protocol=https \
                   "
 SRCREV = "2e575fb3d38567e5485eeed42cff6b19e27da40d"
 
