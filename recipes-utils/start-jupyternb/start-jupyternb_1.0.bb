@@ -14,6 +14,9 @@ JUPYTER_STARTUP_PACKAGES += " \
         "
 
 inherit update-rc.d
+PROVIDES = "start-jupyter"
+RPROVIDES_${PN} = "start-jupyter"
+
 RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
 INITSCRIPT_NAME = "jupyter-setup.sh"
