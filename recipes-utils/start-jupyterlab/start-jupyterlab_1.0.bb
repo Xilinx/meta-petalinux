@@ -21,6 +21,9 @@ JUPYTER_STARTUP_PACKAGES += " \
 
 RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
+PROVIDES = "start-jupyter"
+RPROVIDES_${PN} = "start-jupyter"
+
 inherit update-rc.d
 
 INITSCRIPT_NAME = "jupyterlab-server"
