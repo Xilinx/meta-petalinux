@@ -48,5 +48,10 @@ do_install () {
     install -m 0755  ${S}/src/start_boardframework.sh ${D}/etc/init.d/
     install -m 0755  ${S}/src/boardframework.sh ${D}/usr/bin/boardframework.sh
     sed -i -e '/vccaux/s/^/#/' ${D}/usr/bin/boardframework.sh
-    sed -i -e '/nohup/s/^/#/' ${D}/etc/init.d/start_boardframework.sh
+    sed -i -e '/vadjautoset/s/^/#/' ${D}/usr/bin/boardframework.sh
+    sed -i '1 i echo "******************************************************"' ${D}${sysconfdir}/init.d/start_boardframework.sh
+    sed -i '2 i echo "*  Enter these key-sequence to exit Board Framework  *"' ${D}${sysconfdir}/init.d/start_boardframework.sh
+    sed -i '3 i echo "*                                                    *"' ${D}${sysconfdir}/init.d/start_boardframework.sh
+    sed -i '4 i echo "*              EXT<Enter key><Tab key>               *"' ${D}${sysconfdir}/init.d/start_boardframework.sh
+    sed -i '5 i echo "******************************************************"' ${D}${sysconfdir}/init.d/start_boardframework.sh
 }
