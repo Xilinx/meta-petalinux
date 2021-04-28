@@ -15,6 +15,7 @@ PYTHON_MODULES = " \
 	python3-threading \
 	python3-pyserial \
 	python-pyserial \
+	python3-h5py \
 	"
 
 RDEPENDS_${PN} = "${PYTHON_MODULES}"
