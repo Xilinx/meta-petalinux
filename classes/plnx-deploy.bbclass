@@ -11,7 +11,7 @@ python () {
 
 DEFAULT_LIST ?= "u-boot-xlnx device-tree linux-xlnx"
 PACKAGES_LIST_zynqmp ?= "${DEFAULT_LIST} \
-		fsbl \
+		fsbl-firmware \
 		pmu-firmware \
 		arm-trusted-firmware \
 		u-boot-zynq-scr \
@@ -19,7 +19,7 @@ PACKAGES_LIST_zynqmp ?= "${DEFAULT_LIST} \
 		xen \
 		"
 PACKAGES_LIST_zynq ?= "${DEFAULT_LIST} \
-		fsbl \
+		fsbl-firmware \
 		u-boot-zynq-scr \
 		"
 PACKAGES_LIST_versal ?= "${DEFAULT_LIST} \
@@ -80,7 +80,7 @@ def copyfiles_append(d):
     bundle_image = d.getVar('INITRAMFS_IMAGE_BUNDLE') or ""
     pn = d.getVar("PN")
     d.setVarFlag('PACKAGES_LIST', 'u-boot-xlnx',d.getVar('UBOOT_IMAGES'))
-    d.setVarFlag('PACKAGES_LIST', 'fsbl', pn + '-' + machine_arch + '.elf:' + soc_family + '_' + pn + '.elf' )
+    d.setVarFlag('PACKAGES_LIST', 'fsbl-firmware', 'fsbl' + '-' + machine_arch + '.elf:' + soc_family + '_' + 'fsbl' + '.elf' )
     d.setVarFlag('PACKAGES_LIST', 'fs-boot', pn + '-' + machine_arch + '.elf:' + 'fs-boot.elf' )
     d.setVarFlag('PACKAGES_LIST', 'imgsel', pn + '-' + machine_arch + '.elf:' + 'imgsel.elf ' + pn + '-' + machine_arch + '.bin:' + 'imgsel.bin' )
     d.setVarFlag('PACKAGES_LIST', 'pmu-firmware', pn + '-' + machine_arch + '.elf:' + 'pmufw.elf' )
