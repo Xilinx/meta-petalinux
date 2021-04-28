@@ -38,7 +38,7 @@ do_expand_rootfs() {
 
     if [[ `mount | grep ${root_part}` ]]
     then 
-        parted ${target} resizepart ${part_num} yes 100%
+        echo -e "yes\n100%"|parted ${target} ---pretend-input-tty resizepart ${part_num}
     else 
         parted ${target} resizepart ${part_num} 100%
     fi
