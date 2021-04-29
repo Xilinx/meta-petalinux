@@ -14,47 +14,26 @@ FILES_${PN}_append = " \
     /etc/xen/passthrough-example-part.dtb \
     "
 
-DEPENDS += "u-boot-mkimage-native"
-DEPENDS += "dtc-native"
 RDEPENDS_${PN}-efi += "bash python3"
-
-XENIMAGE_KERNEL_LOADADDRESS ?= "0x6000000"
 
 do_compile_append() {
     dtc -I dts -O dtb ${WORKDIR}/passthrough-example-part.dts -o ${WORKDIR}/passthrough-example-part.dtb
 }
 
-do_deploy() {
-    install -d ${DEPLOYDIR}
-
-    if [ -f ${D}/boot/xen ]; then
-        install -m 0644 ${D}/boot/xen ${DEPLOYDIR}/xen
+do_deploy_append() {
+    # Mimic older behavior for compatibility
+    if [ -f ${DEPLOYDIR}/xen-${MACHINE} ]; then
+        ln -s xen-${MACHINE} ${DEPLOYDIR}/xen
     fi
 
-    if [ -f ${D}/boot/xen.gz ]; then
-        install -m 0644 ${D}/boot/xen.gz ${DEPLOYDIR}/xen.gz
+    if [ -f ${DEPLOYDIR}/xen-${MACHINE}.gz ]; then
+        ln -s xen-${MACHINE}.gz ${DEPLOYDIR}/xen.gz
     fi
 
-    if [ -f ${D}/usr/lib64/efi/xen.efi ]; then
-        install -m 0644 ${D}/usr/lib64/efi/xen.efi ${DEPLOYDIR}/xen.efi
-    fi
-
-    # Install the flask policy in the deploy directory if it exists
-    if [ -f ${D}/boot/${FLASK_POLICY_FILE} ]; then
-        install -m 0644 ${D}/boot/${FLASK_POLICY_FILE} ${DEPLOYDIR}
-        ln -sf ${FLASK_POLICY_FILE} ${DEPLOYDIR}/xenpolicy
-    fi
-
-    if [ -f ${DEPLOYDIR}/xen ]; then
-        uboot-mkimage -A arm64 -T kernel \
-        -a ${XENIMAGE_KERNEL_LOADADDRESS} \
-        -e ${XENIMAGE_KERNEL_LOADADDRESS} \
-        -C none \
-        -d ${DEPLOYDIR}/xen ${DEPLOYDIR}/xen.ub
+    if [ -f ${DEPLOYDIR}/xen-${MACHINE}.efi ]; then
+        ln -s xen-${MACHINE}.efi ${DEPLOYDIR}/xen.efi
     fi
 }
-
-addtask deploy after do_populate_sysroot
 
 do_install_append() {
     install -d -m 0755 ${D}/etc/xen
@@ -64,7 +43,3 @@ do_install_append() {
 
     install -m 0644 ${WORKDIR}/passthrough-example-part.dtb ${D}/etc/xen/passthrough-example-part.dtb
 }
-
-# Force this to rebuild each time
-deltask do_deploy_setscene
-deltask do_populate_sysroot_setscene
