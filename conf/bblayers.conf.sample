@@ -17,7 +17,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-openembedded/meta-initramfs \
     ##OEROOT##/../meta-openembedded/meta-oe \
     ##OEROOT##/../meta-clang \
-    ##OEROOT##/../meta-browser \
+    ##OEROOT##/../meta-browser/meta-chromium \
     ##OEROOT##/../meta-qt5 \
     ##OEROOT##/../meta-xilinx/meta-microblaze \
     ##OEROOT##/../meta-xilinx/meta-xilinx-bsp \
