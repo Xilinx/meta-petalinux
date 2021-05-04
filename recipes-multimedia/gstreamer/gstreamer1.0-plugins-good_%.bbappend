@@ -1,5 +1,5 @@
-BRANCH ?= "release-2020.1"
-REPO ?= "git://github.com/xilinx/gst-plugins-good.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.16.3"
+REPO ?= "git://github.com/Xilinx/gst-plugins-good.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
@@ -17,7 +17,7 @@ SRC_URI = " \
     file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
 "
 
-SRCREV_base = "9aa8f9b9f1b5de43fa8557485d23fcb42d77d95d"
+SRCREV_base = "f6ee0b952a147f2d35785bab1f818ae7d3fe981c"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 

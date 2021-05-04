@@ -1,5 +1,5 @@
-BRANCH ?= "release-2020.1"
-REPO   ?= "git://github.com/xilinx/gstreamer.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.16.3"
+REPO   ?= "git://github.com/Xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
@@ -20,7 +20,7 @@ SRC_URI = " \
     file://0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch \
 "
 
-SRCREV_gstreamer-xlnx = "10db9688beab0b11ea2e8c5b05d78c57a589ad03"
+SRCREV_gstreamer-xlnx = "cdc91b6ae73ca9d8404cfc54f417bca4a8fb351a" 
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 

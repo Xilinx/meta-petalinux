@@ -1,5 +1,5 @@
-BRANCH ?= "release-2020.1"
-REPO ?= "git://github.com/xilinx/gst-plugins-bad.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.16.3"
+REPO ?= "git://github.com/Xilinx/gst-plugins-bad.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
@@ -21,7 +21,7 @@ SRC_URI = " \
     file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
 "
 
-SRCREV_base = "19b2018f2c31c0011c78fa7300544165739dc91a"
+SRCREV_base = "27519657050ba56d8b885d47e8a68ea72b296b8c"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 

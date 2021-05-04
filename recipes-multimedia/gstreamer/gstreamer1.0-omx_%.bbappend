@@ -1,5 +1,5 @@
-BRANCH ?= "release-2020.1"
-REPO   ?= "git://github.com/xilinx/gst-omx.git;protocol=https"
+BRANCH = "xlnx-rebase-v1.16.3"
+REPO   = "git://github.com/Xilinx/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
@@ -10,7 +10,7 @@ SRC_URI = " \
 	git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
 	"
 
-SRCREV_gst-omx = "a051c245c3e9f4d323d2fc697a9faf18264b6ffb"
+SRCREV_gst-omx = "36163dd02769b64dcbd6f5c5037b6e70ebc599e4"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gst-omx"
 
