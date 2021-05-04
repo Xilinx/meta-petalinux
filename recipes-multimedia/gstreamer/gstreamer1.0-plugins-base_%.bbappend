@@ -1,5 +1,5 @@
-BRANCH ?= "release-2020.1"
-REPO ?= "git://github.com/xilinx/gst-plugins-base.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.16.3"
+REPO ?= "git://github.com/Xilinx/gst-plugins-base.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
@@ -22,7 +22,7 @@ SRC_URI = " \
     file://0009-glimagesink-Downrank-to-marginal.patch \
 "
 
-SRCREV_base = "ffc05bce0bc02cb2cafd50914f01640dab47f274"
+SRCREV_base = "d1fd9a95fd5a38f3a941ac1821ce36d3b8e624f8" 
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
