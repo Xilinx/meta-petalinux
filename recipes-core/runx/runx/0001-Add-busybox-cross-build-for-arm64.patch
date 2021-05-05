@@ -1,16 +1,17 @@
-From 33502707dd6ae154736ba4685abd89d45244797b Mon Sep 17 00:00:00 2001
+From 2fdf4a96edb638b60353cc29d21d7d8cd1191833 Mon Sep 17 00:00:00 2001
 From: Stefano Stabellini <sstabellini@kernel.org>
 Date: Mon, 21 Sep 2020 12:35:05 -0700
-Subject: [PATCH 1/2] Add busybox (cross)build for arm64
+Subject: [PATCH] Add busybox (cross)build for arm64
 
 So far the busybox binary to use for the domU initrd has to be
 externally provided. While we still support that, also add the ability
 to fetch busybox and cross-compile it with the right config on arm64.
 
 Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
+
 ---
- initrd/config.arm64 | 1198 +++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 1198 insertions(+)
+ initrd/config.arm64 | 1198 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1198 insertions(+)
  create mode 100644 initrd/config.arm64
 
 diff --git a/initrd/config.arm64 b/initrd/config.arm64
@@ -1217,6 +1218,3 @@ index 0000000..5c01829
 +CONFIG_FEATURE_IPC_SYSLOG=y
 +CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=16
 +CONFIG_FEATURE_KMSG_SYSLOG=y
--- 
-2.17.1
-

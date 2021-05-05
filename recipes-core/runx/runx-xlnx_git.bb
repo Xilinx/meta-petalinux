@@ -3,10 +3,10 @@ SUMMARY = "runx stuff"
 DESCRIPTION = "Xen Runtime for OCI"
 
 REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
-BRANCH ?= "xilinx/release-2020.2"
+BRANCH ?= "xilinx/release-2021.1"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
-SRCREV_runx ?= "7acc524653e1a85e4ce14a1851e6f2941498e77b"
+SRCREV_runx ?= "be8a3ec422dd164f28204a8d6143f712599dee09"
 FILESEXTRAPATHS_prepend := "${THISDIR}/runx:"
 
 SRC_URI = "\
@@ -15,7 +15,6 @@ SRC_URI = "\
           file://0002-make-kernel-cross-compilation-tweaks.patch \
           file://0001-make-initrd-cross-install-tweaks.patch \
 	  file://0001-Add-busybox-cross-build-for-arm64.patch \
-	  file://0001-initrd-changes-for-busybox.patch \
 	  "
 SRC_URI[md5sum] = "0d701ac1e2a67d47ce7127432df2c32b"
 SRC_URI[sha256sum] = "5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769"
@@ -36,14 +35,14 @@ inherit kernel-arch
 
 # we have a busybox bbappend that makes /bin available to the
 # sysroot, and hence gets us the target binary that we need
-DEPENDS = "busybox go-build-xlnx"
+DEPENDS = "busybox bison-native"
 
 # for the kernel build phase
 DEPENDS += "openssl-native coreutils-native util-linux-native xz-native bc-native"
 DEPENDS += "qemu-native"
 
 RDEPENDS_${PN} += " jq bash"
-RDEPENDS_${PN} += " xen-tools-xl go-build-xlnx socat daemonize"
+RDEPENDS_${PN} += " xen-tools-xl socat daemonize"
 
 # This is typically machine specific, but we want this to be generic
 STAGING_KERNEL_DIR = "${WORKDIR}"
