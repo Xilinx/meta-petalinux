@@ -1,13 +1,10 @@
 SUMMARY = "dfeequ Library"
 SECTION = "dfeequ"
 LICENSE = "BSD"
-LIC_FILES_CHKSUM="file://license.txt;md5=3a6e22aebf6516f0f74a82e1183f74f8"
 
 inherit pkgconfig
+require conf/embeddedsw.inc
 
-REPO ??= "git://github.com/Xilinx/embeddedsw.git;protocol=https"
-BRANCH ??= "master-rel-2020.2"
-SRCREV ??= "08b9f4304d1634ed632f4276d603d834940fd55a"
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 COMPATIBLE_MACHINE = "^$"
