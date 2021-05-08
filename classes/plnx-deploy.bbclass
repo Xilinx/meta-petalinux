@@ -54,7 +54,7 @@ PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
 PACKAGES_LIST[uboot-device-tree] = "u-boot.dtb:u-boot.dtb"
 PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
-PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
+PACKAGES_LIST[extract-cdo] = "pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
 
 QEMU_HWDTB_NAME_zynqmp ?= "zcu102-arm.dtb"
