@@ -3,19 +3,12 @@ SECTION = "rfclk"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://license.txt;md5=3a6e22aebf6516f0f74a82e1183f74f8"
 
-inherit pkgconfig
-require conf/embeddedsw.inc
-
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
+inherit pkgconfig xlnx-embeddedsw
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-
-SRC_URI = " \
-	${REPO};${BRANCHARG} \
-	"
 
 S = "${WORKDIR}/git"
 

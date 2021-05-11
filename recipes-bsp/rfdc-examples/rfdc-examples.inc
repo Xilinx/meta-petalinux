@@ -1,11 +1,9 @@
 LICENSE = "BSD"
-require conf/embeddedsw.inc
+
+inherit xlnx-embeddedsw
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
-
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
-SRC_URI = "${REPO};${BRANCHARG}"
 
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 
