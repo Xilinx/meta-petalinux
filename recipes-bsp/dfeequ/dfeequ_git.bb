@@ -2,19 +2,12 @@ SUMMARY = "dfeequ Library"
 SECTION = "dfeequ"
 LICENSE = "BSD"
 
-inherit pkgconfig
-require conf/embeddedsw.inc
-
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
+inherit pkgconfig xlnx-embeddedsw
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-
-SRC_URI = " \
-	${REPO};${BRANCHARG} \
-	"
 
 S = "${WORKDIR}/git"
 
