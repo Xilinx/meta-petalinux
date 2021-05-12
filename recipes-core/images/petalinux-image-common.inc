@@ -110,8 +110,6 @@ VITISAI_PKGS_zynqmp = "packagegroup-petalinux-vitisai"
 FEATURE_PACKAGES_petalinux-vitisai ?= "${VITISAI_PKGS}"
 FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
 
-FEATURE_PACKAGES_petalinux-updateboot ?= "packagegroup-petalinux-updateboot"
-FEATURE_PACKAGES_petalinux-updateboot[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainers"
 FEATURE_PACKAGES_petalinux-ocicontainers[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-som ?= "packagegroup-petalinux-som"
