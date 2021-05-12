@@ -10,7 +10,7 @@ IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebook
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
 IMAGE_INSTALL_append_versal = " pm-notebooks openamp-demo-notebooks kernel-devsrc"
-IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks aie-matrix-multiplication"
+IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks"
 
 # ultra96-zynqmp recipes
 IMAGE_INSTALL_append_ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
