@@ -6,7 +6,6 @@ inherit jupyter-examples
 
 SRC_URI = "file://LICENSE \
            file://README \
-           file://aie-matrix-multiplication.ipynb \
            file://pics/data_movement.png \
            file://pics/compilation_flow.png \
            file://pics/runtime_execution.png \
@@ -17,7 +16,6 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal-ai-core = "versal-ai-core"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
-                  aie-matrix-multiplication \
                   "
 
 do_install() {
@@ -25,7 +23,6 @@ do_install() {
     install -d ${D}/${JUPYTER_DIR}/aie-notebooks/pics
 
     install -m 0644 ${S}/README ${D}/${JUPYTER_DIR}/aie-notebooks
-    install -m 0755 ${S}/*.ipynb ${D}/${JUPYTER_DIR}/aie-notebooks
     install -m 0755 ${S}/pics/*.png ${D}/${JUPYTER_DIR}/aie-notebooks/pics
 }
 
