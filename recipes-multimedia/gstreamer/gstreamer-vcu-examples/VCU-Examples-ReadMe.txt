@@ -233,13 +233,13 @@ VI. Sample Gstreamer Pipelines
  ===========
  Decode h264 input file and display on DP monitor.
 
- >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h264parse ! omxh264dec ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.zynqmp-display fullscreen-overlay=1
+ >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h264parse ! omxh264dec ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.display fullscreen-overlay=1
 
  H265 Decode:
  ===========
  Decode h265 input file and display on DP monitor.
 
- >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h265parse ! omxh265dec ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.zynqmp-display fullscreen-overlay=1
+ >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h265parse ! omxh265dec ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.display fullscreen-overlay=1
  (Note: Input-file.mp4 could be of any format ( 420/422 8bit , 420/422 10bit))
 
  Higher bitrate bitstream decoding: Decoder may take more than one frame period time for high bitrate decoding (> 100Mbps). Use below options to get better decoder performance.
@@ -247,7 +247,7 @@ VI. Sample Gstreamer Pipelines
  • Add a queue at decoder input side.
  • The below command decodes h264 video file using 9 internal entropy buffers.
 
- >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h264parse ! queue max-size-bytes=0 ! omxh264dec internal-entropy-buffers=9 ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.zynqmp-display fullscreen-overlay=1
+ >> gst-launch-1.0 filesrc location="input-file.mp4" ! qtdemux name=demux demux.video_0 ! h264parse ! queue max-size-bytes=0 ! omxh264dec internal-entropy-buffers=9 ! queue max-size-bytes=0 ! kmssink bus-id=fd4a0000.display fullscreen-overlay=1
 
  H264 Encode:
  ===========
