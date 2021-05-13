@@ -68,7 +68,7 @@ SOUPHTTP_SRC="souphttpsrc location"
 COMPRESSED_MODE=0
 AUDIO_SRC="autoaudiosrc"
 AUDIO_SRC_BASE="unknown"
-DISPLAY_DEVICE="fd4a0000.zynqmp-display"
+DISPLAY_DEVICE="fd4a0000.display"
 DPMS="unknown"
 PULSEAUDIO="unknown"
 VIDEOTESTSRC="videotestsrc"
@@ -106,7 +106,7 @@ ErrorMsg() {
 catchCTRL_C() {
 	export DISPLAY=:0.0
 	xset dpms force on
-	modetest -D fd4a0000.zynqmp-display -w 35:alpha:255
+	modetest -D fd4a0000.display -w 35:alpha:255
 	restoreContext
 	exit 0
 }
@@ -365,7 +365,7 @@ setDefaultifEmpty () {
 			;;
 		displayDevice )
 			if [ -z $DISPLAY_DEVICE ]; then
-				DISPLAY_DEVICE="fd4a0000.zynqmp-display"
+				DISPLAY_DEVICE="fd4a0000.display"
 			echo "DRM display device is not specified in args hence assuming $DISPLAY_DEVICE as default DRM device"
 			fi
 			;;
@@ -592,8 +592,8 @@ DisplayUsageFor () {
 			;;
 		displayDevice )
 			echo '	-d or --display-device	 	 : Set DRM display device'
-			echo '					 : Possible Values: "fd4a0000.zynqmp-display"'
-			echo '					 : Default Value  : "fd4a0000.zynqmp-display"'
+			echo '					 : Possible Values: "fd4a0000.display"'
+			echo '					 : Default Value  : "fd4a0000.display"'
 			;;
 		loopVideo )
 			echo '	-l or --loop-video		 : Loop the pipeline to process video again from start after EOF'

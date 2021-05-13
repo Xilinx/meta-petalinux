@@ -42,9 +42,9 @@ usage () {
 	DisplayUsage "${scriptArgs[@]}"
 	echo '  Example :'
 	echo '  '$scriptName''
-	echo '  '$scriptName' -d "fd4a0000.zynqmp-display"'
-	echo '  '$scriptName' -d "fd4a0000.zynqmp-display" -a aac'
-	echo '  '$scriptName' --display-device "fd4a0000.zynqmp-display"'
+	echo '  '$scriptName' -d "fd4a0000.display"'
+	echo '  '$scriptName' -d "fd4a0000.display" -a aac'
+	echo '  '$scriptName' --display-device "fd4a0000.display"'
 	echo '  '$scriptName' -f'
 	echo '  '$scriptName' -f -o fakevideosink'
 	echo '  '$scriptName' -p 40000 -c avc'

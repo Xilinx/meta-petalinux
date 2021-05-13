@@ -43,7 +43,7 @@ usage () {
 	echo '  Example :'
 	echo '  '$scriptName''
 	echo '  '$scriptName' -a aac'
-	echo '  '$scriptName' --use-alsasrc -i "hw:1" -d "fd4a0000.zynqmp-display" -a aac'
+	echo '  '$scriptName' --use-alsasrc -i "hw:1" -d "fd4a0000.display" -a aac'
 	echo '  '$scriptName' -v "/dev/video1"'
 	echo '  '$scriptName' -n 500 --use-alsasrc'
 	echo '  '$scriptName' --use-alsasrc -i "hw:1" -n 500 --use-alsasrc -b 1200 -a aac'
