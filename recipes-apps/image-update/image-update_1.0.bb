@@ -7,7 +7,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSES/MIT;md5=2ac09a7a37dd6ee0ba23ce497d57d09b"
 
 SRC_URI = "git://github.com/Xilinx/linux-image_update.git;protocol=https"
-SRCREV = "300b71bbd89fa730c15209fb81bba9a793398850"
+SRCREV = "1a5bcd9fbae931f221106c6707e5c974a18b3be6"
 
 RDEPENDS_${PN} += "fru-print"
 
