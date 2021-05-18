@@ -1,5 +1,8 @@
 DESCRIPTION = "PetaLinux OpenAMP supported packages"
 
+PACKAGE_ARCH_versal = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+
 inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "openamp"
