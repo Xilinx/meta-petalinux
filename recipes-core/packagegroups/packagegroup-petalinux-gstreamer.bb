@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux GSTREAMER supported packages"
 
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+
 inherit packagegroup
 
 GSTREAMER_PACKAGES = " \
