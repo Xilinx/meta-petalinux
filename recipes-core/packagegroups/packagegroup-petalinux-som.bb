@@ -1,5 +1,8 @@
 DESCRIPTION = "SOM related packages"
 
+BOARDVARIANT_ARCH ??= "${MACHINE_ARCH}"
+PACKAGE_ARCH_k26 = "${BOARDVARIANT_ARCH}"
+
 inherit packagegroup
 
 DEFAULT_FW_PACKAGE ?= ""
