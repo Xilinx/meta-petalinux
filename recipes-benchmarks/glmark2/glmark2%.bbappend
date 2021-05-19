@@ -15,4 +15,5 @@ PACKAGECONFIG[fbdev-glesv2] = ",,virtual/libgles2 virtual/egl"
 
 EXTRA_OECONF_append = "${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', ' --with-flavors=fbdev-glesv2', '', d)}"
 
+SOC_VARIANT_ARCH ??= "${TUNE_PKGARCH}"
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
