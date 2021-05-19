@@ -9,6 +9,7 @@ SYS_CONTROLLER_SCWEB_PACKAGES = " \
         python3-flask-restful \
         packagegroup-petalinux-syscontroller \
         packagegroup-petalinux-lmsensors \
+        pmtool \
         scweb \
        "
 
