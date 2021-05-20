@@ -1,7 +1,5 @@
 SUMMARY = "rfclk Library"
 SECTION = "rfclk"
-LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://license.txt;md5=3a6e22aebf6516f0f74a82e1183f74f8"
 
 inherit pkgconfig xlnx-embeddedsw
 
