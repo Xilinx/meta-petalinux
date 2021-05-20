@@ -47,9 +47,7 @@ PLNX_COMMON_FEATURES_append_aarch64 = " \
 
 ZYNQ_FEATURES = ""
 
-ZYNQMP_FEATURES = " \
-    petalinux-vitisai \
-    "
+ZYNQMP_FEATURES = ""
 
 ULTRA96_FEATURES = " \
     petalinux-96boards-sensors \
