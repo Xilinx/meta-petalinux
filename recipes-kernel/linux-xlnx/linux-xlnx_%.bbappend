@@ -7,3 +7,5 @@ python() {
     if initramfs and xen_deploy:
         d.appendVarFlag('do_deploy', 'postfuncs', ' plnx_compile_image_builder')
 }
+
+DT_SEARCH_ARG="-name *.dtb"
