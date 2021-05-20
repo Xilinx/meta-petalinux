@@ -7,6 +7,7 @@ PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp = ".*"
+COMPATIBLE_MACHINE_versal = ".*"
 
 RDEPENDS_${PN} = "\
     glog \
@@ -15,7 +16,6 @@ RDEPENDS_${PN} = "\
     protobuf \
     python3-pip \
     opencv \
-    dnndk \
     python3-pybind11 \
     vitis-ai-library \
     xir \
