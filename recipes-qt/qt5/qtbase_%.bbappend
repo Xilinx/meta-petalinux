@@ -17,9 +17,7 @@ PACKAGECONFIG_append = " \
 PACKAGECONFIG_remove = "tests"
 
 # OpenGL comes from libmali on ev/eg, when egl is enabled
-DEPENDS_append_zynqmp-ev = " libmali-xlnx"
-DEPENDS_append_zynqmp-eg = " libmali-xlnx"
+DEPENDS_append_mali400 = " libmali-xlnx"
 
-PACKAGE_ARCH_zynqmp-ev = "${SOC_VARIANT_ARCH}"
-PACKAGE_ARCH_zynqmp-eg = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH_mali400 = "${SOC_VARIANT_ARCH}"
 
