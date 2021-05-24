@@ -16,10 +16,12 @@ S = "${WORKDIR}/git"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp = "zynqmp"
 
+PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+
+# Force the make system to use the flags we want!
+EXTRA_OEMAKE = 'CC="${CC} ${TARGET_CFLAGS} ${TARGET_LDFLAGS}" all'
+
 do_install () {
     install -d ${D}${bindir}
     install -m 0755 ${S}/image_update ${D}${bindir}/
 }
-
-INSANE_SKIP_${PN} = "ldflags"
-
