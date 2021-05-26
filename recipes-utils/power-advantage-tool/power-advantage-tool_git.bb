@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit jupyter-examples python3-dir
 
-SRC_URI = "git://gitenterprise.xilinx.com/PowerAdvantageTool/jupyter-pat.git;protocol=https;nobranch=1"
+SRC_URI = "git://github.com/Xilinx/jupyter-pat.git;protocol=https;nobranch=1"
 
 PV = "2.2.0+git${SRCPV}"
 SRCREV = "caec49c66e436ff0c47239c168054f02ac641790"
