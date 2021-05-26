@@ -6,12 +6,12 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "git://github.com/Xilinx/system-controller-app.git;branch=master;protocol=https"
 
-SRCREV="6bb6ce2d35a2ef5d4cb3fea78c291dda35109e14"
+SRCREV="13c475fc7b2d151c56e9028f6c419ab253822e7b"
 
 inherit update-rc.d
 
 INITSCRIPT_NAME = "system_controller.sh"
-INITSCRIPT_PARAMS = "start 99 S ."
+INITSCRIPT_PARAMS = "start 96 5 ."
 
 S="${WORKDIR}/git"
 
