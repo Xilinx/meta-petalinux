@@ -1,0 +1,24 @@
+When the build path includes 'icc', such as 'genericcg', the system will
+add icc specific CFLAGS.
+
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+
+--- a/configure.ac.orig	2020-10-05 10:29:18.724691587 -0700
++++ b/configure.ac	2020-10-05 10:30:14.224859289 -0700
+@@ -354,16 +354,6 @@
+ else
+     AC_CHECK_PROGS(RC,[windres ${host}-windres],false)
+     case "${CC}" in
+-	*icc* )
+-	    # -Wall causes relocation errors with icc
+-	    CFLAGS="${CFLAGS} -wd269"
+-	    # icc doesn't like -pipe
+-	    CFLAGS=`echo ${CFLAGS} | sed 's/ -pipe//'`
+-	    # icc doesn't like -ffast-math
+-	    CFLAGS=`echo ${CFLAGS} | sed 's/ -ffast-math//'`
+-	    # icc doesn't like -O2
+-	    CFLAGS=`echo ${CFLAGS} | sed 's/ -O2/ -O0/'`
+-	    ;;
+ 	* )
+ 	    case "${build}" in
+ 	    *-dec-osf* )
