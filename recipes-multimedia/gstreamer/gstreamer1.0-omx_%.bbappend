@@ -10,7 +10,7 @@ SRC_URI = " \
 	git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
 	"
 
-SRCREV_gst-omx = "36163dd02769b64dcbd6f5c5037b6e70ebc599e4"
+SRCREV_gst-omx = "0ff294b7e75a34d72c8b918aa0fc61dad977db1e"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gst-omx"
 
