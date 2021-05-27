@@ -35,3 +35,7 @@ inherit core-image
 
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_ROOTFS_EXTRA_SPACE = "0"
+
+rm_work_rootfs[noexec] = "1"
+rm_work_rootfs[cleandirs] = ""
+RM_WORK_EXCLUDE_ITEMS = "rootfs"
