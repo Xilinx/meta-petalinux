@@ -3,13 +3,19 @@ LICENSE = "MIT"
 
 require petalinux-image-full.inc
 
-IMAGE_INSTALL_append_zynq = " kernel-devsrc"
+DEPENDS_append = " protobuf-native libeigen-native python3-setuptools-native"
+DEPENDS_append_zynq   = " libeigen"
+DEPENDS_append_zynqmp = " libeigen"
+DEPENDS_append_versal = " libeigen"
 
-IMAGE_INSTALL_append_zynqmp = " openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi"
+IMAGE_INSTALL_append_zynq = " kernel-devsrc xrt"
+
+VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
+IMAGE_INSTALL_append_zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi"
 IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL_append_versal = " pm-notebooks openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
+IMAGE_INSTALL_append_versal = " ${VITISAI_DEPENDENCIES} xrt pm-notebooks openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
 IMAGE_INSTALL_append_versal-ai-core = " aie-notebooks"
 
 # ultra96-zynqmp recipes
