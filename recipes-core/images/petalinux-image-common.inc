@@ -103,11 +103,7 @@ FEATURE_PACKAGES_petalinux-pynq-helloworld[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-scweb ?= "packagegroup-petalinux-scweb"
 FEATURE_PACKAGES_petalinux-scweb[optional] ?= "1"
 
-# Vitis AI is only built for zynqmp at this time, but allow
-# the FEATURE_PACKAGES to not error on no zynqmp systems
-VITISAI_PKGS = ""
-VITISAI_PKGS_zynqmp = "packagegroup-petalinux-vitisai"
-FEATURE_PACKAGES_petalinux-vitisai ?= "${VITISAI_PKGS}"
+FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
 FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
 
 FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainers"
