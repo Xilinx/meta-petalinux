@@ -10,12 +10,12 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "git://github.com/Xilinx/SystemController.git;branch=master;protocol=https \
                   "
-SRCREV = "8a12b179e7b19a03f758a54920f813bc4267604b"
+SRCREV = "631655ca6d9a988f19c40b1664da2632da146258"
 
 inherit update-rc.d
 
 INITSCRIPT_NAME = "scwebrun.sh"
-INITSCRIPT_PARAMS = "start 99 S ."
+INITSCRIPT_PARAMS = "start 97 5 ."
 
 S = "${WORKDIR}/git"
 
