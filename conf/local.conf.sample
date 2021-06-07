@@ -234,3 +234,5 @@ CONF_VERSION = "1"
 #Enable the below line to use pmu-rom.elf from a specific path
 #PMU_ROM = "/proj/yocto/pmu-rom/pmu-rom.elf"
 INHERIT+="plnx-mirrors"
+PNBLACKLIST[qemu-native]="blacklist"
+PNBLACKLIST[nativesdk-qemu]="blacklist"
