@@ -1,0 +1,24 @@
+From fceb47ac780f73f16696a2fad4c4276ce0bef8d2 Mon Sep 17 00:00:00 2001
+From: Tianfang Meng <tianfang@xcdldocker2.xilinx.com>
+Date: Fri, 3 Apr 2020 12:09:22 +0800
+Subject: [PATCH] Modify for vitis-ai-libs v2020.1
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 808330e..508904e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -472,7 +472,7 @@ add_library(glog::glog ALIAS glog)
+ set_target_properties (glog PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ 
+ if (UNWIND_LIBRARY)
+-  target_link_libraries (glog PUBLIC ${UNWIND_LIBRARY})
++  target_link_libraries (glog PUBLIC $<BUILD_INTERFACE:${UNWIND_LIBRARY}> $<INSTALL_INTERFACE:-lunwind>)
+ endif (UNWIND_LIBRARY)
+ 
+ if (HAVE_DBGHELP)
+-- 
+2.17.1
