@@ -9,7 +9,7 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_versal = ".*"
 
 RDEPENDS_${PN} = "libmetal"
-XILINX_RELEASE_VERSION="2021.1"
+XILINX_RELEASE_VERSION="2021.2"
 CMCPATH="/proj/yocto/${XILINX_RELEASE_VERSION}/cmc/vck5000-versal/cmc_latest"
 SRC_URI = "file://${CMCPATH} file://cmc-start.sh"
 

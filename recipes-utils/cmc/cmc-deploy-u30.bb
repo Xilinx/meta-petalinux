@@ -9,7 +9,7 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_zynqmp-generic = "zynqmp-generic"
 
 RDEPENDS_${PN} = "libmetal"
-XILINX_RELEASE_VERSION="2021.1"
+XILINX_RELEASE_VERSION="2021.2"
 CMCPATH="/proj/yocto/${XILINX_RELEASE_VERSION}/cmc/zynqmp-generic/cmc_latest"
 SRC_URI = "file://${CMCPATH} file://cmc-start.sh"
 
