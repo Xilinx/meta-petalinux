@@ -31,6 +31,7 @@ FILES_${PN} += "${datadir}/BoardFramework /usr/bin"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

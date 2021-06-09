@@ -31,6 +31,7 @@ FILES_${PN} += "${prefix}/local ${prefix}/local/bin ${prefix}/local/lib ${prefix
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
