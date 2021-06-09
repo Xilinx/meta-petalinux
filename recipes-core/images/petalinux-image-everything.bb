@@ -26,6 +26,9 @@ IMAGE_INSTALL_append_ultra96 = " sensor-mezzanine-examples"
 # vck-sc-zynqmp recipes
 IMAGE_INSTALL_append_vck-sc = " acap power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
+# vpk-sc recipes
+IMAGE_INSTALL_append_vpk-sc = " labtool-jtag-support boardframework"
+
 IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
 
