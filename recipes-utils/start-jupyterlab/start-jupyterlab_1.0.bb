@@ -32,8 +32,6 @@ INITSCRIPT_PARAMS = "start 99 3 5 . stop 20 0 1 2 6 ."
 S = "${WORKDIR}"
 
 do_install() {
-    install -d ${D}/opt/xilinx/share/notebooks
-
     install -d ${D}${datadir}/jupyter/lab/settings
     install -m 0644 ${WORKDIR}/overrides.json ${D}${datadir}/jupyter/lab/settings/
 
@@ -44,7 +42,4 @@ do_install() {
     install -m 0600 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
 }
 
-FILES_${PN} += " \
-	${datadir}/jupyter/lab/settings \
-	/opt/xilinx/share/notebooks \
-	"
+FILES_${PN} += "${datadir}/jupyter/lab/settings"
