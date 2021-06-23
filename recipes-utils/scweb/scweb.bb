@@ -8,9 +8,9 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 
-SRC_URI = "git://github.com/Xilinx/SystemController.git;branch=master;protocol=https \
+SRC_URI = "git://github.com/Xilinx/system-controller-web.git;branch=master;protocol=https \
                   "
-SRCREV = "631655ca6d9a988f19c40b1664da2632da146258"
+SRCREV = "a941c54eff60a4873d1b7905dbfad03c081cc95f"
 
 inherit update-rc.d
 
