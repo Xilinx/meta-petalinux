@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "git://github.com/Xilinx/system-controller-app.git;branch=master;protocol=https"
 
-SRCREV="13c475fc7b2d151c56e9028f6c419ab253822e7b"
+SRCREV="4013c7fe9f1add83b961919de8f655895d2a7792"
 
 inherit update-rc.d
 
