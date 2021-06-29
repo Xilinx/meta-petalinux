@@ -1,0 +1,9 @@
+[Unit]
+Description=jupyter setup scripts
+
+[Service]
+Environment="BOARD=Ultra96"
+ExecStart=/sbin/start-jupyter.sh
+
+[Install]
+WantedBy=multi-user.target

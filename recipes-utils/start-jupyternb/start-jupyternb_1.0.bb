@@ -3,6 +3,7 @@ SUMMARY = "Start Jupyter at system boot"
 SRC_URI = " file://start-jupyter.sh \
             file://jupyter-setup.sh \
             file://jupyter_notebook_config.py \
+	    file://jupyter-setup.service \
 	"
 
 LICENSE = "Proprietary"
@@ -13,7 +14,7 @@ JUPYTER_STARTUP_PACKAGES += " \
         bash \
         "
 
-inherit update-rc.d
+inherit update-rc.d systemd
 PROVIDES = "start-jupyter"
 RPROVIDES_${PN} = "start-jupyter"
 
@@ -22,13 +23,23 @@ RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 INITSCRIPT_NAME = "jupyter-setup.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
+SYSTEMD_PACKAGES="${PN}"
+SYSTEMD_SERVICE_${PN}="jupyter-setup.service"
+SYSTEMD_AUTO_ENABLE_${PN}="enable"
+
 S = "${WORKDIR}"
 
 FILES_${PN} += "${base_sbindir}"
 
 do_install() {
-    install -d ${D}${sysconfdir}/init.d/
-    install -m 0755 ${WORKDIR}/jupyter-setup.sh ${D}${sysconfdir}/init.d/jupyter-setup.sh
+
+    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+       install -d ${D}${sysconfdir}/init.d/
+       install -m 0755 ${WORKDIR}/jupyter-setup.sh ${D}${sysconfdir}/init.d/jupyter-setup.sh
+    fi
+
+    install -d ${D}${systemd_system_unitdir}
+    install -m 0644 ${WORKDIR}/jupyter-setup.service ${D}${systemd_system_unitdir}
 
     install -d ${D}${base_sbindir}
     install -m 0755 ${WORKDIR}/start-jupyter.sh ${D}${base_sbindir}/start-jupyter.sh
