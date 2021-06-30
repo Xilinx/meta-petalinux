@@ -1,0 +1,8 @@
+[Unit]
+Description=system_controller_app
+
+[Service]
+ExecStart=/usr/bin/system_controller.sh
+
+[Install]
+WantedBy=multi-user.target
