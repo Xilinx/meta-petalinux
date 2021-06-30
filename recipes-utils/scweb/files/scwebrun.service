@@ -1,0 +1,8 @@
+[Unit]
+Description=scweb run 
+
+[Service]
+ExecStart=/usr/bin/scwebrun.sh
+
+[Install]
+WantedBy=multi-user.target
