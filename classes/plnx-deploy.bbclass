@@ -132,6 +132,8 @@ def copy_files(inputfile,outputfile):
    import shutil
    import os
    if os.path.exists(inputfile):
+       if not os.path.exists(os.path.dirname(outputfile)):
+           os.mkdir(os.path.dirname(outputfile))
        if os.path.isdir(inputfile):
            if os.path.exists(outputfile):
                shutil.rmtree(outputfile)
@@ -149,7 +151,13 @@ python plnx_deploy() {
     if pn == 'u-boot-zynq-scr':
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
         d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
-    
+
+    if pn == 'device-tree':
+        dtbo_files = [f for f in os.listdir(deploy_dir) if f.endswith('.dtbo')]
+        for dtbo_file in dtbo_files:
+            if dtbo_file != 'pl.dtbo' and dtbo_file != 'pl-final.dtbo':
+               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' ' + dtbo_file + ':/dtbos/' + dtbo_file)
+
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
         input, output = package_bin.split(':')
