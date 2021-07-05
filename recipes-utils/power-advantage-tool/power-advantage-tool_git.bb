@@ -19,6 +19,7 @@ S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
 
 RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
