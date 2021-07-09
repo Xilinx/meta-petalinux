@@ -16,6 +16,13 @@ then
         sed -i "s/:/:${BOARD_VARIANT}:/" /etc/dnf/vars/arch
         #Add board_variant arch to arch_compat (order doesnt matter here)
         sed -i "s/^arch_compat.*/& ${BOARD_VARIANT}/"  /etc/rpmrc
+
+	PACKAGE_FEED_URIS="@@PACKAGE_FEED_URIS@@"
+        for URI in ${PACKAGE_FEED_URIS}
+        do
+                FILE_NAME=$(echo ${URI} | awk -F"petalinux.xilinx.com/" '{print $2}' | sed 's./.-.g')
+                echo -e "[remote-repo-${BOARD_VARIANT}]\nname=remote-repo-${BOARD_VARIANT}\nbaseurl=${URI}/${BOARD_VARIANT}\ngpgcheck=0\n" | tee -a /etc/yum.repos.d/*${FILE_NAME}.repo >/dev/null 2>&1
+        done
     else
 	echo "Not adding board variant to config as board is not present"
     fi
