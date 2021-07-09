@@ -15,4 +15,8 @@ do_install() {
 	install -m 0755 ${WORKDIR}/archconfig.sh ${D}${sysconfdir}/init.d/
 }
 
+do_configure() {
+        sed -i -e "s|@@PACKAGE_FEED_URIS@@|${PACKAGE_FEED_URIS}|g" "${WORKDIR}/archconfig.sh"
+}
+
 FILES_${PN} = "${sysconfdir}/init.d/archconfig.sh"
