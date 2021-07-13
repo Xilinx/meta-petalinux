@@ -20,7 +20,7 @@ SRC_URI = " \
     file://0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch \
 "
 
-SRCREV_gstreamer-xlnx = "cdc91b6ae73ca9d8404cfc54f417bca4a8fb351a" 
+SRCREV_gstreamer-xlnx = "fa6a504ba990c09b3c3edb12a8dffbf2affb56bd"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
