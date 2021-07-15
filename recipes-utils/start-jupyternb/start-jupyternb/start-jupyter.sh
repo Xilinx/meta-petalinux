@@ -25,7 +25,7 @@
 echo "netip is " > /var/log/jupyter.log net_ip=$(ip route | grep src | awk '{print $NF; exit}') echo $net_ip >> /var/log/jupyter.log
 
 i=0
-while [ -z "$net_ip" ]
+while [ -z "$net_ip" ] || ! [[ "$net_ip" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
 do
         echo "CONNECTING... $i seconds" >> /var/log/jupyter.log
         net_ip=$(ip route | grep src | awk '{print $NF; exit}')
