@@ -11,3 +11,12 @@ TPM_PACKAGES = " \
 	"
 
 RDEPENDS_${PN} = "${TPM_PACKAGES}"
+
+TPM_PACKAGES_DEV = " \
+	tpm2-abrmd-dev \
+	tpm2-pkcs11-dev \
+	tpm2-tools-dev \
+	tpm2-tss-engine-dev \
+	"
+
+RDEPENDS_${PN}-dev = "${TPM_PACKAGES_DEV}"
