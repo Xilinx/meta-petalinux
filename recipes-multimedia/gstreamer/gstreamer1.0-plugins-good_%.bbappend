@@ -17,7 +17,7 @@ SRC_URI = " \
     file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
 "
 
-SRCREV_base = "f89f5c9e39ced253694adbab18e91fdbab1ac3b6"
+SRCREV_base = "197a84a74623f7b3b3a9dee46a465617b5cc3d90"
 SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
 SRCREV_FORMAT = "base"
 
