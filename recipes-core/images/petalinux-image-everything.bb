@@ -15,7 +15,7 @@ IMAGE_INSTALL_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization
 IMAGE_INSTALL_append_zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
-IMAGE_INSTALL_append_zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi kernel-module-dp"
+IMAGE_INSTALL_append_zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
 IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
