@@ -91,7 +91,7 @@ def copyfiles_append(d):
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
-    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo pl-final.dtbo:pl.dtbo' )
+    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/pl.dtbo:pl.dtbo /devicetree/pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'u-boot.dtb:' + uboot_dtb_name )
@@ -153,11 +153,11 @@ python plnx_deploy() {
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
         d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
 
-    if pn == 'device-tree':
-        dtbo_files = [f for f in os.listdir(deploy_dir) if f.endswith('.dtbo')]
+    if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
+        dtbo_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtbo')]
         for dtbo_file in dtbo_files:
             if dtbo_file != 'pl.dtbo' and dtbo_file != 'pl-final.dtbo':
-               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' ' + dtbo_file + ':/dtbos/' + dtbo_file)
+               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtbo_file + ':/dtbos/' + dtbo_file)
 
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
