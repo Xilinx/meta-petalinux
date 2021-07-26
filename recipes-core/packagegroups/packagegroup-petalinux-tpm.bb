@@ -8,6 +8,7 @@ TPM_PACKAGES = " \
 	tpm2-tools \
 	tpm2-tss \
 	tpm2-tss-engine \
+	libtss2-tcti-device \
 	"
 
 RDEPENDS_${PN} = "${TPM_PACKAGES}"
