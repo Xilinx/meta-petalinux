@@ -62,6 +62,7 @@ QEMU_HWDTB_NAME_zc1751 ?= "zc1751-dc2-arm.dtb"
 QEMU_HWDTB_NAME_ultra96 ?= "zcu100-arm.dtb"
 QEMU_HWDTB_NAME_versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
 QEMU_HWDTB_NAME_vck190 ?= "board-versal-ps-vck190.dtb"
+QEMU_HWDTB_NAME_k26 ?= "board-zynqmp-k26-som.dtb"
 
 QEMU_HWDTBS_zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
 
