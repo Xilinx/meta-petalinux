@@ -21,7 +21,8 @@ then
         for URI in ${PACKAGE_FEED_URIS}
         do
                 FILE_NAME=$(echo ${URI} | awk -F"petalinux.xilinx.com/" '{print $2}' | sed 's./.-.g')
-                echo -e "[remote-repo-${BOARD_VARIANT}]\nname=remote-repo-${BOARD_VARIANT}\nbaseurl=${URI}/${BOARD_VARIANT}\ngpgcheck=0\n" | tee -a /etc/yum.repos.d/*${FILE_NAME}.repo >/dev/null 2>&1
+		REPO_NAME=$(echo ${URI} | awk -F"petalinux.xilinx.com/" '{print $2}' | sed 's./. .g')
+                echo -e "[oe-remote-repo-${FILE_NAME}-${BOARD_VARIANT}]\nname=OE Remote Repo: ${REPO_NAME} ${BOARD_VARIANT}\nbaseurl=${URI}/${BOARD_VARIANT}\ngpgcheck=0\n" | tee -a /etc/yum.repos.d/*${FILE_NAME}.repo >/dev/null 2>&1
         done
     else
 	echo "Not adding board variant to config as board is not present"
