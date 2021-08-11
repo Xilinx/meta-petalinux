@@ -28,6 +28,7 @@ SOM_PACKAGES = " \
         tree \
         tzdata \
         xmutil \
+	som-dashboard \
 	${DEFAULT_FW_PACKAGE} \
 	"
 
