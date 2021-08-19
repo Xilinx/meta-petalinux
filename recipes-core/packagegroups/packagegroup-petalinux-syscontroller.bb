@@ -20,5 +20,5 @@ SYSTEM_CONTROLLER_PACKAGES = " \
 "
 RDEPENDS_${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
 
-SYSTEM_CONTROLLER_PACKAGES_append_a2197 = " fru-tools"
-SYSTEM_CONTROLLER_PACKAGES_append_vck-sc = "labtool-jtag-support power-advantage-tool"
+SYSTEM_CONTROLLER_PACKAGES_append_a2197 = " ${@'fru-tools' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
+SYSTEM_CONTROLLER_PACKAGES_append_vck-sc = " ${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''} power-advantage-tool"
