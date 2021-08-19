@@ -28,7 +28,8 @@ IMAGE_INSTALL_append_ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-
 IMAGE_INSTALL_append_ultra96 = " sensor-mezzanine-examples"
 
 # vck-sc-zynqmp recipes
-IMAGE_INSTALL_append_vck-sc = " acap power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
+ACAP_RECIPE = "${@'acap' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
+IMAGE_INSTALL_append_vck-sc = " ${ACAP_RECIPE} power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 # vpk-sc recipes
 IMAGE_INSTALL_append_vpk-sc = " power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
