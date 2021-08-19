@@ -12,7 +12,7 @@ inherit jupyter-examples python3-dir
 SRC_URI = "git://github.com/Xilinx/jupyter-pat.git;protocol=https;nobranch=1"
 
 PV = "2.2.0+git${SRCPV}"
-SRCREV = "caec49c66e436ff0c47239c168054f02ac641790"
+SRCREV = "c49b4a38b171374195348b494e314859819c348b"
 
 
 S = "${WORKDIR}/git"
