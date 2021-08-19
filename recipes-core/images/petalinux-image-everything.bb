@@ -29,10 +29,12 @@ IMAGE_INSTALL_append_ultra96 = " sensor-mezzanine-examples"
 
 # vck-sc-zynqmp recipes
 ACAP_RECIPE = "${@'acap' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
-IMAGE_INSTALL_append_vck-sc = " ${ACAP_RECIPE} power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
+LABTOOL_RECIPE = "${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
+
+IMAGE_INSTALL_append_vck-sc = " ${ACAP_RECIPE} power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 # vpk-sc recipes
-IMAGE_INSTALL_append_vpk-sc = " power-advantage-tool labtool-jtag-support boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
+IMAGE_INSTALL_append_vpk-sc = " power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
