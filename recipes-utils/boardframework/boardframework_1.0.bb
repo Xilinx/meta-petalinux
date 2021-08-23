@@ -4,12 +4,12 @@ SUMMARY = "Python application to monitor voltages, clocks, power for versal boar
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://../LICENSE;beginline=1;endline=23;md5=96049fee8887e8f457bca7d8472fd4a5"
 
-SRC_URI = "git://gitenterprise.xilinx.com/sethm/BoardFramework.git;branch=1.03.4a;protocol=https \
+SRC_URI = "git://gitenterprise.xilinx.com/sethm/BoardFramework.git;branch=1.03.4x;protocol=https \
            file://LICENSE \
 	   file://start_boardframework.service \
 "
 
-SRCREV="b6489bc6ce0597f205858deb133ad3e4beb6aabc"
+SRCREV="849fe85d4ea7d31a123ae1dba539fa6055e8e338"
 
 SRC_URI[md5sum] = "30a3955eeb89f69b8fd56e67c04c787c"
 SRC_URI[sha256sum] = "7b847e57d537a02d5d866d8af0302ef1411b061caf1e0adc2d2486d6929b8e98"

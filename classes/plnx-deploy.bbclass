@@ -51,7 +51,7 @@ UBOOT_IMAGES_microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
 PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
-PACKAGES_LIST[uboot-device-tree] = "u-boot.dtb:u-boot.dtb"
+PACKAGES_LIST[uboot-device-tree] = "uboot-device-tree.dtb:u-boot.dtb"
 PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
@@ -95,7 +95,7 @@ def copyfiles_append(d):
     d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/pl.dtbo:pl.dtbo /devicetree/pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
-        d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'u-boot.dtb:' + uboot_dtb_name )
+        d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'uboot-device-tree.dtb:' + uboot_dtb_name )
     type = d.getVar('KERNEL_IMAGETYPE') or ""
     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
     types = d.getVar('KERNEL_IMAGETYPES') or ""
