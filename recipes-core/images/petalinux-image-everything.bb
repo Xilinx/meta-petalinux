@@ -46,5 +46,6 @@ KV260_PACKAGES = " \
 	packagegroup-kv260-defect-detect \
 	packagegroup-kv260-nlp-smartvision \
 	packagegroup-kv260-smartcam \
+	kv260-dpu-benchmark \
 	"
 IMAGE_INSTALL_append_k26-kv = " ${KV260_PACKAGES}"
