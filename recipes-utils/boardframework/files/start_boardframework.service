@@ -1,8 +1,0 @@
-[Unit]
-Description=start_boardframework service
-
-[Service]
-ExecStart=/usr/bin/start_boardframework.sh
-
-[Install]
-WantedBy=multi-user.target
