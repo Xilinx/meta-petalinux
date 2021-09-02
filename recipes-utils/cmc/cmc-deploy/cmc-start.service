@@ -1,9 +1,0 @@
-[Unit]
-Description=cmc-deploy
-
-[Service]
-ExecStart=/usr/bin/cmc
-
-[Install]
-WantedBy=multi-user.target
-
