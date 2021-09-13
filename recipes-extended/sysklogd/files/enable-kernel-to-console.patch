@@ -1,0 +1,20 @@
+syslog.conf: Enable kernel output to console
+
+Enable kernel output to console to warning priority or higher
+
+Signed-off-by: Vishal Patel <vishal.patel@xilinx.com>
+---
+CR-1106256
+
+Index: git/syslog.conf
+===================================================================
+--- git.orig/syslog.conf
++++ git/syslog.conf
+@@ -12,6 +12,7 @@ auth,authpriv.*			 /var/log/auth.log
+ #cron.*				/var/log/cron.log
+ #daemon.*			-/var/log/daemon.log
+ kern.*				-/var/log/kern.log
++kern.warning			-/dev/console
+ #lpr.*				-/var/log/lpr.log
+ mail.*				-/var/log/mail.log
+ #user.*				-/var/log/user.log

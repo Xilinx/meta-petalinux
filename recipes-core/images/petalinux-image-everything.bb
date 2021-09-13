@@ -33,7 +33,7 @@ LABTOOL_RECIPE = "${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BB
 IMAGE_INSTALL_append_vck-sc = " ${ACAP_RECIPE} power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 # vpk-sc recipes
-IMAGE_INSTALL_append_vpk-sc = " power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
+IMAGE_INSTALL_append_vpk-sc = " ${ACAP_RECIPE} power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
 IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"

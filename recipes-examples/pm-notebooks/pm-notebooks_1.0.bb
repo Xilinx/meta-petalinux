@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://../../LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
 
 inherit jupyter-examples
 
-SRC_URI = "git://gitenterprise.xilinx.com/Platform-Management/oob-demos.git;branch=master;protocol=https \
+SRC_URI = "git://github.com/Xilinx/platform-management-notebooks.git;branch=master;protocol=https \
            file://LICENSE \
            "
 
