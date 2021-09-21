@@ -21,7 +21,7 @@ SRC_URI = " \
     file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
 "
 
-SRCREV_base = "df307fe9af3cc00d359b1a80201f1a15a833bc04"
+SRCREV_base = "b271ded6065ec4af58b0ad3a2fdbe22283112991"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
