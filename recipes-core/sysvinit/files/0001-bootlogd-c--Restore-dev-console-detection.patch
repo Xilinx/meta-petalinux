@@ -1,0 +1,101 @@
+From: Jate Sujjavanich <jatedev@gmail.com>
+Date: Thu, 29 Oct 2020 12:31:43 -0400
+Subject: [PATCH] bootlogd.c: Restore /dev/console detection
+
+Restore function that detected /dev/console's underlying tty device. This
+causes bootlogd to add the kernel's choice for /dev/console to its output list.
+
+This also helps if the kernel's default console is not in the defcons list and
+bootlogd ignores console= definition in kernel parameters. This is frequently
+the case for embedded systems which have their own names for serial drivers.
+
+Upstream-status: Inappropriate, embedded
+
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+---
+ src/bootlogd.c | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/src/bootlogd.c b/src/bootlogd.c
+index 8b07903..909d3e5 100644
+--- a/src/bootlogd.c
++++ b/src/bootlogd.c
+@@ -110,10 +110,6 @@ void handler(int sig)
+ /*
+  *	Scan /dev and find the device name.
+  */
+-/*
+-This function does not appear to be called anymore. Commenting it
+-out for now, can probably be removed entirely in the future.
+-
+ static int findtty(char *res, const char *startdir, int rlen, dev_t dev)
+ {
+ 	DIR		*dir;
+@@ -169,8 +165,6 @@ static int findtty(char *res, const char *startdir, int rlen, dev_t dev)
+ 	chdir(olddir);
+ 	return r;
+ }
+-*/
+-
+ 
+ 
+ /*
+@@ -250,7 +244,7 @@ int isconsole(char *s, char *res, int rlen)
+ int consolenames(struct real_cons *cons, int max_consoles)
+ {
+ #ifdef TIOCGDEV
+-	/* This appears to be unused.  unsigned int	kdev; */
++	unsigned int	kdev;
+ #endif
+ 	struct stat	st, st2;
+ 	char		buf[KERNEL_COMMAND_LENGTH];
+@@ -260,6 +254,23 @@ int consolenames(struct real_cons *cons, int max_consoles)
+ 	int		fd;
+ 	int		considx, num_consoles = 0;
+ 
++#ifdef TIOCGDEV
++# ifndef  ENOIOCTLCMD
++#  define ENOIOCTLCMD	515
++# endif
++	if (ioctl(0, TIOCGDEV, &kdev) == 0) {
++		int r = findtty(cons[0].name, "/dev", sizeof(cons[0].name), (dev_t)kdev);
++		if (0 != r)
++			fprintf(stderr, "bootlogd: cannot find console device "
++				"%d:%d under /dev\n", major(kdev), minor(kdev));
++		else {
++			num_consoles++; fprintf(stderr, "bootlogd: %s", cons[0].name);
++		}
++	} else
++		if (errno != ENOIOCTLCMD)
++			fprintf(stderr, "bootlogd: ioctl of /dev/console error\n");
++#endif
++
+ #ifdef __linux__
+ 	/*
+ 	 *	Read /proc/cmdline.
+@@ -311,12 +322,12 @@ int consolenames(struct real_cons *cons, int max_consoles)
+ 						goto dontuse;
+ 					}
+ 				}
+-			
+ 			num_consoles++;
+ 			if (num_consoles >= max_consoles) {
+ 				break;
+ 			}
+ 		}
++		
+ dontuse:
+ 		p--;
+ 	}
+@@ -329,7 +340,7 @@ dontuse:
+ 	 *	guess the default console.
+ 	 */
+ 	for (n = 0; defcons[n]; n++)
+-		if (isconsole(defcons[n], cons[0].name, sizeof(cons[0].name))) 
++		if (isconsole(defcons[n], cons[0].name, sizeof(cons[0].name)))
+ 			return 1;
+ 
+ 	fprintf(stderr, "bootlogd: cannot deduce real console device\n");
+-- 
+2.7.4
+
