@@ -37,6 +37,7 @@ PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
 		mb-realoc \
 		"
 
+PACKAGES_LIST_k26 += "board-id-data"
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
 PACKAGE_DTB_NAME ?= ""
@@ -56,6 +57,7 @@ PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
+PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin"
 
 QEMU_HWDTB_NAME_zynqmp ?= "zcu102-arm.dtb"
 QEMU_HWDTB_NAME_zc1751 ?= "zc1751-dc2-arm.dtb"
