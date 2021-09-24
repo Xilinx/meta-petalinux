@@ -8,12 +8,12 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://../LICENSE.md;beginline=1;endline=21;md5=17b8e1d4035e928378878301dbf1d92c"
 
 
-SRC_URI = "git://github.com/Xilinx/system-controller-pmtool.git;protocol=https;branch=master \
+SRC_URI = "git://github.com/Xilinx/system-controller-pmtool.git;protocol=https;branch=xlnx_rel_v2021.2 \
                                file://LICENSE.md \
 		               file://pmtool.conf \
                   "
 
-SRCREV = "0ac13cb1c7e7fd1e564e43148128117437b60a4d"
+SRCREV = "9d0cc459dc4b3bbf283fb8dbc6bbaaaec6d2cb34"
 
 S = "${WORKDIR}/git"
 
