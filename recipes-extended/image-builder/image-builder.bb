@@ -1,4 +1,3 @@
-
 SUMMARY = "Xen Image Builder"
 SECTION = "xen"
 LICENSE = "MIT"
@@ -9,9 +8,9 @@ inherit deploy
 RDEPENDS_${PN} += "bash"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
-SRC_URI = "git://github.com/Xilinx/imagebuilder.git;protocol=https;branch=${BRANCH}"
-BRANCH ??= "xlnx_rel_v2021.2"
-SRCREV ??= "6b97d735d3028c427304b0b361dd61f5cbd9f7dd"
+SRC_URI = "git://github.com/Xilinx/imagebuilder.git;protocol=https"
+BRANCH ??= "master"
+SRCREV ??= "7760210b3c0e4ac29b7a7e5e2daba86f34ca79c2"
 S = "${WORKDIR}/git"
 
 do_install () {
