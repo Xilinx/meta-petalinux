@@ -3,10 +3,10 @@ SUMMARY = "runx stuff"
 DESCRIPTION = "Xen Runtime for OCI"
 
 REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
-BRANCH ?= "xilinx/release-2021.1"
+BRANCH ?= "xlnx_rebase_1.0"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
-SRCREV_runx ?= "be8a3ec422dd164f28204a8d6143f712599dee09"
+SRCREV_runx ?= "14392b348a0503c98302bd924d5f0a4dc951841f"
 FILESEXTRAPATHS_prepend := "${THISDIR}/runx:"
 
 SRC_URI = "\

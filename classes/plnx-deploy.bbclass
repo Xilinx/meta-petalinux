@@ -37,6 +37,7 @@ PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
 		mb-realoc \
 		"
 
+PACKAGES_LIST_k26 += "board-id-data"
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
 PACKAGE_DTB_NAME ?= ""
@@ -51,17 +52,20 @@ UBOOT_IMAGES_microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
 PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
-PACKAGES_LIST[uboot-device-tree] = "u-boot.dtb:u-boot.dtb"
+PACKAGES_LIST[uboot-device-tree] = "uboot-device-tree.dtb:u-boot.dtb"
 PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
+PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin"
 
 QEMU_HWDTB_NAME_zynqmp ?= "zcu102-arm.dtb"
 QEMU_HWDTB_NAME_zc1751 ?= "zc1751-dc2-arm.dtb"
 QEMU_HWDTB_NAME_ultra96 ?= "zcu100-arm.dtb"
 QEMU_HWDTB_NAME_versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
 QEMU_HWDTB_NAME_vck190 ?= "board-versal-ps-vck190.dtb"
+QEMU_HWDTB_NAME_vck5000 ?= "board-versal-ps-vck5000.dtb"
+QEMU_HWDTB_NAME_k26 ?= "board-zynqmp-k26-som.dtb"
 
 QEMU_HWDTBS_zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
 
@@ -90,10 +94,10 @@ def copyfiles_append(d):
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
-    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' pl.dtbo:pl.dtbo pl-final.dtbo:pl.dtbo' )
+    d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/pl.dtbo:pl.dtbo /devicetree/pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
-        d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'u-boot.dtb:' + uboot_dtb_name )
+        d.setVarFlag('PACKAGES_LIST', 'uboot-device-tree', 'uboot-device-tree.dtb:' + uboot_dtb_name )
     type = d.getVar('KERNEL_IMAGETYPE') or ""
     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
     types = d.getVar('KERNEL_IMAGETYPES') or ""
@@ -132,6 +136,8 @@ def copy_files(inputfile,outputfile):
    import shutil
    import os
    if os.path.exists(inputfile):
+       if not os.path.exists(os.path.dirname(outputfile)):
+           os.mkdir(os.path.dirname(outputfile))
        if os.path.isdir(inputfile):
            if os.path.exists(outputfile):
                shutil.rmtree(outputfile)
@@ -149,7 +155,13 @@ python plnx_deploy() {
     if pn == 'u-boot-zynq-scr':
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
         d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
-    
+
+    if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
+        dtbo_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtbo')]
+        for dtbo_file in dtbo_files:
+            if dtbo_file != 'pl.dtbo' and dtbo_file != 'pl-final.dtbo':
+               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtbo_file + ':/dtbos/' + dtbo_file)
+
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
         input, output = package_bin.split(':')

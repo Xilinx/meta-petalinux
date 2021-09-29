@@ -8,14 +8,19 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 
-SRC_URI = "git://github.com/Xilinx/system-controller-web.git;branch=master;protocol=https \
+SRC_URI = "git://github.com/Xilinx/system-controller-web.git;branch=xlnx_rel_v2021.2;protocol=https \
+	   file://scwebrun.service \
                   "
-SRCREV = "a941c54eff60a4873d1b7905dbfad03c081cc95f"
+SRCREV = "807badb9d6815f0bb55428fc8ee505c277c35938"
 
-inherit update-rc.d
+inherit update-rc.d systemd
 
 INITSCRIPT_NAME = "scwebrun.sh"
 INITSCRIPT_PARAMS = "start 97 5 ."
+
+SYSTEMD_PACKAGES="${PN}"
+SYSTEMD_SERVICE_${PN}="scwebrun.service"
+SYSTEMD_AUTO_ENABLE_${PN}="enable"
 
 S = "${WORKDIR}/git"
 
@@ -39,12 +44,20 @@ RDEPENDS_${PN} += "bash \
         "
 
 do_install() {
-        install -d ${D}/${SCWEB_DIR}
-        install -d ${D}${sysconfdir}/init.d/
 
+	install -d ${D}/${SCWEB_DIR}
         cp -r ${S}/src/* ${D}/${SCWEB_DIR}
-        install -m 0755 ${S}/scwebrun.sh ${D}${sysconfdir}/init.d/
+
+       install -d ${D}${bindir}
+       install -m 0755 ${S}/scwebrun.sh ${D}${bindir}
+
+       install -d ${D}${systemd_system_unitdir}
+       install -m 0644 ${WORKDIR}/scwebrun.service ${D}${systemd_system_unitdir}
+
+       if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+               install -d ${D}${sysconfdir}/init.d/
+               install -m 0755 ${S}/scwebrun.sh ${D}${sysconfdir}/init.d/
+       fi
 }
+
 FILES_${PN} += "${SCWEB_DIR}"
-
-

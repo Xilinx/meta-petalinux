@@ -36,7 +36,7 @@ e2fs_run() {
 			    return 0
 			fi
 			msg "Waiting for $dev to pop up (attempt $i)"
-		        sleep 1
+		        sleep 0.1
 		    done
 		    msg "Device $dev not found"
 		fi

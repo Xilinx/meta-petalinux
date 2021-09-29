@@ -1,0 +1,8 @@
+[Unit]
+Description=board-fpga-autoload
+
+[Service]
+ExecStart=/usr/bin/board-fpga-autoload.sh
+
+[Install]
+WantedBy=multi-user.target
