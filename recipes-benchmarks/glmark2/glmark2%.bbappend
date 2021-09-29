@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " file://0001-Make-RGB565-as-default-EGLconfig.patch \
+SRC_URI:append = " file://0001-Make-RGB565-as-default-EGLconfig.patch \
                    file://0001-src-options.cpp-Add-options-to-configure-bpp-and-dep.patch \
                    file://0001-native-state-fbdev-Add-support-for-glmark2-es2-fbdev.patch \
                    file://0001-src-gl-state-egl-Use-native_display-to-load-EGL-func.patch \
@@ -13,7 +13,7 @@ PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gl x
 
 PACKAGECONFIG[fbdev-glesv2] = ",,virtual/libgles2 virtual/egl"
 
-EXTRA_OECONF_append = "${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', ' --with-flavors=fbdev-glesv2', '', d)}"
+EXTRA_OECONF:append = "${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', ' --with-flavors=fbdev-glesv2', '', d)}"
 
 SOC_VARIANT_ARCH ??= "${TUNE_PKGARCH}"
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"

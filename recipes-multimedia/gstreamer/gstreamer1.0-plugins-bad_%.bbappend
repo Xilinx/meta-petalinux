@@ -5,9 +5,9 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 PV = "1.16.3+git${SRCPV}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_remove = " file://gtk-doc-tweaks.patch"
+SRC_URI:remove = " file://gtk-doc-tweaks.patch"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
@@ -26,10 +26,10 @@ SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
 PACKAGECONFIG[mediasrcbin] = "-Dmediasrcbin=enabled,-Dmediasrcbin=disabled,media-ctl"
-PACKAGECONFIG_append = " faac kms faad opusparse mediasrcbin"
+PACKAGECONFIG:append = " faac kms faad opusparse mediasrcbin"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_configure:prepend() {
         ${S}/autogen.sh --noconfigure
 }

@@ -20,9 +20,9 @@ SRC_URI = "file://vcu-demo-camera-decode-display.sh \
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp-ev = "zynqmp-ev"
+COMPATIBLE_MACHINE:zynqmp-ev = "zynqmp-ev"
 
-RDEPENDS_${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash python3-pip alsa-utils"
+RDEPENDS:${PN} = "gstreamer1.0-omx gstreamer1.0-plugins-bad bash python3-pip alsa-utils"
 
 do_install() {
     install -d ${D}/${bindir}
@@ -49,4 +49,4 @@ do_install() {
 
 EXCLUDE_FROM_WORLD = "1"
 
-PACKAGE_ARCH_zynqmp = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_VARIANT_ARCH}"

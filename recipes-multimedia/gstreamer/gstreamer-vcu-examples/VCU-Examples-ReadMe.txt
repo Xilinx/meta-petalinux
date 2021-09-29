@@ -69,7 +69,7 @@ III.  Steps to Verify Examples:
 
 	ii. Using Pulse Library API
 	    vcu-demo-camera-encode-decode-display.sh -s 640x480 -a aac -i "alsa_input.usb-046d_HD_Pro_Webcam_C920_C06272EF-02.analog-stereo" \
-	     --use-pulsesrc --use-pulsesink --audio-output "alsa_output.platform-fd4a0000.zynqmp-display_zynqmp_dp_snd_card.analog-stereo"
+	     --use-pulsesrc --use-pulsesink --audio-output "alsa_output.platform-fd4a0000.zynqmp-display:zynqmp_dp_snd_card.analog-stereo"
 
 	NOTE: For selecting the values of arguments to be passed to -i and ---audio-output option, please refer section IV.
 
@@ -91,7 +91,7 @@ III.  Steps to Verify Examples:
 
 	ii. Using Pulse Library API
 	    vcu-demo-camera-decode-display.sh -s 640x480 -a aac -i "alsa_input.usb-046d_HD_Pro_Webcam_C920_C06272EF-02.analog-stereo" \
-	     --use-pulsesrc --use-pulsesink --audio-output "alsa_output.platform-fd4a0000.zynqmp-display_zynqmp_dp_snd_card.analog-stereo"
+	     --use-pulsesrc --use-pulsesink --audio-output "alsa_output.platform-fd4a0000.zynqmp-display:zynqmp_dp_snd_card.analog-stereo"
 
 	NOTE: For "How To Guide" on selecting the values of arguments to be passed to -i and ---audio-output option, please refer section IV.
 
@@ -190,8 +190,8 @@ IV. Determining PulseAudio and AlSA Sound device names
 
 4. PulseAudio sound device names playback devices
   ii. pactl list short sinks
-	0       alsa_output.platform-fd4a0000.zynqmp-display_zynqmp_dp_snd_card.analog-stereo ...
-	Here "alsa_output.platform-fd4a0000.zynqmp-display_zynqmp_dp_snd_card.analog-stereo" is the name of audio playback device which can be selected using --audio-output option.
+	0       alsa_output.platform-fd4a0000.zynqmp-display:zynqmp_dp_snd_card.analog-stereo ...
+	Here "alsa_output.platform-fd4a0000.zynqmp-display:zynqmp_dp_snd_card.analog-stereo" is the name of audio playback device which can be selected using --audio-output option.
 
 
 

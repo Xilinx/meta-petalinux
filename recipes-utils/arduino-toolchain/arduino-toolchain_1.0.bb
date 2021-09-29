@@ -6,10 +6,10 @@ quality C library for use with GCC on Atmel AVR microcontrollers."
 HOMEPAGE = "http://www.nongnu.org/avr-libc/"
 
 SRC_URI = " \
-    http://http.us.debian.org/debian/pool/main/g/gcc-avr/gcc-avr_5.4.0+Atmel3.6.1-2_arm64.deb;subdir=avrgcc;unpack=false;name=gcc-avr \
-    http://http.us.debian.org/debian/pool/main/e/elfutils/libelf1_0.176-1.1_arm64.deb;subdir=avrgcc;unpack=false;name=libelf1 \
+    http://http.us.debian.org/debian/pool/main/g/gcc-avr/gcc-avr_5.4.0+Atmel3.6.1-2:arm64.deb;subdir=avrgcc;unpack=false;name=gcc-avr \
+    http://http.us.debian.org/debian/pool/main/e/elfutils/libelf1_0.176-1.1:arm64.deb;subdir=avrgcc;unpack=false;name=libelf1 \
     http://http.us.debian.org/debian/pool/main/a/arduino-mk/arduino-mk_1.5.2-1_all.deb;subdir=avrgcc;unpack=false;name=arduino-mk \
-    http://http.us.debian.org/debian/pool/main/b/binutils-avr/binutils-avr_2.26.20160125+Atmel3.6.1-4_arm64.deb;subdir=avrgcc;unpack=false;name=binutils-avr \
+    http://http.us.debian.org/debian/pool/main/b/binutils-avr/binutils-avr_2.26.20160125+Atmel3.6.1-4:arm64.deb;subdir=avrgcc;unpack=false;name=binutils-avr \
     http://http.us.debian.org/debian/pool/main/a/arduino/arduino-core_1.0.5+dfsg2-4.1_all.deb;subdir=avrgcc;unpack=false;name=arduino-core \
     http://http.us.debian.org/debian/pool/main/a/avr-libc/avr-libc_2.0.0%2BAtmel3.6.1-2_all.deb;subdir=avrgcc;unpack=false;name=avr-libc \
 "
@@ -33,12 +33,12 @@ SRC_URI[arduino-core.md5sum] = "eaa903350b2425e876ac6b2b4310829e"
 SRC_URI[arduino-core.sha256sum] = "0ffc074724358a3b08bd66580809ea80d6abee92fb0a8c10b5de4b6aca25e066"
 
 DEPENDS =  "gmp libmpc mpfr zlib dpkg-native"
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 LICENSE = "BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-2-Clause;md5=cb641bc04cda31daea161b1bc15da69f"
 
-INSANE_SKIP_${PN} = "arch debug-files dev-so dev-deps ldflags staticdev already-stripped"
+INSANE_SKIP:${PN} = "arch debug-files dev-so dev-deps ldflags staticdev already-stripped"
 
 #install process is similar to bin_package.bbclass
 # Skip the unwanted steps
@@ -61,4 +61,4 @@ do_install() {
 
 }
 
-FILES_${PN} += "/usr/*"
+FILES:${PN} += "/usr/*"

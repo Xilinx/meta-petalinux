@@ -16,5 +16,5 @@ SRC_URI = "git://github.com/RidgeRun/gst-perf.git;protocol=https;branch=${SRCBRA
 
 S = "${WORKDIR}/git"
 
-FILES_${PN} += "${libdir}/gstreamer-1.0/libgstperf.so"
+FILES:${PN} += "${libdir}/gstreamer-1.0/libgstperf.so"
 

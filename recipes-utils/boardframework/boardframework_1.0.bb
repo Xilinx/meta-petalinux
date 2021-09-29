@@ -12,7 +12,7 @@ SRCREV="03f0fa15fb96515d91eb2010a0ddece754b47aa7"
 SRC_URI[md5sum] = "30a3955eeb89f69b8fd56e67c04c787c"
 SRC_URI[sha256sum] = "7b847e57d537a02d5d866d8af0302ef1411b061caf1e0adc2d2486d6929b8e98"
 
-RDEPENDS_${PN} = "python3-periphery \
+RDEPENDS:${PN} = "python3-periphery \
                   python3-pyserial \
                   python3-threading \
                   python3-pickle \
@@ -27,7 +27,7 @@ INITSCRIPT_PARAMS = "start 98 5 ."
 
 S="${WORKDIR}/git"
 
-FILES_${PN} += "${datadir}/BoardFramework /usr/bin"
+FILES:${PN} += "${datadir}/BoardFramework /usr/bin"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"

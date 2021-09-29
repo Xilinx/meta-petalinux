@@ -11,4 +11,4 @@ TPM_PACKAGES = " \
 	libtss2-tcti-device \
 	"
 
-RDEPENDS_${PN} = "${TPM_PACKAGES}"
+RDEPENDS:${PN} = "${TPM_PACKAGES}"

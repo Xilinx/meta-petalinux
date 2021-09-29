@@ -32,13 +32,13 @@ IMAGE_INSTALL = " \
 # If meta-xilinx-tools is available, require libdfx
 LIBDFX_RECIPE = "${@'libdfx' if 'xilinx-tools' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
 
-COMMON_INSTALL_append_zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_RECIPE}"
-COMMON_INSTALL_append_zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
-COMMON_INSTALL_append_versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
+COMMON_INSTALL:append:zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_RECIPE}"
+COMMON_INSTALL:append:zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
+COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
 
 INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged htop iperf3 meson u-boot-tools"
 
-CORE_IMAGE_EXTRA_INSTALL_append_ultra96 = " packagegroup-base-extended"
+CORE_IMAGE_EXTRA_INSTALL:append_ultra96 = " packagegroup-base-extended"
 
 IMAGE_LINGUAS = " "
 

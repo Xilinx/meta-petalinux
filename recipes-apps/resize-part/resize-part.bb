@@ -12,16 +12,16 @@ SRC_URI = " \
 
 S = "${WORKDIR}"
 
-INSANE_SKIP_${PN} += "installed-vs-shipped"
+INSANE_SKIP:${PN} += "installed-vs-shipped"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-RDEPENDS_${PN} = "parted e2fsprogs-resize2fs"
+RDEPENDS:${PN} = "parted e2fsprogs-resize2fs"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynq = "zynq"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
-COMPATIBLE_MACHINE_versal = "versal"
+COMPATIBLE_MACHINE:zynq = "zynq"
+COMPATIBLE_MACHINE:zynqmp = "zynqmp"
+COMPATIBLE_MACHINE:versal = "versal"
 
 
 do_install() {
@@ -31,4 +31,4 @@ do_install() {
 	ln -sf -r ${D}${datadir}/resize_fs/resize-part ${D}/${bindir}/resize-part
 }
 
-FILES_${PN} += "${datadir}/*"
+FILES:${PN} += "${datadir}/*"

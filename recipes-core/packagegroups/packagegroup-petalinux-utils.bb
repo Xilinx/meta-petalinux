@@ -15,4 +15,4 @@ UTILS_PACKAGES = " \
 	e2fsprogs \
 	"
 
-RDEPENDS_${PN} = "${UTILS_PACKAGES}"
+RDEPENDS:${PN} = "${UTILS_PACKAGES}"

@@ -11,4 +11,4 @@ RUNX_PACKAGES = " \
 	packagegroup-petalinux-xen \
 	"
 
-RDEPENDS_${PN} = "${RUNX_PACKAGES}"
+RDEPENDS:${PN} = "${RUNX_PACKAGES}"

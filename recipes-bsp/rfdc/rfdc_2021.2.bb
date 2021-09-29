@@ -5,9 +5,9 @@ LICENSE = "BSD"
 inherit pkgconfig xlnx-embeddedsw
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
+COMPATIBLE_MACHINE:zynqmp-dr = "zynqmp-dr"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 S = "${WORKDIR}/git"
 
@@ -19,7 +19,7 @@ PROVIDES = "rfdc"
 
 RFDC_SUBDIR = "XilinxProcessorIPLib/drivers/rfdc/src"
 
-do_compile_prepend() {
+do_compile:prepend() {
     cd ${S}/${RFDC_SUBDIR}
     cp Makefile.Linux Makefile
 }
@@ -34,5 +34,5 @@ do_install() {
     install -m 0644 xrfdc.h ${D}${includedir}/xrfdc.h
 }
 
-FILES_${PN} = "${libdir}/*.so.*"
-FILES_${PN}-dev = "${libdir}/*.so  ${includedir}/*"
+FILES:${PN} = "${libdir}/*.so.*"
+FILES:${PN}-dev = "${libdir}/*.so  ${includedir}/*"

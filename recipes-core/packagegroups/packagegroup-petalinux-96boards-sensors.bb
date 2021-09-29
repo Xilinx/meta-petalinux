@@ -13,7 +13,7 @@ inherit packagegroup
 	libftdi	\
 	"
 
-96BOARD_SENSOR_PACKAGES_append_ultra96 = " \
+96BOARD_SENSOR_PACKAGES:append_ultra96 = " \
 	sensor-mezzanine-examples \
 	arduino-toolchain \
 	python3-oauthlib \
@@ -21,6 +21,6 @@ inherit packagegroup
 	python3-twitter \
 	"
 
-RDEPENDS_${PN} = "${96BOARD_SENSOR_PACKAGES}"
+RDEPENDS:${PN} = "${96BOARD_SENSOR_PACKAGES}"
 
 PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"

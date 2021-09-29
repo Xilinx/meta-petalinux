@@ -1,13 +1,13 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-FILESEXTRAPATHS_prepend := "${THISDIR}/busybox:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/busybox:"
 
 PACKAGES =+ "${PN}-inetd"
-FILES_${PN}-inetd = "${sysconfdir}/init.d/inetd.busybox ${sysconfdir}/inetd.conf"
+FILES:${PN}-inetd = "${sysconfdir}/init.d/inetd.busybox ${sysconfdir}/inetd.conf"
 
-INITSCRIPT_NAME_${PN}-inetd = "inetd.busybox"
+INITSCRIPT_NAME:${PN}-inetd = "inetd.busybox"
 INITSCRIPT_PACKAGES += "${PN}-inetd"
 
-RRECOMMENDS_${PN} += "${PN}-inetd"
+RRECOMMENDS:${PN} += "${PN}-inetd"
 
 SRC_URI += " \
                 file://inetd.conf \

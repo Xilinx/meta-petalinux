@@ -1,1 +1,1 @@
-PACKAGECONFIG_remove = "tcmalloc"
+PACKAGECONFIG:remove = "tcmalloc"

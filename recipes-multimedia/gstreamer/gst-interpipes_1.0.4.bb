@@ -27,4 +27,4 @@ do_configure() {
 	oe_runconf
 }
 
-FILES_${PN} += "${libdir}/gstreamer-1.0/libgstinterpipe.so"
+FILES:${PN} += "${libdir}/gstreamer-1.0/libgstinterpipe.so"

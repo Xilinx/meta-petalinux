@@ -3,7 +3,7 @@ DESCRIPTION = "PetaLinux miscellaneous packages"
 inherit packagegroup
 
 # Packages
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
 	bash \
 	bzip2 \
 	flex \
@@ -27,13 +27,13 @@ ZYNQ_EXTRAS = " \
 	cmake \
 	"
 
-RDEPENDS_${PN}_append_zynq = " \
+RDEPENDS:${PN}:append:zynq = " \
 	${ZYNQ_EXTRAS} \
 	"
 
-RDEPENDS_${PN}_append_zynqmp = " \
+RDEPENDS:${PN}:append:zynqmp = " \
 	${ZYNQ_EXTRAS} \
 	"
-RDEPENDS_${PN}_append_versal = " \
+RDEPENDS:${PN}:append:versal = " \
 	${ZYNQ_EXTRAS} \
 	"

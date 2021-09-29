@@ -9,7 +9,7 @@ INITRAMFS_SCRIPTS ?= "initramfs-framework-base \
 		initramfs-module-searche2fs \
 		"
 
-INITRAMFS_SCRIPTS_append_k26 = " initramfs-module-exec"
+INITRAMFS_SCRIPTS:append_k26 = " initramfs-module-exec"
 
 INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		base-passwd \

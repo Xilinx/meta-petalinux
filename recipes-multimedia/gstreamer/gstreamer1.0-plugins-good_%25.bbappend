@@ -1,1 +1,1 @@
-PACKAGECONFIG_append = " vpx"
+PACKAGECONFIG:append = " vpx"

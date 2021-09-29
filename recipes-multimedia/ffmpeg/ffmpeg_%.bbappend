@@ -1,4 +1,4 @@
-PACKAGECONFIG_append_class-target = " \
+PACKAGECONFIG:append:class-target = " \
     avresample \
     jack \
     libvorbis \

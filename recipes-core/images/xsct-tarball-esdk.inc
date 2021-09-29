@@ -1,5 +1,5 @@
 #Copy xsct tarball to esdk's download dir, where xsct-tarball class is expecting it to be
-python copy_buildsystem_prepend() {
+python copy_buildsystem:prepend() {
 
     if bb.data.inherits_class('xsct-tarball', d):
         ext_tarball = d.getVar("COPY_XSCT_TO_ESDK")
@@ -16,7 +16,7 @@ python copy_buildsystem_prepend() {
 }
 
 #Add dir with the tools to PATH
-sdk_ext_postinst_append() {
+sdk_ext_postinst:append() {
     if [ "${COPY_XSCT_TO_ESDK}" = "1" ]; then
         echo "export PATH=$target_sdk_dir/tmp/sysroots-xsct/Vitis/${XILINX_VER_MAIN}/bin:\$PATH" >> $env_setup_script
     fi

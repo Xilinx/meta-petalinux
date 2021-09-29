@@ -2,7 +2,7 @@ DESCRIPTION = "Packages to run PYNQ on Ultra96"
 
 inherit packagegroup
 
-RDEPENDS_${PN} = "  \
+RDEPENDS:${PN} = "  \
     packagegroup-petalinux-jupyter \
     packagegroup-petalinux-pynq \
     sensors96b-overlays-notebooks \

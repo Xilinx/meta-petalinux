@@ -1,11 +1,11 @@
-FILESEXTRAPATHS_prepend  := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend  := "${THISDIR}/files:"
 
 SRC_URI += "file://xilinx.sh"
 
-dirs755_append = " ${sysconfdir}/profile.d"
+dirs755:append = " ${sysconfdir}/profile.d"
 
-do_install_append () {
+do_install:append () {
         install -m 0755 ${WORKDIR}/xilinx.sh ${D}${sysconfdir}/profile.d/xilinx.sh
 }
 
-RRECOMMENDS_${PN}_append = " base-files-plnx"
+RRECOMMENDS:${PN}:append = " base-files-plnx"

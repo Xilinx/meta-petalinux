@@ -9,10 +9,10 @@ SRC_URI = "\
 	file://watchdog-init.sh \
 	"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 
@@ -20,5 +20,5 @@ do_install() {
 	install -Dm 0755 ${WORKDIR}/watchdog-init.sh ${D}${sysconfdir}/init.d/watchdog-init
 }
 
-FILES_${PN} = "$(datadir)/* ${sysconfdir}/*"
+FILES:${PN} = "$(datadir)/* ${sysconfdir}/*"
 

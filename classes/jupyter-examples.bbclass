@@ -1,8 +1,8 @@
 S = "${WORKDIR}"
 
-FILES_${PN} += "${JUPYTER_DIR}"
+FILES:${PN} += "${JUPYTER_DIR}"
 
-RDEPENDS_${PN} ?= "packagegroup-petalinux-jupyter"
+RDEPENDS:${PN} ?= "packagegroup-petalinux-jupyter"
 
 JUPYTER_DIR ?= "${datadir}/example-notebooks"
 

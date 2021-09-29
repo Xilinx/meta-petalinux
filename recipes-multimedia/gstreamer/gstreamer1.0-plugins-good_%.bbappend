@@ -5,9 +5,9 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 PV = "1.16.3+git${SRCPV}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_remove = " file://gtk-doc-tweaks.patch"
+SRC_URI:remove = " file://gtk-doc-tweaks.patch"
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
     git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;name=common \
@@ -23,6 +23,6 @@ SRCREV_FORMAT = "base"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_configure:prepend() {
         ${S}/autogen.sh --noconfigure
 }

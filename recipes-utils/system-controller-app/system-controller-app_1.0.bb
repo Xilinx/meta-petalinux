@@ -16,8 +16,8 @@ INITSCRIPT_NAME = "system_controller.sh"
 INITSCRIPT_PARAMS = "start 96 5 ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="system_controller.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="system_controller.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 S="${WORKDIR}/git"
 

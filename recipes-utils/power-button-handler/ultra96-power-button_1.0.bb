@@ -24,7 +24,7 @@ INITSCRIPT_NAME = "ultra96-power-button.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 DEPENDS = "mraa"
-RDEPENDS_${PN} = "mraa"
+RDEPENDS:${PN} = "mraa"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
 

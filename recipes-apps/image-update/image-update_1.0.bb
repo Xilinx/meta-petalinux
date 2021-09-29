@@ -10,14 +10,14 @@ BRANCH = "xlnx_rel_v2021.2"
 SRC_URI = "git://github.com/Xilinx/linux-image_update.git;branch=${BRANCH};protocol=https"
 SRCREV = "b19467ac98921cea15c8650ceb43e89b239c4653"
 
-RDEPENDS_${PN} += "fru-print"
+RDEPENDS:${PN} += "fru-print"
 
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_FAMILY_ARCH}"
 
 # Force the make system to use the flags we want!
 EXTRA_OEMAKE = 'CC="${CC} ${TARGET_CFLAGS} ${TARGET_LDFLAGS}" all'

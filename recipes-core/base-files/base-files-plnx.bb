@@ -25,9 +25,9 @@ do_install () {
 	echo "${PETALINUX_VERSION}" > ${D}${sysconfdir}/${DISTRO}/version
 }
 
-RRECOMMENDS_${PN} = "base-files-board base-files-board-variant base-files-soc"
-FILES_${PN} = "${sysconfdir}/${DISTRO}"
-CONFFILES_${PN} = " \
+RRECOMMENDS:${PN} = "base-files-board base-files-board-variant base-files-soc"
+FILES:${PN} = "${sysconfdir}/${DISTRO}"
+CONFFILES:${PN} = " \
 	${sysconfdir}/${DISTRO}/bsp \
 	${sysconfdir}/${DISTRO}/product \
 	${sysconfdir}/${DISTRO}/version \

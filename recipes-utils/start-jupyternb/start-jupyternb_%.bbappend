@@ -6,13 +6,13 @@ SRC_URI_ultra96 = "file://start-jupyter-ultra96.sh \
 	"
 LIC_FILES_CHKSUM_ultra96 = "file://start-jupyter-ultra96.sh;beginline=2;endline=24;md5=25cc4ae6006012bbc275b3b0c6577996"
 
-JUPYTER_STARTUP_PACKAGES_append_ultra96 = " ultra96-ap-setup"
-RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
+JUPYTER_STARTUP_PACKAGES:append_ultra96 = " ultra96-ap-setup"
+RDEPENDS:${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
-INITSCRIPT_NAME_ultra96 = "jupyter-setup.sh"
-INITSCRIPT_PARAMS_ultra96 = "start 99 S ."
+INITSCRIPT_NAME:ultra96 = "jupyter-setup.sh"
+INITSCRIPT_PARAMS:ultra96 = "start 99 S ."
 
-SYSTEMD_SERVICE_${PN}_ultra96-zynqmp="jupyter-setup-ultra96.service"
+SYSTEMD_SERVICE:${PN}_ultra96-zynqmp="jupyter-setup-ultra96.service"
 
 inherit xilinx-pynq
 

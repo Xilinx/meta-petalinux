@@ -6,10 +6,10 @@ inherit packagegroup
 PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = ".*"
-COMPATIBLE_MACHINE_versal = ".*"
+COMPATIBLE_MACHINE:zynqmp = ".*"
+COMPATIBLE_MACHINE:versal = ".*"
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
     glog \
     googletest \
     json-c \
@@ -24,7 +24,7 @@ RDEPENDS_${PN} = "\
     unilog \
     "
 
-RDEPENDS_${PN}-dev += "\
+RDEPENDS:${PN}-dev += "\
     protobuf-c \
     libeigen-dev \
     "

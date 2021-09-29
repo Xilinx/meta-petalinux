@@ -8,4 +8,4 @@ IVAS_PACKAGES = " \
 	ivas-utils \
 	"
 
-RDEPENDS_${PN} = "${IVAS_PACKAGES}"
+RDEPENDS:${PN} = "${IVAS_PACKAGES}"

@@ -16,4 +16,4 @@ XEN_EXTRA_PACKAGES = " \
 	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-system-i386 qemu-keymaps', 'qemu', d)} \
 	"
 
-RDEPENDS_${PN} = "${XEN_EXTRA_PACKAGES}"
+RDEPENDS:${PN} = "${XEN_EXTRA_PACKAGES}"

@@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
 PACKAGECONFIG ??= "gflags"
 PACKAGECONFIG[gflags] = ",--without-gflags,gflags,"
 
-RDEPENDS_${PN} += "libunwind"
+RDEPENDS:${PN} += "libunwind"
 
 #inherit autotools pkgconfig
 inherit cmake

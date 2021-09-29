@@ -19,8 +19,8 @@ INITSCRIPT_NAME = "scwebrun.sh"
 INITSCRIPT_PARAMS = "start 97 5 ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="scwebrun.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="scwebrun.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 S = "${WORKDIR}/git"
 
@@ -35,7 +35,7 @@ do_compile[noexec]="1"
 
 SCWEB_DIR = "${datadir}/${PN}"
 
-RDEPENDS_${PN} += "bash \
+RDEPENDS:${PN} += "bash \
         python3 \
         python3-flask \
         python3-flask-restful \
@@ -60,4 +60,4 @@ do_install() {
        fi
 }
 
-FILES_${PN} += "${SCWEB_DIR}"
+FILES:${PN} += "${SCWEB_DIR}"

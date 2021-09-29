@@ -8,7 +8,7 @@ LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/hellopm.sh;beginline=3;endline=27;md5=2248322a9786b9ea17ceee35b075aedb"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
+COMPATIBLE_MACHINE:zynqmp = "zynqmp"
 
 SRC_URI = "\
 	file://hellopm.sh \
@@ -16,7 +16,7 @@ SRC_URI = "\
 
 S = "${WORKDIR}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 do_install() {
 	install -Dm 0755 ${S}/hellopm.sh ${D}${bindir}/hellopm

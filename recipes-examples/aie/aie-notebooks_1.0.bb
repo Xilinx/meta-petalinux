@@ -13,9 +13,9 @@ SRC_URI = "file://LICENSE \
            file://pics/work_directory.png \
            "
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_versal-ai-core = "versal-ai-core"
+COMPATIBLE_MACHINE:versal-ai-core = "versal-ai-core"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
+RDEPENDS:${PN} = "packagegroup-petalinux-jupyter \
                   "
 
 do_install() {
@@ -26,4 +26,4 @@ do_install() {
     install -m 0755 ${S}/pics/*.png ${D}/${JUPYTER_DIR}/aie-notebooks/pics
 }
 
-PACKAGE_ARCH_versal-ai-core = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH:versal-ai-core = "${SOC_VARIANT_ARCH}"

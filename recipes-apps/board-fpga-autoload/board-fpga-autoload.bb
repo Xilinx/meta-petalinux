@@ -12,17 +12,17 @@ SRC_URI = "file://board-fpga-autoload.sh \
 
 inherit update-rc.d systemd
 
-RDEPENDS_${PN} += "fpga-manager-script"
+RDEPENDS:${PN} += "fpga-manager-script"
 
 INITSCRIPT_NAME = "board-fpga-autoload.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="board-fpga-autoload.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="board-fpga-autoload.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = ".*"
+COMPATIBLE_MACHINE:zynqmp = ".*"
 
 do_install () {
 
@@ -37,4 +37,4 @@ do_install () {
     install -m 0644 ${WORKDIR}/board-fpga-autoload.service ${D}${systemd_system_unitdir}
 }
 
-FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','sysvinit','${sysconfdir}/init.d/board-fpga-autoload.sh', '', d)}"
+FILES:${PN} += "${@bb.utils.contains('DISTRO_FEATURES','sysvinit','${sysconfdir}/init.d/board-fpga-autoload.sh', '', d)}"

@@ -2,7 +2,7 @@ DESCRIPTION = "Packages to run bnn examples on Ultra96"
 
 inherit packagegroup
 
-RDEPENDS_${PN} = "  \
+RDEPENDS:${PN} = "  \
     packagegroup-petalinux-gstreamer \
     yavta \
     packagegroup-petalinux-opencv \

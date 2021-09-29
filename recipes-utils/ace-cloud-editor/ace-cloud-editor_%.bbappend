@@ -1,4 +1,4 @@
-FILES_${PN}_ultra96 = "/usr/share/ultra96-startup-pages/webapp/static/src-noconflict"
+FILES:${PN}_ultra96 = "/usr/share/ultra96-startup-pages/webapp/static/src-noconflict"
 
 do_install_ultra96 () {
     install -d ${D}/${datadir}/ultra96-startup-pages/webapp/static/src-noconflict

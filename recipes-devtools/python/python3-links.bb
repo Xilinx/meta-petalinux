@@ -7,7 +7,7 @@ do_compile[noexec] = '1'
 
 INHIBIT_DEFAULT_DEPS = '1'
 
-RDEPENDS_${PN} = 'python3-core'
+RDEPENDS:${PN} = 'python3-core'
 
 do_install() {
 	mkdir -p ${D}${bindir}

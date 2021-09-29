@@ -7,7 +7,7 @@ BRANCH ?= "xlnx_rebase_1.0"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
 SRCREV_runx ?= "14392b348a0503c98302bd924d5f0a4dc951841f"
-FILESEXTRAPATHS_prepend := "${THISDIR}/runx:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/runx:"
 
 SRC_URI = "\
 	  ${REPO};${REPO_BRANCH};name=runx \
@@ -41,8 +41,8 @@ DEPENDS = "busybox bison-native"
 DEPENDS += "openssl-native coreutils-native util-linux-native xz-native bc-native"
 DEPENDS += "qemu-native"
 
-RDEPENDS_${PN} += " jq bash"
-RDEPENDS_${PN} += " xen-tools-xl socat daemonize"
+RDEPENDS:${PN} += " jq bash"
+RDEPENDS:${PN} += " xen-tools-xl socat daemonize"
 
 # This is typically machine specific, but we want this to be generic
 STAGING_KERNEL_DIR = "${WORKDIR}"
@@ -110,7 +110,7 @@ do_install() {
 
 deltask compile_ptest_base
 
-FILES_${PN} += "${bindir}/* ${datadir}/runX/*"
+FILES:${PN} += "${bindir}/* ${datadir}/runX/*"
 
 INHIBIT_PACKAGE_STRIP = "1"
-INSANE_SKIP_${PN} += "ldflags already-stripped"
+INSANE_SKIP:${PN} += "ldflags already-stripped"

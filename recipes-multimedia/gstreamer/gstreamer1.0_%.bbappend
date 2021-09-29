@@ -5,7 +5,7 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 PV = "1.16.3+git${SRCPV}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=gstreamer-xlnx \
@@ -24,11 +24,11 @@ SRCREV_gstreamer-xlnx = "fa6a504ba990c09b3c3edb12a8dffbf2affb56bd"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
-PACKAGECONFIG_append = " tracer-hooks"
+PACKAGECONFIG:append = " tracer-hooks"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_configure:prepend() {
         ${S}/autogen.sh --noconfigure
 }
 

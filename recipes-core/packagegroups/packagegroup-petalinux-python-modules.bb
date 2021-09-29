@@ -14,5 +14,5 @@ PYTHON_MODULES = " \
 	python3-h5py \
 	"
 
-RDEPENDS_${PN} = "${PYTHON_MODULES}"
+RDEPENDS:${PN} = "${PYTHON_MODULES}"
 

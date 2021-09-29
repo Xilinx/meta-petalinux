@@ -26,9 +26,9 @@ SRC_URI = "file://LICENSE \
 	   file://pictures/block-diagram-videotestsrc-hdr-to-file.png "
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp-ev = "zynqmp-ev"
+COMPATIBLE_MACHINE:zynqmp-ev = "zynqmp-ev"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-jupyter packagegroup-petalinux-gstreamer gstreamer-vcu-examples start-jupyter"
+RDEPENDS:${PN} = "packagegroup-petalinux-jupyter packagegroup-petalinux-gstreamer gstreamer-vcu-examples start-jupyter"
 
 do_install() {
     install -d ${D}/${JUPYTER_DIR}/vcu-notebooks
@@ -40,4 +40,4 @@ do_install() {
 
 }
 
-PACKAGE_ARCH_zynqmp = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_VARIANT_ARCH}"

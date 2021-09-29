@@ -5,9 +5,9 @@ BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
 PV = "1.16.3+git${SRCPV}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_remove = " file://gtk-doc-tweaks.patch"
+SRC_URI:remove = " file://gtk-doc-tweaks.patch"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
@@ -26,11 +26,11 @@ SRCREV_base = "86950c80a162ab249fbf4ec96f274af237e7a5da"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 
-PACKAGECONFIG_append = " opus"
+PACKAGECONFIG:append = " opus"
 
 S = "${WORKDIR}/git"
 
-do_configure_prepend() {
+do_configure:prepend() {
         ${S}/autogen.sh --noconfigure
 }
 

@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux GSTREAMER supported packages"
 
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_FAMILY_ARCH}"
 
 inherit packagegroup
 
@@ -17,6 +17,6 @@ GSTREAMER_PACKAGES = " \
 	gst-perf \
 	gst-interpipes \
 	"
-GSTREAMER_PACKAGES_append_zynqmp = " gstreamer1.0-omx"
+GSTREAMER_PACKAGES:append:zynqmp = " gstreamer1.0-omx"
 
-RDEPENDS_${PN} = "${GSTREAMER_PACKAGES}"
+RDEPENDS:${PN} = "${GSTREAMER_PACKAGES}"

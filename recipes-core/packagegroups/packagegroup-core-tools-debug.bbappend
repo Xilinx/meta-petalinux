@@ -1,4 +1,4 @@
-RDEPENDS_${PN}_remove_microblaze = "\
+RDEPENDS:${PN}:remove:microblaze = "\
     gdb \
     gdbserver \
 "

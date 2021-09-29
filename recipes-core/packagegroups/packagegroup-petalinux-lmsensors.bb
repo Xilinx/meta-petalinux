@@ -8,4 +8,4 @@ LMSENSORS_PACKAGES = " \
 	lmsensors-sensorsdetect \
 	"
 
-RDEPENDS_${PN} = "${LMSENSORS_PACKAGES}"
+RDEPENDS:${PN} = "${LMSENSORS_PACKAGES}"

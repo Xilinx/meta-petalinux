@@ -36,7 +36,7 @@ PLNX_COMMON_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
     "
 
-PLNX_COMMON_FEATURES_append_aarch64 = " \
+PLNX_COMMON_FEATURES:append:aarch64 = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
@@ -60,20 +60,20 @@ VERSAL_FEATURES = " \
     petalinux-vitisai \
     "
 
-IMAGE_FEATURES_append_zynq = " ${PLNX_COMMON_FEATURES} ${ZYNQ_FEATURES}"
+IMAGE_FEATURES:append:zynq = " ${PLNX_COMMON_FEATURES} ${ZYNQ_FEATURES}"
 
-IMAGE_FEATURES_append_zynqmp = " ${PLNX_COMMON_FEATURES} ${ZYNQMP_FEATURES}"
+IMAGE_FEATURES:append:zynqmp = " ${PLNX_COMMON_FEATURES} ${ZYNQMP_FEATURES}"
 
-IMAGE_FEATURES_append_ultra96 = " ${ULTRA96_FEATURES}"
+IMAGE_FEATURES:append_ultra96 = " ${ULTRA96_FEATURES}"
 
-IMAGE_FEATURES_append_versal = " ${PLNX_COMMON_FEATURES} ${VERSAL_FEATURES}"
+IMAGE_FEATURES:append:versal = " ${PLNX_COMMON_FEATURES} ${VERSAL_FEATURES}"
 
-IMAGE_FEATURES_append_microblaze = " ${TRACING_PROFILE_FEATURES}"
+IMAGE_FEATURES:append:microblaze = " ${TRACING_PROFILE_FEATURES}"
 
-IMAGE_FSTYPES_remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
+IMAGE_FSTYPES:remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
 
-IMAGE_INSTALL_append = " haveged"
-SDK_RDEPENDS_append_task-populate-sdk-ext = " nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
+IMAGE_INSTALL:append = " haveged"
+SDK_RDEPENDS:append:task-populate-sdk-ext = " nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
 
 #Adding native packages depends
-DEPENDS_append = " cpio-native wic-tools"
+DEPENDS:append = " cpio-native wic-tools"

@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
     file://0001-libdrm-Update-drm-header-file-with-XV15-and-XV20.patch \
     file://0004-modetest-call-drmModeCrtcSetGamma-only-if-add_proper.patch \
     file://0005-modetest-Add-semiplanar-10bit-pattern-support-for-mo.patch \
