@@ -22,7 +22,7 @@ SRC_URI = " \
     file://0009-glimagesink-Downrank-to-marginal.patch \
 "
 
-SRCREV_base = "355d46878cf1b1888cbcb1929aa14ec82aa3a4f0"
+SRCREV_base = "86950c80a162ab249fbf4ec96f274af237e7a5da"
 SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
 SRCREV_FORMAT = "base"
 

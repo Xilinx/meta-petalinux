@@ -26,17 +26,10 @@ IMAGE_INSTALL_append_ultra96 = " sensors96b-overlays-notebooks packagegroup-peta
 IMAGE_INSTALL_append_ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
 IMAGE_INSTALL_append_ultra96 = " sensor-mezzanine-examples"
 
-# vck-sc-zynqmp recipes
-ACAP_RECIPE = "${@'acap' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
-LABTOOL_RECIPE = "${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
-
-IMAGE_INSTALL_append_vck-sc = " ${ACAP_RECIPE} power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
+IMAGE_INSTALL_append_vck-sc = " power-advantage-tool boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 # vpk-sc recipes
-IMAGE_INSTALL_append_vpk-sc = " ${ACAP_RECIPE} power-advantage-tool ${LABTOOL_RECIPE} boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
-
-IMAGE_INSTALL_append_versal-generic = " cmc-deploy-vck5000"
-IMAGE_INSTALL_append_zynqmp-generic = " cmc-deploy-u30"
+IMAGE_INSTALL_append_vpk-sc = " power-advantage-tool boardframework packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
 
 IMAGE_INSTALL_append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
 
@@ -47,4 +40,4 @@ KV260_PACKAGES = " \
 	packagegroup-kv260-smartcam \
 	kv260-dpu-benchmark \
 	"
-IMAGE_INSTALL_append_k26-kv = " ${KV260_PACKAGES}"
+#IMAGE_INSTALL_append_k26-kv = " ${KV260_PACKAGES}"
