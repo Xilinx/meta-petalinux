@@ -17,6 +17,7 @@ PACKAGES_LIST_zynqmp ?= "${DEFAULT_LIST} \
 		u-boot-zynq-scr \
 		qemu-devicetrees \
 		xen \
+		board-id-data \
 		"
 PACKAGES_LIST_zynq ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
@@ -37,7 +38,6 @@ PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
 		mb-realoc \
 		"
 
-PACKAGES_LIST_k26 += "board-id-data"
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
 PACKAGE_DTB_NAME ?= ""
