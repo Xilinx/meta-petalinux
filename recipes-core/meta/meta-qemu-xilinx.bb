@@ -20,7 +20,6 @@ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
 
 EXCLUDE_FROM_WORLD = "1"
 
-inherit meta
 inherit populate_sdk
 inherit toolchain-scripts-base
 inherit nopackages
