@@ -204,9 +204,6 @@ BB_DISKMON_DIRS = "\
 XILINX_VER_MAIN = "2021.2"
 
 # Uncomment below lines to provide path for custom xsct trim
-# This is required for building Versal based devices, please fetch the
-# xsct-trim from Xilinx lounge area
-#
 #EXTERNAL_XSCT_TARBALL = "/proj/yocto/xsct-trim/2021.2_xsct_daily_latest"
 #VALIDATE_XSCT_CHECKSUM = '0'
 
