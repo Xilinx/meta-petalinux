@@ -4,7 +4,7 @@ python () {
     packagelist = (d.getVar('PACKAGES_LIST', True) or "").split()
     pn = d.getVar("PN")
     if pn in packagelist:
-        copyfiles:append(d)
+        copyfiles_update(d)
         d.appendVarFlag('do_deploy', 'postfuncs', ' plnx_deploy')
         d.appendVarFlag('do_deploy_setscene', 'postfuncs', ' plnx_deploy')
 }
@@ -78,7 +78,7 @@ QEMU_MULTI_HWDTBS:versal ?= " \
 		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:versal-qemu-multiarch-ps.dtb \
 		qemu-hw-devicetrees/multiarch/board-versal-pmc-vc-p-a2197-00.dtb:versal-qemu-multiarch-pmc.dtb"
 
-def copyfiles:append(d):
+def copyfiles_update(d):
     soc_family = d.getVar('SOC_FAMILY') or ""
     machine_arch = d.getVar('MACHINE') or ""
     initramfs_image = d.getVar('INITRAMFS_IMAGE') or ""
