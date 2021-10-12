@@ -19,6 +19,8 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-diffstat \
 	nativesdk-gnupg \
 	nativesdk-bzip2 \
+	nativesdk-lz4 \
+	nativesdk-zstd \
 	nativesdk-xz \
 	nativesdk-cpio \
 	nativesdk-file \
