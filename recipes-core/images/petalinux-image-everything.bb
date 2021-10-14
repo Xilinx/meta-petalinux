@@ -19,7 +19,7 @@ IMAGE_INSTALL_append_zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-noteboo
 IMAGE_INSTALL_append_zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL_append_zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL_append_versal = " ${VITISAI_DEPENDENCIES} xrt pm-notebooks openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
+IMAGE_INSTALL_append_versal = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
 
 # ultra96-zynqmp recipes
 IMAGE_INSTALL_append_ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
