@@ -46,7 +46,6 @@ PLNX_COMMON_FEATURES:append:aarch64 = " \
 ZYNQ_FEATURES = ""
 
 ZYNQMP_FEATURES = " \
-    petalinux-vitisai \
     "
 
 ULTRA96_FEATURES = " \
@@ -55,7 +54,6 @@ ULTRA96_FEATURES = " \
     "
 
 VERSAL_FEATURES = " \
-    petalinux-vitisai \
     "
 
 IMAGE_FEATURES:append:zynq = " ${PLNX_COMMON_FEATURES} ${ZYNQ_FEATURES}"
