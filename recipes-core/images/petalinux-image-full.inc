@@ -37,10 +37,8 @@ PLNX_COMMON_FEATURES = " \
     "
 
 PLNX_COMMON_FEATURES:append:aarch64 = " \
-    petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
