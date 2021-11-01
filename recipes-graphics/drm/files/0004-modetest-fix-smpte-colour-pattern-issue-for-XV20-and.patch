@@ -1,8 +1,8 @@
-From 133be5da385bdf7d9e11d30e6efa6bf331b00cd1 Mon Sep 17 00:00:00 2001
+From ede95ded932a8f722f339fa345c098c705f40f08 Mon Sep 17 00:00:00 2001
 From: Anil Kumar M <amamidal@xilinx.com>
 Date: Wed, 16 Sep 2020 22:42:47 +0530
-Subject: [PATCH] modetest: fix smpte colour pattern issue for XV20 and XV15
- formats
+Subject: [PATCH 4/5] modetest: fix smpte colour pattern issue for XV20 and
+ XV15 formats
 
 Fix smpte colour issue for XV15 and XV20 formats.
 
@@ -12,7 +12,7 @@ Signed-off-by: Anil Kumar M <amamidal@xilinx.com>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index 2be825e..423df8d 100644
+index e29d160..0fe2e5f 100644
 --- a/tests/util/pattern.c
 +++ b/tests/util/pattern.c
 @@ -1121,11 +1121,11 @@ static void fill_smpte(const struct util_format_info *info,
