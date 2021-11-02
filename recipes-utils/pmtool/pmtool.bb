@@ -18,8 +18,8 @@ SRCREV = "9d0cc459dc4b3bbf283fb8dbc6bbaaaec6d2cb34"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
-COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vpk-sc = "${MACHINE}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_configure[noexec]="1"

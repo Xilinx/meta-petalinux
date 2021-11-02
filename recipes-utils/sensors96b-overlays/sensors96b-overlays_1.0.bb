@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/Avnet/Ultra96-PYNQ.git;branch=image_v2.4;protocol=ht
 "
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -35,4 +35,4 @@ do_install () {
    cp -r ${S}/${BOARD_NAME}/sensors96b/* ${D}${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b
 }
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

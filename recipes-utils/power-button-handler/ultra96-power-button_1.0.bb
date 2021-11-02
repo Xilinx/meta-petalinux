@@ -16,9 +16,9 @@ inherit update-rc.d
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
 
 INITSCRIPT_NAME = "ultra96-power-button.sh"
 INITSCRIPT_PARAMS = "start 99 S ."

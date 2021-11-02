@@ -1,12 +1,12 @@
 DESCRIPTION = "SOM related packages"
 
 BOARDVARIANT_ARCH ??= "${MACHINE_ARCH}"
-PACKAGE_ARCH_k26 = "${BOARDVARIANT_ARCH}"
+PACKAGE_ARCH:k26 = "${BOARDVARIANT_ARCH}"
 
 inherit packagegroup
 
 DEFAULT_FW_PACKAGE ?= ""
-DEFAULT_FW_PACKAGE_k26 = "kv260-dp"
+DEFAULT_FW_PACKAGE:k26 = "kv260-dp"
 
 SOM_PACKAGES = " \
         accelize-repo \

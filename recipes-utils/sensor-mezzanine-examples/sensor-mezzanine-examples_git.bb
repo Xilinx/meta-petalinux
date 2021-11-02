@@ -24,9 +24,9 @@ RDEPENDS:${PN} = "bash"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
 
 do_install () {
     install -d ${D}${datadir}/Sensor_Mezzanine_Getting_Started

@@ -60,12 +60,12 @@ PACKAGES_LIST[xen] = "xen:xen"
 PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin"
 
 QEMU_HWDTB_NAME:zynqmp ?= "zcu102-arm.dtb"
-QEMU_HWDTB_NAME_zc1751 ?= "zc1751-dc2-arm.dtb"
-QEMU_HWDTB_NAME_ultra96 ?= "zcu100-arm.dtb"
+QEMU_HWDTB_NAME:zc1751 ?= "zc1751-dc2-arm.dtb"
+QEMU_HWDTB_NAME:ultra96 ?= "zcu100-arm.dtb"
 QEMU_HWDTB_NAME:versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
-QEMU_HWDTB_NAME_vck190 ?= "board-versal-ps-vck190.dtb"
-QEMU_HWDTB_NAME_vck5000 ?= "board-versal-ps-vck5000.dtb"
-QEMU_HWDTB_NAME_k26 ?= "board-zynqmp-k26-som.dtb"
+QEMU_HWDTB_NAME:vck190 ?= "board-versal-ps-vck190.dtb"
+QEMU_HWDTB_NAME:vck5000 ?= "board-versal-ps-vck5000.dtb"
+QEMU_HWDTB_NAME:k26 ?= "board-zynqmp-k26-som.dtb"
 
 QEMU_HWDTBS:zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
 

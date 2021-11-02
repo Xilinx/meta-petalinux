@@ -32,7 +32,7 @@ FILES:${PN} += "${datadir}/ultra96-startup-pages"
 FILES:${PN} += "${base_sbindir}/ /var/lib/connman/"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -61,4 +61,4 @@ do_install () {
 
 }
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

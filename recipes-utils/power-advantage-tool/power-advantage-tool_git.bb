@@ -18,8 +18,8 @@ SRCREV = "c49b4a38b171374195348b494e314859819c348b"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
-COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vpk-sc = "${MACHINE}"
 
 RDEPENDS:${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \

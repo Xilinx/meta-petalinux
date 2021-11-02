@@ -23,7 +23,7 @@ SYSTEMD_SERVICE:${PN}="ultra96-ap-setup.service"
 SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -47,4 +47,4 @@ do_install () {
 
 }
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

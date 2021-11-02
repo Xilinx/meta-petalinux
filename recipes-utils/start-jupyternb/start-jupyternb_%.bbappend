@@ -1,22 +1,22 @@
-SRC_URI_ultra96 = "file://start-jupyter-ultra96.sh \
+SRC_URI:ultra96 = "file://start-jupyter-ultra96.sh \
         file://jupyter_notebook_ultra96_config.py \
         file://jupyter-variables.sh \
         file://jupyter-setup.sh \
 	file://jupyter-setup-ultra96.service \
 	"
-LIC_FILES_CHKSUM_ultra96 = "file://start-jupyter-ultra96.sh;beginline=2;endline=24;md5=25cc4ae6006012bbc275b3b0c6577996"
+LIC_FILES_CHKSUM:ultra96 = "file://start-jupyter-ultra96.sh;beginline=2;endline=24;md5=25cc4ae6006012bbc275b3b0c6577996"
 
-JUPYTER_STARTUP_PACKAGES:append_ultra96 = " ultra96-ap-setup"
+JUPYTER_STARTUP_PACKAGES:append:ultra96 = " ultra96-ap-setup"
 RDEPENDS:${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
 INITSCRIPT_NAME:ultra96 = "jupyter-setup.sh"
 INITSCRIPT_PARAMS:ultra96 = "start 99 S ."
 
-SYSTEMD_SERVICE:${PN}_ultra96-zynqmp="jupyter-setup-ultra96.service"
+SYSTEMD_SERVICE:${PN}:ultra96-zynqmp="jupyter-setup-ultra96.service"
 
 inherit xilinx-pynq
 
-do_install_ultra96() {
+do_install:ultra96() {
 
     sed -i -e 's|PLACEHOLDER|${BOARD_NAME}|g' ${WORKDIR}/jupyter-variables.sh
 
@@ -39,4 +39,4 @@ do_install_ultra96() {
     install -m 0600 ${WORKDIR}/jupyter_notebook_ultra96_config.py ${D}${sysconfdir}/jupyter/jupyter_notebook_config.py
 }
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

@@ -9,18 +9,18 @@ SRC_URI = "git://gitenterprise.xilinx.com/CMC/CMC_Core.git;protocol=ssh;branch=m
 SRCREV = "e78b6723d20edd9a96b924b42ff1bee6cb57bb1b"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck5000 = "${MACHINE}"
+COMPATIBLE_MACHINE:vck5000 = "${MACHINE}"
 COMPATIBLE_MACHINE:zynqmp-generic = "zynqmp-generic"
 
 S="${WORKDIR}/git"
 B="${WORKDIR}/build"
 
 PROFILE?=""
-PROFILE_vck5000="PROFILE_LINUX_VERSAL_V350"
+PROFILE:vck5000="PROFILE_LINUX_VERSAL_V350"
 PROFILE:zynqmp-generic="PROFILE_LINUX_U30_ZYNQ"
 
 BUILDFILE_DIR?=""
-BUILDFILE_DIR_vck5000="CMC_V350_2020_1"
+BUILDFILE_DIR:vck5000="CMC_V350_2020_1"
 BUILDFILE_DIR:zynqmp-generic="CMC_U30"
 
 do_configure[cleandirs] = "${B}"

@@ -38,7 +38,7 @@ COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
 
 INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged htop iperf3 meson u-boot-tools"
 
-CORE_IMAGE_EXTRA_INSTALL:append_ultra96 = " packagegroup-base-extended"
+CORE_IMAGE_EXTRA_INSTALL:append:ultra96 = " packagegroup-base-extended"
 
 IMAGE_LINGUAS = " "
 
