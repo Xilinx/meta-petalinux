@@ -7,7 +7,6 @@ inherit packagegroup
 	ntp \
 	packagegroup-core-buildessential \
 	packagegroup-petalinux-mraa	 \
-	python-argparse \
 	python3-pyserial \
 	readline \
 	libftdi	\
