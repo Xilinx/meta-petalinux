@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/Xilinx/system-controller-app.git;branch=master;proto
            file://system_controller.service \
 "
 
-SRCREV="0c88217ff3b4ffdc927e688440656a3cc25bb393"
+SRCREV="71d22c14fa7752a5fdae7e0f5776a9f36777e1ff"
 
 inherit update-rc.d systemd
 
@@ -40,16 +40,17 @@ do_install(){
 	install -d ${D}${datadir}/system-controller-app
 
 	cp ${S}/build/sc_app ${D}${bindir}
-        cp ${S}/build/sc_appd ${D}${bindir}
+	cp ${S}/build/sc_appd ${D}${bindir}
 	cp -r ${S}/BIT ${D}${datadir}/system-controller-app/
+	cp -r ${S}/board ${D}${datadir}/system-controller-app/
 
-        install -m 0755 ${S}/src/system_controller.sh ${D}${bindir}
-        install -d ${D}${systemd_system_unitdir}
-        install -m 0644 ${WORKDIR}/system_controller.service ${D}${systemd_system_unitdir}
+	install -m 0755 ${S}/src/system_controller.sh ${D}${bindir}
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/system_controller.service ${D}${systemd_system_unitdir}
 
-       if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-                install -d ${D}${sysconfdir}/init.d/
-               install -m 0755 ${S}/src/system_controller.sh ${D}${sysconfdir}/init.d/
-               rm -rf ${D}{bindir}/system_controller.sh
-        fi
+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+		install -d ${D}${sysconfdir}/init.d/
+		install -m 0755 ${S}/src/system_controller.sh ${D}${sysconfdir}/init.d/
+		rm -rf ${D}{bindir}/system_controller.sh
+	fi
 }
