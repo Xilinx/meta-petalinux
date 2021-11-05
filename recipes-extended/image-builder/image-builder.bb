@@ -11,7 +11,7 @@ RDEPENDS_${PN} += "bash"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 SRC_URI = "git://github.com/Xilinx/imagebuilder.git;protocol=https;branch=${BRANCH}"
 BRANCH ??= "xlnx_rel_v2021.2"
-SRCREV ??= "6b97d735d3028c427304b0b361dd61f5cbd9f7dd"
+SRCREV ??= "dab3c7a7dbf7283b00df9056a61d10ac256de886"
 S = "${WORKDIR}/git"
 
 do_install () {
