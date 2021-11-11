@@ -14,7 +14,6 @@ COMMON_FEATURES = " \
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
 COMMON_INSTALL = " \
-    openssh-sftp-server \
     tcf-agent \
     mtd-utils \
     bridge-utils \

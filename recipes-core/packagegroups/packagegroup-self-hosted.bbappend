@@ -10,6 +10,9 @@ RDEPENDS:packagegroup-self-hosted:remove = " \
 
 RDEPENDS:packagegroup-self-hosted-extended:remove = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'settings-daemon', d)} \
+    openssh-ssh \
+    openssh-scp \
+    openssh-sftp-server \
 "
 
 RDEPENDS:packagegroup-self-hosted-graphics:remove = " \
