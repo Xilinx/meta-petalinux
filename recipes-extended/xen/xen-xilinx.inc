@@ -12,6 +12,3 @@ SRC_URI = "${REPO};${BRANCHARG}"
 DEPENDS += "image-builder-native"
 
 DEFAULT_PREFERENCE = "+1"
-
-PREFERRED_VERSION_xen = "4.16"
-PREFERRED_VERSION_xen-tools = "4.16"
