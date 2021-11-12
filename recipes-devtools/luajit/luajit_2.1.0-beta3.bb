@@ -29,7 +29,7 @@ BUILD_CC_ARCH:append:arm = ' -m32'
 # Values: Windows, Linux, Darwin, iOS, SunOS, PS3, GNU/kFreeBSD
 LUA_TARGET_OS = "Unknown"
 LUA_TARGET_OS:darwin = "Darwin"
-LUA_TARGET_OS_linux = "Linux"
+LUA_TARGET_OS:linux = "Linux"
 LUA_TARGET_OS:linux-gnueabi = "Linux"
 LUA_TARGET_OS:mingw32 = "Windows"
 
