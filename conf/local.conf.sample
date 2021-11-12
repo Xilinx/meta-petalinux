@@ -17,24 +17,18 @@
 # You need to select a specific machine to target the build with. There are a selection
 # of emulated machines available which can boot and run in the QEMU emulator:
 #
-#MACHINE ?= "qemuarm"
-#MACHINE ?= "qemuarm64"
-#MACHINE ?= "qemumips"
-#MACHINE ?= "qemumips64"
-#MACHINE ?= "qemuppc"
-#MACHINE ?= "qemux86"
-#MACHINE ?= "qemux86-64"
+#MACHINE ?= "microblazeel-v11.0-bs-cmp-mh-div-generic.conf"
+#MACHINE ?= "zynq-generic"
+#MACHINE ?= "zynqmp-generic"
+#MACHINE ?= "versal-generic"
 #
 # There are also the following hardware board target machines included for 
 # demonstration purposes:
 #
-#MACHINE ?= "beaglebone-yocto"
-#MACHINE ?= "genericx86"
-#MACHINE ?= "genericx86-64"
-#MACHINE ?= "edgerouter"
+#MACHINE ?= "ultra96-zynqmp"
 #
 # This sets the default machine to be qemux86-64 if no other machine is selected:
-MACHINE ??= "qemux86-64"
+MACHINE ??= "zynqmp-generic"
 
 #
 # Where to place downloads
@@ -86,11 +80,6 @@ MACHINE ??= "qemux86-64"
 # these defaults.
 #
 DISTRO ?= "petalinux"
-# As an example of a subclass there is a "bleeding" edge policy configuration
-# where many versions are set to the absolute latest code from the upstream 
-# source control systems. This is just mentioned here as an example, its not
-# useful to most new users.
-# DISTRO ?= "poky-bleeding"
 
 #
 # Package Management configuration
@@ -148,8 +137,7 @@ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
 # enable extra features. Some available options which can be included in this variable
 # are:
 #   - 'buildstats' collect build statistics
-#   - 'image-prelink' in order to prelink the filesystem image
-USER_CLASSES ?= "buildstats image-prelink"
+USER_CLASSES ?= "buildstats"
 
 #
 # Runtime testing of images
@@ -218,17 +206,26 @@ BB_DISKMON_DIRS ??= "\
 #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
 #file://.* file:///some/local/dir/sstate/PATH"
 
+XILINX_VER_MAIN = "2021.2"
+
+# Uncomment below lines to provide path for custom xsct trim
+#
+#EXTERNAL_XSCT_TARBALL = "/proj/yocto/xsct-trim/2021.2_xsct_daily_latest"
+#VALIDATE_XSCT_CHECKSUM = '0'
+
 #
 # Yocto Project SState Mirror
 #
 # The Yocto Project has prebuilt artefacts available for its releases, you can enable
-# use of these by uncommenting the following line. This will mean the build uses
+# use of these by uncommenting the following lines. This will mean the build uses
 # the network to check for artefacts at the start of builds, which does slow it down
 # equally, it will also speed up the builds by not having to build things if they are
 # present in the cache. It assumes you can download something faster than you can build it
 # which will depend on your network.
+# Note: For this to work you also need hash-equivalence passthrough to the matching server
 #
-#SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/2.5/PATH;downloadfilename=PATH"
+#BB_HASHSERVE_UPSTREAM = "typhoon.yocto.io:8687"
+#SSTATE_MIRRORS ?= "file://.* http://sstate.yoctoproject.org/3.4/PATH;downloadfilename=PATH"
 
 #
 # Qemu configuration
@@ -243,6 +240,16 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 # You can also enable the Gtk UI frontend, which takes somewhat longer to build, but adds
 # a handy set of menus for controlling the emulator.
 #PACKAGECONFIG:append:pn-qemu-system-native = " gtk+"
+
+#Add below lines to use runqemu for ZU+ machines
+PMU_FIRMWARE_DEPLOY_DIR ??= "${DEPLOY_DIR_IMAGE}"
+PMU_FIRMWARE_IMAGE_NAME ??= "pmu-firmware-${MACHINE}"
+
+#Enable the below line to use pmu-rom.elf from a specific path
+#PMU_ROM = "/proj/yocto/pmu-rom/pmu-rom.elf"
+
+# Add alternative mirrors for some components
+INHERIT+="plnx-mirrors"
 
 #
 # Hash Equivalence
@@ -272,34 +279,3 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 # track the version of this file when it was generated. This can safely be ignored if
 # this doesn't mean anything to you.
 CONF_VERSION = "2"
-
-XILINX_VER_MAIN = "2021.2"
-
-# Uncomment below lines to provide path for custom xsct trim
-# This is required for building Versal based devices, please fetch the
-# xsct-trim from Xilinx lounge area
-#
-#EXTERNAL_XSCT_TARBALL = "/proj/yocto/xsct-trim/2021.2_xsct_daily_latest"
-#VALIDATE_XSCT_CHECKSUM = '0'
-
-# XILINX_VIVADO_DESIGN_SUIT should point to the Vivado installation directly if you are using xilinx-mcs recipe in meta-xilinx-tools
-#XILINX_VIVADO_DESIGN_SUIT = "/proj/xbuilds/2018.3_daily_latest/installs/lin64/Vivado/2018.3"
-
-# INHERIT += "externalsrc"
-# PREFERRED_PROVIDER_virtual/kernel = "linux-xlnx-dev"
-# EXTERNALSRC:pn-linux-xlnx-dev = "${BASE}/sources/linux"
-# RM_WORK_EXCLUDE += "linux-xlnx-dev"
-
-# PREFERRED_PROVIDER_virtual/bootloader = "u-boot-xlnx-dev"
-# EXTERNALSRC:pn-u-boot-xlnx-dev = "${BASE}/sources/u-boot"
-# RM_WORK_EXCLUDE += "u-boot-xlnx-dev"
-
-#Add below lines to use runqemu for ZU+ machines
-PMU_FIRMWARE_DEPLOY_DIR = "${DEPLOY_DIR_IMAGE}"
-PMU_FIRMWARE_IMAGE_NAME = "pmu-firmware-${MACHINE}"
-
-#Enable the below line to use pmu-rom.elf from a specific path
-#PMU_ROM = "/proj/yocto/pmu-rom/pmu-rom.elf"
-INHERIT+="plnx-mirrors"
-PNBLACKLIST[qemu-native]="blacklist"
-PNBLACKLIST[nativesdk-qemu]="blacklist"
