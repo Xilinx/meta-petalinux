@@ -33,7 +33,7 @@ PLNX_COMMON_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep xen', 'petalinux-ocicontainers', '', d)} \
     "
 
 PLNX_COMMON_FEATURES:append:aarch64 = " \
