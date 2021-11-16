@@ -51,7 +51,7 @@ Index: git/fru.py
      data = {'common': {'version': version, 'size': len(blob)}}
  
      if internal_offset:
-@@ -209,8 +224,73 @@ def load(path=None, blob=None):
+@@ -209,8 +224,74 @@ def load(path=None, blob=None):
                  ord(blob[board_offset + 5:board_offset + 6]) << 16,
              ]),
          }
@@ -95,7 +95,8 @@ Index: git/fru.py
 +                lengths=[3,1,6]
 +                data['multirecord'].update({'MAC_Addr':extract_freeform_values(blob, SOM_macaddr_offset+5, lengths, names)})
 +
-+            SOM_memconf_offset = 0x9B
++            #SOM_memconf_offset was 0x9B for legacy devices, Memory Config record will be skipped for these devices
++            SOM_memconf_offset = 0x89
 +            if blob[SOM_memconf_offset:SOM_memconf_offset+1] == b'\xd3':
 +                names=['Xilinx_IANA_ID','null','Primary_boot_device','null','null','SOM_secondary_boot_device','null','null','SOM_PS_DDR_memory','null','null','SOM_PL_DDR_memory','null']
 +                #aligning with spec for board area where bits 7:6 define encoding, or-ing length with 0xc0 if ascii data

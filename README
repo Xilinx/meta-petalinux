@@ -16,6 +16,9 @@ Boards Supported by this layer:
 Additional information on Xilinx architectures can be found at:
 	http://www.xilinx.com/support/index.htm
 
+Limitation for fru-print utility: The SOM Memory Config record offset was updated.
+Legacy devices using the old offset will skip this record when printing fru data.
+
 Maintainers, Patches/Submissions, Community
 ===========================================
 
