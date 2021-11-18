@@ -22,8 +22,8 @@ IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-sel
 IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
 
 # ultra96-zynqmp recipes
-IMAGE_INSTALL:append:ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
-IMAGE_INSTALL:append:ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
+#IMAGE_INSTALL:append:ultra96 = " sensors96b-overlays-notebooks "
+IMAGE_INSTALL:append:ultra96 = "  ultra96-ap-setup ultra96-power-button"
 IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
 
 IMAGE_INSTALL:append:vck-sc = " power-advantage-tool packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
