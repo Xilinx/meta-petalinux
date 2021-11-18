@@ -12,7 +12,7 @@ RDEPENDS:${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 INITSCRIPT_NAME:ultra96 = "jupyter-setup.sh"
 INITSCRIPT_PARAMS:ultra96 = "start 99 S ."
 
-SYSTEMD_SERVICE:${PN}:ultra96-zynqmp="jupyter-setup-ultra96.service"
+SYSTEMD_SERVICE:${PN}:ultra96="jupyter-setup-ultra96.service"
 
 inherit xilinx-pynq
 
