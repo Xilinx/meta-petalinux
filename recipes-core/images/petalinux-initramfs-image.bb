@@ -19,8 +19,7 @@ INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		"
 
 BAD_RECOMMENDATIONS += "initramfs-module-rootfs"
-
-PACKAGE_INSTALL ?= "packagegroup-core-boot ${INITRAMFS_PACKAGES} ${INITRAMFS_SCRIPTS}"
+PACKAGE_INSTALL ?= "${INITRAMFS_PACKAGES} ${INITRAMFS_SCRIPTS}"
 
 # Do not pollute the initrd image with rootfs features
 IMAGE_FEATURES = ""
