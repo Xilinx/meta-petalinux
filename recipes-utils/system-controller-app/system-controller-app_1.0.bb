@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/Xilinx/system-controller-app.git;branch=master;proto
            file://system_controller.service \
 "
 
-SRCREV="461852658e877fd7a51b0e4ca8fa68ea4bae0c60"
+SRCREV="00b5151228e645debf7b1f00b5dd0faed4c28c30"
 
 inherit update-rc.d systemd
 
@@ -25,6 +25,7 @@ COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
 COMPATIBLE_MACHINE_a2197 = "${MACHINE}"
 COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE_eval_brd_sc = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
