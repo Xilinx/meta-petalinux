@@ -14,8 +14,6 @@ GSTREAMER_PACKAGES = " \
 	gstreamer1.0-rtsp-server \
 	gst-shark \
 	gstd \
-	gst-perf \
-	gst-interpipes \
 	"
 GSTREAMER_PACKAGES:append:zynqmp = " gstreamer1.0-omx"
 
