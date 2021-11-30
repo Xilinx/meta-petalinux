@@ -1,7 +1,8 @@
-From 970eb1dbab650b834b9521a1a6de87696f043265 Mon Sep 17 00:00:00 2001
+From adc82a4820253ed3f42bf3af9003aa33636e6f89 Mon Sep 17 00:00:00 2001
 From: Anil Kumar M <amamidal@xilinx.com>
 Date: Fri, 10 Apr 2020 21:35:47 +0530
-Subject: [PATCH] modetest: Add semiplanar 10bit pattern support for modetest
+Subject: [PATCH 3/5] modetest: Add semiplanar 10bit pattern support for
+ modetest
 
 Add XV15 and XV20 10 bit semiplanar formats support for
 generating color bar pattern while running modetest command.
@@ -97,7 +98,7 @@ index 1ca1b82..e4b612b 100644
  	{ DRM_FORMAT_YUV420, "YU12", MAKE_YUV_INFO(YUV_YCbCr, 2, 2, 1) },
  	{ DRM_FORMAT_YVU420, "YV12", MAKE_YUV_INFO(YUV_YCrCb, 2, 2, 1) },
 diff --git a/tests/util/pattern.c b/tests/util/pattern.c
-index 42a0e5c..2be825e 100644
+index 158c0b1..e29d160 100644
 --- a/tests/util/pattern.c
 +++ b/tests/util/pattern.c
 @@ -260,6 +260,432 @@ static void fill_smpte_yuv_planar(const struct util_yuv_info *yuv,
@@ -561,7 +562,7 @@ index 42a0e5c..2be825e 100644
  	case DRM_FORMAT_NV12:
  	case DRM_FORMAT_NV21:
  	case DRM_FORMAT_NV16:
-@@ -1006,9 +1438,10 @@ static void fill_tiles_rgb16fp(const struct util_format_info *info, void *mem,
+@@ -1005,9 +1437,10 @@ static void fill_tiles_rgb16fp(const struct util_format_info *info, void *mem,
  	}
  }
  
@@ -575,7 +576,7 @@ index 42a0e5c..2be825e 100644
  {
  	unsigned char *u, *v;
  
-@@ -1037,6 +1470,14 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
+@@ -1036,6 +1469,14 @@ static void fill_tiles(const struct util_format_info *info, void *planes[3],
  		return fill_tiles_yuv_planar(info, planes[0], planes[2],
  					     planes[1], width, height, stride);
  

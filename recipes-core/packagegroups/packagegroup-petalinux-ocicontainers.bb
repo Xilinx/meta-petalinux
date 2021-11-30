@@ -3,8 +3,8 @@ DESCRIPTION = "PetaLinux oci containers related packages"
 inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = " virtualization"
-REQUIRED_DISTRO_FEATURES_append_zynqmp = " vmsep"
-REQUIRED_DISTRO_FEATURES_append_versal = " vmsep"
+REQUIRED_DISTRO_FEATURES:append:zynqmp = " vmsep"
+REQUIRED_DISTRO_FEATURES:append:versal = " vmsep"
 
 OCI_PACKAGES = " \
 	docker \
@@ -12,6 +12,6 @@ OCI_PACKAGES = " \
 	containerd-opencontainers \
         cgroup-lite \
 	"
-OCI_PACKAGES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)}"
+OCI_PACKAGES:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'packagegroup-petalinux-runx', '', d)}"
 
-RDEPENDS_${PN} = "${OCI_PACKAGES}"
+RDEPENDS:${PN} = "${OCI_PACKAGES}"

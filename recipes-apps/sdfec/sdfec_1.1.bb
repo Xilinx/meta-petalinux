@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;nobranch=1"
 SRCREV = "91a9fc9b6758959f34fef92dbfd3bb3556181f3e"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
+COMPATIBLE_MACHINE:zynqmp-dr = "zynqmp-dr"
 
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 

@@ -4,9 +4,9 @@ SECTION = "rfclk"
 inherit pkgconfig xlnx-embeddedsw
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp-dr = "zynqmp-dr"
+COMPATIBLE_MACHINE:zynqmp-dr = "zynqmp-dr"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 S = "${WORKDIR}/git"
 
@@ -16,7 +16,7 @@ PROVIDES = "rfclk"
 
 RFCLK_SUBDIR = "XilinxProcessorIPLib/drivers/board_common/src/rfclk/src"
 
-do_compile_prepend() {
+do_compile:prepend() {
     cd ${S}/${RFCLK_SUBDIR}
     cp Makefile.Linux Makefile
 }
@@ -32,5 +32,5 @@ do_install() {
     install -m 0644 xrfclk_LMX_conf.h ${D}${includedir}/xrfclk_LMX_conf.h
 }
 
-FILES_${PN} = "${libdir}/*.so.*"
-FILES_${PN}-dev = "${libdir}/*.so  ${includedir}/*"
+FILES:${PN} = "${libdir}/*.so.*"
+FILES:${PN}-dev = "${libdir}/*.so  ${includedir}/*"

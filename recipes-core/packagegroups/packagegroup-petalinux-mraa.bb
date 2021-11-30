@@ -15,4 +15,4 @@ MRAA_UPM_PACKAGES = " \
 	nodejs-npm \
 	"
 
-RDEPENDS_${PN} = "${MRAA_UPM_PACKAGES}"
+RDEPENDS:${PN} = "${MRAA_UPM_PACKAGES}"

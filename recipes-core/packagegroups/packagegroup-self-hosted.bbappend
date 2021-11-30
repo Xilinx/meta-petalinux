@@ -1,18 +1,21 @@
-REQUIRED_DISTRO_FEATURES_remove = "x11"
+REQUIRED_DISTRO_FEATURES:remove = "x11"
 
-PACKAGES_remove = " \
+PACKAGES:remove = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'packagegroup-self-hosted-graphics', d)} \
 "
 
-RDEPENDS_packagegroup-self-hosted_remove = " \
+RDEPENDS:packagegroup-self-hosted:remove = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'packagegroup-self-hosted-graphics', d)} \
 "
 
-RDEPENDS_packagegroup-self-hosted-extended_remove = " \
+RDEPENDS:packagegroup-self-hosted-extended:remove = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'settings-daemon', d)} \
+    openssh-ssh \
+    openssh-scp \
+    openssh-sftp-server \
 "
 
-RDEPENDS_packagegroup-self-hosted-graphics_remove = " \
+RDEPENDS:packagegroup-self-hosted-graphics:remove = " \
     builder \
     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '', 'libgl libgl-dev libglu libglu-dev', d)} \
 "

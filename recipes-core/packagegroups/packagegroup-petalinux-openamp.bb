@@ -1,7 +1,7 @@
 DESCRIPTION = "PetaLinux OpenAMP supported packages"
 
-PACKAGE_ARCH_versal = "${SOC_FAMILY_ARCH}"
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH:versal = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_FAMILY_ARCH}"
 
 inherit packagegroup features_check
 
@@ -15,7 +15,7 @@ OPENAMP_EXTRA_PACKAGES = " \
 	rpmsg-proxy-app \
 	"
 
-RDEPENDS_${PN}_append = " \
+RDEPENDS:${PN}:append = " \
 	${OPENAMP_EXTRA_PACKAGES} \
 	"
 
@@ -25,17 +25,17 @@ OPENAMP_FW_PACKAGES = " \
 	openamp-fw-rpc-demo \
 	"
 
-RDEPENDS_${PN}_append_versal = " \
+RDEPENDS:${PN}:append:versal = " \
 	${OPENAMP_FW_PACKAGES} \
 	libmetal-demos \
 	open-amp-demos \
 	"
 
-RDEPENDS_${PN}_append_zynqmp = " \
+RDEPENDS:${PN}:append:zynqmp = " \
 	${OPENAMP_FW_PACKAGES} \
 	libmetal-demos \
 	open-amp-demos \
 	"
-RDEPENDS_${PN}_remove_versal-generic = "${OPENAMP_FW_PACKAGES}"
-RDEPENDS_${PN}_remove_zynqmp-generic = "${OPENAMP_FW_PACKAGES}"
+RDEPENDS:${PN}:remove:versal-generic = "${OPENAMP_FW_PACKAGES}"
+RDEPENDS:${PN}:remove:zynqmp-generic = "${OPENAMP_FW_PACKAGES}"
 

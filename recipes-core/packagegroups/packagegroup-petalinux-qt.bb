@@ -15,4 +15,4 @@ QT_PACKAGES = " \
 	qtcharts \
 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
 	"
-RDEPENDS_${PN} = "${QT_PACKAGES}"
+RDEPENDS:${PN} = "${QT_PACKAGES}"

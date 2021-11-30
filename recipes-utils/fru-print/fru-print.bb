@@ -2,7 +2,7 @@ DESCRIPTION = "fru-print"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE.txt;md5=cbe895ca02dfa53a3d54f227d1b1967c"
 
-RDEPENDS_${PN} = "python3-core python3-pyyaml"
+RDEPENDS:${PN} = "python3-core python3-pyyaml"
 inherit python3-dir
 
 REPO = "git://github.com/genotrance/fru-tool.git;protocol=https"
@@ -26,4 +26,4 @@ do_install() {
     install -m 0755 ${WORKDIR}/fru-print.py ${D}${bindir}/
 }
 
-FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}/fru.py ${bindir}/fru-print.py"
+FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}/fru.py ${bindir}/fru-print.py"

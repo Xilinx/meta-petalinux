@@ -18,7 +18,7 @@ SYSTEM_CONTROLLER_PACKAGES = " \
         libgpiod-tools \
         system-controller-app \
 "
-RDEPENDS_${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
+RDEPENDS:${PN} = "${SYSTEM_CONTROLLER_PACKAGES}"
 
-SYSTEM_CONTROLLER_PACKAGES_append_a2197 = " ${@'fru-tools' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
-SYSTEM_CONTROLLER_PACKAGES_append_vck-sc = " ${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''} power-advantage-tool"
+SYSTEM_CONTROLLER_PACKAGES:append:a2197 = " ${@'fru-tools' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
+SYSTEM_CONTROLLER_PACKAGES:append:vck-sc = " ${@'labtool-jtag-support' if 'xilinx-internal' in d.getVar('BBFILE_COLLECTIONS').split() else ''} power-advantage-tool"

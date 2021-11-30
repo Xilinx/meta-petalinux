@@ -18,10 +18,10 @@ SRCREV = "6a527f77fd865c2edd4463a9798486e7d34a43bf"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
-COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vpk-sc = "${MACHINE}"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
+RDEPENDS:${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
                   python3-pydot \
                   "
@@ -79,4 +79,4 @@ python do_install_customize () {
 }
 addtask install_customize after do_install before do_build
 
-FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR}/poweradvantage/* ${JUPYTER_DIR}/*"
+FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}/poweradvantage/* ${JUPYTER_DIR}/*"

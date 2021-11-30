@@ -25,4 +25,4 @@ MATCHBOX_PACKAGES = " \
 	${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato pulseaudio-misc', '', d)} \
 	"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"
+RDEPENDS:${PN} = "packagegroup-petalinux-x11 ${MATCHBOX_PACKAGES}"

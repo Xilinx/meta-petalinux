@@ -13,4 +13,4 @@ do_install() {
     install -m 0644 ${WORKDIR}/bbb_sunflower_2160p_30fps_normal.mp4 ${D}${datadir}/movies/
 }
 
-FILES_${PN} += "${datadir}/movies"
+FILES:${PN} += "${datadir}/movies"

@@ -1,8 +1,8 @@
-XEN_REL = "4.14"
+XEN_REL = "4.16"
 
-BRANCH = "xlnx_rebase_4.14"
+BRANCH = "xlnx_rebase_4.16"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV = "e9efd896f934113dd09d4216298655119caddb6d"
+SRCREV = "3a70980de5076b137f56da55db4f0a5674c1351f"
 LIC_FILES_CHKSUM = "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
@@ -12,4 +12,3 @@ SRC_URI = "${REPO};${BRANCHARG}"
 DEPENDS += "image-builder-native"
 
 DEFAULT_PREFERENCE = "+1"
-

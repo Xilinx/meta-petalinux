@@ -9,7 +9,7 @@ INITRAMFS_SCRIPTS ?= "initramfs-framework-base \
 		initramfs-module-searche2fs \
 		"
 
-INITRAMFS_SCRIPTS_append_k26 = " initramfs-module-exec"
+INITRAMFS_SCRIPTS:append:k26 = " initramfs-module-exec"
 
 INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		base-passwd \
@@ -19,8 +19,7 @@ INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		"
 
 BAD_RECOMMENDATIONS += "initramfs-module-rootfs"
-
-PACKAGE_INSTALL ?= "packagegroup-core-boot ${INITRAMFS_PACKAGES} ${INITRAMFS_SCRIPTS}"
+PACKAGE_INSTALL ?= "${INITRAMFS_PACKAGES} ${INITRAMFS_SCRIPTS}"
 
 # Do not pollute the initrd image with rootfs features
 IMAGE_FEATURES = ""

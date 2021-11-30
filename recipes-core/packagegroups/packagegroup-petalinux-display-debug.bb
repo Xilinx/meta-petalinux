@@ -7,4 +7,4 @@ DISPLAY_DEBUG_PACKAGES = " \
 	libdrm-tests \
 	libdrm-kms \
 	"
-RDEPENDS_${PN} = "${DISPLAY_DEBUG_PACKAGES}"
+RDEPENDS:${PN} = "${DISPLAY_DEBUG_PACKAGES}"

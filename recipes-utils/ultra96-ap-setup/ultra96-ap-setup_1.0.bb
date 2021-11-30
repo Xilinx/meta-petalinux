@@ -11,7 +11,7 @@ SRC_URI = "file://ap.sh \
 	file://ultra96-ap-setup.service \
 	"
 
-FILES_${PN} += "${datadir}/wpa_ap"
+FILES:${PN} += "${datadir}/wpa_ap"
 
 inherit update-rc.d systemd
 
@@ -19,15 +19,15 @@ INITSCRIPT_NAME = "ultra96-ap-setup.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="ultra96-ap-setup.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="ultra96-ap-setup.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-RDEPENDS_${PN} = "wpa-supplicant busybox"
+RDEPENDS:${PN} = "wpa-supplicant busybox"
 
 S = "${WORKDIR}"
 
@@ -47,4 +47,4 @@ do_install () {
 
 }
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

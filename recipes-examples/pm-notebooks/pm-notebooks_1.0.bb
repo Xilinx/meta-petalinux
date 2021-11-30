@@ -13,9 +13,9 @@ SRCREV = "1a19aea2d47e681f3b85c4a74e8cbfc4c30acfa4"
 S = "${WORKDIR}/git/pm-notebooks"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_versal = "versal"
+COMPATIBLE_MACHINE:versal = "versal"
 
-RDEPENDS_${PN} = "packagegroup-petalinux-jupyter \
+RDEPENDS:${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
                   python3-pydot \
                   "

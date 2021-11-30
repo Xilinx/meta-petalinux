@@ -11,7 +11,7 @@ SRC_URI = "file://gpio-demo.c \
            file://Makefile \
         "
 S = "${WORKDIR}"
-CFLAGS_prepend = "-I ${S}/include"
+CFLAGS:prepend = "-I ${S}/include"
 do_compile() {
         oe_runmake
 }

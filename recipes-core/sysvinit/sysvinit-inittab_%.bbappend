@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend  := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend  := "${THISDIR}/files:"
 
-USE_VT_microblaze ?= "0"
+USE_VT:microblaze ?= "0"
 
 # We can share machines, so board is what specifies the differences
 BOARDVARIANT_ARCH ??= "${MACHINE_ARCH}"

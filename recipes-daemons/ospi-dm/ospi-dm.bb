@@ -9,7 +9,7 @@ SRC_URI = "file://ospi-versal.sh \
            file://ov-start.sh"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck5000 = "${MACHINE}"
+COMPATIBLE_MACHINE:vck5000 = "${MACHINE}"
 
 INITSCRIPT_NAME = "ov-start.sh"
 INITSCRIPT_PARAMS = "start 99 S ."

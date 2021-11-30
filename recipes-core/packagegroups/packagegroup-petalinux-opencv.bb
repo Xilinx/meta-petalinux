@@ -13,4 +13,4 @@ OPENCV_PACKAGES = " \
 	libopencv-ccalib \
 	"
 
-RDEPENDS_${PN} = "${OPENCV_PACKAGES}"
+RDEPENDS:${PN} = "${OPENCV_PACKAGES}"

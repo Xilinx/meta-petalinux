@@ -1,6 +1,6 @@
 require xen-xilinx.inc
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " \
     file://example-passnet.cfg \
@@ -9,20 +9,20 @@ SRC_URI += " \
     file://passthrough-example-part.dts \
     "
 
-FILES_${PN}_append = " \
+FILES:${PN}:append = " \
     /etc/xen/example-passnet.cfg \
     /etc/xen/example-pvnet.cfg \
     /etc/xen/example-simple.cfg \
     /etc/xen/passthrough-example-part.dtb \
     "
 
-RDEPENDS_${PN}-efi += "bash python3"
+RDEPENDS:${PN}-efi += "bash python3"
 
-do_compile_append() {
+do_compile:append() {
     dtc -I dts -O dtb ${WORKDIR}/passthrough-example-part.dts -o ${WORKDIR}/passthrough-example-part.dtb
 }
 
-do_deploy_append() {
+do_deploy:append() {
     # Mimic older behavior for compatibility
     if [ -f ${DEPLOYDIR}/xen-${MACHINE} ]; then
         ln -s xen-${MACHINE} ${DEPLOYDIR}/xen
@@ -37,7 +37,7 @@ do_deploy_append() {
     fi
 }
 
-do_install_append() {
+do_install:append() {
     install -d -m 0755 ${D}/etc/xen
     install -m 0644 ${WORKDIR}/example-passnet.cfg ${D}/etc/xen/example-passnet.cfg
     install -m 0644 ${WORKDIR}/example-pvnet.cfg ${D}/etc/xen/example-pvnet.cfg

@@ -13,7 +13,6 @@ COMMON_FEATURES = " \
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
 COMMON_INSTALL = " \
-    openssh-sftp-server \
     tcf-agent \
     mtd-utils \
     bridge-utils \
@@ -31,13 +30,13 @@ IMAGE_INSTALL = " \
 # If meta-xilinx-tools is available, require libdfx
 LIBDFX_RECIPE = "${@'libdfx' if 'xilinx-tools' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
 
-COMMON_INSTALL_append_zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_RECIPE}"
-COMMON_INSTALL_append_zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
-COMMON_INSTALL_append_versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
+COMMON_INSTALL:append:zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_RECIPE}"
+COMMON_INSTALL:append:zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
+COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
 
 INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged htop iperf3 meson u-boot-tools"
 
-CORE_IMAGE_EXTRA_INSTALL_append_ultra96 = " packagegroup-base-extended"
+CORE_IMAGE_EXTRA_INSTALL:append:ultra96 = " packagegroup-base-extended"
 
 IMAGE_LINGUAS = " "
 
@@ -84,8 +83,8 @@ FEATURE_PACKAGES_petalinux-v4lutils ?= "packagegroup-petalinux-v4lutils"
 FEATURE_PACKAGES_petalinux-v4lutils[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-lmsensors ?= "packagegroup-petalinux-lmsensors"
 FEATURE_PACKAGES_petalinux-lmsensors[optional] ?= "1"
-FEATURE_PACKAGES_petalinux-ultra96-webapp ?= "packagegroup-petalinux-ultra96-webapp"
-FEATURE_PACKAGES_petalinux-ultra96-webapp[optional] ?= "1"
+#FEATURE_PACKAGES_petalinux-ultra96-webapp ?= "packagegroup-petalinux-ultra96-webapp"
+#FEATURE_PACKAGES_petalinux-ultra96-webapp[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-96boards-sensors ?= "packagegroup-petalinux-96boards-sensors"
 FEATURE_PACKAGES_petalinux-96boards-sensors[optional] ?= "1"
 FEATURE_PACKAGES_fpga-manager ?= "fpga-manager-script fpga-manager-util"
@@ -105,8 +104,8 @@ FEATURE_PACKAGES_petalinux-pynq-helloworld[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-scweb ?= "packagegroup-petalinux-scweb"
 FEATURE_PACKAGES_petalinux-scweb[optional] ?= "1"
 
-FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
-FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
+#FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
+#FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
 
 FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainers"
 FEATURE_PACKAGES_petalinux-ocicontainers[optional] ?= "1"

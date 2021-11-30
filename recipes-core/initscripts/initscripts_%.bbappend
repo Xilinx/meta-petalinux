@@ -1,18 +1,18 @@
-FILESEXTRAPATHS_prepend_zynqmp := "${THISDIR}/files:"
-SRC_URI_append_zynqmp := " \
+FILESEXTRAPATHS:prepend:zynqmp := "${THISDIR}/files:"
+SRC_URI:append:zynqmp := " \
 	file://reboot_init.sh \
 	file://set_reboot \
 	"
 
-MASKED_SCRIPTS_append_zynqmp := "reboot_init"
+MASKED_SCRIPTS:append:zynqmp := "reboot_init"
 
-RREPLACES_${PN}-functions = "lsbinitscripts"
+RREPLACES:${PN}-functions = "lsbinitscripts"
 
-do_install_append_zynqmp() {
+do_install:append:zynqmp() {
 	install -d ${D}${bindir}
 	install -m 0755 ${WORKDIR}/set_reboot ${D}${bindir}/set_reboot
 	install -m 0644 ${WORKDIR}/reboot_init.sh ${D}${sysconfdir}/init.d
 	update-rc.d -r ${D} reboot_init.sh start 01 S 6 .
 }
 
-PACKAGE_ARCH_zynqmp = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH:zynqmp = "${SOC_FAMILY_ARCH}"

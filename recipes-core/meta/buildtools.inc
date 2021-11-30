@@ -19,6 +19,8 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-diffstat \
 	nativesdk-gnupg \
 	nativesdk-bzip2 \
+	nativesdk-lz4 \
+	nativesdk-zstd \
 	nativesdk-xz \
 	nativesdk-cpio \
 	nativesdk-file \
@@ -27,6 +29,6 @@ TOOLCHAIN_HOST_TASK += "\
 	nativesdk-u-boot-tools \
 "
 
-create_sdk_files_append () {
+create_sdk_files:append () {
 	echo 'export PETALINUX_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
 }

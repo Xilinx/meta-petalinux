@@ -16,17 +16,17 @@ SRC_URI = "git://github.com/96boards/Sensor_Mezzanine_Getting_Started.git;protoc
 PV = "1.0+git${SRCPV}"
 SRCREV = "6456fdf28c66bb3ab10ed3d4c5ae3d2a0c97952f"
 
-FILES_${PN} = "/usr/share/Sensor_Mezzanine_Getting_Started"
+FILES:${PN} = "/usr/share/Sensor_Mezzanine_Getting_Started"
 
 DEPENDS += "rsync-native"
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
 
 do_install () {
     install -d ${D}${datadir}/Sensor_Mezzanine_Getting_Started

@@ -6,7 +6,7 @@ LICENSE = "MIT"
 DEPENDS += "u-boot-mkimage-native"
 inherit deploy
 
-RDEPENDS_${PN} += "bash"
+RDEPENDS:${PN} += "bash"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 SRC_URI = "git://github.com/Xilinx/imagebuilder.git;protocol=https;branch=${BRANCH}"
@@ -25,7 +25,7 @@ do_deploy() {
 	:
 }
 
-do_deploy_class-native() {
+do_deploy:class-native() {
 	install -d ${DEPLOYDIR}
 	install -m 0755 ${S}/scripts/uboot-script-gen ${DEPLOYDIR}/
 }

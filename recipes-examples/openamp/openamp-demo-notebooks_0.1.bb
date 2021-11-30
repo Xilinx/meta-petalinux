@@ -10,10 +10,10 @@ SRC_URI = "file://LICENSE \
            file://pics/apu-start-rpu.png "
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_zynqmp = "zynqmp"
-COMPATIBLE_MACHINE_versal = "versal"
+COMPATIBLE_MACHINE:zynqmp = "zynqmp"
+COMPATIBLE_MACHINE:versal = "versal"
 
-RDEPENDS_${PN} = " packagegroup-petalinux-jupyter \
+RDEPENDS:${PN} = " packagegroup-petalinux-jupyter \
                    packagegroup-petalinux-openamp"
 
 do_install() {

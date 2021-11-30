@@ -4,16 +4,16 @@
 # Provide a list of users, and their associated access info in
 # EXTRA_USERS_SUDOERS, such as:
 #
-# USERADDEXTENSION_append = " plnx-useradd-sudoers"
+# USERADDEXTENSION:append = " plnx-useradd-sudoers"
 #
 # EXTRA_USERS_SUDOERS = "\
 # xilinx	ALL = (ALL) ALL;\
 # %wheel	ALL = (ALL) ALL;\
 # "
 
-PACKAGE_INSTALL_append = " ${@['', 'sudo'][bool(d.getVar('EXTRA_USERS_SUDOERS'))]}"
+PACKAGE_INSTALL:append = " ${@['', 'sudo'][bool(d.getVar('EXTRA_USERS_SUDOERS'))]}"
 
-ROOTFS_POSTPROCESS_COMMAND_append = " set_sudoers;"
+ROOTFS_POSTPROCESS_COMMAND:append = " set_sudoers;"
 
 set_sudoers () {
 	sudoers_settings="${EXTRA_USERS_SUDOERS}"

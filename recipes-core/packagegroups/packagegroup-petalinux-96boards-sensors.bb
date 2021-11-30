@@ -7,13 +7,12 @@ inherit packagegroup
 	ntp \
 	packagegroup-core-buildessential \
 	packagegroup-petalinux-mraa	 \
-	python-argparse \
 	python3-pyserial \
 	readline \
 	libftdi	\
 	"
 
-96BOARD_SENSOR_PACKAGES_append_ultra96 = " \
+96BOARD_SENSOR_PACKAGES:append:ultra96 = " \
 	sensor-mezzanine-examples \
 	arduino-toolchain \
 	python3-oauthlib \
@@ -21,6 +20,6 @@ inherit packagegroup
 	python3-twitter \
 	"
 
-RDEPENDS_${PN} = "${96BOARD_SENSOR_PACKAGES}"
+RDEPENDS:${PN} = "${96BOARD_SENSOR_PACKAGES}"
 
-PACKAGE_ARCH_ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

@@ -21,17 +21,17 @@ BBCLASSEXTEND = "native"
 # you need to install the multilib development package (e.g.
 # libc6-dev-i386 on Debian/Ubuntu) and build a 32 bit host part
 # (HOST_CC="gcc -m32").
-BUILD_CC_ARCH_append_powerpc = ' -m32'
-BUILD_CC_ARCH_append_x86 = ' -m32'
-BUILD_CC_ARCH_append_arm = ' -m32'
+BUILD_CC_ARCH:append:powerpc = ' -m32'
+BUILD_CC_ARCH:append:x86 = ' -m32'
+BUILD_CC_ARCH:append:arm = ' -m32'
 
 # The lua makefiles expect the TARGET_SYS to be from uname -s
 # Values: Windows, Linux, Darwin, iOS, SunOS, PS3, GNU/kFreeBSD
 LUA_TARGET_OS = "Unknown"
-LUA_TARGET_OS_darwin = "Darwin"
-LUA_TARGET_OS_linux = "Linux"
-LUA_TARGET_OS_linux-gnueabi = "Linux"
-LUA_TARGET_OS_mingw32 = "Windows"
+LUA_TARGET_OS:darwin = "Darwin"
+LUA_TARGET_OS:linux = "Linux"
+LUA_TARGET_OS:linux-gnueabi = "Linux"
+LUA_TARGET_OS:mingw32 = "Windows"
 
 # We don't want the lua buildsystem's compiler optimizations, or its
 # stripping, and we don't want it to pick up CFLAGS or LDFLAGS, as those apply
@@ -39,7 +39,7 @@ LUA_TARGET_OS_mingw32 = "Windows"
 EXTRA_OEMAKE = "\
     Q= E='@:' \
     \
-    CCOPT= CCOPT_x86= CFLAGS= LDFLAGS= TARGET_STRIP='@:' \
+    CCOPT= CCOPT:x86= CFLAGS= LDFLAGS= TARGET_STRIP='@:' \
     \
     'TARGET_SYS=${LUA_TARGET_OS}' \
     \
@@ -81,13 +81,13 @@ PACKAGES += 'luajit-common'
 
 # See the comment for EXTRA_OEMAKEINST. This is needed to ensure the hardcoded
 # paths are packaged regardless of what the libdir and datadir paths are.
-FILES_${PN} += "${prefix}/${baselib} ${prefix}/share"
-FILES_${PN} += "${libdir}/libluajit-5.1.so.2 \
+FILES:${PN} += "${prefix}/${baselib} ${prefix}/share"
+FILES:${PN} += "${libdir}/libluajit-5.1.so.2 \
     ${libdir}/libluajit-5.1.so.${PV} \
 "
-FILES_${PN}-dev += "${libdir}/libluajit-5.1.a \
+FILES:${PN}-dev += "${libdir}/libluajit-5.1.a \
     ${libdir}/libluajit-5.1.so \
     ${libdir}/pkgconfig/luajit.pc \
 "
-FILES_luajit-common = "${datadir}/${BPN}-${PV}"
+FILES:luajit-common = "${datadir}/${BPN}-${PV}"
 

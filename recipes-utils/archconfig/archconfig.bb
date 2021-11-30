@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit update-rc.d
 
-RDEPENDS_${PN} = "bash fru-print dnf"
+RDEPENDS:${PN} = "bash fru-print dnf"
 
 INITSCRIPT_NAME = "archconfig.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
@@ -19,4 +19,4 @@ do_configure() {
         sed -i -e "s|@@PACKAGE_FEED_URIS@@|${PACKAGE_FEED_URIS}|g" "${WORKDIR}/archconfig.sh"
 }
 
-FILES_${PN} = "${sysconfdir}/init.d/archconfig.sh"
+FILES:${PN} = "${sysconfdir}/init.d/archconfig.sh"

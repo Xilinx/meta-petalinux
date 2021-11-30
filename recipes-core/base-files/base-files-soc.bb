@@ -25,7 +25,7 @@ do_install () {
         fi
 }
 
-FILES_${PN} = "${sysconfdir}/${DISTRO}"
-CONFFILES_${PN} = " \
+FILES:${PN} = "${sysconfdir}/${DISTRO}"
+CONFFILES:${PN} = " \
 	${sysconfdir}/${DISTRO}/soc \
 	"

@@ -16,20 +16,20 @@ JUPYTER_STARTUP_PACKAGES += " \
 
 inherit update-rc.d systemd
 PROVIDES = "start-jupyter"
-RPROVIDES_${PN} = "start-jupyter"
+RPROVIDES:${PN} = "start-jupyter"
 
-RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
+RDEPENDS:${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
 INITSCRIPT_NAME = "jupyter-setup.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="jupyter-setup.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="jupyter-setup.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 S = "${WORKDIR}"
 
-FILES_${PN} += "${base_sbindir}"
+FILES:${PN} += "${base_sbindir}"
 
 do_install() {
 

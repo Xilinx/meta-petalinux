@@ -4,13 +4,13 @@ python () {
     packagelist = (d.getVar('PACKAGES_LIST', True) or "").split()
     pn = d.getVar("PN")
     if pn in packagelist:
-        copyfiles_append(d)
+        copyfiles_update(d)
         d.appendVarFlag('do_deploy', 'postfuncs', ' plnx_deploy')
         d.appendVarFlag('do_deploy_setscene', 'postfuncs', ' plnx_deploy')
 }
 
 DEFAULT_LIST ?= "u-boot-xlnx device-tree linux-xlnx"
-PACKAGES_LIST_zynqmp ?= "${DEFAULT_LIST} \
+PACKAGES_LIST:zynqmp ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
 		pmu-firmware \
 		arm-trusted-firmware \
@@ -19,11 +19,11 @@ PACKAGES_LIST_zynqmp ?= "${DEFAULT_LIST} \
 		xen \
 		board-id-data \
 		"
-PACKAGES_LIST_zynq ?= "${DEFAULT_LIST} \
+PACKAGES_LIST:zynq ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
 		u-boot-zynq-scr \
 		"
-PACKAGES_LIST_versal ?= "${DEFAULT_LIST} \
+PACKAGES_LIST:versal ?= "${DEFAULT_LIST} \
 		plm-firmware \
 		extract-cdo \
 		psm-firmware \
@@ -32,7 +32,7 @@ PACKAGES_LIST_versal ?= "${DEFAULT_LIST} \
 		qemu-devicetrees \
 		xen \
 		"
-PACKAGES_LIST_microblaze ?= "${DEFAULT_LIST} \
+PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 		u-boot-zynq-scr \
 		fs-boot \
 		mb-realoc \
@@ -47,7 +47,7 @@ PACKAGE_FITIMG_NAME ?= ""
 UBOOT_IMAGES ?= "u-boot-nodtb.bin:u-boot.bin u-boot-nodtb.elf:u-boot.elf \
 		u-boot.elf:u-boot-dtb.elf u-boot.bin:u-boot-dtb.bin \
 		u-boot-s.bin:u-boot-s.bin"
-UBOOT_IMAGES_microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
+UBOOT_IMAGES:microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 			   u-boot-s.bin:u-boot-s.bin"
 
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
@@ -59,26 +59,26 @@ PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
 PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin"
 
-QEMU_HWDTB_NAME_zynqmp ?= "zcu102-arm.dtb"
-QEMU_HWDTB_NAME_zc1751 ?= "zc1751-dc2-arm.dtb"
-QEMU_HWDTB_NAME_ultra96 ?= "zcu100-arm.dtb"
-QEMU_HWDTB_NAME_versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
-QEMU_HWDTB_NAME_vck190 ?= "board-versal-ps-vck190.dtb"
-QEMU_HWDTB_NAME_vck5000 ?= "board-versal-ps-vck5000.dtb"
-QEMU_HWDTB_NAME_k26 ?= "board-zynqmp-k26-som.dtb"
+QEMU_HWDTB_NAME:zynqmp ?= "zcu102-arm.dtb"
+QEMU_HWDTB_NAME:zc1751 ?= "zc1751-dc2-arm.dtb"
+QEMU_HWDTB_NAME:ultra96 ?= "zcu100-arm.dtb"
+QEMU_HWDTB_NAME:versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
+QEMU_HWDTB_NAME:vck190 ?= "board-versal-ps-vck190.dtb"
+QEMU_HWDTB_NAME:vck5000 ?= "board-versal-ps-vck5000.dtb"
+QEMU_HWDTB_NAME:k26 ?= "board-zynqmp-k26-som.dtb"
 
-QEMU_HWDTBS_zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
+QEMU_HWDTBS:zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
 
-QEMU_MULTI_HWDTBS_zynqmp ?= " \
+QEMU_MULTI_HWDTBS:zynqmp ?= " \
 		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:zynqmp-qemu-multiarch-arm.dtb \
 		qemu-hw-devicetrees/multiarch/zynqmp-pmu.dtb:zynqmp-qemu-multiarch-pmu.dtb"
 
-QEMU_HWDTBS_versal ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:versal-qemu-ps.dtb"
-QEMU_MULTI_HWDTBS_versal ?= " \
+QEMU_HWDTBS:versal ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:versal-qemu-ps.dtb"
+QEMU_MULTI_HWDTBS:versal ?= " \
 		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:versal-qemu-multiarch-ps.dtb \
 		qemu-hw-devicetrees/multiarch/board-versal-pmc-vc-p-a2197-00.dtb:versal-qemu-multiarch-pmc.dtb"
 
-def copyfiles_append(d):
+def copyfiles_update(d):
     soc_family = d.getVar('SOC_FAMILY') or ""
     machine_arch = d.getVar('MACHINE') or ""
     initramfs_image = d.getVar('INITRAMFS_IMAGE') or ""

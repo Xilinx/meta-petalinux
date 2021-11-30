@@ -16,4 +16,4 @@ X11_PACKAGES = " \
 	liberation-fonts \
 	"
 
-RDEPENDS_${PN} = "${X11_PACKAGES}"
+RDEPENDS:${PN} = "${X11_PACKAGES}"

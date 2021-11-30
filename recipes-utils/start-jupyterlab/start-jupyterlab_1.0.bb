@@ -19,10 +19,10 @@ JUPYTER_STARTUP_PACKAGES += " \
 	procps \
 	"
 
-RDEPENDS_${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
+RDEPENDS:${PN} = " ${JUPYTER_STARTUP_PACKAGES}"
 
 PROVIDES = "start-jupyter"
-RPROVIDES_${PN} = "start-jupyter"
+RPROVIDES:${PN} = "start-jupyter"
 
 inherit update-rc.d
 
@@ -42,4 +42,4 @@ do_install() {
     install -m 0600 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
 }
 
-FILES_${PN} += "${datadir}/jupyter/lab/settings"
+FILES:${PN} += "${datadir}/jupyter/lab/settings"

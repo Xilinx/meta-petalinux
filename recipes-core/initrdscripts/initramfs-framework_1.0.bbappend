@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 SRC_URI += "file://e2fs \
 	file://udhcpc \
 	file://searche2fs \
@@ -52,16 +52,16 @@ do_install() {
     mknod -m 622 ${D}/dev/console c 5 1
 }
 
-FILES_initramfs-module-e2fs = "/init.d/91-e2fs"
-RDEPENDS_initramfs-module-e2fs += "initramfs-module-scripts"
+FILES:initramfs-module-e2fs = "/init.d/91-e2fs"
+RDEPENDS:initramfs-module-e2fs += "initramfs-module-scripts"
 
-SUMMARY_initramfs-module-udhcpc = "Enable udhcpc"
-RDEPENDS_initramfs-module-udhcpc = "${PN}-base"
-FILES_initramfs-module-udhcpc = "/init.d/01-udhcpc"
+SUMMARY:initramfs-module-udhcpc = "Enable udhcpc"
+RDEPENDS:initramfs-module-udhcpc = "${PN}-base"
+FILES:initramfs-module-udhcpc = "/init.d/01-udhcpc"
 
-SUMMARY_initramfs-module-searche2fs = "search for the ext partitions available and mounts it"
-RDEPENDS_initramfs-module-searche2fs = "${PN}-base initramfs-module-scripts"
-FILES_initramfs-module-searche2fs = "/init.d/92-searche2fs"
+SUMMARY:initramfs-module-searche2fs = "search for the ext partitions available and mounts it"
+RDEPENDS:initramfs-module-searche2fs = "${PN}-base initramfs-module-scripts"
+FILES:initramfs-module-searche2fs = "/init.d/92-searche2fs"
 
-SUMMARY_initramfs-module-scripts = "scripts for initramfs"
-FILES_initramfs-module-scripts = "/scripts/functions"
+SUMMARY:initramfs-module-scripts = "scripts for initramfs"
+FILES:initramfs-module-scripts = "/scripts/functions"

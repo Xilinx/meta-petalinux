@@ -18,14 +18,14 @@ SRCREV = "9d0cc459dc4b3bbf283fb8dbc6bbaaaec6d2cb34"
 S = "${WORKDIR}/git"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE_vck-sc = "${MACHINE}"
-COMPATIBLE_MACHINE_vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vck-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:vpk-sc = "${MACHINE}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_configure[noexec]="1"
 do_compile[noexec]="1"
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
         apache2 \
         "
 
@@ -37,7 +37,7 @@ do_install() {
         cp -r ${WORKDIR}/pmtool.conf ${D}${sysconfdir}/apache2/conf.d/
 
 }
-FILES_${PN} += "/var/www/pmtool"
-FILES_${PN} += "${sysconfdir}/apache2/conf.d"
+FILES:${PN} += "/var/www/pmtool"
+FILES:${PN} += "${sysconfdir}/apache2/conf.d"
 
 
