@@ -1,5 +1,3 @@
-PARALLEL_MAKE = "-j 1"
-
 FILESEXTRAPATHS:prepend := "${THISDIR}/qtbase:"
 
 SRC_URI:append = " \

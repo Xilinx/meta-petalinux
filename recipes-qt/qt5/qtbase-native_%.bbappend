@@ -1,1 +1,0 @@
-PARALLEL_MAKE = "-j 1"
