@@ -40,6 +40,7 @@ RDEPENDS:${PN} += "bash \
         python3 \
         python3-flask \
         python3-flask-restful \
+        python3-psutil \
         system-controller-app \        
         lmsensors-sensors \
         "
