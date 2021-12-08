@@ -54,6 +54,8 @@ python do_install_customize () {
         token_new = "\\\"VMK180\\\", \\\"SC\\\")\\n"
     elif d.getVar('BOARD') == 'vpk-sc':
         token_new = "\\\"VPK120\\\", \\\"SC\\\")\\n"
+    elif d.getVar('BOARD') == 'eval-brd-sc':
+        token_new = "\\\"VCK190\\\", \\\"SC\\\")\\n"
     elif d.getVar('BOARD') == 'vck190':
         token_new = "\\\"VCK190\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
@@ -70,6 +72,8 @@ python do_install_customize () {
         token_new = "\\\"VPK180\\\", \\\"\\\")\\n"
         shutil.rmtree(path_destination)
         shutil.copytree(path_source, path_destination)
+    else:
+        token_new = "\\\"VCK190\\\", \\\"SC\\\")\\n"
     file = open(path_ipynb, 'r')
     lines = file.readlines()
     file.close()
