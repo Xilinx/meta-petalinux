@@ -28,7 +28,7 @@ queryip() {
     for i in {1..20}
     do
         echo -n "."
-        ip=`ifconfig eth0 | grep -oP 'inet \d+\.\d+\.\d+\.\d+' | cut -d ' ' -f2`
+        ip=`ip -4 addr show eth0  | grep -oP "(?<=inet )[\d\.]+(?=/)"`
         [ ! -z "$ip" ] && break
         sleep 2
     done
