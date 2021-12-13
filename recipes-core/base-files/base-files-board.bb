@@ -1,5 +1,3 @@
-PETALINUX_VERSION ?= "${DISTRO_VERSION}"
-
 SUMMARY = "Petalinux identification files for the base system"
 DESCRIPTION = "Identify the configuration that was used to generate this rootfs"
 SECTION = "base"

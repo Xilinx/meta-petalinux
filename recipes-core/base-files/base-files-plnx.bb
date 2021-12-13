@@ -1,6 +1,5 @@
 PETALINUX_BSP ?= "${MACHINE}"
 PETALINUX_PRODUCT ?= "${MACHINE}"
-PETALINUX_VERSION ?= "${DISTRO_VERSION}"
 
 SUMMARY = "Petalinux identification files for the base system"
 DESCRIPTION = "Identify the configuration that was used to generate this rootfs"
@@ -22,7 +21,7 @@ do_install () {
 
 	echo "${PETALINUX_BSP}" > ${D}${sysconfdir}/${DISTRO}/bsp
 	echo "${PETALINUX_PRODUCT}" > ${D}${sysconfdir}/${DISTRO}/product
-	echo "${PETALINUX_VERSION}" > ${D}${sysconfdir}/${DISTRO}/version
+	echo "${DISTRO_VERSION}" > ${D}${sysconfdir}/${DISTRO}/version
 }
 
 RRECOMMENDS:${PN} = "base-files-board base-files-board-variant base-files-soc"
