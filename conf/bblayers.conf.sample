@@ -20,6 +20,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-browser/meta-chromium \
     ##OEROOT##/../meta-qt5 \
     ##OEROOT##/../meta-xilinx/meta-microblaze \
+    ##OEROOT##/../meta-xilinx/meta-xilinx-core \
     ##OEROOT##/../meta-xilinx/meta-xilinx-bsp \
     ##OEROOT##/../meta-xilinx/meta-xilinx-pynq \
     ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
