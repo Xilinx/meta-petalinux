@@ -20,6 +20,7 @@ S = "${WORKDIR}/git"
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:vck-sc = "${MACHINE}"
 COMPATIBLE_MACHINE:vpk-sc = "${MACHINE}"
+COMPATIBLE_MACHINE:eval-brd-sc = "${MACHINE}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_configure[noexec]="1"
