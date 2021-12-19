@@ -1,7 +1,6 @@
 DESCRIPTION = "SOM related packages"
 
-BOARDVARIANT_ARCH ??= "${MACHINE_ARCH}"
-PACKAGE_ARCH:k26 = "${BOARDVARIANT_ARCH}"
+PACKAGE_ARCH:k26 = "k26"
 
 inherit packagegroup
 

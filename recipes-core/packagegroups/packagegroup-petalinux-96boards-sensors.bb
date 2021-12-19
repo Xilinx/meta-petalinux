@@ -22,4 +22,4 @@ inherit packagegroup
 
 RDEPENDS:${PN} = "${96BOARD_SENSOR_PACKAGES}"
 
-PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${MACHINE_ARCH}"

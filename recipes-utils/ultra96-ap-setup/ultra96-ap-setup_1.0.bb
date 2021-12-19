@@ -46,5 +46,3 @@ do_install () {
    install -m 0644 ${WORKDIR}/ultra96-ap-setup.service ${D}${systemd_system_unitdir}
 
 }
-
-PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

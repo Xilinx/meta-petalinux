@@ -39,4 +39,4 @@ do_install:ultra96() {
     install -m 0600 ${WORKDIR}/jupyter_notebook_ultra96_config.py ${D}${sysconfdir}/jupyter/jupyter_notebook_config.py
 }
 
-PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${MACHINE_ARCH}"

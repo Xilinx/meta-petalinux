@@ -34,5 +34,3 @@ do_install () {
    cp -r ${S}/${BOARD_NAME}/sensors96b/notebooks/*  ${PYNQ_JUPYTER_NOTEBOOKS}/sensors96b
    cp -r ${S}/${BOARD_NAME}/sensors96b/* ${D}${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b
 }
-
-PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"

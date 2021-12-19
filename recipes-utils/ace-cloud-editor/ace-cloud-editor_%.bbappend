@@ -5,4 +5,4 @@ do_install:ultra96 () {
     rsync -r --exclude=".*" ${S}/src-noconflict/* ${D}/${datadir}/ultra96-startup-pages/webapp/static/src-noconflict
 }
 
-PACKAGE_ARCH:ultra96 = "${BOARD_ARCH}"
+PACKAGE_ARCH:ultra96 = "${MACHINE_ARCH}"

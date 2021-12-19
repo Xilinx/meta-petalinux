@@ -9,9 +9,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 INHIBIT_DEFAULT_DEPS = "1"
 
-# We assume the machine is generic and the swtiching is based on board or soc variants.
-BOARDVARIANT_ARCH ??= "${MACHINE_ARCH}"
-PACKAGE_ARCH = "${BOARDVARIANT_ARCH}"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 do_configure[noexec] = '1'
 do_compile[noexec] = '1'
@@ -19,9 +17,7 @@ do_compile[noexec] = '1'
 do_install () {
         install -d -m 0755 ${D}${sysconfdir}/${DISTRO}
 
-        if [ "${BOARD_VARIANT}" != "" ]; then
-            echo "${BOARD_VARIANT}" > ${D}${sysconfdir}/${DISTRO}/board-variant
-        fi
+        echo "${MACHINEOVERRIDES}" > ${D}${sysconfdir}/${DISTRO}/board-variant
 }
 
 FILES:${PN} = "${sysconfdir}/${DISTRO}"
