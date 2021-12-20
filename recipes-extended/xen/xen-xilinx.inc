@@ -2,7 +2,7 @@ XEN_REL = "4.16"
 
 BRANCH = "xlnx_rebase_4.16"
 REPO = "git://github.com/Xilinx/xen.git;protocol=https"
-SRCREV = "0c19f8206e3727054f87bc04da285219c58698b0"
+SRCREV = "8dbbf64ebf442f4d6e5772b43e8536fa5566ca94"
 LIC_FILES_CHKSUM = "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
