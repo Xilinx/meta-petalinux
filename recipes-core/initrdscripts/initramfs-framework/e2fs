@@ -25,7 +25,7 @@ e2fs_run() {
 
 		    info "Mounting $dev as $fs on $path as $fs..."
 		    mkdir -p $path
-		    count=10
+		    count=30
 		    for i in $(seq $count); do
 			if [ -b "$dev" ]; then
 			    check_fsck "$dev" "$fs"
