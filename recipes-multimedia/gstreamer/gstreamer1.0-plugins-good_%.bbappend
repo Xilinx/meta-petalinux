@@ -1,28 +1,16 @@
-BRANCH ?= "xlnx-rebase-v1.16.3"
-REPO ?= "git://github.com/Xilinx/gst-plugins-good.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.18.5"
+REPO ?= "git://gitenterprise.xilinx.com/GStreamer/gst-plugins-good.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.3+git${SRCPV}"
+PV = "1.18.5+git${SRCPV}"
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-
-SRC_URI:remove = " file://gtk-doc-tweaks.patch"
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
-    git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;name=common \
-    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
-    file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
-    file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch \
     file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
 "
 
-SRCREV_base = "197a84a74623f7b3b3a9dee46a465617b5cc3d90"
-SRCREV_common = "f0c2dc9aadfa05bb5274c40da750104ecbb88cba"
+SRCREV_base = "bb03e48ce8fb38bc8bc9c344073dce8249443f3f"
 SRCREV_FORMAT = "base"
 
 S = "${WORKDIR}/git"
-
-do_configure:prepend() {
-        ${S}/autogen.sh --noconfigure
-}

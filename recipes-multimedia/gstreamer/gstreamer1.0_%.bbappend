@@ -1,41 +1,25 @@
-BRANCH ?= "xlnx-rebase-v1.16.3"
-REPO   ?= "git://github.com/Xilinx/gstreamer.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.18.5"
+REPO   ?= "git://gitenterprise.xilinx.com/GStreamer/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.3+git${SRCPV}"
-
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+PV = "1.18.5+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=gstreamer-xlnx \
-    git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
-    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
-    file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
+    file://run-ptest \
     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
-    file://0001-gst-inspect.c-Set-DEFAULT_PAGER-more-instead-of-less.patch \
-    file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
-    file://0003-meson-Add-valgrind-feature.patch \
-    file://0004-meson-Add-option-for-installed-tests.patch \
-    file://0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch \
+    file://0002-Remove-unused-valgrind-detection.patch \
+    file://0003-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch \
+    file://0004-tests-respect-the-idententaion-used-in-meson.patch \
+    file://0005-tests-add-support-for-install-the-tests.patch \
+    file://0006-tests-use-a-dictionaries-for-environment.patch \
+    file://0007-tests-install-the-environment-for-installed_tests.patch \
 "
 
-SRCREV_gstreamer-xlnx = "fa6a504ba990c09b3c3edb12a8dffbf2affb56bd"
-SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
+SRCREV_gstreamer-xlnx = "e483cd3a0894f4d5270cdb80a62baf1df24ccf89"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
 PACKAGECONFIG:append = " tracer-hooks"
 
 S = "${WORKDIR}/git"
-
-do_configure:prepend() {
-        ${S}/autogen.sh --noconfigure
-}
-
-delete_pkg_m4_file() {
-        # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
-        rm "${S}/common/m4/pkg.m4" || true
-        rm -f "${S}/common/m4/gtk-doc.m4"
-}
-
-do_configure[prefuncs] += "delete_pkg_m4_file"

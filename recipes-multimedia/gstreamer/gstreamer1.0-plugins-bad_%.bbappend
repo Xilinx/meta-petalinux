@@ -1,35 +1,23 @@
-BRANCH ?= "xlnx-rebase-v1.16.3"
-REPO ?= "git://github.com/Xilinx/gst-plugins-bad.git;protocol=https"
+BRANCH ?= "xlnx-rebase-v1.18.5"
+REPO ?= "git://gitenterprise.xilinx.com/GStreamer/gst-plugins-bad.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.3+git${SRCPV}"
-
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
-
-SRC_URI:remove = " file://gtk-doc-tweaks.patch"
+PV = "1.18.5+git${SRCPV}"
 
 SRC_URI = " \
     ${REPO};${BRANCHARG};name=base \
-    git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;name=common \
-    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch;patchdir=common \
-    file://0001-gstreamer-use-a-patch-instead-of-sed-to-fix-gtk-doc.patch;patchdir=common \
-    file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
-    file://avoid-including-sys-poll.h-directly.patch \
-    file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
-    file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
-    file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+    file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch \
+    file://0002-avoid-including-sys-poll.h-directly.patch \
+    file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+    file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+    file://0005-msdk-fix-includedir-path.patch \
 "
 
-SRCREV_base = "b271ded6065ec4af58b0ad3a2fdbe22283112991"
-SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
+SRCREV_base = "85ce4141125d35820b8355b92f28418b2c3a63cb"
 SRCREV_FORMAT = "base"
 
 PACKAGECONFIG[mediasrcbin] = "-Dmediasrcbin=enabled,-Dmediasrcbin=disabled,media-ctl"
 PACKAGECONFIG:append = " faac kms faad opusparse mediasrcbin"
 
 S = "${WORKDIR}/git"
-
-do_configure:prepend() {
-        ${S}/autogen.sh --noconfigure
-}

@@ -1,23 +1,21 @@
-BRANCH = "xlnx-rebase-v1.16.3"
-REPO   = "git://github.com/Xilinx/gst-omx.git;protocol=https"
+BRANCH = "xlnx-rebase-v1.18.5"
+REPO   = "git://gitenterprise.xilinx.com/GStreamer/gst-omx.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
-PV = "1.16.3+git${SRCPV}"
+PV = "1.18.5+git${SRCPV}"
 
 SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \
-	git://github.com/GStreamer/common.git;protocol=https;destsuffix=git/common;branch=master;name=common \
-	"
+"
 
-SRCREV_gst-omx = "7a2d3ccee9012b7cfc9bd27f54cf2b221db66bf3"
-SRCREV_common = "88e512ca7197a45c4114f7fa993108f23245bf50"
+SRCREV_gst-omx = "2f70767baefda712a10a9331aaf7aea6cb4f6c65"
 SRCREV_FORMAT = "gst-omx"
 
 S = "${WORKDIR}/git"
 
 
-RDEPENDS:${PN}:append:zynqmp = " libomxil-xlnx"
+RDEPENDS_${PN}:append:zynqmp = " libomxil-xlnx"
 DEPENDS:append:zynqmp = " libomxil-xlnx"
 
 EXTRA_OECONF:append:zynqmp =  " --with-omx-header-path=${STAGING_INCDIR}/vcu-omx-il"
