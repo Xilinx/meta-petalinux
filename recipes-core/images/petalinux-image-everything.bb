@@ -28,11 +28,6 @@ IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp'
 IMAGE_INSTALL:append:ultra96 = "  ultra96-ap-setup ultra96-power-button"
 IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
 
-IMAGE_INSTALL:append:vck-sc = " power-advantage-tool packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
-
-# vpk-sc recipes
-IMAGE_INSTALL:append:vpk-sc = " power-advantage-tool packagegroup-petalinux-syscontroller packagegroup-petalinux-scweb"
-
 IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
 
 KV260_PACKAGES = " \
