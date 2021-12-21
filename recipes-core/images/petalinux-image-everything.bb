@@ -15,11 +15,11 @@ IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization
 IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
-IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
+IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-dp mosquitto"
 #IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks kernel-devsrc kernel-module-hdmi"
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt openamp-demo-notebooks kernel-devsrc"
 
 # ultra96-zynqmp recipes
 #IMAGE_INSTALL:append:ultra96 = " sensors96b-overlays-notebooks "
