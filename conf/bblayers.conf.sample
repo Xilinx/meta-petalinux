@@ -34,6 +34,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-python2 \
     ##OEROOT##/../meta-som \
     ##OEROOT##/../meta-som-apps \
+    ##OEROOT##/../meta-system-controller \
     ##OEROOT##/../meta-security \
     ##OEROOT##/../meta-security/meta-tpm \
 "
