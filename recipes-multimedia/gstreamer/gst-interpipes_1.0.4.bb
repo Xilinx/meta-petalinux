@@ -6,7 +6,7 @@ LICENSE = "LGPL2.1"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=3191ae9476980e87e3494d2d8ebe4584"
 
-inherit autotools pkgconfig gettext
+inherit autotools pkgconfig gettext gtk-doc
 
 DEPENDS += "gstreamer1.0 gstreamer1.0-plugins-base"
 
