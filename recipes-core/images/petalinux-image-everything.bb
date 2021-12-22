@@ -17,7 +17,7 @@ IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
 IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-dp mosquitto"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
-#IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
+IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
 IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc"

@@ -1,0 +1,32 @@
+From a46dc0a256ebb0e8343023e10a2ad9ba4ef1f859 Mon Sep 17 00:00:00 2001
+From: Jaewon Lee <jaewon.lee@xilinx.com>
+Date: Tue, 27 Apr 2021 14:59:48 -0700
+Subject: [PATCH] gstpythonplugin.c: Specifying Major and Minor version of
+ libpython
+
+Currently python library path is set to the .so file not the versioned
+version which is a bug as the .so softlink is only populated for dev
+packages. Explicitly specifying Major and Minor version of libpython as
+a workaround
+
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+---
+ plugin/gstpythonplugin.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugin/gstpythonplugin.c b/plugin/gstpythonplugin.c
+index b9abafe..d9b02b0 100644
+--- a/plugin/gstpythonplugin.c
++++ b/plugin/gstpythonplugin.c
+@@ -230,7 +230,7 @@ plugin_init (GstPlugin * plugin)
+     GST_LOG ("libpython is already loaded");
+   } else {
+     const gchar *libpython_path =
+-        PY_LIB_LOC "/libpython" PYTHON_VERSION PY_ABI_FLAGS "." PY_LIB_SUFFIX;
++        PY_LIB_LOC "/libpython" PYTHON_VERSION PY_ABI_FLAGS "." PY_LIB_SUFFIX ".1.0";
+     GST_LOG ("loading libpython from '%s'", libpython_path);
+     libpython = g_module_open (libpython_path, 0);
+     if (!libpython) {
+-- 
+2.29.0
+
