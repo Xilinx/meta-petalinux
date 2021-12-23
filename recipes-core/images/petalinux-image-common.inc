@@ -1,6 +1,6 @@
 inherit core-image
 
-IMAGE_AUTOLOGIN ?= "1"
+IMAGE_AUTOLOGIN ?= "0"
 
 AUTOLOGIN = "${@ 'autologin' if d.getVar('IMAGE_AUTOLOGIN') == '1' else '' }"
 
