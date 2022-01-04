@@ -243,9 +243,6 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 PMU_FIRMWARE_DEPLOY_DIR ??= "${DEPLOY_DIR_IMAGE}"
 PMU_FIRMWARE_IMAGE_NAME ??= "pmu-firmware-${MACHINE}"
 
-#Enable the below line to use pmu-rom.elf from a specific path
-#PMU_ROM = "/proj/yocto/pmu-rom/pmu-rom.elf"
-
 # Add alternative mirrors for some components
 INHERIT+="plnx-mirrors"
 
