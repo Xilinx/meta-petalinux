@@ -1,0 +1,8 @@
+[Unit]
+Description=ospi-versal
+
+[Service]
+ExecStart=/usr/bin/ospi-versal.sh
+
+[Install]
+WantedBy=multi-user.target
