@@ -1,0 +1,8 @@
+[Unit]
+Description=archconfig
+
+[Service]
+ExecStart=/usr/bin/archconfig.sh
+
+[Install]
+WantedBy=multi-user.target
