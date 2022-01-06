@@ -1,0 +1,9 @@
+[Unit]
+Description=resize-partition
+
+[Service]
+ExecStart=/usr/bin/resize-partition.sh
+StandardOutput=journal+console
+
+[Install]
+WantedBy=multi-user.target
