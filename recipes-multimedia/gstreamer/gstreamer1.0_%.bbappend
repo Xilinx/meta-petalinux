@@ -1,5 +1,5 @@
 BRANCH ?= "xlnx-rebase-v1.18.5"
-REPO   ?= "git://gitenterprise.xilinx.com/GStreamer/gstreamer.git;protocol=https"
+REPO   ?= "git://github.com/Xilinx/gstreamer.git;protocol=https"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
 
