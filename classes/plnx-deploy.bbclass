@@ -163,6 +163,12 @@ python plnx_deploy() {
             if dtbo_file != 'pl.dtbo' and dtbo_file != 'pl-final.dtbo':
                d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtbo_file + ':/dtbos/' + dtbo_file)
 
+    if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
+        dtb_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtb')]
+        for dtb_file in dtb_files:
+            if dtb_file != 'system-top.dtb':
+               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtb_file + ':/' + dtb_file)
+
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
         input, output = package_bin.split(':')
