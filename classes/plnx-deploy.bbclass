@@ -40,6 +40,7 @@ PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
+EXTRA_FILESLIST:zynqmp ?= "${DEPLOY_DIR_IMAGE}/pmu-rom.elf:pmu_rom_qemu_sha3.elf"
 PACKAGE_DTB_NAME ?= ""
 PACKAGE_UBOOT_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
