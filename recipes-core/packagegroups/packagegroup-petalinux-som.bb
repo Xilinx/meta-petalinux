@@ -4,9 +4,6 @@ PACKAGE_ARCH:k26 = "k26"
 
 inherit packagegroup
 
-DEFAULT_FW_PACKAGE ?= ""
-DEFAULT_FW_PACKAGE:k26 = "kv260-dp"
-
 SOM_PACKAGES = " \
         accelize-repo \
         packagegroup-core-full-cmdline \
@@ -28,7 +25,6 @@ SOM_PACKAGES = " \
         tzdata \
         xmutil \
 	som-dashboard \
-	${DEFAULT_FW_PACKAGE} \
 	"
 
 RDEPENDS:${PN} = "${SOM_PACKAGES}"
