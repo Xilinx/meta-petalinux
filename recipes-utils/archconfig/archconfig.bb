@@ -13,8 +13,8 @@ SRC_URI = "file://archconfig.sh \
 "
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="archconfig.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="archconfig.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 
 
