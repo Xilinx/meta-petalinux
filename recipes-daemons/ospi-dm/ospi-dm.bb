@@ -17,8 +17,8 @@ INITSCRIPT_NAME = "ov-start.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
 
 SYSTEMD_PACKAGES="${PN}"
-SYSTEMD_SERVICE_${PN}="ov-start.service"
-SYSTEMD_AUTO_ENABLE_${PN}="enable"
+SYSTEMD_SERVICE:${PN}="ov-start.service"
+SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 do_install() {
 	install -d ${D}${bindir}/
