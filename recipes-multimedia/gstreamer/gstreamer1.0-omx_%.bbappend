@@ -15,7 +15,7 @@ SRCREV_FORMAT = "gst-omx"
 S = "${WORKDIR}/git"
 
 
-RDEPENDS_${PN}:append:zynqmp = " libomxil-xlnx"
+RDEPENDS:${PN}:append:zynqmp = " libomxil-xlnx"
 DEPENDS:append:zynqmp = " libomxil-xlnx"
 
 EXTRA_OECONF:append:zynqmp =  " --with-omx-header-path=${STAGING_INCDIR}/vcu-omx-il"
