@@ -47,7 +47,7 @@ PACKAGE_FITIMG_NAME ?= ""
 
 UBOOT_IMAGES ?= "u-boot-nodtb.bin:u-boot.bin u-boot-nodtb.elf:u-boot.elf \
 		u-boot.elf:u-boot-dtb.elf u-boot.bin:u-boot-dtb.bin \
-		u-boot-s.bin:u-boot-s.bin"
+		u-boot-s.bin:u-boot-s.bin fit-dtb.blob:fit-dtb.blob"
 UBOOT_IMAGES:microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 			   u-boot-s.bin:u-boot-s.bin"
 
