@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://../../LICENSE;md5=268f2517fdae6d70f4ea4c55c4090aa8"
 
 inherit jupyter-examples
 
-SRC_URI = "git://github.com/Xilinx/platform-management-notebooks.git;branch=xlnx_rel_v2021.2;protocol=https \
+SRC_URI = "git://github.com/Xilinx/platform-management-notebooks.git;branch=master;protocol=https \
            file://LICENSE \
            "
 
-SRCREV = "1a19aea2d47e681f3b85c4a74e8cbfc4c30acfa4"
+SRCREV = "74693121d9dbc72d5e8290805708b64d37042d79"
 
 S = "${WORKDIR}/git/pm-notebooks"
 
