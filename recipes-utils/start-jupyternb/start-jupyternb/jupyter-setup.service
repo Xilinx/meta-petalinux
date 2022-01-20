@@ -5,4 +5,4 @@ Description=jupyter setup scripts
 ExecStart=/sbin/start-jupyter.sh
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

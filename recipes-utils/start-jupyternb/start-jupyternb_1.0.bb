@@ -29,7 +29,7 @@ SYSTEMD_AUTO_ENABLE:${PN}="enable"
 
 S = "${WORKDIR}"
 
-FILES:${PN} += "${base_sbindir}"
+FILES:${PN} += "${base_sbindir} ${systemd_user_unitdir}"
 
 do_install() {
 
@@ -40,6 +40,9 @@ do_install() {
 
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/jupyter-setup.service ${D}${systemd_system_unitdir}
+
+    install -d ${D}${systemd_user_unitdir}
+    install -m 0644 ${WORKDIR}/jupyter-setup.service ${D}${systemd_user_unitdir}
 
     install -d ${D}${base_sbindir}
     install -m 0755 ${WORKDIR}/start-jupyter.sh ${D}${base_sbindir}/start-jupyter.sh
