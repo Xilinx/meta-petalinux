@@ -22,19 +22,20 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 #**********************************************************************
-echo "netip is " > /var/log/jupyter.log net_ip=$(ip route | grep src | awk '{print $NF; exit}') echo $net_ip >> /var/log/jupyter.log
+
+net_ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
+echo "netip is $net_ip"
 
 i=0
 while [ -z "$net_ip" ] || ! [[ "$net_ip" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
 do
-        echo "CONNECTING... $i seconds" >> /var/log/jupyter.log
-        net_ip=$(ip route | grep src | awk '{print $NF; exit}')
-        echo "netip is " >> /var/log/jupyter.log
-        echo $net_ip >> /var/log/jupyter.log
+        echo "CONNECTING... $i seconds"
+        net_ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
+        echo "netip is $net_ip"
         sleep 2
         i=$(( $i + 2 ))
 done
 
 jupyter nbextension enable --py widgetsnbextension
 notebook_args="--no-browser --allow-root --ip=$net_ip"
-jupyter notebook $notebook_args >> /var/log/jupyter.log
+jupyter notebook $notebook_args
