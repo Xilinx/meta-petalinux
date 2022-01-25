@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux OpenAMP supported packages"
 
+PACKAGE_ARCH:k26 = "k26"
+
 inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "openamp"
@@ -11,20 +13,14 @@ PACKAGES = "\
 	packagegroup-petalinux-openamp \
 	"
 
-RDEPENDS:packagegroup-petalinux-openamp-echo-test = "\
-	rpmsg-echo-test \
-	openamp-fw-echo-testd \
-	"
+RDEPENDS:${PN}-echo-test = "rpmsg-echo-test"
+RDEPENDS:${PN}-echo-test:append:k26 = " openamp-fw-echo-testd"
 
-RDEPENDS:packagegroup-petalinux-openamp-matrix-mul = "\
-	rpmsg-mat-mul \
-	openamp-fw-mat-muld \
-	"
+RDEPENDS:${PN}-matrix-mul = "rpmsg-mat-mul"
+RDEPENDS:${PN}-matrix-mul:append:k26 = " openamp-fw-mat-muld"
 
-RDEPENDS:packagegroup-petalinux-openamp-rpc-demo = "\
-	rpmsg-proxy-app \
-	openamp-fw-rpc-demo \
-	"
+RDEPENDS:${PN}-rpc-demo = "rpmsg-proxy-app"
+RDEPENDS:${PN}-rpc-demo:append:k26 = " openamp-fw-rpc-demo"
 
 RDEPENDS:${PN}:append = " \
 	libmetal \
