@@ -4,7 +4,7 @@ SUMMARY = "Webapp that provides support for Ultra96 devices"
 LICENSE = "Proprietary"
 LIC_FILES_CHKSUM = "file://LICENSE.md;md5=7b4e2c1c8ac64078f34f4eef8d3b4f46"
 
-SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https;branch=xlnx_rel_v2021.2 \
+SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https;branch=master \
 	   file://ultra96-startup-page.sh \
 	   file://ultra96-startup-page.service \
 	   file://ultra96-startup-commands.sh \
