@@ -22,6 +22,8 @@ SRCREV = "bc6675a8c492f17c12b6acdc477343b874a1f217"
 
 S = "${WORKDIR}/git"
 
+ALLOW_EMPTY:${PN} = "1"
+
 FILES:${PN}-notebooks += " \
     ${PYTHON_SITEPACKAGES_DIR}/pynq/overlays/sensors96b/ \
 "
