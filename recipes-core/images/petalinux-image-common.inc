@@ -12,6 +12,10 @@ COMMON_FEATURES = " \
     "
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
+SYSTEMD_DEFAULT_TARGET = "${@bb.utils.contains_any('IMAGE_INSTALL', \
+    [ 'packagegroup-petalinux-x11', 'packagegroup-petalinux-weston' ], \
+    'graphical.target', 'multi-user.target', d)}"
+
 COMMON_INSTALL = " \
     tcf-agent \
     mtd-utils \
