@@ -1,6 +1,6 @@
 DESCRIPTION = "PetaLinux OpenAMP supported packages"
 
-PACKAGE_ARCH:k26 = "k26"
+PACKAGE_ARCH:k26 = "${MACHINE_ARCH}"
 
 inherit packagegroup features_check
 
