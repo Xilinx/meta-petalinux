@@ -15,7 +15,7 @@ IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization
 IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
-IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson packagegroup-petalinux-som kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
+IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
@@ -29,6 +29,9 @@ IMAGE_INSTALL:append:ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-
 IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
 
 IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline"
+
+# k26 recipes
+IMAGE_INSTALL:append:k26 = " packagegroup-petalinux-som"
 
 KV260_PACKAGES = " \
 	packagegroup-kv260-aibox-reid \
