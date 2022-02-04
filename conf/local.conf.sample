@@ -208,7 +208,7 @@ BB_DISKMON_DIRS ??= "\
 
 # Uncomment below lines to provide path for custom xsct trim
 #
-#EXTERNAL_XSCT_TARBALL = "/proj/yocto/xsct-trim/2022.1_xsct_daily_latest"
+#EXTERNAL_XSCT_TARBALL = "/proj/yocto/xsct-trim/2022.2_xsct_daily_latest"
 #VALIDATE_XSCT_CHECKSUM = '0'
 
 #
