@@ -47,7 +47,7 @@ class common_vcu_demo_decode_display:
         	CMD_LINE_ARGS.append(AUDIO_CODEC)
         if(DISPLAY_DEVICE == 'DP'):
             CMD_LINE_ARGS.append('-d')
-            DISPLAY_DEVICE = 'fd4a0000.zynqmp-display'
+            DISPLAY_DEVICE = 'fd4a0000.display'
             CMD_LINE_ARGS.append(DISPLAY_DEVICE)
         elif(DISPLAY_DEVICE == 'HDMI'):
             CMD_LINE_ARGS.append('-d')
@@ -148,7 +148,7 @@ class common_vcu_demo_camera_decode_display:
         	CMD_LINE_ARGS.append(AUDIO_CODEC)
         if(DISPLAY_DEVICE == 'DP'):
             CMD_LINE_ARGS.append('-d')
-            DISPLAY_DEVICE = 'fd4a0000.zynqmp-display'
+            DISPLAY_DEVICE = 'fd4a0000.display'
             CMD_LINE_ARGS.append(DISPLAY_DEVICE)
         elif(DISPLAY_DEVICE == 'HDMI'):
             CMD_LINE_ARGS.append('-d')
@@ -206,7 +206,7 @@ class common_vcu_demo_camera_encode_decode_display:
         	CMD_LINE_ARGS.append(AUDIO_CODEC)
         if(DISPLAY_DEVICE == 'DP'):
             CMD_LINE_ARGS.append('-d')
-            DISPLAY_DEVICE = 'fd4a0000.zynqmp-display'
+            DISPLAY_DEVICE = 'fd4a0000.display'
             CMD_LINE_ARGS.append(DISPLAY_DEVICE)
         elif(DISPLAY_DEVICE == 'HDMI'):
             CMD_LINE_ARGS.append('-d')
@@ -312,7 +312,7 @@ class common_vcu_demo_streamin_decode_display:
         	CMD_LINE_ARGS.append(AUDIO_CODEC)
         if(DISPLAY_DEVICE == 'DP'):
             CMD_LINE_ARGS.append('-d')
-            DISPLAY_DEVICE = 'fd4a0000.zynqmp-display'
+            DISPLAY_DEVICE = 'fd4a0000.display'
             CMD_LINE_ARGS.append(DISPLAY_DEVICE)
         elif(DISPLAY_DEVICE == 'HDMI'):
             CMD_LINE_ARGS.append('-d')
