@@ -25,5 +25,7 @@ set_sudoers () {
 		setting=`echo $remaining | cut -d ';' -f1`
 		remaining=`echo $remaining | cut -d ';' -f2-`
 	done
-	eval "$PSEUDO chmod 0440 \"${IMAGE_ROOTFS}\"/etc/sudoers.d/99-petalinux"
+	if [ -f "${IMAGE_ROOTFS}/etc/sudoers.d/99-petalinux" ]; then
+		eval "$PSEUDO chmod 0440 \"${IMAGE_ROOTFS}\"/etc/sudoers.d/99-petalinux"
+	fi
 }
