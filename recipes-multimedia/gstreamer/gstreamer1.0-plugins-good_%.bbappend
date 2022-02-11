@@ -10,7 +10,7 @@ SRC_URI = " \
     file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
 "
 
-SRCREV_base = "bb03e48ce8fb38bc8bc9c344073dce8249443f3f"
+SRCREV_base = "67c3a591d1db2f7df6626255454c76870d7a9bd0"
 SRCREV_FORMAT = "base"
 
 S = "${WORKDIR}/git"
