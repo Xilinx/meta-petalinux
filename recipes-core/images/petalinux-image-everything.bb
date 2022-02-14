@@ -41,3 +41,6 @@ KV260_PACKAGES = " \
 	kv260-dpu-benchmark \
 	"
 #IMAGE_INSTALL:append:k26-kv = " ${KV260_PACKAGES}"
+
+# Install tsn packages
+IMAGE_INSTALL:append:zynqmp = " packagegroup-petalinux-tsn"
