@@ -37,6 +37,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-system-controller \
     ##OEROOT##/../meta-security \
     ##OEROOT##/../meta-security/meta-tpm \
+    ##OEROOT##/../meta-xilinx-tsn \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
