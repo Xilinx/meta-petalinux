@@ -7,7 +7,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 SOM_PACKAGES = " \
-        accelize-repo \
         packagegroup-core-full-cmdline \
         packagegroup-core-tools-debug \
         packagegroup-core-ssh-dropbear \
