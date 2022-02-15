@@ -6,7 +6,7 @@ REPO ?= "git://github.com/Xilinx/runx.git;protocol=https;"
 BRANCH ?= "xlnx_rebase_1.1"
 REPO_BRANCH ??= "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}" 
 
-SRCREV_runx ?= "14392b348a0503c98302bd924d5f0a4dc951841f"
+SRCREV_runx ?= "0c7edb3453398d7a0c594ce026c9c1e93c2541cc"
 FILESEXTRAPATHS:prepend := "${THISDIR}/runx:"
 
 SRC_URI = "\
