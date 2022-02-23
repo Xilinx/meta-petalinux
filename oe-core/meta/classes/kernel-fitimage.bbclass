@@ -1,3 +1,22 @@
+# Copy and modification of oe-core/meta/classes/kernel-fitimage.bbclass from honister
+# Modified to adjust the order to dtb and dtbo files.  dtb files must
+# be before the dtbo files, otherwise the overlays may not be applied
+# correctly.
+#
+# From Bruce Ashfield:
+#
+#  We can split between dtbs and dtbos, they just need to be sorted
+#  for reproducibility reasons. Two loops versus one, would be
+#  fine, with not too much duplicated code.
+#
+#  Of course, this was only working by luck previously (before the
+#  sort), since it has always been gathering dtbs and dtbo's with
+#  find, depending on filesystem ordering for the order in the
+#  fitimage).
+#
+#  Since it is a bbclass, we can't just append a short term fix
+#  (we'd have to copy the full class and modify).
+
 inherit kernel-uboot kernel-artifact-names uboot-sign
 
 KERNEL_IMAGETYPE_REPLACEMENT = ""
@@ -542,7 +561,12 @@ fitimage_assemble() {
 
 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
 		dtbcount=1
-		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
+		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtb' -printf '%P\n' | sort); do
+			DTB=$(echo "${DTB}" | tr '/' '_')
+			DTBS="${DTBS} ${DTB}"
+			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
+		done
+		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" -name '*.dtbo' -printf '%P\n' | sort); do
 			DTB=$(echo "${DTB}" | tr '/' '_')
 			DTBS="${DTBS} ${DTB}"
 			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
