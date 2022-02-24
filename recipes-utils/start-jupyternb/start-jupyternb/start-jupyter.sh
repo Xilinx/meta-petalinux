@@ -23,19 +23,12 @@
 #
 #**********************************************************************
 
-net_ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
-echo "netip is $net_ip"
 
-i=0
-while [ -z "$net_ip" ] || ! [[ "$net_ip" =~ ^(([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))\.){3}([1-9]?[0-9]|1[0-9][0-9]|2([0-4][0-9]|5[0-5]))$ ]]
-do
-        echo "CONNECTING... $i seconds"
-        net_ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
-        echo "netip is $net_ip"
-        sleep 2
-        i=$(( $i + 2 ))
-done
-
+ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
+if [ -z $ip ]; then
+    echo "ERROR: Invalid IP address"
+    exit 1
+fi
 jupyter nbextension enable --py widgetsnbextension
-notebook_args="--no-browser --allow-root --ip=$net_ip"
-jupyter notebook $notebook_args
+jupyter notebook --no-browser --allow-root --ip=$ip
+

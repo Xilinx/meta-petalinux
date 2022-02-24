@@ -23,21 +23,9 @@
 #
 #**********************************************************************
 
-ip=""
-
-echo -n "waiting for IP address."
-
-for i in {1..20}
-do
-    echo -n "."
-    ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
-    [ ! -z "$ip" ] && break
-    sleep 2
-done
-
+ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
 if [ -z $ip ]; then
-    echo " TIMEOUT"
+    echo "ERROR: Invalid IP address"
     exit 1
 fi
-
 jupyter-lab --no-browser --allow-root --ip=$ip

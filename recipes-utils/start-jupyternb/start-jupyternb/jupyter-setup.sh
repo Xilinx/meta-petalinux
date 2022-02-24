@@ -18,6 +18,24 @@ pid_file="/var/run/$name.pid"
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
 
+wait_for_ip() {
+    echo -n "Waiting for IP address..."
+
+    for i in {1..20}
+    do
+        echo -n "."
+        ip=$(ip -4 addr show eth0 | grep -oE "inet ([0-9]{1,3}[\.]){3}[0-9]{1,3}" | cut -d ' ' -f2)
+        [ ! -z "$ip" ] && break
+        sleep 2
+    done
+
+    if [ -z $ip ]; then
+        echo " TIMEOUT"
+    else
+        echo " SUCCESS"
+    fi
+}
+
 get_pid() {
     cat "$pid_file"
 }
@@ -33,6 +51,7 @@ case "$1" in
     else
         echo "Starting $name"
         cd "$dir"
+        wait_for_ip
         $cmd &
         echo $! > "$pid_file"
         if ! is_running; then
