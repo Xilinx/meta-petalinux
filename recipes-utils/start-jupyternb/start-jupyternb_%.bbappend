@@ -31,6 +31,9 @@ do_install:ultra96() {
     install -d ${D}${systemd_system_unitdir}
     install -m 0644 ${WORKDIR}/jupyter-setup-ultra96.service ${D}${systemd_system_unitdir}
 
+    install -d ${D}${systemd_user_unitdir}
+    install -m 0644 ${WORKDIR}/jupyter-setup-ultra96.service ${D}${systemd_user_unitdir}
+
     install -d ${D}${base_sbindir}
     install -m 0755 ${WORKDIR}/start-jupyter-ultra96.sh ${D}${base_sbindir}/start-jupyter.sh
     sed -i -e 's|PLACEHOLDER|${BOARD_NAME}|g' ${D}${base_sbindir}/start-jupyter.sh
