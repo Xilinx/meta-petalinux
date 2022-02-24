@@ -1,5 +1,7 @@
 [Unit]
 Description=jupyter setup scripts
+Requires=network-online.target
+After=network-online.target
 
 [Service]
 Environment="BOARD=Ultra96"
