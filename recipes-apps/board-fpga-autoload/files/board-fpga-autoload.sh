@@ -6,6 +6,12 @@ if [ ! -z $dev_eeprom ] && [ -f $dev_eeprom ]; then
 	board_rev=$(dd if=$dev_eeprom bs=1 count=3 skip=224 2>/dev/null)
 
 	echo board_name:$board_name - board_rev:$board_rev
+
+	fixed_rev=2.0
+	var=$(awk 'BEGIN{ print "'$fixed_rev'"<"'$board_rev'" }')
+	if [ "$var" -eq 1 ];then
+		board_rev=2.0 # later than 2.0 board revisions are supported in 2.0 bit and dtbo files
+	fi
 	BD_DTPATH="/lib/firmware/xilinx/${board_name}_${board_rev}"
 	if [ -d ${BD_DTPATH} ];then
 		BIN="$(find ${BD_DTPATH}/ -name *.bin | head -1)"
