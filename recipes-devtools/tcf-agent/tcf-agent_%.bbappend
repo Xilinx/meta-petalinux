@@ -6,12 +6,12 @@ SRC_URI = "git://git.eclipse.org/r/tcf/org.eclipse.tcf.agent.git;protocol=https 
            file://tcf-agent.service \
           "
 
-# TCF Agent: fixed error when building with c++-11
+# TCF Agent: fixed handling of line info file names in DWARF 5
 CFLAGS:append:aarch64 = " -DENABLE_SSL=0 -DUSE_uuid_generate=1 -DENABLE_HardwareBreakpoints=0"
 CFLAGS:append:armv7a  = " -DENABLE_HardwareBreakpoints=0"
 CFLAGS:append:microblaze = " -DENABLE_SSL=0 -DUSE_uuid_generate=0"
 
-SRCREV = "a199cc0e59f7edb5f2f38eceb2c7feb1073cce3b"
+SRCREV = "b6b35195cd59a4ae54858863114dc5b4dabd93ca"
 
 
 MAKE_ARCH:microblaze = "microblaze"
