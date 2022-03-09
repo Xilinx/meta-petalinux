@@ -36,9 +36,8 @@ do_expand_rootfs() {
     local root_part=$2
     local part_num=$3
 
-    if [[ `mount | grep ${root_part}` ]]
-    then 
-        echo -e "yes\n100%"|parted ${target} ---pretend-input-tty resizepart ${part_num}
+    if [[ `mount | grep ${root_part}` ]]; then
+        echo -e "Yes" | parted ${target} ---pretend-input-tty resizepart ${part_num} 100%
     else 
         parted ${target} resizepart ${part_num} 100%
     fi
@@ -54,8 +53,13 @@ do_check_media() {
     do_expand_rootfs $ROOT_DEV $ROOT_PART $PART_NUM
 }
 
-if [ "$#" -eq 0 ] ; then
-        echo "Pass the SD card partition as argument to expand"
+if [ "$EUID" -ne 0 ]; then
+    echo "Note: Run as sudo or root user"
+    exit
+fi
+
+if [ "$#" -eq 0 ]; then
+    echo "Pass the SD card partition as argument to expand"
 else
-        do_check_media && resize2fs $ROOT_PART
+    do_check_media && resize2fs $ROOT_PART
 fi
