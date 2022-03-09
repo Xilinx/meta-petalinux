@@ -13,7 +13,7 @@ SRC_URI = " \
     file://0004-glimagesink-Downrank-to-marginal.patch \
 "
 
-SRCREV_base = "c1c32a059636b1a82d56b6e26fb427a903096cf5"
+SRCREV_base = "ce156424eb9cbb66dc1aa446c4be6372d3ff5792"
 SRCREV_FORMAT = "base"
 
 PACKAGECONFIG:append = " opus"
