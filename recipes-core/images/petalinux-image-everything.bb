@@ -12,6 +12,9 @@ DEPENDS:append:versal = " libeigen"
 # but also want docker-compose to be available.  Use same switch method.
 IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', ' python3-docker-compose', '', d)}"
 
+# Add ltp package
+IMAGE_INSTALL:append = " ltp"
+
 IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
