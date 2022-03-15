@@ -2,9 +2,10 @@
 #
 # Expand the sd card partition to 100% from unpartitioned space.
 #
-# Usage: resize-part "/dev/mmcblk0p2"
+# Usage: resize-part "/dev/mmcblk0p2" or resize-part "/dev/mmcblk0" "p2"
+# or resize-part "/dev/sda" "2"
 #
-# Copyright 2019 Xilinx Inc.
+# Copyright 2019-2022 Xilinx Inc.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +26,18 @@
 # THE SOFTWARE.
 #
 
-ROOT_PART=$1
-ROOT_DEV=$(echo $ROOT_PART | cut -c 1-12)
-PART_NUM=$(echo -n $ROOT_PART | tail -c 1)
+if [ "$#" -eq 2 ]; then
+        ROOT_DEV=$1
+        PART_NUM=$2
+        ROOT_PART=$ROOT_DEV$PART_NUM
+        if [ ${#PART_NUM} -eq 2 ]; then
+                PART_NUM=$(echo -n $PART_NUM | tail -c 1)
+        fi
+else
+        ROOT_PART=$1
+        ROOT_DEV=$(echo $ROOT_PART | cut -c 1-12)
+        PART_NUM=$(echo -n $ROOT_PART | tail -c 1)
+fi
 
 #back up data before extend partition, otherwise data might be lost
 do_expand_rootfs() {
