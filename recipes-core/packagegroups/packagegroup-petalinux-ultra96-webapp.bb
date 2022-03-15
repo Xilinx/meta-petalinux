@@ -12,9 +12,6 @@ ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	python3-jinja2 \
 	python3-markupsafe \
 	python3-itsdangerous \
-	connman \
-	connman-client \
-	connman-tools \
 	"
 
 ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96 = " ultra96-ap-setup ultra96-startup-pages"

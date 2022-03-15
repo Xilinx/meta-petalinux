@@ -10,12 +10,11 @@ SRC_URI = "git://github.com/Xilinx/ultra96-startup-pages.git;protocol=https;bran
 	   file://ultra96-startup-commands.sh \
 	   file://launch-ultra96-startup-page.desktop \
 	   file://launch-ultra96-startup-page.sh \
-	   file://connman_settings \
 "
 inherit update-rc.d systemd
 
 DEPENDS += "rsync-native"
-RDEPENDS:${PN} = "ace-cloud-editor chromium-x11 python3-itsdangerous python3-markupsafe python3-jinja2 python3-werkzeug python3-flask bash connman connman-client connman-tools"
+RDEPENDS:${PN} = "ace-cloud-editor chromium-x11 python3-itsdangerous python3-markupsafe python3-jinja2 python3-werkzeug python3-flask bash"
 
 INITSCRIPT_NAME = "ultra96-startup-page.sh"
 INITSCRIPT_PARAMS = "start 99 S ."
@@ -28,7 +27,7 @@ PV = "1.0+git${SRCPV}"
 SRCREV = "276b6efd462fc14f22dcea1af4c51cc3d31d1c95"
 
 FILES:${PN} += "${datadir}/ultra96-startup-pages"
-FILES:${PN} += "${base_sbindir}/ /var/lib/connman/"
+FILES:${PN} += "${base_sbindir}/"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
@@ -44,9 +43,6 @@ do_install () {
     install -d ${D}${base_sbindir}/
     install -m 0755 ${WORKDIR}/launch-ultra96-startup-page.sh ${D}${base_sbindir}/launch-ultra96-startup-page.sh
     install -m 0755 ${WORKDIR}/launch-ultra96-startup-page.desktop ${D}${base_sbindir}/launch-ultra96-startup-page.desktop
-
-    install -d ${D}/var/lib/connman
-    install -m 0755 ${WORKDIR}/connman_settings ${D}/var/lib/connman/settings
 
     install -d ${D}${bindir}
     install -m 0755 ${WORKDIR}/ultra96-startup-commands.sh ${D}${bindir}
