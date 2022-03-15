@@ -110,17 +110,12 @@ FEATURE_PACKAGES_petalinux-pynq-helloworld[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-scweb ?= "packagegroup-petalinux-scweb"
 FEATURE_PACKAGES_petalinux-scweb[optional] ?= "1"
 
-#FEATURE_PACKAGES_petalinux-vitisai ?= "packagegroup-petalinux-vitisai"
-#FEATURE_PACKAGES_petalinux-vitisai[optional] ?= "1"
-
 FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainers"
 FEATURE_PACKAGES_petalinux-ocicontainers[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-som ?= "packagegroup-petalinux-som"
 FEATURE_PACKAGES_petalinux-som[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-tpm ?= "packagegroup-petalinux-tpm"
 FEATURE_PACKAGES_petalinux-tpm[optional] ?= "1"
-FEATURE_PACKAGES_petalinux-vvas ?= "packagegroup-petalinux-vvas"
-FEATURE_PACKAGES_petalinux-vvas[optional] ?= "1"
 
 FEATURE_PACKAGES_petalinux-tsn ?= "packagegroup-petalinux-tsn"
 FEATURE_PACKAGES_petalinux-tsn[optional] ?= "1"

@@ -47,16 +47,14 @@ PLNX_COMMON_FEATURES:append:aarch64 = " \
 
 ZYNQ_FEATURES = ""
 
-ZYNQMP_FEATURES = " \
-    "
+ZYNQMP_FEATURES = ""
 
 ULTRA96_FEATURES = " \
     petalinux-96boards-sensors \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-ultra96-webapp', '', d)} \ 
     "
 
-VERSAL_FEATURES = " \
-    "
+VERSAL_FEATURES = ""
 
 IMAGE_FEATURES:append:zynq = " ${PLNX_COMMON_FEATURES} ${ZYNQ_FEATURES}"
 
