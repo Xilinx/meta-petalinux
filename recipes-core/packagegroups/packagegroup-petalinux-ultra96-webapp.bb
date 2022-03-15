@@ -14,7 +14,11 @@ ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	python3-itsdangerous \
 	"
 
-ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96 = " ultra96-ap-setup ultra96-startup-pages"
+ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96 = " \
+	ultra96-ap-setup \
+	ultra96-startup-pages \
+	ultra96-wlan0-config \
+	"
 
 RDEPENDS:${PN} = "${ULTRA96_STARTUP_PAGES_PACKAGES}"
 
