@@ -1,6 +1,6 @@
 DESCRIPTION = "Required packages for ultra96 startup pages"
 
-inherit packagegroup
+inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
 
