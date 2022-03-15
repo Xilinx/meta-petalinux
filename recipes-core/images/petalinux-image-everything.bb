@@ -3,7 +3,19 @@ LICENSE = "MIT"
 
 require petalinux-image-full.inc
 
-DEPENDS:append = " protobuf-native libeigen-native python3-setuptools-native"
+# Native dependencies we want to make sure we can build
+DEPENDS:append = " \
+	protobuf-native \
+	libeigen-native \
+	python3-setuptools-native \
+	unfs3-native \
+"
+
+# Nativesdk dependencies we want to make sure we can build
+DEPENDS:append = " \
+	nativesdk-unfs3 \
+"
+
 DEPENDS:append:zynq   = " libeigen"
 DEPENDS:append:zynqmp = " libeigen"
 DEPENDS:append:versal = " libeigen"
