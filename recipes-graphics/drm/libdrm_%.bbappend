@@ -7,4 +7,5 @@ SRC_URI:append = " \
 	file://0003-modetest-Add-semiplanar-10bit-pattern-support-for-mo.patch \
 	file://0004-modetest-fix-smpte-colour-pattern-issue-for-XV20-and.patch \
 	file://0001-modetest-Add-YUV444-and-X403-format-support-for-mode.patch \
+	file://0001-headers-Sync-with-HDR-from-v5.15.patch \
 "
