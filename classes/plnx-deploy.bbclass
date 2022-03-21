@@ -37,6 +37,11 @@ PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 		fs-boot \
 		mb-realoc \
 		"
+SYMLINK_PACKAGES ?= ""
+SYMLINK_PACKAGES:vck190 ?= "device-tree"
+SYMLINK_PACKAGES:vmk180 ?= "device-tree"
+
+SYMLINK_PACKAGES[device-tree] ?= "system-default.dtb:system.dtb"
 
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
@@ -147,6 +152,18 @@ def copy_files(inputfile,outputfile):
        else:
            shutil.copy2(inputfile,outputfile)
 
+def create_symlink(inputfile,symlinkfile):
+   import shutil
+   import os
+   if os.path.exists(inputfile):
+       if os.path.exists(symlinkfile):
+           if os.path.isfile(symlinkfile) or os.path.islink(symlinkfile):
+               os.remove(symlinkfile)
+       fd = os.open(os.path.dirname(inputfile), os.O_RDONLY)
+       bb.note("Creating symlink: %s -> %s" % (inputfile, symlinkfile))
+       os.symlink(os.path.basename(inputfile),os.path.basename(symlinkfile),dir_fd=fd)
+       os.close(fd)
+
 plnx_deploy[dirs] ?= "${PLNX_DEPLOY_DIR}"
 python plnx_deploy() {
     pn = d.getVar('PN')
@@ -176,6 +193,15 @@ python plnx_deploy() {
         inputfile = deploy_dir + '/' + input
         outputfile = output_path + '/' + output
         copy_files(inputfile,outputfile)
+
+    symlinkpkgs = (d.getVar('SYMLINK_PACKAGES', True) or "").split()
+    symlinkpkgflags = d.getVarFlags('SYMLINK_PACKAGES') or {}
+    if pn in symlinkpkgs:
+        for package in symlinkpkgflags[pn].split():
+            input, output = package.split(':')
+            inputfile = output_path + '/' + input
+            symlinkfile = output_path + '/' + output
+            create_symlink(inputfile,symlinkfile)
 }
 
 plnx_deploy_rootfs[dirs] ?= "${PLNX_DEPLOY_DIR}"
