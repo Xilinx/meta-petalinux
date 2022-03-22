@@ -14,7 +14,7 @@ SRC_URI = " \
     file://0005-msdk-fix-includedir-path.patch \
 "
 
-SRCREV_base = "f8ddf8e3101b03d0d1e929e3a329f2e358c2aab8"
+SRCREV_base = "67cdaaa5bf7141ea1136188694edb2b3b416c1d9"
 SRCREV_FORMAT = "base"
 
 PACKAGECONFIG[mediasrcbin] = "-Dmediasrcbin=enabled,-Dmediasrcbin=disabled,media-ctl"
