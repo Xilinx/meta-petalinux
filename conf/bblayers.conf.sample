@@ -30,14 +30,11 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-virtualization \
     ##OEROOT##/../meta-openamp \
     ##OEROOT##/../meta-jupyter \
-    ##OEROOT##/../meta-vitis \
     ##OEROOT##/../meta-python2 \
     ##OEROOT##/../meta-som \
-    ##OEROOT##/../meta-som-apps \
     ##OEROOT##/../meta-system-controller \
     ##OEROOT##/../meta-security \
     ##OEROOT##/../meta-security/meta-tpm \
-    ##OEROOT##/../meta-xilinx-tsn \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
