@@ -1,4 +1,4 @@
-SUMMARY = "Host packages for the standalone SDK or external toolchain providing vvas"
+SUMMARY = "Host packages for the standalone SDK or external toolchain providing protobuf"
 
 inherit packagegroup nativesdk
 
