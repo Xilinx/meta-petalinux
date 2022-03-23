@@ -56,7 +56,7 @@ do_install() {
     install -m 0755 ${WORKDIR}/start-jupyter.sh ${D}${base_sbindir}/start-jupyter.sh
 
     install -d ${D}${sysconfdir}/jupyter/
-    install -m 0600 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
+    install -m 0644 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
 }
 
 FILES:${PN} += " \
