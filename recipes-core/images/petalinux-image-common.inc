@@ -110,6 +110,3 @@ FEATURE_PACKAGES_petalinux-ocicontainers ?= "packagegroup-petalinux-ocicontainer
 FEATURE_PACKAGES_petalinux-ocicontainers[optional] ?= "1"
 FEATURE_PACKAGES_petalinux-tpm ?= "packagegroup-petalinux-tpm"
 FEATURE_PACKAGES_petalinux-tpm[optional] ?= "1"
-
-FEATURE_PACKAGES_petalinux-tsn ?= "packagegroup-petalinux-tsn"
-FEATURE_PACKAGES_petalinux-tsn[optional] ?= "1"
