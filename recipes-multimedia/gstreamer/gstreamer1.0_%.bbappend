@@ -20,6 +20,6 @@ SRC_URI = " \
 SRCREV_gstreamer-xlnx = "e483cd3a0894f4d5270cdb80a62baf1df24ccf89"
 SRCREV_FORMAT = "gstreamer-xlnx"
 
-PACKAGECONFIG:append = " tracer-hooks"
+PACKAGECONFIG:append = " tracer-hooks coretracers"
 
 S = "${WORKDIR}/git"
