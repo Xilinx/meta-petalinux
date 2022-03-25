@@ -29,7 +29,7 @@ SYSTEMD_AUTO_ENABLE:${PN}="disable"
 
 S = "${WORKDIR}"
 
-FILES:${PN} += "${base_sbindir} ${systemd_user_unitdir}"
+FILES:${PN} += "${base_sbindir} ${systemd_user_unitdir} ${datadir}"
 
 do_install() {
 
@@ -49,4 +49,6 @@ do_install() {
 
     install -d ${D}${sysconfdir}/jupyter/
     install -m 0644 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
+
+    install -d ${D}${datadir}/example-notebooks
 }
