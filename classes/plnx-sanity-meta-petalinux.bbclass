@@ -5,7 +5,7 @@ python plnx_sanity_check() {
     if skip_check:
         return
 
-    provencore_layer = 'provencore' in e.data.getVar('BBFILE_COLLECTIONS').split()
+    provencore_layer = 'provenrun' in e.data.getVar('BBFILE_COLLECTIONS').split()
     provencore_feature = 'provencore' in e.data.getVar('MACHINE_FEATURES').split()
     if not provencore_layer and provencore_feature:
         bb.warn("You have enabled provencore in MACHINE_FEATURES, but not \
