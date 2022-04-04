@@ -44,3 +44,5 @@ IMAGE_INSTALL:append:ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-
 IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
 
 IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline python3-pybind11"
+
+IMAGE_INSTALL:append = " python3-graphviz"
