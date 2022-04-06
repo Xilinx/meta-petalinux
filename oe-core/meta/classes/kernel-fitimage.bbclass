@@ -515,21 +515,7 @@ fitimage_assemble() {
 
 	uboot_prep_kimage
 
-	if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
-		initramfs_bundle_path="arch/"${UBOOT_ARCH}"/boot/"${KERNEL_IMAGETYPE_REPLACEMENT}".initramfs"
-		if [ -e "${initramfs_bundle_path}" ]; then
-
-			#
-			# Include the kernel/rootfs bundle.
-			#
-
-			fitimage_emit_section_kernel ${1} "${kernelcount}" "${initramfs_bundle_path}" "${linux_comp}"
-		else
-			bbwarn "${initramfs_bundle_path} not found."
-		fi
-	else
-		fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
-	fi
+	fitimage_emit_section_kernel ${1} "${kernelcount}" linux.bin "${linux_comp}"
 
 	#
 	# Step 2: Prepare a DTB image section
@@ -598,7 +584,7 @@ fitimage_assemble() {
 	#
 	# Step 5: Prepare a ramdisk section.
 	#
-	if [ "x${ramdiskcount}" = "x1" ] && [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
+	if [ "x${ramdiskcount}" = "x1" ]; then
 		# Find and use the first initramfs image archive type we find
 		for img in cpio.lz4 cpio.lzo cpio.lzma cpio.xz cpio.zst cpio.gz ext2.gz cpio; do
 			initramfs_path="${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE_NAME}.${img}"
@@ -694,7 +680,7 @@ do_assemble_fitimage_initramfs() {
 		test -n "${INITRAMFS_IMAGE}" ; then
 		cd ${B}
 		if [ "${INITRAMFS_IMAGE_BUNDLE}" = "1" ]; then
-			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage ""
+			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage 1
 		else
 			fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
 		fi
