@@ -124,7 +124,7 @@ def copyfiles_update(d):
     fitimage_name = d.getVar('PACKAGE_FITIMG_NAME') or ""
     if not fitimage_name:
         fitimage_name = 'image.ub'
-    if initramfs_image:
+    if initramfs_image and bundle_image != '1':
         fitimage = 'fitImage-' + initramfs_image + '-' + machine_arch + '-' + machine_arch
         kernel_images += fitimage + ':' + fitimage_name + ' '
     else:
