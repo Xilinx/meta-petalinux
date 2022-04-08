@@ -40,8 +40,16 @@ PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 SYMLINK_PACKAGES ?= ""
 SYMLINK_PACKAGES:vck190 ?= "device-tree"
 SYMLINK_PACKAGES:vmk180 ?= "device-tree"
+SYMLINK_PACKAGES:k26-kv ?= "device-tree"
+SYMLINK_PACKAGES:k26-kr ?= "device-tree"
 
-SYMLINK_PACKAGES[device-tree] ?= "system-default.dtb:system.dtb"
+SYMLINK_FILES = ""
+SYMLINK_FILES:vck190 ?= "system-default.dtb:system.dtb"
+SYMLINK_FILES:vmk180 ?= "system-default.dtb:system.dtb"
+SYMLINK_FILES:k26-kv ?= "system-zynqmp-sck-kv-g-revB.dtb:system.dtb"
+SYMLINK_FILES:k26-kr ?= "system-zynqmp-sck-kr-g-revB.dtb:system.dtb"
+
+SYMLINK_PACKAGES[device-tree] ?= "${SYMLINK_FILES}"
 
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
 EXTRA_FILESLIST ?= ""
@@ -195,9 +203,8 @@ python plnx_deploy() {
         copy_files(inputfile,outputfile)
 
     symlinkpkgs = (d.getVar('SYMLINK_PACKAGES', True) or "").split()
-    symlinkpkgflags = d.getVarFlags('SYMLINK_PACKAGES') or {}
     if pn in symlinkpkgs:
-        for package in symlinkpkgflags[pn].split():
+        for package in d.getVarFlag('SYMLINK_PACKAGES', pn).split():
             input, output = package.split(':')
             inputfile = output_path + '/' + input
             symlinkfile = output_path + '/' + output
