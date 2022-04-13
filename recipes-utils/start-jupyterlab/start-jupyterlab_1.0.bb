@@ -5,7 +5,7 @@
 SUMMARY = "Start Jupyter-lab server at system boot"
 
 SRC_URI = " \
-	file://jupyter_notebook_config.py \
+	file://jupyter_server_config.py \
 	file://jupyter-setup.sh \
 	file://jupyter-setup.service \
 	file://overrides.json \
@@ -56,7 +56,7 @@ do_install() {
     install -m 0755 ${WORKDIR}/start-jupyter.sh ${D}${base_sbindir}/start-jupyter.sh
 
     install -d ${D}${sysconfdir}/jupyter/
-    install -m 0644 ${WORKDIR}/jupyter_notebook_config.py ${D}${sysconfdir}/jupyter
+    install -m 0644 ${WORKDIR}/jupyter_server_config.py ${D}${sysconfdir}/jupyter
 }
 
 FILES:${PN} += " \
