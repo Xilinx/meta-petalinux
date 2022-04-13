@@ -15,6 +15,12 @@ uboot_prep_kimage() {
 		linux_comp="none"
 	else
 		vmlinux_path="vmlinux"
+		# vmlinux.initramfs is used for linux.bin when INITRAMFS_IMAGE_BUNDLE set
+		# As per the implementation in kernel.bbclass.
+		# See do_bundle_initramfs function
+		if [ x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+			vmlinux_path="vmlinux.initramfs"
+		fi
 		linux_suffix="${FIT_KERNEL_COMP_ALG_EXTENSION}"
 		linux_comp="${FIT_KERNEL_COMP_ALG}"
 	fi
