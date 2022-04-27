@@ -71,7 +71,7 @@ PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
-PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin"
+PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-eeprom.bin kr-eeprom.bin:kr-eeprom.bin"
 
 QEMU_HWDTB_NAME:zynqmp ?= "zcu102-arm.dtb"
 QEMU_HWDTB_NAME:ultra96 ?= "zcu100-arm.dtb"
