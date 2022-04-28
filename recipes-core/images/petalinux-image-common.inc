@@ -25,6 +25,7 @@ COMMON_INSTALL = " \
     kernel-modules \
     nfs-utils \
     nfs-utils-client \
+    linux-xlnx-udev-rules \
     "
 
 IMAGE_INSTALL = " \
