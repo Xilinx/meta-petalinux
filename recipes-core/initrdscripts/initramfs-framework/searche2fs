@@ -14,8 +14,14 @@ searche2fs_run() {
 	fi
 	if [ -z "${bootparam_ext2}" ] && [ -z "${bootparam_ext3}" ] && [ -z "${bootparam_ext4}" ]; then
 		boot_devices=""
-		for i in $(ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"); do
-			boot_devices=$(blkid /dev/${i}* | grep "TYPE=\"ext" | cut -d: -f 1)
+		block_devices=""
+		count=15
+		for i in $(seq $count); do
+			block_devices=$(ls /sys/block/ | grep -e "sd[a-z]\{1,\}$" -e "mmcblk[0-9]\{1,\}$")
+			sleep 0.1
+		done
+		for block_device in $block_devices; do
+			boot_devices=$(blkid /dev/${block_device}* | grep "TYPE=\"ext" | cut -d: -f 1)
 			for boot_device in $boot_devices; do
 				if [ -e ${boot_device} ]; then
 					boot_device_type="$(blkid ${boot_device} | grep -o 'TYPE=.*' | cut -d\" -f 2)"
