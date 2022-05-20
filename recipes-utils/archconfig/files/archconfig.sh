@@ -1,6 +1,6 @@
 #!/bin/bash
-som=`fru-print.py -b som -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
-cc=`fru-print.py -b cc -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
+som=`fru-print -b som -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
+cc=`fru-print -b cc -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
 
 BOARD=xilinx_${som}
 BOARD_VARIANT=xilinx_${som}_${cc}
