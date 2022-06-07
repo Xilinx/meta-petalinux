@@ -9,7 +9,7 @@ SRC_URI = " \
 	${REPO};${BRANCHARG};name=gst-omx \
 "
 
-SRCREV_gst-omx = "0aa11eaf4175c1731970f1c410d9857acbff65e9"
+SRCREV_gst-omx = "e0508d33db1aaabfe8eb9462aaecbca2567250bc"
 SRCREV_FORMAT = "gst-omx"
 
 S = "${WORKDIR}/git"
