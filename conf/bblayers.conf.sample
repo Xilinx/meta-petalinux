@@ -41,7 +41,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-xilinx-tsn \
     ##OEROOT##/../meta-ros/meta-ros-common \
     ##OEROOT##/../meta-ros/meta-ros2 \
-    ##OEROOT##/../meta-ros/meta-ros2-foxy \
+    ##OEROOT##/../meta-ros/meta-ros2-humble \
 "
 
 BBLAYERS_NON_REMOVABLE ?= " \
