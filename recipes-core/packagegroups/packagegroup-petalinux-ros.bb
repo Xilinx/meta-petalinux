@@ -158,6 +158,7 @@ RDEPENDS:${PN}:aarch64 = "\
     ${PN}-base \
     ${PN}-demo \
     ${PN}-control \
+    rqt-runtime-monitor \
 "
 
 IMAGE_LINGUAS = "en-us"
