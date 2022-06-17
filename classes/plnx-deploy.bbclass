@@ -38,12 +38,16 @@ PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 		mb-realoc \
 		"
 SYMLINK_PACKAGES ?= ""
+SYMLINK_PACKAGES:versal ?= "device-tree"
+SYMLINK_PACKAGES:zynqmp ?= "device-tree"
 SYMLINK_PACKAGES:vck190 ?= "device-tree"
 SYMLINK_PACKAGES:vmk180 ?= "device-tree"
 SYMLINK_PACKAGES:k26-kv ?= "device-tree"
 SYMLINK_PACKAGES:k26-kr ?= "device-tree"
 
-SYMLINK_FILES = ""
+SYMLINK_FILES ?= ""
+SYMLINK_FILES:versal ?= "system-default.dtb:system.dtb"
+SYMLINK_FILES:zynqmp ?= "system-default.dtb:system.dtb"
 SYMLINK_FILES:vck190 ?= "system-default.dtb:system.dtb"
 SYMLINK_FILES:vmk180 ?= "system-default.dtb:system.dtb"
 SYMLINK_FILES:k26-kv ?= "system-zynqmp-sck-kv-g-revB.dtb:system.dtb"
