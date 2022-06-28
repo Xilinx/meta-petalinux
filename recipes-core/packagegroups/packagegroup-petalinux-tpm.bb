@@ -8,6 +8,8 @@ TPM_PACKAGES = " \
 	tpm2-tools \
 	tpm2-tss \
 	tpm2-tss-engine \
+	libtpm \
+	swtpm \
 	libtss2-tcti-device \
 	"
 
