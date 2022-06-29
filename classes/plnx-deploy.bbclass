@@ -227,7 +227,7 @@ python plnx_deploy_rootfs() {
     search_str = re.escape(search_str)
     if os.path.exists(deploy_dir):
         for _file in os.listdir(deploy_dir):
-            if re.search(search_str, _file):
+            if re.search(search_str, _file) and not _file.endswith('.qemu-sd-fatimg'):
                 if image_name.find('initramfs') != -1:
                     dest_name='ramdisk'
                 else:
