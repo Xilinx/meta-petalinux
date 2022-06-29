@@ -7,7 +7,7 @@ inherit python3-dir
 
 REPO = "git://github.com/Xilinx/fru-tool.git;protocol=https"
 BRANCH = "master"
-SRCREV = "957c12776e93e555daa1d4e7632e5210132f486e"
+SRCREV = "8d9d4841659024414d9a92a1389561b9ed3e9459"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"
 SRC_URI = "${REPO};${BRANCHARG}"
