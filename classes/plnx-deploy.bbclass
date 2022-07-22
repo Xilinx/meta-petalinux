@@ -80,6 +80,7 @@ PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-e
 QEMU_HWDTB_NAME:zynqmp ?= "zcu102-arm.dtb"
 QEMU_HWDTB_NAME:ultra96 ?= "zcu100-arm.dtb"
 QEMU_HWDTB_NAME:versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
+QEMU_HWDTB_NAME:versal-net ?= "board-ksb-psx-spp-1.4.dtb"
 QEMU_HWDTB_NAME:vck190 ?= "board-versal-ps-vck190.dtb"
 QEMU_HWDTB_NAME:vck5000 ?= "board-versal-ps-vck5000.dtb"
 QEMU_HWDTB_NAME:k26 ?= "board-zynqmp-k26-som.dtb"
@@ -95,6 +96,12 @@ QEMU_HWDTBS:versal ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:versal-qemu-ps.dtb
 QEMU_MULTI_HWDTBS:versal ?= " \
 		qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:versal-qemu-multiarch-ps.dtb \
 		qemu-hw-devicetrees/multiarch/board-versal-pmc-vc-p-a2197-00.dtb:versal-qemu-multiarch-pmc.dtb"
+
+QEMU_HWDTBS:versal-net ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:versal-net-qemu-psx.dtb"
+
+QEMU_MULTI_HWDTBS:versal-net ?= " \
+                qemu-hw-devicetrees/multiarch/${QEMU_HWDTB_NAME}:versal-net-qemu-multiarch-psx.dtb \
+                qemu-hw-devicetrees/multiarch/board-versal-pmx-virt.dtb:versal-net-qemu-multiarch-pmx.dtb"
 
 def copyfiles_update(d):
     soc_family = d.getVar('SOC_FAMILY') or ""
