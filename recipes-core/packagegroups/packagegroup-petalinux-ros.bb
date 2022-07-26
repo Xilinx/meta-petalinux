@@ -61,6 +61,7 @@ ROS_BUILDESSENTIAL_PACKAGES = "\
     packagegroup-core-buildessential \
     python-cmake-module \
     python3-catkin-pkg \
+    python3-colcon-common-extensions \
     python3-empy \
     python3 \
     python3-nose \
