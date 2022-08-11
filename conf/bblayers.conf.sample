@@ -30,6 +30,7 @@ BBLAYERS ?= " \
     ##OEROOT##/../meta-virtualization \
     ##OEROOT##/../meta-openamp \
     ##OEROOT##/../meta-jupyter \
+    ##OEROOT##/../meta-vitis \
     ##OEROOT##/../meta-python2 \
     ##OEROOT##/../meta-som \
     ##OEROOT##/../meta-security \
