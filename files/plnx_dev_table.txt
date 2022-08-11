@@ -1,0 +1,12 @@
+#<path> <type> <mode>   <uid>   <gid>   <major> <minor> <start> <inc>   <count>
+#/dev/mem    c      640      0       0       1       1       0        0        -
+#
+#type can be one of:
+#    f  A regular file
+#    d  Directory
+#    c  Character special device file
+#    b  Block special device file
+#    p  Fifo (named pipe)
+
+/dev            d       755     root    root    -       -       -       -       -
+/dev/console    c       662     root    tty     5       1       -       -       -
