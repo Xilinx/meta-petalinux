@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/Xilinx/platform-management-notebooks.git;branch=mast
            file://LICENSE \
            "
 
-SRCREV = "74693121d9dbc72d5e8290805708b64d37042d79"
+SRCREV = "69772956b3781b7aa30859840c0659339eb02acc"
 
 S = "${WORKDIR}/git/pm-notebooks"
 
@@ -18,6 +18,7 @@ COMPATIBLE_MACHINE:versal = "versal"
 RDEPENDS:${PN} = "packagegroup-petalinux-jupyter \
                   python3-ipywidgets \
                   python3-pydot \
+                  graphviz \
                   "
 
 do_install() {
