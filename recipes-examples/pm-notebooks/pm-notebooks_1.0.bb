@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/Xilinx/platform-management-notebooks.git;branch=mast
            file://LICENSE \
            "
 
-SRCREV = "69772956b3781b7aa30859840c0659339eb02acc"
+SRCREV = "c502be361b6857e21ab903f31c9ead69e3a0d9ba"
 
 S = "${WORKDIR}/git/pm-notebooks"
 
