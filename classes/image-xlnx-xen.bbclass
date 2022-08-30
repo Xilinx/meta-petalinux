@@ -9,6 +9,10 @@ DOM0_RAMDISK ?= "rootfs.cpio.gz"
 NUM_DOMUS ?= "0"
 UBOOT_SOURCE ?= "xen_boot.source"
 UBOOT_SCRIPT ?= "xen_boot.scr"
+LOAD_OPT ?= "sd"
+LOAD_OPT:k26-kr ?= "load usb 0:1"
+LOAD_OPT:k26-kv ?= "load mmc 1:1"
+
 
 deltask do_deploy_setscene
 
@@ -38,6 +42,6 @@ plnx_compile_image_builder() {
 	fi
 	if [ -f "${XEN_CONFIG}" ]; then
                 ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t sd -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
+                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t "${LOAD_OPT}" -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
         fi
 }
