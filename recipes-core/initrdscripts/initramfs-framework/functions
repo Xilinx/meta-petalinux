@@ -19,7 +19,9 @@ check_fsck() {
 check_init () {
 	rootfs_dir="$1"
 	for inittest in ${bootparam_init:-/sbin/init} /etc; do
-		if [ ! -e "${rootfs_dir}/${inittest}" ]; then
+		real_file="$(readlink ${rootfs_dir}/${inittest})"
+		if [ ! -e "${rootfs_dir}/${inittest}" ] \
+			&& [ ! -e "${rootfs_dir}/${real_file}" ]; then
 			msg "Warning: ${inittest} file/directory missing in file system, so skipping file system"
 			return 1
 		fi
