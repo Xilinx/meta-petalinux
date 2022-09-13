@@ -249,13 +249,6 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 # a handy set of menus for controlling the emulator.
 #PACKAGECONFIG:append:pn-qemu-system-native = " gtk+"
 
-#Add below lines to use runqemu for ZU+ machines
-PMU_FIRMWARE_DEPLOY_DIR ??= "${DEPLOY_DIR_IMAGE}"
-PMU_FIRMWARE_IMAGE_NAME ??= "pmu-firmware-${MACHINE}"
-
-# Add alternative mirrors for some components
-INHERIT+="plnx-mirrors"
-
 #
 # Hash Equivalence
 #
