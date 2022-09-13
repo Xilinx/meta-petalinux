@@ -1,0 +1,37 @@
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  ##OEROOT##/meta \
+  ##OEROOT##/meta-poky \
+  ##OEROOT##/../meta-xilinx/meta-microblaze \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-core \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-standalone \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-bsp \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-vendor \
+  ##OEROOT##/../meta-xilinx-tools \
+  ##OEROOT##/../meta-openembedded/meta-perl \
+  ##OEROOT##/../meta-openembedded/meta-python \
+  ##OEROOT##/../meta-openembedded/meta-filesystems \
+  ##OEROOT##/../meta-openembedded/meta-gnome \
+  ##OEROOT##/../meta-openembedded/meta-multimedia \
+  ##OEROOT##/../meta-openembedded/meta-networking \
+  ##OEROOT##/../meta-openembedded/meta-webserver \
+  ##OEROOT##/../meta-openembedded/meta-xfce \
+  ##OEROOT##/../meta-openembedded/meta-initramfs \
+  ##OEROOT##/../meta-openembedded/meta-oe \
+  ##OEROOT##/../meta-clang \
+  ##OEROOT##/../meta-browser/meta-chromium \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-pynq \
+  ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
+  ##OEROOT##/../meta-virtualization \
+  ##OEROOT##/../meta-openamp \
+  ##OEROOT##/../meta-som \
+  ##OEROOT##/../meta-security \
+  ##OEROOT##/../meta-security/meta-tpm \
+  ##OEROOT##/../meta-xilinx-tsn \
+  ##OEROOT##/../meta-ros/meta-ros-common \
+  ##OEROOT##/../meta-ros/meta-ros2 \
+  ##OEROOT##/../meta-ros/meta-ros2-humble \
+  ##OEROOT##/../meta-petalinux \
+"
