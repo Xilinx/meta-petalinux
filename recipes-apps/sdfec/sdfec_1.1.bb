@@ -7,7 +7,7 @@ SUMMARY = "sdfec applications"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;branch=master"
+SRC_URI = "git://github.com/Xilinx/linux-examples.git;protocol=https;branch=xlnx_rel_v2022.2"
 SRCREV = "91a9fc9b6758959f34fef92dbfd3bb3556181f3e"
 
 COMPATIBLE_MACHINE = "^$"

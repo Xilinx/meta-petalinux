@@ -10,7 +10,7 @@ RDEPENDS:${PN} += "bash"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
 SRC_URI = "git://github.com/Xilinx/imagebuilder.git;protocol=https;branch=${BRANCH}"
-BRANCH ??= "xlnx_rel_v2022.1"
+BRANCH ??= "xlnx_rel_v2022.2"
 SRCREV ??= "8934dc43c2ab835a1a291fbb4140abe6276ec0cb"
 S = "${WORKDIR}/git"
 

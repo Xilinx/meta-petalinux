@@ -6,7 +6,7 @@ RDEPENDS:${PN} = "python3-core python3-pyyaml"
 inherit python3-dir
 
 REPO = "git://github.com/Xilinx/fru-tool.git;protocol=https"
-BRANCH = "master"
+BRANCH = "xlnx_rel_v2022.2"
 SRCREV = "6483e22beea215ddb6334d8f82afa8818ab48dcf"
 
 BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH', True) != '']}"

@@ -6,7 +6,7 @@ SUMMARY = "Image update is used to update alternate image on SOM. \
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${WORKDIR}/git/LICENSES/MIT;md5=2ac09a7a37dd6ee0ba23ce497d57d09b"
 
-BRANCH = "master"
+BRANCH = "xlnx_rel_v2022.2"
 SRC_URI = "git://github.com/Xilinx/linux-image_update.git;branch=${BRANCH};protocol=https"
 SRCREV = "adb4579f791be2cdd3c71c52a8902f2d54aefb9b"
 
