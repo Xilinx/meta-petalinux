@@ -5,16 +5,7 @@ PACKAGECONFIG[x11-fwd] = ""
 do_configure:append() {
 	if ${@bb.utils.contains('PACKAGECONFIG', 'x11-fwd', 'true', 'false', d)} ; then
 		echo "#define DROPBEAR_X11FWD 1" >> ${B}/localoptions.h
+		# Fixed a bug in dropbear, see https://github.com/mkj/dropbear/issues/156
+		echo "#define DROPBEAR_CHANNEL_PRIO_INTERACTIVE DROPBEAR_PRIO_LOWDELAY" >> ${B}/localoptions.h
 	fi
-}
-
-# Create a Package to configure dropbear to use openssh-sftp-server
-PACKAGES =+ "${PN}-openssh-sftp-server"
-RDEPENDS:${PN}-openssh-sftp-server += "openssh-sftp-server ${PN}"
-
-FILES:${PN}-openssh-sftp-server = "/usr/libexec/sftp-server"
-
-do_install:prepend() {
-	mkdir -p ${D}/usr/libexec
-	ln -s /usr/lib/openssh/sftp-server ${D}/usr/libexec/sftp-server
 }
