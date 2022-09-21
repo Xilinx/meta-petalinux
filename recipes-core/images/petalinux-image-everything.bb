@@ -31,17 +31,18 @@ IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
 IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
-IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
+#IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc kernel-module-hdmi pm-notebooks"
-IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc kernel-module-hdmi"
+# pm-notebooks
+#IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 
 # ultra96-zynqmp recipes
-IMAGE_INSTALL:append:ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
-IMAGE_INSTALL:append:ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
-IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
+#IMAGE_INSTALL:append:ultra96 = " sensors96b-overlays-notebooks packagegroup-petalinux-ultra96-webapp"
+#IMAGE_INSTALL:append:ultra96 = " ultra96-startup-pages ultra96-ap-setup ultra96-power-button"
+#IMAGE_INSTALL:append:ultra96 = " sensor-mezzanine-examples"
 
 IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline python3-pybind11"
 

@@ -10,41 +10,45 @@ TRACING_PROFILE_FEATURES = "\
     "
 
 PLNX_COMMON_FEATURES = " \
-    petalinux-benchmarks \
     dev-pkgs \
     package-management \
     ptest-pkgs \
     splash \
     tools-sdk \
     petalinux-base \
-    petalinux-qt \
     petalinux-opencv \
     petalinux-display-debug \
     petalinux-networking-debug \
     petalinux-networking-stack \
     petalinux-python-modules \
-    petalinux-qt-extended \
     petalinux-utils \
     petalinux-v4lutils \
     petalinux-lmsensors \
-    petalinux-jupyter \
     ${TRACING_PROFILE_FEATURES} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'petalinux-self-hosted', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
     "
+
+#    petalinux-benchmarks \
+#    petalinux-jupyter \
+#    petalinux-qt \
+#    petalinux-qt-extended \
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
+#
 
 PLNX_COMMON_FEATURES:append:aarch64 = " \
     petalinux-gstreamer \
     petalinux-audio \
     petalinux-mraa \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
-    petalinux-ros \
     "
+
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
+#     petalinux-ros \
+#
 
 ZYNQ_FEATURES = ""
 
