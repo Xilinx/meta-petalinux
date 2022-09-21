@@ -69,7 +69,6 @@ IMAGE_FEATURES:append:microblaze = " ${TRACING_PROFILE_FEATURES}"
 
 IMAGE_FSTYPES:remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
 
-IMAGE_INSTALL:append = " haveged"
 SDK_RDEPENDS:append:task-populate-sdk-ext = " nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
 
 # In order to enable WiFi, we need crda available

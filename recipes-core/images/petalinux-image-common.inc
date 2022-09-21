@@ -7,7 +7,7 @@ AUTOLOGIN = "${@ 'autologin' if d.getVar('IMAGE_AUTOLOGIN') == '1' else '' }"
 inherit ${AUTOLOGIN}
 
 COMMON_FEATURES = " \
-    ssh-server-dropbear \
+    ssh-server-openssh \
     hwcodecs \
     "
 IMAGE_FEATURES += "${COMMON_FEATURES}"
@@ -45,7 +45,7 @@ COMMON_INSTALL:append:zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_
 COMMON_INSTALL:append:zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
 COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
 
-INSTALL_ZYNQ_ZYNQMP_VERSAL = " haveged htop iperf3 meson u-boot-tools"
+INSTALL_ZYNQ_ZYNQMP_VERSAL = " htop iperf3 meson u-boot-tools"
 
 CORE_IMAGE_EXTRA_INSTALL:append:ultra96 = " packagegroup-base-extended"
 
