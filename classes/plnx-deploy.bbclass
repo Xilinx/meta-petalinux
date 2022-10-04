@@ -111,7 +111,7 @@ def copyfiles_update(d):
     bundle_image = d.getVar('INITRAMFS_IMAGE_BUNDLE') or ""
     pn = d.getVar("PN")
     d.setVarFlag('PACKAGES_LIST', 'u-boot-xlnx',d.getVar('UBOOT_IMAGES'))
-    d.setVarFlag('PACKAGES_LIST', 'fsbl-firmware', 'fsbl' + '-' + machine_arch + '.elf:' + soc_family + '_' + 'fsbl' + '.elf' )
+    d.setVarFlag('PACKAGES_LIST', 'fsbl-firmware', 'fsbl' + '-' + machine_arch + '.elf:' + soc_family + '_' + 'fsbl' + '.elf ' + 'pmu-conf.bin:pmu-conf.bin' )
     d.setVarFlag('PACKAGES_LIST', 'fs-boot', pn + '-' + machine_arch + '.elf:' + 'fs-boot.elf' )
     d.setVarFlag('PACKAGES_LIST', 'imgsel', pn + '-' + machine_arch + '.elf:' + 'imgsel.elf ' + pn + '-' + machine_arch + '.bin:' + 'imgsel.bin' )
     d.setVarFlag('PACKAGES_LIST', 'imgrcry', pn + '-' + machine_arch + '.elf:' + 'imgrcry.elf ' + pn + '-' + machine_arch + '.bin:' + 'imgrcry.bin' )
