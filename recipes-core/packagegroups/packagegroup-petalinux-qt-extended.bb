@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux Qt additional supported packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup features_check
 
 ANY_OF_DISTRO_FEATURES = "x11 fbdev wayland"
