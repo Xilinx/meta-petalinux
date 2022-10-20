@@ -13,7 +13,7 @@ S = "${WORKDIR}/git"
 
 PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
 
-DEPENDS = "libmetal"
+DEPENDS = "libmetal-xlnx"
 
 PROVIDES = "rfdc"
 
