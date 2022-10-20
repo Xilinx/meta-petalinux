@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux opencv supported packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 OPENCV_PACKAGES = " \
