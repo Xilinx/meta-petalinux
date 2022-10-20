@@ -25,6 +25,7 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-xilinx/meta-xilinx-pynq \
   ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
   ##OEROOT##/../meta-virtualization \
+  ##OEROOT##/../meta-openamp \
   ##OEROOT##/../meta-som \
   ##OEROOT##/../meta-security \
   ##OEROOT##/../meta-security/meta-tpm \
