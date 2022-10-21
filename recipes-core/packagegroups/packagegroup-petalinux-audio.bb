@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux ASLA supported packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 ALSA_PACKAGES = " \

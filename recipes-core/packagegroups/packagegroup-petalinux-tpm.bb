@@ -1,5 +1,7 @@
 DESCRIPTION = "TPM related packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 TPM_PACKAGES = " \

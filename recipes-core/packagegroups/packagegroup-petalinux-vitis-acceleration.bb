@@ -1,5 +1,7 @@
 DESCRIPTION = "Packages for Vitis compatible platforms"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup
 
 PACKAGES += "${PN}-essential ${PN}-recommends"
@@ -22,5 +24,4 @@ RRECOMMENDS:${PN}-recommends = " \
 		dnf \
 		"
 
-PACKAGE_ARCH:versal-ai-core = "${MACHINE_ARCH}"
 RDEPENDS:${PN}-essential:append:versal-ai-core = "ai-engine-driver"

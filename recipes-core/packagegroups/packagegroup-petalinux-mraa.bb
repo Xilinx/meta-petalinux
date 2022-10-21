@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux mraa and upm supported packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 
 MRAA_UPM_PACKAGES = " \

@@ -1,5 +1,9 @@
 DESCRIPTION = "Required packages for ultra96 startup pages"
 
+COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
@@ -21,7 +25,3 @@ ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96 = " \
 	"
 
 RDEPENDS:${PN} = "${ULTRA96_STARTUP_PAGES_PACKAGES}"
-
-COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
-
-PACKAGE_ARCH:ultra96 = "${MACHINE_ARCH}"

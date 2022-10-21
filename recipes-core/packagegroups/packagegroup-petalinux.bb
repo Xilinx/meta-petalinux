@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux miscellaneous packages"
 
+PACKAGE_ARCH = "${SOC_FAMILY_ARCH}"
+
 inherit packagegroup
 
 # Packages

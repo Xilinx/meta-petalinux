@@ -1,5 +1,7 @@
 DESCRIPTION = "Required packages for 96boards sensor mezzanine examples"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup
 
 96BOARD_SENSOR_PACKAGES = " \
@@ -21,5 +23,3 @@ inherit packagegroup
 	"
 
 RDEPENDS:${PN} = "${96BOARD_SENSOR_PACKAGES}"
-
-PACKAGE_ARCH:ultra96 = "${MACHINE_ARCH}"
