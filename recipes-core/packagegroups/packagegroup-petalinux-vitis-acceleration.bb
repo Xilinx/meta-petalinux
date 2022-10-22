@@ -6,9 +6,17 @@ inherit packagegroup
 
 PACKAGES += "${PN}-essential ${PN}-recommends"
 
-RDEPENDS:${PN}-essential = " \
+RDEPENDS:${PN}-essential:zynqmp = " \
 		xrt \
 		zocl \
+		"
+
+RDEPENDS:${PN}-essential:versal = " \
+		xrt \
+		zocl \
+		"
+
+RDEPENDS:${PN}-essential = " \
 		opencl-headers \
 		packagegroup-petalinux-opencv \
 		packagegroup-petalinux-x11 \

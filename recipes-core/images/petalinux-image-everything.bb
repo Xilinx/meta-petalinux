@@ -27,7 +27,7 @@ IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization
 # Add ltp package
 IMAGE_INSTALL:append = " ltp"
 
-IMAGE_INSTALL:append:zynq = " kernel-devsrc xrt"
+IMAGE_INSTALL:append:zynq = " kernel-devsrc"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
 IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson kernel-devsrc kernel-module-hdmi kernel-module-dp mosquitto"
