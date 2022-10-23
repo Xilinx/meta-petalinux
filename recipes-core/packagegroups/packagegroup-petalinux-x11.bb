@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux X11 related packages"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup features_check
 
 REQUIRED_DISTRO_FEATURES = "x11"
