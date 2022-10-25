@@ -17,7 +17,7 @@ PACKAGECONFIG:remove = "tests"
 # OpenGL comes from libmali on ev/eg, when egl is enabled
 DEPENDS:append:mali400 = " libmali-xlnx"
 
-PACKAGE_ARCH:mali400 = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH:mali400 = "${MACHINE_ARCH}"
 
 # There is some sort of parallel make install failure
 # Makefile:144: recipe for target 'sub-dbus-install_subtargets' failed
