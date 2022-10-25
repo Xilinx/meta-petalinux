@@ -77,8 +77,7 @@ This layer depends on:
 
 	URI: https://git.yoctoproject.org/meta-xilinx
 	layers: meta-xilinx-microblaze, meta-xilinx-bsp, meta-xilinx-core,
-		meta-xilinx-pynq, meta-xilinx-contrib, meta-xilinx-standalone,
-		meta-xilinx-vendor.
+		meta-xilinx-contrib, meta-xilinx-standalone, meta-xilinx-vendor.
 
 	URI: https://git.yoctoproject.org/meta-xilinx-tools
 

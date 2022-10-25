@@ -22,7 +22,6 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-openembedded/meta-oe \
   ##OEROOT##/../meta-clang \
   ##OEROOT##/../meta-browser/meta-chromium \
-  ##OEROOT##/../meta-xilinx/meta-xilinx-pynq \
   ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
   ##OEROOT##/../meta-virtualization \
   ##OEROOT##/../meta-openamp \
