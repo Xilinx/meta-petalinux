@@ -9,7 +9,7 @@ SRC_URI:append = " file://0001-Make-RGB565-as-default-EGLconfig.patch \
                    file://0003-EGL-eglplatform.h-Remove-the-eglplatform.h-header.patch  \
 		"
 
-PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gl x11-gles2', '', d)} \
+PACKAGECONFIG:mali400 = "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11-gl x11-gles2', '', d)} \
 		${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'drm-gles2 wayland-gles2', '', d)} \
 		${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', 'fbdev-glesv2', '', d)}"
 
@@ -17,5 +17,4 @@ PACKAGECONFIG[fbdev-glesv2] = ",,virtual/libgles2 virtual/egl"
 
 EXTRA_OECONF:append = "${@bb.utils.contains('DISTRO_FEATURES', 'fbdev', ' --with-flavors=fbdev-glesv2', '', d)}"
 
-SOC_VARIANT_ARCH ??= "${TUNE_PKGARCH}"
-PACKAGE_ARCH = "${SOC_VARIANT_ARCH}"
+PACKAGE_ARCH:mali400 = "${MACHINE_ARCH}"
