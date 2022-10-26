@@ -75,8 +75,5 @@ IMAGE_FSTYPES:remove = "cpio.gz cpio cpio.gz.u-boot cpio.bz2"
 
 SDK_RDEPENDS:append:task-populate-sdk-ext = " nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
 
-# In order to enable WiFi, we need crda available
-IMAGE_INSTALL:append = " crda"
-
 #Adding native packages depends
 DEPENDS:append = " cpio-native wic-tools"
