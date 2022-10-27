@@ -1,4 +1,4 @@
-PACKAGECONFIG = "disable-weak-ciphers ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11-fwd', '', d)}"
+PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11-fwd', '', d)}"
 
 PACKAGECONFIG[x11-fwd] = ""
 
