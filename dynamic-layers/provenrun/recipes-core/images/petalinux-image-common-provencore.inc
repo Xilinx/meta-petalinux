@@ -1,7 +1,7 @@
 PROVENCORE_INSTALL = " \
     provencore-driver \
     libprovencore \
-    uppercase \
+    provenrun-uppercase \
     "
 
 IMAGE_INSTALL:append = " \
