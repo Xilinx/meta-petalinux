@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=dc9db360e0bbd4e46672f3fd91dd6c4b"
 DEPENDS = "libunwind"
 
 SRC_URI = " \
-    git://github.com/google/glog.git \
+    git://github.com/google/glog.git;nobranch=1;protocol=https \
     file://0001-Modify-for-vitis-ai-libs-v2020.1.patch \
 "
 
