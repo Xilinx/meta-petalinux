@@ -31,4 +31,6 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-xilinx-tsn \
   ##OEROOT##/../meta-petalinux \
   ##OEROOT##/../meta-qt5 \
+  ##OEROOT##/../meta-aws \
+  ##OEROOT##/../meta-system-controller \
 "
