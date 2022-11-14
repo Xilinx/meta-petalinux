@@ -1,5 +1,5 @@
 ACCELIZE_INSTALL = " \
-    drmselftest \
+    accelize-drmselftest \
     libaccelize-drm \
     "
 
