@@ -12,7 +12,7 @@ BENCHMARKS_EXTRAS = " \
 	lsof \
 	babeltrace \
 	sysstat \
-	dstat \
+	dool \
 	dhrystone \
 	linpack \
 	whetstone \
