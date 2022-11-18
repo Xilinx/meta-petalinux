@@ -14,15 +14,15 @@ PACKAGES = "\
 	"
 
 RDEPENDS:${PN}-echo-test = "rpmsg-echo-test"
-RDEPENDS:${PN}-echo-test:append:k26 = " openamp-fw-echo-testd"
+RDEPENDS:${PN}-echo-test:append:kria = " openamp-fw-echo-testd"
 RDEPENDS:${PN}-echo-test:append:zcu102 = " openamp-fw-echo-testd"
 
 RDEPENDS:${PN}-matrix-mul = "rpmsg-mat-mul"
-RDEPENDS:${PN}-matrix-mul:append:k26 = " openamp-fw-mat-muld"
+RDEPENDS:${PN}-matrix-mul:append:kria = " openamp-fw-mat-muld"
 RDEPENDS:${PN}-matrix-mul:append:zcu102 = " openamp-fw-mat-muld"
 
 RDEPENDS:${PN}-rpc-demo = "rpmsg-proxy-app"
-RDEPENDS:${PN}-rpc-demo:append:k26 = " openamp-fw-rpc-demo"
+RDEPENDS:${PN}-rpc-demo:append:kria = " openamp-fw-rpc-demo"
 RDEPENDS:${PN}-rpc-demo:append:zcu102 = " openamp-fw-rpc-demo"
 
 RDEPENDS:${PN}:append = " \

@@ -83,7 +83,7 @@ QEMU_HWDTB_NAME:versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
 QEMU_HWDTB_NAME:versal-net ?= "board-ksb-psx-spp-1.4.dtb"
 QEMU_HWDTB_NAME:vck190 ?= "board-versal-ps-vck190.dtb"
 QEMU_HWDTB_NAME:vck5000 ?= "board-versal-ps-vck5000.dtb"
-QEMU_HWDTB_NAME:k26 ?= "board-zynqmp-k26-som.dtb"
+QEMU_HWDTB_NAME:k26-sm ?= "board-zynqmp-k26-som.dtb"
 QEMU_HWDTB_NAME:vpk180 ?= "board-versal-ps-vpk180.dtb"
 QEMU_HWDTB_NAME:vhk158 ?= "board-versal-ps-vhk158.dtb"
 
