@@ -26,9 +26,10 @@ RDEPENDS:${PN}-rpc-demo:append:k26 = " openamp-fw-rpc-demo"
 RDEPENDS:${PN}-rpc-demo:append:zcu102 = " openamp-fw-rpc-demo"
 
 RDEPENDS:${PN}:append = " \
-	libmetal-xlnx \
+	open-amp-device-tree \
+	libmetal \
 	libmetal-demos \
-	open-amp-xlnx \
+	open-amp \
 	open-amp-demos \
 	packagegroup-petalinux-openamp-echo-test \
 	packagegroup-petalinux-openamp-matrix-mul \
