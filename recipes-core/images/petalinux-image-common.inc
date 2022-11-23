@@ -10,6 +10,11 @@ COMMON_FEATURES = " \
     ssh-server-openssh \
     hwcodecs \
     "
+
+COMMON_FEATURES:microblaze = " \
+    ssh-server-dropbear \
+    "
+
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
 SYSTEMD_DEFAULT_TARGET = "${@bb.utils.contains_any('IMAGE_INSTALL', \
