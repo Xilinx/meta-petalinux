@@ -6,10 +6,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup features_check
 
-REQUIRED_DISTRO_FEATURES = "x11"
-
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
-	chromium-x11 \
 	ace-cloud-editor \
 	python3-flask \
 	python3-werkzeug \

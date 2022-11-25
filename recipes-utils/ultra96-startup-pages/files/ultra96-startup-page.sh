@@ -20,7 +20,6 @@ case "$1" in
   start)
     echo -n "Starting Flask server deamon to serve Ultra96 startup page"
     start-stop-daemon --start --quiet --background --make-pidfile --pidfile /var/run/$FLASK_PID_NAME.pid --exec $FLASK_CMD
-    cp /sbin/launch-ultra96-startup-page.desktop /etc/xdg/autostart/
     echo "."
     ;;
   stop)
