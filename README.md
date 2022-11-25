@@ -38,11 +38,6 @@ This layer depends on:
 
 	URI: https://git.openembedded.org/bitbake
 
-	URI: https://github.com/OSSystems/meta-browser
-	layers: meta-chromium
-
-	URI: https://git.yoctoproject.org/meta-clang
-
 	URI: https://github.com/Xilinx/meta-jupyter
 
 	URI: https://git.yoctoproject.org/meta-mingw
