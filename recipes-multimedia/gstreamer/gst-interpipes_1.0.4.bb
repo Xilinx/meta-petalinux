@@ -2,7 +2,7 @@ SUMMARY = "Gstreamer Interpipes 1.0.4"
 DESCRIPTION = "GStreamer plug-in that allows communication between two independent pipelines"
 HOMEPAGE = "https://developer.ridgerun.com/wiki/index.php?title=GstInterpipe"
 SECTION = "multimedia"
-LICENSE = "LGPL2.1"
+LICENSE = "LGPL-2.1-only"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=3191ae9476980e87e3494d2d8ebe4584"
 
