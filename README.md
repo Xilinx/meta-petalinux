@@ -62,9 +62,9 @@ This layer depends on:
 	URI: https://git.yoctoproject.org/meta-security
 	layers: meta-tpm
 
-	URI: https://github.com/Xilinx/meta-som
+	URI: https://github.com/Xilinx/meta-kria
 
-	URI: https://github.com/Xilinx/meta-som-apps
+	URI: https://github.com/Xilinx/meta-kria-apps
 
 	URI: https://git.yoctoproject.org/meta-virtualization
 
