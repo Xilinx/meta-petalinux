@@ -4,7 +4,7 @@ COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-inherit packagegroup features_check
+inherit packagegroup
 
 ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	ace-cloud-editor \
