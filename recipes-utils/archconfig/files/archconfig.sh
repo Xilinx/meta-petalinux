@@ -1,6 +1,9 @@
 #!/bin/bash
-som=`fru-print -b som -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
-cc=`fru-print -b cc -f product | awk -F- '{ print $2}' | tr '[:upper:]' '[:lower:]'`
+
+eeprom=$(ls /sys/bus/i2c/devices/*50/eeprom 2> /dev/null)
+som=$(ipmi-fru --fru-file=${eeprom} --interpret-oem-data | awk -F": " '/^  *FRU Board Product*/ { print tolower ($2) }')
+eeprom=$(ls /sys/bus/i2c/devices/*51/eeprom 2> /dev/null)
+cc=$(ipmi-fru --fru-file=${eeprom} --interpret-oem-data | awk -F": " '/^  *FRU Board Product*/ { print tolower ($2) }')
 
 BOARD=xilinx_${som}
 BOARD_VARIANT=xilinx_${som}_${cc}
