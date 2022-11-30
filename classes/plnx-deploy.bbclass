@@ -44,6 +44,7 @@ SYMLINK_PACKAGES:vck190 ?= "device-tree"
 SYMLINK_PACKAGES:vmk180 ?= "device-tree"
 SYMLINK_PACKAGES:k26-kv ?= "device-tree"
 SYMLINK_PACKAGES:k26-kr ?= "device-tree"
+SYMLINK_PACKAGES:k24-kv ?= "device-tree"
 
 SYMLINK_FILES ?= ""
 SYMLINK_FILES:versal ?= "system-default.dtb:system.dtb"
@@ -52,6 +53,7 @@ SYMLINK_FILES:vck190 ?= "system-default.dtb:system.dtb"
 SYMLINK_FILES:vmk180 ?= "system-default.dtb:system.dtb"
 SYMLINK_FILES:k26-kv ?= "system-zynqmp-sck-kv-g-revB.dtb:system.dtb"
 SYMLINK_FILES:k26-kr ?= "system-zynqmp-sck-kr-g-revB.dtb:system.dtb"
+SYMLINK_FILES:k24-kv ?= "system-zynqmp-sck-kv-g-revB.dtb:system.dtb"
 
 SYMLINK_PACKAGES[device-tree] ?= "${SYMLINK_FILES}"
 
