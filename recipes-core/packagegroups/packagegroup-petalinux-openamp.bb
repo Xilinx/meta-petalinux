@@ -26,7 +26,6 @@ RDEPENDS:${PN}-rpc-demo:append:kria = " openamp-fw-rpc-demo"
 RDEPENDS:${PN}-rpc-demo:append:zcu102 = " openamp-fw-rpc-demo"
 
 RDEPENDS:${PN}:append = " \
-	open-amp-device-tree \
 	libmetal \
 	libmetal-demos \
 	open-amp \
