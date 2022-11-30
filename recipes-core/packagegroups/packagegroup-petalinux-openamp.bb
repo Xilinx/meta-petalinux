@@ -25,6 +25,8 @@ RDEPENDS:${PN}-rpc-demo = "rpmsg-proxy-app"
 RDEPENDS:${PN}-rpc-demo:append:kria = " openamp-fw-rpc-demo"
 RDEPENDS:${PN}-rpc-demo:append:zcu102 = " openamp-fw-rpc-demo"
 
+RDEPENDS:${PN}:append = " ${@'open-amp-device-tree' if d.getVar('ENABLE_OPENAMP_DTSI') != '1' else ''}"
+
 RDEPENDS:${PN}:append = " \
 	libmetal \
 	libmetal-demos \
