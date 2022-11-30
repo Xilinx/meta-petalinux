@@ -29,12 +29,12 @@ PLNX_COMMON_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'petalinux-self-hosted', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-x11', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
+    petalinux-qt \
+    petalinux-qt-extended \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
     "
 
 #    petalinux-jupyter \
-#    petalinux-qt \
-#    petalinux-qt-extended \
-#    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
 #    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
 #
 
