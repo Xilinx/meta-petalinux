@@ -15,7 +15,6 @@ INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		base-passwd \
 		e2fsprogs \
 		${ROOTFS_BOOTSTRAP_INSTALL} \
-		${MACHINE_ESSENTIAL_EXTRA_RDEPENDS} \
 		"
 
 BAD_RECOMMENDATIONS += "initramfs-module-rootfs"
