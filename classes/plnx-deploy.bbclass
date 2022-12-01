@@ -14,26 +14,26 @@ PACKAGES_LIST:zynqmp ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
 		pmu-firmware \
 		arm-trusted-firmware \
-		u-boot-zynq-scr \
+		u-boot-xlnx-scr \
 		qemu-devicetrees \
 		xen \
 		board-id-data \
 		"
 PACKAGES_LIST:zynq ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
-		u-boot-zynq-scr \
+		u-boot-xlnx-scr \
 		"
 PACKAGES_LIST:versal ?= "${DEFAULT_LIST} \
 		plm-firmware \
 		extract-cdo \
 		psm-firmware \
 		arm-trusted-firmware \
-		u-boot-zynq-scr \
+		u-boot-xlnx-scr \
 		qemu-devicetrees \
 		xen \
 		"
 PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
-		u-boot-zynq-scr \
+		u-boot-xlnx-scr \
 		fs-boot \
 		mb-realoc \
 		"
@@ -73,7 +73,7 @@ UBOOT_IMAGES:microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
 PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
 PACKAGES_LIST[uboot-device-tree] = "uboot-device-tree.dtb:u-boot.dtb"
-PACKAGES_LIST[u-boot-zynq-scr] = "boot.scr:boot.scr"
+PACKAGES_LIST[u-boot-xlnx-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
 PACKAGES_LIST[extract-cdo] = "CDO/pmc_cdo.bin:pmc_cdo.bin"
 PACKAGES_LIST[xen] = "xen:xen"
@@ -193,9 +193,9 @@ python plnx_deploy() {
     deploy_dir = d.getVar('DEPLOYDIR') or ""
     output_path = d.getVarFlag('plnx_deploy', 'dirs')
 
-    if pn == 'u-boot-zynq-scr':
+    if pn == 'u-boot-xlnx-scr':
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
-        d.appendVarFlag('PACKAGES_LIST', 'u-boot-zynq-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
+        d.appendVarFlag('PACKAGES_LIST', 'u-boot-xlnx-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
 
     if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
         dtbo_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtbo')]
