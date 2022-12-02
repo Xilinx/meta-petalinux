@@ -1,0 +1,35 @@
+From f419958cd0096872bba72cb6b07ddf6462b0fb5b Mon Sep 17 00:00:00 2001
+From: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+Date: Wed, 30 Nov 2022 08:08:07 -0700
+Subject: [PATCH] configure.ac: Remove icc build path
+
+When the build path includes 'icc', such as 'genericcg', the system
+will add icc specific CFLAGS.
+
+Signed-off-by: Sandeep Gundlupet Raju <sandeep.gundlupet-raju@amd.com>
+---
+ configure.ac | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 413af14..ad03f02 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -361,14 +361,6 @@ if test "${GCC}" != "yes" ; then
+ else
+     AC_CHECK_PROGS(RC,[windres ${host}-windres],false)
+     case "${CC}" in
+-	*icc* )
+-	    # -Wall causes relocation errors with icc
+-	    CFLAGS="${CFLAGS} -wd269"
+-	    # icc doesn't like -pipe
+-	    CFLAGS=`echo ${CFLAGS} | sed 's/ -pipe//'`
+-	    # icc doesn't like -ffast-math
+-	    CFLAGS=`echo ${CFLAGS} | sed 's/ -ffast-math//'`
+-	    ;;
+ 	* )
+ 	    case "${build}" in
+ 	    *-dec-osf* )
+-- 
+2.17.1
+
