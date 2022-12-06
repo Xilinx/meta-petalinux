@@ -1,5 +1,7 @@
 DESCRIPTION = "PetaLinux packages for ROS2 Base and Demos including some basic pub/sub examples"
 
+PACKAGE_ARCH = "${TUNE_PKGARCH}"
+
 inherit packagegroup
 inherit ros_distro_${ROS_DISTRO}
 
@@ -64,7 +66,6 @@ ROS_BUILDESSENTIAL_PACKAGES = "\
     python3-colcon-common-extensions \
     python3-empy \
     python3 \
-    python3-nose \
     python3-pytest \
     rcutils \
     rmw-implementation-cmake \
@@ -116,7 +117,6 @@ ROS_DEMO_PACKAGES = "\
     examples-rclcpp-minimal-timer \
     examples-rclcpp-multithreaded-executor \
     examples-rclpy-executors \
-    examples-rclpy-minimal-action-client \
     examples-rclpy-minimal-action-server \
     examples-rclpy-minimal-client \
     examples-rclpy-minimal-publisher \
@@ -124,7 +124,6 @@ ROS_DEMO_PACKAGES = "\
     examples-rclpy-minimal-subscriber \
     demo-nodes-cpp \
     demo-nodes-cpp-rosnative \
-    demo-nodes-py \
 "
 
 SUMMARY:${PN}-control = "ROS_CONTROL_PACKAGES includes ROS control packages"
