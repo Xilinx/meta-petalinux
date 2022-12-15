@@ -2,7 +2,7 @@ SUMMARY = "GStreamer Perf 1.0"
 DESCRIPTION = "GStreamer element to measure fps and performance"
 HOMEPAGE = "https://github.com/RidgeRun/gst-perf-autotools"
 SECTION = "multimedia"
-LICENSE = "LGPL-2.0-only"
+LICENSE = "LGPLv2"
 
 LIC_FILES_CHKSUM = "file://plugins/gstperf.c;beginline=4;endline=17;md5=38d6fe788111af776f33448451c008b8"
 

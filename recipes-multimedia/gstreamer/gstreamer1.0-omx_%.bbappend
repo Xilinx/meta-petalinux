@@ -1,19 +1,6 @@
-BRANCH = "xlnx-rebase-v1.18.5"
-REPO   = "git://github.com/Xilinx/gst-omx.git;protocol=https"
+require gstreamer-1.20.3.inc
 
-BRANCHARG = "${@['nobranch=1', 'branch=${BRANCH}'][d.getVar('BRANCH') != '']}"
-
-PV = "1.18.5+git${SRCPV}"
-
-SRC_URI = " \
-	${REPO};${BRANCHARG};name=gst-omx \
-"
-
-SRCREV_gst-omx = "e0508d33db1aaabfe8eb9462aaecbca2567250bc"
-SRCREV_FORMAT = "gst-omx"
-
-S = "${WORKDIR}/git"
-
+S = "${WORKDIR}/git/subprojects/gst-omx"
 
 RDEPENDS:${PN}:append:zynqmp = " libomxil-xlnx"
 DEPENDS:append:zynqmp = " libomxil-xlnx"
