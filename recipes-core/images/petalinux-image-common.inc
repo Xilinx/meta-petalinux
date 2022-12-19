@@ -1,12 +1,6 @@
 inherit core-image
 inherit plnx-image
 
-IMAGE_AUTOLOGIN ?= "0"
-
-AUTOLOGIN = "${@ 'autologin' if d.getVar('IMAGE_AUTOLOGIN') == '1' else '' }"
-
-inherit ${AUTOLOGIN}
-
 COMMON_FEATURES = " \
     ssh-server-openssh \
     hwcodecs \

@@ -43,12 +43,7 @@ for line in $active_serial; do
 			then
 				if [ -c /dev/$2 ]
 				then
-					if [ -f /bin/autologin ]
-					then
-					    ${setsid:-} ${getty} -n -l /bin/autologin -L $1 $2 $3
-					else
-					    ${setsid:-} ${getty} -L $1 $2 $3
-					fi
+				    ${setsid:-} ${getty} -L $1 $2 $3
 				fi
 				break
 			fi
