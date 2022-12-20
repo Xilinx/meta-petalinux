@@ -41,11 +41,17 @@ IMAGE_DEVICE_TABLES:append = " files/plnx_dev_table.txt"
 # If meta-xilinx-tools is available, require libdfx
 LIBDFX_RECIPE = "${@'libdfx' if 'xilinx-tools' in d.getVar('BBFILE_COLLECTIONS').split() else ''}"
 
+INSTALL_ZYNQ_ZYNQMP_VERSAL = " \
+    fpga-manager-script \
+    htop \
+    iperf3 \
+    meson \
+    u-boot-tools \
+    "
+
 COMMON_INSTALL:append:zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_RECIPE}"
 COMMON_INSTALL:append:zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
 COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
-
-INSTALL_ZYNQ_ZYNQMP_VERSAL = " htop iperf3 meson u-boot-tools"
 
 CORE_IMAGE_EXTRA_INSTALL:append:ultra96 = " packagegroup-base-extended"
 
