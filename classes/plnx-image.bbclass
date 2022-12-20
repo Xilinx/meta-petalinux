@@ -45,6 +45,8 @@ FEATURE_PACKAGES_petalinux-ultra96-webapp = "packagegroup-petalinux-ultra96-weba
 FEATURE_PACKAGES_petalinux-ultra96-webapp[optional] = "1"
 FEATURE_PACKAGES_petalinux-96boards-sensors = "packagegroup-petalinux-96boards-sensors"
 FEATURE_PACKAGES_petalinux-96boards-sensors[optional] = "1"
+# Temporary workaround for build configuration
+FEATURE_PACKAGES_fpga-manager = ""
 FEATURE_PACKAGES_petalinux-jupyter = "packagegroup-petalinux-jupyter"
 FEATURE_PACKAGES_petalinux-jupyter[optional] = "1"
 FEATURE_PACKAGES_petalinux-ocicontainers = "packagegroup-petalinux-ocicontainers"
