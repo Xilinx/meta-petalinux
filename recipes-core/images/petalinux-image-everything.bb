@@ -51,3 +51,5 @@ IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline 
 IMAGE_INSTALL:append = " python3-graphviz"
 
 IMAGE_INSTALL:append = " bootgen"
+
+IMAGE_INSTALL:append = " wolfssl"
