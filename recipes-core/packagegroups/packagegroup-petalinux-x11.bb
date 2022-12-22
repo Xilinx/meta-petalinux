@@ -8,7 +8,9 @@ REQUIRED_DISTRO_FEATURES = "x11"
 
 X11_PACKAGES = " \
 	packagegroup-core-x11 \
+	xclock \
 	xcursor-transparent-theme \
+	xeyes \
 	xinit \
 	xinput \
 	xkbcomp \
