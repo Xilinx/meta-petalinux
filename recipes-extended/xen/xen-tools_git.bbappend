@@ -1,5 +1,12 @@
 require xen-xilinx.inc
 
+SYSTEMD_SERVICE:${PN}-xencommons:remove = "var-lib-xenstored.mount"
+
+FILES:${PN}-test += "\
+    ${localstatedir} \
+    ${libdir}/xen/bin/test-paging-mempool \
+"
+
 # Only include the sysvinit scripts if sysvinit is enabled.
 do_install:append () {
     if [ -e ${D}/usr/lib/xen/bin/pygrub ]; then
