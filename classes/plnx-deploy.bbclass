@@ -88,6 +88,7 @@ QEMU_HWDTB_NAME:vck5000 ?= "board-versal-ps-vck5000.dtb"
 QEMU_HWDTB_NAME:k26-sm ?= "board-zynqmp-k26-som.dtb"
 QEMU_HWDTB_NAME:vpk180 ?= "board-versal-ps-vpk180.dtb"
 QEMU_HWDTB_NAME:vhk158 ?= "board-versal-ps-vhk158.dtb"
+QEMU_HWDTB_NAME:vek280 ?= "board-versal-ps-vek280.dtb"
 
 QEMU_HWDTBS:zynqmp ?= "qemu-hw-devicetrees/${QEMU_HWDTB_NAME}:zynqmp-qemu-arm.dtb"
 
