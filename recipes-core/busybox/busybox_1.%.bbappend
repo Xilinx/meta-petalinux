@@ -1,6 +1,11 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 FILESEXTRAPATHS:prepend := "${THISDIR}/busybox:"
 
+python () {
+    if d.getVar('WITHIN_PLNX_FLOW') and d.getVar('SYSCONFIG_DIR'):
+        d.prependVar('FILESEXTRAPATHS', '%s/busybox:' % d.getVar('SYSCONFIG_DIR'))
+}
+
 PACKAGES =+ "${PN}-inetd"
 FILES:${PN}-inetd = "${sysconfdir}/init.d/inetd.busybox ${sysconfdir}/inetd.conf"
 
