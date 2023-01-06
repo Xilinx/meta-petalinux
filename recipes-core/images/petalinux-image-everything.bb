@@ -36,9 +36,8 @@ IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellop
 IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc"
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks"
 #IMAGE_INSTALL:append:versal = " kernel-module-hdmi"
-# pm-notebooks
 #IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 
 # ultra96-zynqmp recipes
