@@ -44,10 +44,10 @@ PLNX_COMMON_FEATURES:append:aarch64 = " \
     petalinux-mraa \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
+    petalinux-ros \
     "
 
 #    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
-#     petalinux-ros \
 #
 
 ZYNQ_FEATURES = ""
