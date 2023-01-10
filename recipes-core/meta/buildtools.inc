@@ -1,7 +1,7 @@
 TOOLCHAIN_HOST_TASK += "\
 	nativesdk-python3-sqlite3 \
 	nativesdk-python3-pyyaml \
-	nativesdk-qemu-xilinx \
+	nativesdk-qemu \
 	nativesdk-bootgen \
 	nativesdk-lopper \
 "

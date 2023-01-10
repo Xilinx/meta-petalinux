@@ -1,3 +1,3 @@
 RDEPENDS:${PN}:append = "\
-	nativesdk-qemu-xilinx \
+	nativesdk-qemu \
 "
