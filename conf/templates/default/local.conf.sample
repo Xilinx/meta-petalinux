@@ -150,6 +150,23 @@ PACKAGE_CLASSES ?= "package_rpm"
 USER_CLASSES ?= "buildstats"
 
 #
+# Record a history of build output in order to help detect regressions
+#INHERIT += "buildhistory"
+
+# Use for creating archives for source code used to build recipes
+#INHERIT += "archiver"
+
+# Create license (-lic) packages
+LICENSE_CREATE_PACKAGE = "1"
+COPY_LIC_MANIFEST = "1"
+
+# URI's to check for connectivity from the sanity.bbclass
+CONNECTIVITY_CHECK_URIS ?= ""
+
+# Should mirror tarballs be generated during the do_fetch stage?
+BB_GENERATE_MIRROR_TARBALLS ?= "1"
+
+#
 # Runtime testing of images
 #
 # The build system can test booting virtual machine images under qemu (an emulator)
@@ -262,6 +279,28 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 #
 #BB_HASHSERVE = "auto"
 #BB_SIGNATURE_HANDLER = "OEEquivHash"
+
+# The network based PR service host and port
+# Uncomment the following lines to enable PRservice.
+# Set PRSERV_HOST to 'localhost:0' to automatically
+# start local PRService.
+# Set to other values to use remote PRService.
+PRSERV_HOST = "localhost:0"
+
+# This is a list of packages that may require a commercial license to ship
+# product. It is your responsibility to read, understand and meet the
+# licensing terms for all software used, however these are highlighted as
+# they may have additional implications for commercial use.  To enable them,
+# un-comment the below as appropriate.
+LICENSE_FLAGS_ACCEPTED = " \
+        commercial_${MLPREFIX}ffmpeg \
+        commercial_${MLPREFIX}x264 \
+        commercial_${MLPREFIX}gstreamer1.0-omx \
+        commercial_${MLPREFIX}libomxil \
+        commercial_${MLPREFIX}sox \
+        commercial_${MLPREFIX}faac \
+        commercial_${MLPREFIX}faad2 \
+        xilinx "
 
 #
 # Memory Resident Bitbake
