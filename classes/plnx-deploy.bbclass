@@ -16,12 +16,14 @@ PACKAGES_LIST:zynqmp ?= "${DEFAULT_LIST} \
 		arm-trusted-firmware \
 		u-boot-xlnx-scr \
 		qemu-devicetrees \
+		open-amp-device-tree \
 		xen \
 		board-id-data \
 		"
 PACKAGES_LIST:zynq ?= "${DEFAULT_LIST} \
 		fsbl-firmware \
 		u-boot-xlnx-scr \
+		open-amp-device-tree \
 		"
 PACKAGES_LIST:versal ?= "${DEFAULT_LIST} \
 		plm-firmware \
@@ -30,6 +32,7 @@ PACKAGES_LIST:versal ?= "${DEFAULT_LIST} \
 		arm-trusted-firmware \
 		u-boot-xlnx-scr \
 		qemu-devicetrees \
+		open-amp-device-tree \
 		xen \
 		"
 PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
@@ -198,17 +201,18 @@ python plnx_deploy() {
         pxeconfig = d.getVar('UBOOTPXE_CONFIG') or ""
         d.appendVarFlag('PACKAGES_LIST', 'u-boot-xlnx-scr', ' ' + pxeconfig + ':' + 'pxelinux.cfg' )
 
-    if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
+    if pn in ['device-tree', 'open-amp-device-tree'] and \
+            os.path.exists(deploy_dir + '/devicetree/'):
         dtbo_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtbo')]
         for dtbo_file in dtbo_files:
             if dtbo_file != 'pl.dtbo' and dtbo_file != 'pl-final.dtbo':
-               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtbo_file + ':/dtbos/' + dtbo_file)
+               d.appendVarFlag('PACKAGES_LIST', pn, ' /devicetree/' + dtbo_file + ':/dtbos/' + dtbo_file)
 
-    if pn == 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
+    if pn in 'device-tree' and os.path.exists(deploy_dir + '/devicetree/'):
         dtb_files = [f for f in os.listdir(deploy_dir + '/devicetree/') if f.endswith('.dtb')]
         for dtb_file in dtb_files:
             if dtb_file != 'system-top.dtb':
-               d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/' + dtb_file + ':/' + dtb_file)
+               d.appendVarFlag('PACKAGES_LIST', pn, ' /devicetree/' + dtb_file + ':/' + dtb_file)
 
     packageflags = d.getVarFlags('PACKAGES_LIST') or {}
     for package_bin in packageflags[pn].split():
