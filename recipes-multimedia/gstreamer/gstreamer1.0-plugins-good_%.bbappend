@@ -1,3 +1,5 @@
+PACKAGECONFIG:append = " vpx"
+
 require gstreamer-1.20.3.inc
 
 SRC_URI:append = " \
