@@ -1,6 +1,6 @@
 PACKAGECONFIG:append = " vpx"
 
-require gstreamer-1.20.3.inc
+require gstreamer-xilinx-1.20.3.inc
 
 SRC_URI:append = " \
     file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \

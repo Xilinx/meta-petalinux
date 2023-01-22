@@ -1,4 +1,4 @@
-require gstreamer-1.20.3.inc
+require gstreamer-xilinx-1.20.3.inc
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 

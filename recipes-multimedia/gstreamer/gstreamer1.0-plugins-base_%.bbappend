@@ -1,4 +1,4 @@
-require gstreamer-1.20.3.inc
+require gstreamer-xilinx-1.20.3.inc
 
 SRC_URI:append = " \
     file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch \
