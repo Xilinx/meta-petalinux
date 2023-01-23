@@ -279,6 +279,9 @@ PACKAGECONFIG:append:pn-qemu-system-native = " sdl"
 #
 #BB_HASHSERVE = "auto"
 #BB_SIGNATURE_HANDLER = "OEEquivHash"
+# No shared hash equivalencey server, so default to Basic hash
+BB_HASHSERVE = ""
+BB_SIGNATURE_HANDLER = "OEBasicHash"
 
 # The network based PR service host and port
 # Uncomment the following lines to enable PRservice.
