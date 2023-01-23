@@ -12,8 +12,11 @@ DEPENDS:append = " \
 "
 
 # Nativesdk dependencies we want to make sure we can build
+PLNX_ADDON_SDK = "nativesdk-unfs3"
+PLNX_ADDON_SDK:sdkmingw32 = ""
+
 DEPENDS:append = " \
-	nativesdk-unfs3 \
+	${PLNX_ADDON_SDK} \
 "
 
 DEPENDS:append:zynq   = " libeigen"
