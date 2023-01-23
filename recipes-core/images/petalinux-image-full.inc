@@ -33,10 +33,8 @@ PLNX_COMMON_FEATURES = " \
     petalinux-qt \
     petalinux-qt-extended \
     ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
     "
-
-#    ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
-#
 
 PLNX_COMMON_FEATURES:append:aarch64 = " \
     petalinux-gstreamer \
@@ -45,10 +43,8 @@ PLNX_COMMON_FEATURES:append:aarch64 = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-multimedia', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     petalinux-ros \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     "
-
-#    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
-#
 
 ZYNQ_FEATURES = ""
 
