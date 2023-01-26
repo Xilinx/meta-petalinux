@@ -1,5 +1,9 @@
 inherit core-image
 inherit plnx-image
+inherit image_types_plnx
+
+# Skip /boot when generating a cpio
+PLNX_IMAGE_CPIO_SKIP += "! -path './boot/*'"
 
 COMMON_FEATURES = " \
     ssh-server-openssh \
