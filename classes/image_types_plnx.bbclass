@@ -35,3 +35,16 @@ IMAGE_CMD:cpio () {
 		fi
 	fi
 }
+
+# Format of this needs to be argument(s) to find, such as:
+# To skip /boot directory
+#    PLNX_IMAGE_JFFS2_SKIP = "! -path './boot/*'"
+# Note the matching path needs to be '.' for ${IMAGE_ROOTFS}, and any
+# globbing needs to be quoted to prevent expansion.
+PLNX_IMAGE_JFFS2_SKIP ?= ""
+do_image_jffs2[cleandirs] += "${WORKDIR}/jffs2"
+IMAGE_CMD:jffs2 () {
+	(cd ${IMAGE_ROOTFS} && find . ${PLNX_IMAGE_JFFS2_SKIP} | sort | cpio -o -H newc) | cpio -i -d -m --sparse -D ${WORKDIR}/jffs2
+
+	mkfs.jffs2 --root=${WORKDIR}/jffs2 --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}
+}
