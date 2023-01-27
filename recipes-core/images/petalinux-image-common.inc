@@ -5,6 +5,7 @@ inherit image_types_plnx
 # Skip /boot when generating a cpio, jffs2
 PLNX_IMAGE_CPIO_SKIP += "! -path './boot/*'"
 PLNX_IMAGE_JFFS2_SKIP += "! -path './boot/*'"
+PLNX_IMAGE_UBI_SKIP += "! -path './boot/*'"
 
 COMMON_FEATURES = " \
     ssh-server-openssh \
