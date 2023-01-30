@@ -9,13 +9,6 @@ SRC_URI += " \
     file://passthrough-example-part.dts \
     "
 
-FILES:${PN}:append = " \
-    /etc/xen/example-passnet.cfg \
-    /etc/xen/example-pvnet.cfg \
-    /etc/xen/example-simple.cfg \
-    /etc/xen/passthrough-example-part.dtb \
-    "
-
 RDEPENDS:${PN}-efi += "bash python3"
 
 do_compile:append() {
@@ -38,10 +31,16 @@ do_deploy:append() {
 }
 
 do_install:append() {
-    install -d -m 0755 ${D}/etc/xen
-    install -m 0644 ${WORKDIR}/example-passnet.cfg ${D}/etc/xen/example-passnet.cfg
-    install -m 0644 ${WORKDIR}/example-pvnet.cfg ${D}/etc/xen/example-pvnet.cfg
-    install -m 0644 ${WORKDIR}/example-simple.cfg ${D}/etc/xen/example-simple.cfg
-
-    install -m 0644 ${WORKDIR}/passthrough-example-part.dtb ${D}/etc/xen/passthrough-example-part.dtb
+    install -d -m 0755 ${D}${sysconfdir}/xen
+    install -m 0644 ${WORKDIR}/example-passnet.cfg ${D}${sysconfdir}/xen/example-passnet.cfg
+    install -m 0644 ${WORKDIR}/example-pvnet.cfg ${D}${sysconfdir}/xen/example-pvnet.cfg
+    install -m 0644 ${WORKDIR}/example-simple.cfg ${D}${sysconfdir}/xen/example-simple.cfg
+    install -m 0644 ${WORKDIR}/passthrough-example-part.dtb ${D}${sysconfdir}/xen/passthrough-example-part.dtb
 }
+
+FILES:${PN} += " \
+    ${sysconfdir}/xen/example-passnet.cfg \
+    ${sysconfdir}/xen/example-pvnet.cfg \
+    ${sysconfdir}/xen/example-simple.cfg \
+    ${sysconfdir}/xen/passthrough-example-part.dtb \
+    "

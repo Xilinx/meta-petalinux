@@ -1,12 +1,5 @@
 require xen-xilinx.inc
 
-SYSTEMD_SERVICE:${PN}-xencommons:remove = "var-lib-xenstored.mount"
-
-FILES:${PN}-test += "\
-    ${localstatedir} \
-    ${libdir}/xen/bin/test-paging-mempool \
-"
-
 # Only include the sysvinit scripts if sysvinit is enabled.
 do_install:append () {
     if [ -e ${D}/usr/lib/xen/bin/pygrub ]; then
@@ -27,7 +20,8 @@ do_install:append () {
 # sysvinit, the user will need to manually enable Xen.
 INHIBIT_UPDATERCD_BBCLASS = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '1', '', d)}"
 
-FILES:${PN} += "${libdir}/xen/bin/init-dom0less \
+FILES:${PN} += " \
+    ${libdir}/xen/bin/init-dom0less \
     ${libdir}/xen/bin/get_overlay \
     ${libdir}/xen/bin/get_overlay.sh \
-"
+    "
