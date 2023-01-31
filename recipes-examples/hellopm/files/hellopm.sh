@@ -3,6 +3,7 @@
 #*******************************************************************************
 #
 # Copyright (C) 2019 Xilinx, Inc.  All rights reserved.
+# Copyright (c) 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
@@ -297,9 +298,9 @@ reboot_menu () {
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then 
 				cat <<-EOF
 				Set reboot scope to APU
-				Command: echo subsystem > /sys/firmware/zynqmp/shutdown_scope
+				Command: echo "subsystem" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
 				EOF
-				echo `echo subsystem > /sys/firmware/zynqmp/shutdown_scope`
+				echo `echo "subsystem" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope`
 				echo ""
 				echo "Command: reboot"
 				echo ""
@@ -317,9 +318,11 @@ reboot_menu () {
 			read continue
 
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then
-				echo "Set reboot scope to PS"
-				echo "Command: echo ps_only > /sys/firmware/zynqmp/shutdown_scope"
-				echo `echo ps_only > /sys/firmware/zynqmp/shutdown_scope`
+			  cat <<-EOF
+				Set reboot scope to PS
+				Command: echo "ps_only" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
+				EOF
+				echo `echo "ps_only" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope`
 				echo ""
 
 				echo "Command: reboot"
@@ -340,10 +343,10 @@ reboot_menu () {
 			if [ "$continue" != "n" ] && [ "$continue" != "N" ]; then
 				cat <<-EOF
 				Set reboot scope to System
-				Command: echo system > /sys/firmware/zynqmp/shutdown_scope
+				Command: echo "system" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope
 				EOF
 
-				echo `echo system > /sys/firmware/zynqmp/shutdown_scope`
+				echo `echo "system" > /sys/devices/platform/firmware\:zynqmp-firmware/shutdown_scope`
 				echo ""
 				echo "Command: reboot"
 				echo ""
