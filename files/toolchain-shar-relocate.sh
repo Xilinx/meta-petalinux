@@ -42,12 +42,47 @@ EOF
 $SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
 $SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
 rm -rf $tdir
-if [ $relocate = 1 ] ; then
+# Run for either relocate = 1 or = 2
+if [ $relocate = 1 -o $relocate = 2 ] ; then
 	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
 	if [ $? -ne 0 ]; then
 		echo "SDK could not be set up. Relocate script failed. Abort!"
 		exit 1
 	fi
+fi
+if [ $relocate = 2 ] ; then
+	$SUDO_EXEC ${PYTHON} ${env_setup_script%/*}/relocate-wrapper.py $target_sdk_dir > relocate.log 2>&1
+	if [ $? -ne 0 ]; then
+                cat relocate.log
+		echo "SDK could not be set up. Runtime-Relocate script failed. Abort!"
+		exit 1
+	fi
+        rm -f relocate.log
+
+	for env_setup_scripts in `ls $target_sdk_dir/environment-setup-*`; do
+		cat << EOF > ${env_setup_scripts}.new
+if [ -n "\$BASH_SOURCE" ]; then
+    THIS_SCRIPT=\$BASH_SOURCE
+elif [ -n "\$ZSH_NAME" ]; then
+    THIS_SCRIPT=\$0
+else
+    THIS_SCRIPT="\$(pwd)/$env_setup_scripts"
+    if [ ! -e "\$THIS_SCRIPT" ]; then
+        echo "Error: \$THIS_SCRIPT doesn't exist!" >&2
+        echo "Please run this script in sdk directory." >&2
+        exit 1
+    fi
+fi
+
+THIS_SCRIPT=\$(realpath \${THIS_SCRIPT})
+SDK_BASE_PATH=\$(dirname \${THIS_SCRIPT})
+echo "Configuring environment for base path of \$SDK_BASE_PATH"
+
+EOF
+		cat ${env_setup_scripts} >> ${env_setup_scripts}.new
+		$SUDO_EXEC sed -e "s:$target_sdk_dir:\${SDK_BASE_PATH}:g" -i ${env_setup_script}.new
+		mv ${env_setup_script}.new ${env_setup_script}
+	done
 fi
 
 # replace @SDKPATH@ with the new prefix in all text files: configs/scripts/etc.

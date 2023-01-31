@@ -1,6 +1,13 @@
 SUMMARY = "Meta package for building a Xilinx prebuilt installable toolchain"
 LICENSE = "MIT"
 
+FILESEXTRAPATHS:append = ":${PETALINUX_PATH}/scripts"
+
+SRC_URI += " \
+    file://relocate-wrapper.py \
+"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+
 inherit populate_sdk
 
 COMPATIBLE_HOST = "${HOST_SYS}"
@@ -18,3 +25,7 @@ TOOLCHAIN_TARGET_TASK:xilinx-standalone = "${@multilib_pkg_extend(d, 'packagegro
 
 TOOLCHAIN_SHAR_EXT_TMPL = "${PETALINUX_PATH}/files/toolchain-shar-extract.sh"
 TOOLCHAIN_SHAR_REL_TMPL = "${PETALINUX_PATH}/files/toolchain-shar-relocate.sh"
+
+create_sdk_files:append () {
+        cp ${WORKDIR}/relocate-wrapper.py ${SDK_OUTPUT}/${SDKPATH}/
+}

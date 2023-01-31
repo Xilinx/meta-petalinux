@@ -67,7 +67,7 @@ savescripts=0
 verbose=0
 publish=0
 listcontents=0
-while getopts ":yd:npDRSl" OPT; do
+while getopts ":yd:npDRrSl" OPT; do
 	case $OPT in
 	y)
 		answer="Y"
@@ -85,6 +85,9 @@ while getopts ":yd:npDRSl" OPT; do
 	D)
 		verbose=1
 		;;
+	r)
+		relocate=2
+		;;
 	R)
 		relocate=0
 		savescripts=1
@@ -99,9 +102,11 @@ while getopts ":yd:npDRSl" OPT; do
 		echo "Usage: $(basename "$0") [-y] [-d <dir>]"
 		echo "  -y         Automatic yes to all prompts"
 		echo "  -d <dir>   Install the SDK to <dir>"
-		echo "======== Extensible SDK only options ============"
-		echo "  -n         Do not prepare the build system"
-		echo "  -p         Publish mode (implies -n)"
+		echo "======== PetaLinux SDK only options ============"
+		echo "  -r         Enable runtime relocation, note this is slower"
+		#echo "======== Extensible SDK only options ============"
+		#echo "  -n         Do not prepare the build system"
+		#echo "  -p         Publish mode (implies -n)"
 		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
 		echo "  -S         Save relocation scripts"
 		echo "  -R         Do not relocate executables"
@@ -276,7 +281,7 @@ fi
 # delete the relocating script, so that user is forced to re-run the installer
 # if he/she wants another location for the sdk
 if [ $savescripts = 0 ] ; then
-	$SUDO_EXEC rm -f ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
+	$SUDO_EXEC rm -f ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh ${env_setup_script%/*}/relocate-wrapper.py
 fi
 
 # Execute post-relocation script
