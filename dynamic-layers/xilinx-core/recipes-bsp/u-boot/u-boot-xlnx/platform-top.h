@@ -1,6 +1,5 @@
 #if defined(CONFIG_MICROBLAZE)
 #include <configs/microblaze-generic.h>
-#include <configs/platform-auto.h>
 #define CONFIG_SYS_BOOTM_LEN 0xF000000
 #endif
 #if defined(CONFIG_ARCH_ZYNQ)
