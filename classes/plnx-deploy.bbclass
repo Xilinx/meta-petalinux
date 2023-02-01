@@ -2,11 +2,17 @@ python () {
     if bb.data.inherits_class('image', d):
         d.appendVarFlag('do_image_complete','postfuncs', ' plnx_deploy_rootfs')
     packagelist = (d.getVar('PACKAGES_LIST', True) or "").split()
+    mc_packagelist = (d.getVar('MC_PACKAGES_LIST', True) or "").split()
     pn = d.getVar("PN")
     if pn in packagelist:
         copyfiles_update(d)
         d.appendVarFlag('do_deploy', 'postfuncs', ' plnx_deploy')
         d.appendVarFlag('do_deploy_setscene', 'postfuncs', ' plnx_deploy')
+    if pn in mc_packagelist:
+        copyfiles_update(d)
+        d.appendVarFlag('do_deploy', 'postfuncs', ' mc_plnx_deploy')
+        d.appendVarFlag('do_deploy_setscene', 'postfuncs', ' mc_plnx_deploy')
+
 }
 
 DEFAULT_LIST ?= "u-boot-xlnx device-tree linux-xlnx"
@@ -40,6 +46,24 @@ PACKAGES_LIST:microblaze ?= "${DEFAULT_LIST} \
 		fs-boot \
 		mb-realoc \
 		"
+
+MC_PACKAGES_LIST ?= "empty-application \
+                freertos-hello-world \
+                freertos-lwip-echo-server \
+                freertos-lwip-tcp-perf-client \
+                freertos-lwip-tcp-perf-server \
+                freertos-lwip-udp-perf-client \
+                freertos-lwip-udp-perf-server \
+                hello-world \
+                lwip-echo-server \
+                lwip-tcp-perf-client \
+                lwip-tcp-perf-server \
+                lwip-udp-perf-client \
+                lwip-udp-perf-server \
+                memory-tests \
+                peripheral-tests \
+                "
+
 SYMLINK_PACKAGES ?= ""
 SYMLINK_PACKAGES:versal ?= "device-tree"
 SYMLINK_PACKAGES:zynqmp ?= "device-tree"
@@ -57,6 +81,7 @@ SYMLINK_FILES:k24-kv ?= "system-zynqmp-sck-kv-g-revB.dtb:system.dtb"
 SYMLINK_PACKAGES[device-tree] ?= "${SYMLINK_FILES}"
 
 PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/linux"
+MC_PLNX_DEPLOY_DIR ?= "${TOPDIR}/images/${BB_CURRENT_MC}"
 EXTRA_FILESLIST ?= ""
 EXTRA_FILESLIST:zynqmp ?= "${DEPLOY_DIR_IMAGE}/pmu-rom.elf:pmu_rom_qemu_sha3.elf"
 PACKAGE_DTB_NAME ?= ""
@@ -120,6 +145,22 @@ def copyfiles_update(d):
     d.setVarFlag('PACKAGES_LIST', 'pmu-firmware', pn + '-' + machine_arch + '.elf:' + 'pmufw.elf' )
     d.setVarFlag('PACKAGES_LIST', 'psm-firmware', pn + '-' + machine_arch + '.elf:' + 'psmfw.elf' )
     d.setVarFlag('PACKAGES_LIST', 'plm-firmware', 'plm' + '-' + machine_arch + '.elf:' + 'plm.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'hello-world', pn + '-' + machine_arch + '.elf:' + 'hello-world.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'empty-application', pn + '-' + machine_arch + '.elf:' + 'empty-application.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-hello-world', pn + '-' + machine_arch + '.elf:' + 'freertos-hello-world.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-lwip-echo-server', pn + '-' + machine_arch + '.elf:' + 'freertos-lwip-echo-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-lwip-tcp-perf-client', pn + '-' + machine_arch + '.elf:' + 'freertos-lwip-tcp-perf-client.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-lwip-tcp-perf-server', pn + '-' + machine_arch + '.elf:' + 'freertos-lwip-tcp-perf-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-lwip-udp-perf-client', pn + '-' + machine_arch + '.elf:' + 'freertos-lwip-udp-perf-client.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'freertos-lwip-udp-perf-server', pn + '-' + machine_arch + '.elf:' + 'freertos-lwip-udp-perf-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'lwip-echo-server', pn + '-' + machine_arch + '.elf:' + 'lwip-echo-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'lwip-tcp-perf-client', pn + '-' + machine_arch + '.elf:' + 'lwip-tcp-perf-client.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'lwip-tcp-perf-server', pn + '-' + machine_arch + '.elf:' + 'lwip-tcp-perf-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'lwip-udp-perf-client', pn + '-' + machine_arch + '.elf:' + 'lwip-udp-perf-client.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'lwip-udp-perf-server', pn + '-' + machine_arch + '.elf:' + 'lwip-udp-perf-server.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'memory-tests', pn + '-' + machine_arch + '.elf:' + 'memory-tests.elf' )
+    d.setVarFlag('MC_PACKAGES_LIST', 'peripheral-tests', pn + '-' + machine_arch + '.elf:' + 'peripheral-tests.elf' )
+
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
         d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
@@ -225,6 +266,22 @@ python plnx_deploy() {
             symlinkfile = output_path + '/' + output
             create_symlink(inputfile,symlinkfile)
 }
+
+mc_plnx_deploy[dirs] ?= "${MC_PLNX_DEPLOY_DIR}"
+python mc_plnx_deploy() {
+    pn = d.getVar('PN')
+
+    deploy_dir = d.getVar('DEPLOYDIR') or ""
+    mc_output_path = d.getVarFlag('mc_plnx_deploy', 'dirs')
+    packageflags = d.getVarFlags('MC_PACKAGES_LIST') or {}
+    if pn in packageflags:
+        for package_bin in packageflags[pn].split():
+            input, output = package_bin.split(':')
+            inputfile = deploy_dir + '/' + input
+            outputfile = mc_output_path + '/' + output
+            copy_files(inputfile,outputfile)
+}
+
 
 plnx_deploy_rootfs[dirs] ?= "${PLNX_DEPLOY_DIR}"
 python plnx_deploy_rootfs() {
