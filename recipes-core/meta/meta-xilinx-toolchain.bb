@@ -29,3 +29,10 @@ TOOLCHAIN_SHAR_REL_TMPL = "${PETALINUX_PATH}/files/toolchain-shar-relocate.sh"
 create_sdk_files:append () {
         cp ${WORKDIR}/relocate-wrapper.py ${SDK_OUTPUT}/${SDKPATH}/
 }
+
+# The wrappers don't do anything, remove them!
+create_sdk_files:append:sdkmingw32 () {
+        rm -f ${SDK_OUTPUT}/${SDKPATH}/relocate-wrapper.py
+        rm -f ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+        rm -f ${SDK_OUTPUT}/${SDKPATH}/post-relocate-setup.sh
+}
