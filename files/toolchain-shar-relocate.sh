@@ -80,8 +80,8 @@ echo "Configuring environment for base path of \$SDK_BASE_PATH"
 
 EOF
 		cat ${env_setup_scripts} >> ${env_setup_scripts}.new
-		$SUDO_EXEC sed -e "s:$target_sdk_dir:\${SDK_BASE_PATH}:g" -i ${env_setup_script}.new
-		mv ${env_setup_script}.new ${env_setup_script}
+		$SUDO_EXEC sed -e "s:$target_sdk_dir:\${SDK_BASE_PATH}:g" -i ${env_setup_scripts}.new
+		mv ${env_setup_scripts}.new ${env_setup_scripts}
 	done
 fi
 
