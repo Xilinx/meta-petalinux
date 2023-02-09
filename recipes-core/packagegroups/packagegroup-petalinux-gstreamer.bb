@@ -1,7 +1,6 @@
 DESCRIPTION = "PetaLinux GSTREAMER supported packages"
 
-PACKAGE_ARCH = "${TUNE_PKGARCH}"
-PACKAGE_ARCH:zynqmp = "${SOC_FAMILY_ARCH}"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
 
@@ -16,7 +15,7 @@ GSTREAMER_PACKAGES = " \
 	gst-shark \
 	gstd \
 	gst-perf \
+	gstreamer1.0-omx \
 	"
-GSTREAMER_PACKAGES:append:zynqmp = " gstreamer1.0-omx"
 
 RDEPENDS:${PN} = "${GSTREAMER_PACKAGES}"
