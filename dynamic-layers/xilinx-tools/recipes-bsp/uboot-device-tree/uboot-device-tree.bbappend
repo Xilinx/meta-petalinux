@@ -18,12 +18,12 @@ python () {
 }
 
 do_configure:append () {
-    if [ x"${WITHIN_PLNX_FLOW}" = x1 ] && [ -z "${SYSTEM_DTFILE}" ]; then
-	    xsct_args='${WORKDIR}/${PLNX_SCRIPTS_PATH}/petalinux_hsm_bridge.tcl'
-	    xsct_args+=' -c ${WORKDIR}/config -hdf ${DT_FILES_PATH}/hardware_description.${HDF_EXT}'
-	    xsct_args+=' -repo ${S} -data ${WORKDIR}/${PLNX_SCRIPTS_PATH}/data/ -sw ${DT_FILES_PATH}'
-	    xsct_args+=' -o ${DT_FILES_PATH} -a "soc_mapping"'
-	    echo "cmd is: xsct -sdx -nodisp $xsct_args"
-	    eval xsct -sdx -nodisp $xsct_args
-    fi
+	if [ x"${WITHIN_PLNX_FLOW}" = x1 ] && [ -z "${SYSTEM_DTFILE}" ]; then
+		xsct_args="${WORKDIR}/${PLNX_SCRIPTS_PATH}/petalinux_hsm_bridge.tcl"
+		xsct_args="${xsct_args} -c ${WORKDIR}/config -hdf ${DT_FILES_PATH}/hardware_description.${HDF_EXT}"
+		xsct_args="${xsct_args} -repo ${S} -data ${WORKDIR}/${PLNX_SCRIPTS_PATH}/data/ -sw ${DT_FILES_PATH}"
+		xsct_args="${xsct_args} -o ${DT_FILES_PATH} -a soc_mapping"
+		echo "cmd is: xsct -sdx -nodisp $xsct_args"
+		eval xsct -sdx -nodisp $xsct_args
+	fi
 }

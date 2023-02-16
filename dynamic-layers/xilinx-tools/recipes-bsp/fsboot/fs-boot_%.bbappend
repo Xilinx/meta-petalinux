@@ -16,9 +16,10 @@ HSM_OUTFILE = "${WORKDIR}/offsets"
 do_configure:append () {
 	if [ x"${WITHIN_PLNX_FLOW}" = x1 ] && [ -z "${SYSTEM_DTFILE}" ]; then
 		touch ${HSM_OUTFILE}
-		xsct_args='${WORKDIR}/${PLNX_SCRIPTS_PATH}/petalinux_hsm.tcl'
-		xsct_args+=' get_flash_width_parts ${WORKDIR}/config ${WORKDIR}/${PLNX_SCRIPTS_PATH}/data/ipinfo.yaml'
-		xsct_args+=' ${XSCTH_HDF} ${HSM_OUTFILE}'
+		xsct_args="${WORKDIR}/${PLNX_SCRIPTS_PATH}/petalinux_hsm.tcl"
+		xsct_args="${xsct_args} get_flash_width_parts ${WORKDIR}/config"
+		xsct_args="${xsct_args} ${WORKDIR}/${PLNX_SCRIPTS_PATH}/data/ipinfo.yaml"
+		xsct_args="${xsct_args} ${XSCTH_HDF} ${HSM_OUTFILE}"
 		echo "cmd is: xsct -sdx -nodisp $xsct_args"
 		xsct -sdx -nodisp $xsct_args
 	fi
