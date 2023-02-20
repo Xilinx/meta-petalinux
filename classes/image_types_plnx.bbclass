@@ -96,5 +96,5 @@ multiubi_mkfs() {
 do_image_ubifs[cleandirs] += "${WORKDIR}/ubifs"
 IMAGE_CMD:ubifs () {
 	(cd ${IMAGE_ROOTFS} && find . ${PLNX_IMAGE_UBI_SKIP} | sort | cpio -o -H newc) | cpio -i -d -m --sparse -D ${WORKDIR}/ubifs
-	mkfs.ubifs -r ${WORKDIR}/ubifs -o ${IMGDEPLOYDIR}/${IMAGE_NAME}{IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}
+	mkfs.ubifs -r ${WORKDIR}/ubifs -o ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.ubifs ${MKUBIFS_ARGS}
 }
