@@ -15,7 +15,7 @@ XEN_EXTRA_PACKAGES = " \
 	xen \
 	xen-tools \
 	xen-tools-xenstat \
-	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-system-i386 qemu-keymaps', 'qemu', d)} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', 'qemu-aarch64 qemu-keymaps', 'qemu', d)} \
 	"
 
 RDEPENDS:${PN} = "${XEN_EXTRA_PACKAGES}"
