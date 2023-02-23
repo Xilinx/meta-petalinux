@@ -1,3 +1,8 @@
+# When building for petalinux, we want to enable multilib support
+EXTRA_OECONF:append:xilinx-standalone = " \
+        --enable-multilib \
+"
+
 # PetaLinux adds SIZE to the environment
 do_install:append () {
         mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
