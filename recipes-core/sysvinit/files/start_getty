@@ -22,6 +22,7 @@ case $(readlink -f "${getty}") in
         if [ -x "/usr/bin/setsid" ] ; then
             setsid="/usr/bin/setsid"
         fi
+        options=""
         ;;
 esac
 
@@ -43,7 +44,10 @@ for line in $active_serial; do
 			then
 				if [ -c /dev/$2 ]
 				then
-				    ${setsid:-} ${getty} -L $1 $2 $3
+				    eval ${setsid:-} ${getty} ${options:-} -L $1 $2 $3
+				else
+				    # Prevent respawning to fast error if /dev entry does not exist
+				    sleep 1000
 				fi
 				break
 			fi
