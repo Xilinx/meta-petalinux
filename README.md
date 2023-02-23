@@ -9,6 +9,19 @@ MicroBlaze, Zynq, ZynqMP and Versal.
 Limitation for fru-print utility: The SOM Memory Config record offset was updated.
 Legacy devices using the old offset will skip this record when printing fru data.
 
+## Toolchains
+
+To build standalone toolchains similar to those embedded with the
+Xilinx xsct tooling:
+
+Use one of the custom machines:
+  aarch32-tc - 32-bit ARM toolchains (various)
+  aarch64-tc - 64-bit ARM toolchains (various)
+  arm-rm-tc  - ARM Cortex-R (and various)
+  microblaze-tc - Microblaze toolchains (various)
+
+MACHINE=<machine> DISTRO=xilinx-standalone bitbake meta-xilinx-toolchain
+
 ## Maintainers, Patches/Submissions, Community
 
 Please open pull requests for any changes.
