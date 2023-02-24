@@ -7,14 +7,9 @@ PLNX_IMAGE_CPIO_SKIP += "! -path './boot/*'"
 PLNX_IMAGE_JFFS2_SKIP += "! -path './boot/*'"
 PLNX_IMAGE_UBI_SKIP += "! -path './boot/*'"
 
-COMMON_FEATURES = " \
-    ssh-server-openssh \
-    hwcodecs \
-    "
-
-COMMON_FEATURES:microblaze = " \
-    ssh-server-dropbear \
-    "
+SSH_SERVER_DEFAULT ?= " ssh-server-openssh"
+SSH_SERVER_DEFAULT:microblaze ?= " ssh-server-dropbear"
+COMMON_FEATURES ?= "${SSH_SERVER_DEFAULT} hwcodecs"
 
 IMAGE_FEATURES += "${COMMON_FEATURES}"
 
