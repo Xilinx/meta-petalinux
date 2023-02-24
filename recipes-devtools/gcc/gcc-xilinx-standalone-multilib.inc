@@ -3,7 +3,7 @@
 ARM_PROFILE = "aprofile"
 ARM_PROFILE:armv7r = "rmprofile"
 ARM_PROFILE:armv8r = "rmprofile"
-EXTRA_OECONF:append:xilinx-standalone:arm = " \
+EXTRA_OECONF:append:xilinx-standalone:arm:baremetal-multilib-tc = " \
         --with-multilib-list=${ARM_PROFILE} \
         "
 

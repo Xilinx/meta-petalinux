@@ -4,11 +4,11 @@ ARM_PROFILE = "aprofile"
 ARM_PROFILE:armv7r = "rmprofile"
 ARM_PROFILE:armv8r = "rmprofile"
 
-EXTRA_OECONF:append:xilinx-standalone:arm:class-target = " \
+EXTRA_OECONF:append:xilinx-standalone:arm:class-target:baremetal-multilib-tc = " \
 	--with-multilib-list=${ARM_PROFILE} \
 	"
 
-do_install:append:xilinx-standalone:class-target() {
+do_install:append:xilinx-standalone:class-target:baremetal-multilib-tc () {
 	# The multilibs have different headers, so stop combining them!
 	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
 		rm -rf ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
