@@ -1,5 +1,5 @@
 # When building for petalinux, we want to enable multilib support
-EXTRA_OECONF:append:xilinx-standalone = " \
+EXTRA_OECONF:append:xilinx-standalone:baremetal-multilib-tc = " \
         --enable-multilib \
 "
 
