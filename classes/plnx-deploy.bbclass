@@ -87,9 +87,6 @@ EXTRA_FILESLIST:zynqmp ?= "${DEPLOY_DIR_IMAGE}/pmu-rom.elf:pmu_rom_qemu_sha3.elf
 PACKAGE_DTB_NAME ?= ""
 PACKAGE_UBOOT_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
-PROC_TUNE:versal = "cortexa72"
-PROC_TUNE:zynqmp = "cortexa53"
-LINUX_DT_FILE_NAME ?= "${@'/devicetree/${PROC_TUNE}-${SOC_FAMILY}-linux.dtb' if d.getVar('SYSTEM_DTFILE') != '' else 'system.dtb'}"
 
 UBOOT_IMAGES ?= "u-boot-nodtb.bin:u-boot.bin u-boot-nodtb.elf:u-boot.elf \
 		u-boot.elf:u-boot-dtb.elf u-boot.bin:u-boot-dtb.bin \
@@ -98,7 +95,7 @@ UBOOT_IMAGES:microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 			   u-boot-s.bin:u-boot-s.bin"
 
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
-PACKAGES_LIST[device-tree] = "${LINUX_DT_FILE_NAME}:system.dtb"
+PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
 PACKAGES_LIST[uboot-device-tree] = "uboot-device-tree.dtb:u-boot.dtb"
 PACKAGES_LIST[u-boot-xlnx-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
@@ -167,7 +164,7 @@ def copyfiles_update(d):
 
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
-        d.setVarFlag('PACKAGES_LIST', 'device-tree', d.getVar('LINUX_DT_FILE_NAME') + ':' + dtb_name)
+        d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
     d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/pl.dtbo:pl.dtbo /devicetree/pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
@@ -255,7 +252,8 @@ python plnx_deploy() {
             if dtb_file != 'system-top.dtb':
                d.appendVarFlag('PACKAGES_LIST', pn, ' /devicetree/' + dtb_file + ':/' + dtb_file)
 
-    for package_bin in d.getVarFlag('PACKAGES_LIST', pn).split():
+    packageflags = d.getVarFlags('PACKAGES_LIST') or {}
+    for package_bin in packageflags[pn].split():
         input, output = package_bin.split(':')
         inputfile = deploy_dir + '/' + input
         outputfile = output_path + '/' + output
