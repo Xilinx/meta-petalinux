@@ -169,7 +169,7 @@ def copyfiles_update(d):
 
     dtb_name = d.getVar('PACKAGE_DTB_NAME') or ""
     if dtb_name:
-        d.setVarFlag('PACKAGES_LIST', 'device-tree', 'system.dtb:' + dtb_name)
+        d.setVarFlag('PACKAGES_LIST', 'device-tree', d.getVar('LINUX_DT_FILE_NAME') + ':' + dtb_name)
     d.appendVarFlag('PACKAGES_LIST', 'device-tree', ' /devicetree/pl.dtbo:pl.dtbo /devicetree/pl-final.dtbo:pl.dtbo' )
     uboot_dtb_name = d.getVar('PACKAGE_UBOOT_DTB_NAME') or ""
     if uboot_dtb_name:
