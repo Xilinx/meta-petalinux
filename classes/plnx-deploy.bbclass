@@ -88,6 +88,11 @@ PACKAGE_DTB_NAME ?= ""
 PACKAGE_UBOOT_DTB_NAME ?= ""
 PACKAGE_FITIMG_NAME ?= ""
 
+SDT_DT_FILE_NAME ?= ""
+SDT_DT_FILE_NAME:versal ?= "cortexa72-versal-linux.dtb"
+SDT_DT_FILE_NAME:zynqmp ?= "cortexa53-zynqmp-linux.dtb"
+LINUX_DT_FILE_NAME ?= "${@'/devicetree/${SDT_DT_FILE_NAME}' if d.getVar('SYSTEM_DTFILE') != '' else 'system.dtb'}"
+
 UBOOT_IMAGES ?= "u-boot-nodtb.bin:u-boot.bin u-boot-nodtb.elf:u-boot.elf \
 		u-boot.elf:u-boot-dtb.elf u-boot.bin:u-boot-dtb.bin \
 		u-boot-s.bin:u-boot-s.bin fit-dtb.blob:fit-dtb.blob"
@@ -95,7 +100,7 @@ UBOOT_IMAGES:microblaze ?= "u-boot.bin:u-boot.bin u-boot.elf:u-boot.elf \
 			   u-boot-s.bin:u-boot-s.bin"
 
 PACKAGES_LIST[mb-realoc] = "u-boot-s.bin:u-boot-s.bin"
-PACKAGES_LIST[device-tree] = "system.dtb:system.dtb"
+PACKAGES_LIST[device-tree] = "${LINUX_DT_FILE_NAME}:system.dtb"
 PACKAGES_LIST[uboot-device-tree] = "uboot-device-tree.dtb:u-boot.dtb"
 PACKAGES_LIST[u-boot-xlnx-scr] = "boot.scr:boot.scr"
 PACKAGES_LIST[arm-trusted-firmware] = "arm-trusted-firmware.elf:bl31.elf arm-trusted-firmware.bin:bl31.bin"
@@ -252,8 +257,7 @@ python plnx_deploy() {
             if dtb_file != 'system-top.dtb':
                d.appendVarFlag('PACKAGES_LIST', pn, ' /devicetree/' + dtb_file + ':/' + dtb_file)
 
-    packageflags = d.getVarFlags('PACKAGES_LIST') or {}
-    for package_bin in packageflags[pn].split():
+    for package_bin in d.getVarFlag('PACKAGES_LIST', pn).split():
         input, output = package_bin.split(':')
         inputfile = deploy_dir + '/' + input
         outputfile = output_path + '/' + output
