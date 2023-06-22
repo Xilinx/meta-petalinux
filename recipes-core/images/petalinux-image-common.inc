@@ -54,6 +54,6 @@ COMMON_INSTALL:append:zynqmp = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} hellopm ${LIBDFX_
 COMMON_INSTALL:append:zynq = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL}"
 COMMON_INSTALL:append:versal = " ${INSTALL_ZYNQ_ZYNQMP_VERSAL} ${LIBDFX_RECIPE}"
 
-CORE_IMAGE_EXTRA_INSTALL:append:ultra96 = " packagegroup-base-extended"
+CORE_IMAGE_EXTRA_INSTALL:append:ultra96-zynqmp = " packagegroup-base-extended"
 
 IMAGE_LINGUAS = " "
