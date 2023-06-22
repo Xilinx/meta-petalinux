@@ -5,8 +5,8 @@ som=$(ipmi-fru --fru-file=${eeprom} --interpret-oem-data | awk -F": " '/^  *FRU 
 eeprom=$(ls /sys/bus/i2c/devices/*51/eeprom 2> /dev/null)
 cc=$(ipmi-fru --fru-file=${eeprom} --interpret-oem-data | awk -F": " '/^  *FRU Board Product*/ { print tolower ($2) }')
 
-BOARD=xilinx_${som}
-BOARD_VARIANT=xilinx_${som}_${cc}
+BOARD="$(echo "${som}" | awk -F'-' '{print $2"_"$1}')"
+BOARD_VARIANT="${BOARD}_$(echo "${cc}" | awk -F'-' '{print $2}')"
 
 #check if dnf configs already updated based off BOARD_VARIANT value
 if ! grep "${BOARD_VARIANT}" /etc/dnf/vars/arch > /dev/null
