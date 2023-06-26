@@ -1,14 +1,19 @@
 #!/bin/sh
 
-searche2fs_enabled() {
-        return 0
-}
 export PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 # sourcing the required functions
 . /scripts/functions
 
+searche2fs_enabled() {
+        return 0
+}
+
 searche2fs_run() {
+	if [ -n "$bootparam_launch_ramdisk_init" ]; then
+		msg "launch_ramdisk_init is set, Launching ramdisk init"
+		return 0
+	fi
 	if [ -z "$ROOTFS_DIR" ]; then
 		return 0
 	fi

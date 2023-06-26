@@ -2,14 +2,19 @@
 # Copyright (C) 2011 O.S. Systems Software LTDA.
 # Licensed on MIT
 
+# sourcing the required functions
+. /scripts/functions
+
 e2fs_enabled() {
 	return 0
 }
 
-# sourcing the required functions
-. /scripts/functions
 
 e2fs_run() {
+	if [ -n "$bootparam_launch_ramdisk_init" ]; then
+		msg "launch_ramdisk_init is set, Launching ramdisk init"
+		return 0
+	fi
 	filesystems="ext4 ext3 ext2"
 
 	# load modules
