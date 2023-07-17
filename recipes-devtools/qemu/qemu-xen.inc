@@ -18,6 +18,14 @@ SRC_URI_XEN:class-target = " \
           file://0014-xen_arm-Create-virtio-mmio-devices-during-initializa.patch \
           file://0015-xen_arm-Initialize-RAM-and-add-hi-low-memory-regions.patch \
           file://0016-xen_arm-Add-accel-xen-and-drop-extra-interface-openi.patch \
+          file://0001-xen-when-unplugging-emulated-devices-skip-virtio-dev.patch \
+          file://0002-xen-add-pseudo-RAM-region-for-grant-mappings.patch \
+          file://0003-softmmu-let-qemu_map_ram_ptr-use-qemu_ram_ptr_length.patch \
+          file://0004-xen-let-xen_ram_addr_from_mapcache-return-1-in-case-.patch \
+          file://0005-memory-add-MemoryRegion-map-and-unmap-callbacks.patch \
+          file://0006-xen-add-map-and-unmap-callbacks-for-grant-region.patch \
+          file://0007-xen-mapcache-Fix-build-on-Arm.patch \
+          file://0008-hw-arm-Add-grant-mapping.patch \
           "
 
 FILESEXTRAPATHS:prepend:class-target := "${THISDIR}/qemu:"
