@@ -6,6 +6,8 @@ Subject: [PATCH 4/5] modetest: fix smpte colour pattern issue for XV20 and
 
 Fix smpte colour issue for XV15 and XV20 formats.
 
+Upstream-Status: Pending
+
 Signed-off-by: Anil Kumar M <amamidal@xilinx.com>
 ---
  tests/util/pattern.c | 8 ++++----

@@ -8,6 +8,8 @@ When we use 4k as erase sector with jffs2, then we get erase block
 size error, this patch removes that check in order to support lower
 granularities like 4k.
 
+Upstream-Status: Inappropriate [Xilinx board specific]
+
 Signed-off-by: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
 ---
  jffsX-utils/mkfs.jffs2.c | 12 +++++-------

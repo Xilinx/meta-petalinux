@@ -6,6 +6,8 @@ Subject: [PATCH] modetest: Add YUV444 and X403 format support for modetest
 Add YUV44 8-bit and X403 10-bit formats support to modetest
 for generating color bar pattern.
 
+Upstream-Status: Pending
+
 Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
 ---
  include/drm/drm_fourcc.h |   7 +

@@ -7,6 +7,8 @@ Subject: [PATCH 3/5] modetest: Add semiplanar 10bit pattern support for
 Add XV15 and XV20 10 bit semiplanar formats support for
 generating color bar pattern while running modetest command.
 
+Upstream-Status: Pending
+
 Signed-off-by: Anil Kumar M <amamidal@xilinx.com>
 ---
  tests/modetest/buffers.c |  24 ++-

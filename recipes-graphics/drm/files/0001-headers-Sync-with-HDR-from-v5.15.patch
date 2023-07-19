@@ -5,6 +5,8 @@ Subject: [PATCH] headers: Sync with HDR from v5.15
 
 Sync drm_mode.h with linux-xlnx/include/uapi/drm/drm_mode.h for HDR
 
+Upstream-Status: Pending
+
 Signed-off-by: Rohit Visavalia <rohit.visavalia@xilinx.com>
 ---
  include/drm/drm_mode.h | 129 +++++++++++++++++++++++++++++++++++++++--
