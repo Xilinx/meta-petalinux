@@ -2,6 +2,8 @@ syslog.conf: Enable kernel output to console
 
 Enable kernel output to console to warning priority or higher
 
+Upstream-Status: Inappropriate [PetaLinux specific]
+
 Signed-off-by: Vishal Patel <vishal.patel@xilinx.com>
 ---
 CR-1106256
