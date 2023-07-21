@@ -6,6 +6,8 @@ Subject: [PATCH] default.pai.in: disable tsched (system-timer based model)
 With tsched enabled we see clicking noise on DisplayPort for initial 5 sec
 every time audio is played. Disabling the same fixes the issue.
 
+Upstream-Status: Inappropriate [disable feature]
+
 Signed-off-by: Rohit Visavalia <rohit.visavalia@xilinx.com>
 ---
  src/daemon/default.pa.in | 2 +-
