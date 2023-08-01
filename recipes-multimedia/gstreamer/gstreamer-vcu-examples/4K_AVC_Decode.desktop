@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=4K AVC Decode
+Comment=VCU Example: Plays sample AVC encoded content with audio
+Exec=matchbox-terminal -e "bash -c \"vcu-demo-decode-display.sh -c avc -a aac; exec bash\""
+Icon=applications-multimedia
+Terminal=false
+Categories=GTK;Utility;
+StartupNotify=true
