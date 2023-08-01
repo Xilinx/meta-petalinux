@@ -38,15 +38,13 @@ IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp'
 IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL:append:versal-ai-core = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks gstreamer-vdu-examples gstreamer-vdu-notebooks kernel-module-hdmi"
-IMAGE_INSTALL:append:versal-ai-edge = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks gstreamer-vdu-examples gstreamer-vdu-notebooks kernel-module-hdmi"
-
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks kernel-module-hdmi"
 IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 
 # ultra96-zynqmp recipes
-IMAGE_INSTALL:append:ultra96 = " packagegroup-petalinux-ultra96-webapp"
-IMAGE_INSTALL:append:ultra96 = " ultra96-power-button"
-IMAGE_INSTALL:append:ultra96 = " packagegroup-petalinux-96boards-sensors"
+IMAGE_INSTALL:append:ultra96-zynqmp = " packagegroup-petalinux-ultra96-webapp"
+IMAGE_INSTALL:append:ultra96-zynqmp = " ultra96-power-button"
+IMAGE_INSTALL:append:ultra96-zynqmp = " packagegroup-petalinux-96boards-sensors"
 
 IMAGE_INSTALL:append = " tree ttf-bitstream-vera packagegroup-core-full-cmdline python3-pybind11"
 
