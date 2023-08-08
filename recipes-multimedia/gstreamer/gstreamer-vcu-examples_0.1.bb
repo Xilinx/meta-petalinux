@@ -1,23 +1,12 @@
 DESCRIPTION = "Demo scripts to run common usecases involving VCU in ZynqMP"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+LIC_FILES_CHKSUM = "file://../../LICENSE.md;md5=17e31b2e971eed6471a361c7dc4faa18"
 
-SRC_URI = "file://vcu-demo-camera-decode-display.sh \
-           file://vcu-demo-camera-encode-decode-display.sh \
-           file://vcu-demo-camera-encode-file.sh \
-           file://vcu-demo-camera-encode-streamout.sh \
-           file://vcu-demo-decode-display.sh \
-           file://vcu-demo-streamin-decode-display.sh \
-           file://vcu-demo-transcode-to-file.sh \
-           file://vcu-demo-transcode-to-streamout.sh \
-           file://vcu-demo-videotestsrc-hdr-to-file.sh \
-           file://vcu-demo-functions.sh \
-           file://4K_AVC_Decode.desktop \
-           file://4K_HEVC_Decode.desktop \
-           file://VCU_Examples_ReadMe.desktop \
-           file://VCU-Examples-ReadMe.txt"
+BRANCH  ?= "master"
+SRCREV  = "3ad4ad2f03f3b183a9c15ef1ba8c98435ff23dc2"
+SRC_URI = "git://github.com/Xilinx/multimedia-notebooks.git;protocol=https;branch=master"
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/git/vcu/gstreamer-vcu-examples"
 
 COMPATIBLE_MACHINE = "^$"
 COMPATIBLE_MACHINE:zynqmp-ev = "zynqmp-ev"
