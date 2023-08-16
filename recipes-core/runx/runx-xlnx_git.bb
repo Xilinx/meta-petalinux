@@ -44,8 +44,10 @@ DEPENDS += "qemu-native"
 RDEPENDS:${PN} += " jq bash"
 RDEPENDS:${PN} += " xen-tools-xl socat daemonize"
 
-# This is typically machine specific, but we want this to be generic
-STAGING_KERNEL_DIR = "${WORKDIR}"
+# We depend on the kernel, but we don't actually change for the same kernel version
+# Avoid the package rebuilding when re-used on a different machine
+STAGING_KERNEL_DIR[vardepsexclude] += "MACHINE"
+STAGING_KERNEL_BUILDDIR[vardepsexclude] += "MACHINE"
 
 do_compile() {
 
