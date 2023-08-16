@@ -23,4 +23,5 @@ DEFAULT_GSTREAMER_1_0_OMX_CORE_NAME := "${GSTREAMER_1_0_OMX_CORE_NAME}"
 GSTREAMER_1_0_OMX_CORE_NAME = "${@bb.utils.contains_any('MACHINE_FEATURES', 'vcu vdu', '${libdir}/libOMX.allegro.core.so.1', '${DEFAULT_GSTREAMER_1_0_OMX_CORE_NAME}', d)}"
 
 DEFAULT_PACKAGE_ARCH := "${PACKAGE_ARCH}"
+PACKAGE_ARCH[vardepsexclude] = "MACHINE_ARCH"
 PACKAGE_ARCH = "${@bb.utils.contains_any('MACHINE_FEATURES', 'vcu vdu', '${MACHINE_ARCH}', '${DEFAULT_PACKAGE_ARCH}', d)}"
