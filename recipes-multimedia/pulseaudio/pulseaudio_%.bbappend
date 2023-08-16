@@ -1,6 +1,7 @@
 # This change appears to only affect ZynqMP configurations
-PACKAGE_ARCH:zynqmp = "${MACHINE_ARCH}"
-FILESEXTRAPATHS:prepend:zynqmp := "${THISDIR}/${PN}:"
-SRC_URI:append:zynqmp = " \
+# but needs to be applied generically to all aarch64 since it affects a lot of
+# dependencies.
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+SRC_URI:append = " \
 		file://0001-default.pai.in-disable-tsched-system-timer-based-mod.patch \
 		"
