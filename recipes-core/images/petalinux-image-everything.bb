@@ -33,12 +33,12 @@ IMAGE_INSTALL:append = " ltp"
 IMAGE_INSTALL:append:zynq = " kernel-devsrc"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
-IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} watchdog-init hellopm cppzmq-dev jansson kernel-devsrc mosquitto kernel-module-dp kernel-module-hdmi"
+IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt watchdog-init hellopm cppzmq-dev jansson kernel-devsrc mosquitto kernel-module-dp kernel-module-hdmi"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 IMAGE_INSTALL:append:zynqmp-ev = " gstreamer-vcu-examples gstreamer-vcu-notebooks"
 IMAGE_INSTALL:append:zynqmp-dr = " sdfec rfdc rfdc-intr rfdc-read-write rfdc-selftest rfclk"
 
-IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} kernel-devsrc pm-notebooks kernel-module-hdmi"
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks kernel-module-hdmi"
 IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 
 # ultra96-zynqmp recipes
