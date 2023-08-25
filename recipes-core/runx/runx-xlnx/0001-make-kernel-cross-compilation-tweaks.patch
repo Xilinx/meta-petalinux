@@ -1,20 +1,20 @@
-From 06d5c0467e51d8c77e55f47093dbf4b3c7151ae2 Mon Sep 17 00:00:00 2001
+From 7e3498ab7c375bd545de501920acffa77eb24120 Mon Sep 17 00:00:00 2001
 From: Bruce Ashfield <bruce.ashfield@xilinx.com>
 Date: Mon, 16 Dec 2019 20:42:04 -0800
 Subject: [PATCH] make-kernel: cross-compilation tweaks
 
+Upstream-Status: Inappropriate [embedded specific]
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
-
-
 ---
  kernel/make-kernel | 41 +++++++++++++++++++++++++++++++++--------
  1 file changed, 33 insertions(+), 8 deletions(-)
 
-diff --git a/kernel/make-kernel b/kernel/make-kernel
-index 538adb7..4e80b3c 100755
---- a/kernel/make-kernel
-+++ b/kernel/make-kernel
-@@ -13,6 +13,7 @@ fi
+Index: git/kernel/make-kernel
+===================================================================
+--- git.orig/kernel/make-kernel
++++ git/kernel/make-kernel
+@@ -13,6 +13,7 @@
  
  kernel_stuffdir=`readlink -f kernel`
  kernel_outpath=$kernel_stuffdir/out
@@ -22,7 +22,7 @@ index 538adb7..4e80b3c 100755
  kernel_builddir=$kernel_stuffdir/build
  kernel_out=$kernel_outpath/kernel
  
-@@ -22,28 +23,52 @@ kernel_tarball="$kernel_name".tar.xz
+@@ -22,28 +23,52 @@
  kernel_url=https://www.kernel.org/pub/linux/kernel/v5.x/"$kernel_tarball"
  kernel_src_config="$kernel_stuffdir"/cutdown-config."$ARCH"
  kernel_patchesdir="$kernel_stuffdir"/patches

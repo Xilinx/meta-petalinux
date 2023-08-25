@@ -1,0 +1,57 @@
+From 4a128a3d1bc3b069ac12d3d61f79bc001340a8b7 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 26 Mar 2021 10:55:49 -0400
+Subject: [PATCH] make-initrd: allow externally provided busybox
+
+Upstream-Status: Inappropriate [embedded specific]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ initrd/make-initrd | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
+
+diff --git a/initrd/make-initrd b/initrd/make-initrd
+index 21170e8..939f71d 100755
+--- a/initrd/make-initrd
++++ b/initrd/make-initrd
+@@ -35,6 +35,8 @@ then
+     cp $busybox_src_config .config
+     make -j "$(getconf _NPROCESSORS_ONLN)"
+     export busybox="$busybox_image"
++else
++    echo "busybox: using externally provided binary"
+ fi
+ 
+ 
+@@ -48,10 +50,24 @@ mkdir -p $tmpdir/lib
+ mkdir -p $tmpdir/var
+ mkdir -p $tmpdir/mnt
+ cp "$busybox" $tmpdir/bin/busybox
+-for i in `cat "$base"/applet-list`
+-do
+-    ln -s /bin/busybox $tmpdir/bin/$i
+-done
++
++if [ -n "$CROSS_COMPILE" ]; then
++    echo "cross compiling, busybox --install emulation"
++    if [ -n "$QEMU_USER" ]; then
++        $QEMU_USER $tmpdir/bin/busybox --install $tmpdir/bin
++    else
++        echo "QEMU_USER is not defined, default binary symlinks will be available"
++	for i in `cat "$base"/applet-list`
++	do
++	    ln -s /bin/busybox $tmpdir/bin/$i
++	done
++    fi
++else
++    for i in `cat "$base"/applet-list`
++    do
++        ln -s /bin/busybox $tmpdir/bin/$i
++    done
++fi
+ 
+ mkdir -p $tmpdir/etc/init.d
+ cp $init $tmpdir/etc/init.d/rcS
+-- 
+2.19.1
+
