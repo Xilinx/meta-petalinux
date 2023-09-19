@@ -1,1 +1,0 @@
-SUBSYSTEM=="i2c", DEVPATH=="*0-005*", RUN+="/bin/chown root:petalinux /sys$env{DEVPATH}/eeprom", RUN+="/bin/chmod 0640 /sys$env{DEVPATH}/eeprom"
