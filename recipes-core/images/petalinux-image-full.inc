@@ -32,9 +32,9 @@ PLNX_COMMON_FEATURES = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'petalinux-matchbox', '', d)} \
     petalinux-qt \
     petalinux-qt-extended \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', 'petalinux-ocicontainers', '', d)} \
     "
+#    ${@bb.utils.contains('DISTRO_FEATURES', 'openamp', 'petalinux-openamp', '', d)}
 
 PLNX_COMMON_FEATURES:append:aarch64 = " \
     petalinux-gstreamer \
