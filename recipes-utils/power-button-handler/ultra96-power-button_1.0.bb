@@ -29,9 +29,11 @@ RDEPENDS:${PN} = "mraa"
 TARGET_CC_ARCH += "${LDFLAGS}"
 
 do_install() {
-	install -d ${D}/sbin
+	install -d ${D}${base_sbindir}
 	install -d ${D}${sysconfdir}/init.d/
-	install -m 0755 ultra96-power-button-check ${D}/sbin
-	install -m 0755 groove-rgb-lcd.py ${D}/sbin
+	install -m 0755 ultra96-power-button-check ${D}${base_sbindir}
+	install -m 0755 groove-rgb-lcd.py ${D}${base_sbindir}
 	install -m 0755 ${S}/ultra96-power-button.sh ${D}${sysconfdir}/init.d/ultra96-power-button.sh
 }
+
+FILES:${PN} += "${base_sbindir}"
