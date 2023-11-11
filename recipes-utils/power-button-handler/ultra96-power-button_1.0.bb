@@ -16,7 +16,7 @@ inherit update-rc.d
 S = "${WORKDIR}"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96-zynqmp = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

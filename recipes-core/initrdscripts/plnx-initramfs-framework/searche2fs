@@ -1,0 +1,48 @@
+#!/bin/sh
+
+export PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+# sourcing the required functions
+. /scripts/functions
+
+searche2fs_enabled() {
+        return 0
+}
+
+searche2fs_run() {
+	if [ -n "$bootparam_launch_ramdisk_init" ]; then
+		msg "launch_ramdisk_init is set, Launching ramdisk init"
+		return 0
+	fi
+	if [ -z "$ROOTFS_DIR" ]; then
+		return 0
+	fi
+	if [ -z "${bootparam_ext2}" ] && [ -z "${bootparam_ext3}" ] && [ -z "${bootparam_ext4}" ]; then
+		boot_devices=""
+		block_devices=""
+		sleep 2
+		block_devices=$(ls /sys/block/ | grep -e "sd[a-z]\{1,\}$" -e "mmcblk[0-9]\{1,\}$")
+		for block_device in $block_devices; do
+			boot_devices=$(blkid /dev/${block_device}* | grep "TYPE=\"ext" | cut -d: -f 1)
+			for boot_device in $boot_devices; do
+				if [ -e ${boot_device} ]; then
+					boot_device_type="$(blkid ${boot_device} | grep -o 'TYPE=.*' | cut -d\" -f 2)"
+					mkdir -p "$ROOTFS_DIR"
+					check_fsck "$boot_device" "$boot_device_type"
+					if ! mount -t $boot_device_type $boot_device $ROOTFS_DIR; then
+						msg "Failed to mount selected root filesystem ($boot_device)"
+					fi
+					if [ ! -d $ROOTFS_DIR/dev ]; then
+						umount $ROOTFS_DIR
+						msg "There's no '/dev' on $boot_device_type(${boot_device}) partition."
+					else
+						if ! check_init $ROOTFS_DIR; then
+							umount $ROOTFS_DIR
+						fi
+						return 0
+					fi
+				fi
+			done
+		done
+	fi
+}

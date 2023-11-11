@@ -1,6 +1,6 @@
 DESCRIPTION = "Required packages for ultra96 startup pages"
 
-COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96-zynqmp = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -15,7 +15,7 @@ ULTRA96_STARTUP_PAGES_PACKAGES = " \
 	python3-itsdangerous \
 	"
 
-ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96 = " \
+ULTRA96_STARTUP_PAGES_PACKAGES:append:ultra96-zynqmp = " \
 	ultra96-ap-setup \
 	ultra96-startup-pages \
 	ultra96-wlan0-config \

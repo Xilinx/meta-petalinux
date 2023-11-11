@@ -7,7 +7,7 @@ inherit features_check
 REQUIRED_DISTRO_FEATURES = "systemd"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96-zynqmp = "${MACHINE}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 SRC_URI = " \

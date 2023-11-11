@@ -28,10 +28,10 @@
 # There are also the following hardware board target machines included for 
 # demonstration purposes:
 #
-#MACHINE ?= "k26-som"
-#MACHINE ?= "k26-starter-kit"
-#MACHINE ?= "kr260-starter-kit"
-#MACHINE ?= "kv260-starter-kit"
+#MACHINE ?= "k26-sm"
+#MACHINE ?= "k26-smk"
+#MACHINE ?= "k26-smk-kv"
+#MACHINE ?= "k26-smk-kr"
 #
 # This sets the default machine to be qemux86-64 if no other machine is selected:
 MACHINE ??= "zynqmp-generic"

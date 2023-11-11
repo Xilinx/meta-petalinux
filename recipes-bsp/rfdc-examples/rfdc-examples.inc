@@ -16,7 +16,7 @@ S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
 
 FLAG = ""
-FLAG:zcu111 = "-DXPS_BOARD_ZCU111"
+FLAG:zcu111-zynqmp = "-DXPS_BOARD_ZCU111"
 
 RFDC_SUBDIR = "XilinxProcessorIPLib/drivers/rfdc/examples"
 

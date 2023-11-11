@@ -14,7 +14,7 @@ inherit packagegroup
 	libftdi	\
 	"
 
-96BOARD_SENSOR_PACKAGES:append:ultra96 = " \
+96BOARD_SENSOR_PACKAGES:append:ultra96-zynqmp = " \
 	sensor-mezzanine-examples \
 	arduino-toolchain \
 	python3-oauthlib \

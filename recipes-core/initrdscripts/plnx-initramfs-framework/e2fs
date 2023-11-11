@@ -1,0 +1,49 @@
+#!/bin/sh
+# Copyright (C) 2011 O.S. Systems Software LTDA.
+# Licensed on MIT
+
+# sourcing the required functions
+. /scripts/functions
+
+e2fs_enabled() {
+	return 0
+}
+
+
+e2fs_run() {
+	if [ -n "$bootparam_launch_ramdisk_init" ]; then
+		msg "launch_ramdisk_init is set, Launching ramdisk init"
+		return 0
+	fi
+	filesystems="ext4 ext3 ext2"
+
+	# load modules
+	for fs in $filesystems; do
+		load_kernel_module $fs
+	done
+
+	for fs in $filesystems; do
+		eval "fs_options=\$bootparam_${fs}"
+		if [ -n "$fs_options" ]; then
+		    dev=`expr "$fs_options" : '\([^:]*\).*'`
+		    path=`expr "$fs_options" : '[^:]*:\([^:]*\).*'`
+
+		    info "Mounting $dev as $fs on $path as $fs..."
+		    mkdir -p $path
+		    count=30
+		    for i in $(seq $count); do
+			if [ -b "$dev" ]; then
+			    check_fsck "$dev" "$fs"
+			    mount -t $fs $dev $path
+			    if ! check_init $path; then
+				umount $path
+                            fi
+			    return 0
+			fi
+			msg "Waiting for $dev to pop up (attempt $i)"
+		        sleep 0.1
+		    done
+		    msg "Device $dev not found"
+		fi
+	done
+}

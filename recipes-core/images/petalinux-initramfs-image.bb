@@ -3,13 +3,14 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
 the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
 first 'init' program more efficiently."
 
-INITRAMFS_SCRIPTS ?= "initramfs-framework-base \
-		initramfs-module-e2fs \
-		initramfs-module-udhcpc \
-		initramfs-module-searche2fs \
-		"
+INITRAMFS_SCRIPTS ?= " \
+    plnx-initramfs-framework-base \
+    plnx-initramfs-module-e2fs \
+    plnx-initramfs-module-udhcpc \
+    plnx-initramfs-module-searche2fs \
+"
 
-INITRAMFS_SCRIPTS:append:kria = " initramfs-module-exec"
+INITRAMFS_SCRIPTS:append:kria = " plnx-initramfs-module-exec"
 
 INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		base-passwd \
@@ -17,7 +18,7 @@ INITRAMFS_PACKAGES ?= "${VIRTUAL-RUNTIME_base-utils} \
 		${ROOTFS_BOOTSTRAP_INSTALL} \
 		"
 
-BAD_RECOMMENDATIONS += "initramfs-module-rootfs"
+BAD_RECOMMENDATIONS += "plnx-initramfs-module-rootfs"
 PACKAGE_INSTALL ?= "${INITRAMFS_PACKAGES} ${INITRAMFS_SCRIPTS}"
 
 # Do not pollute the initrd image with rootfs features
@@ -28,7 +29,13 @@ IMAGE_LINGUAS = ""
 
 LICENSE = "MIT"
 
-IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+# BSPs use IMAGE_FSTYPES:<machine override> which would override
+# an assignment to IMAGE_FSTYPES so we need anon python
+IMAGE_FSTYPES:forcevariable = "${INITRAMFS_FSTYPES}"
+python () {
+    d.setVar("IMAGE_FSTYPES", d.getVar("INITRAMFS_FSTYPES"))
+}
+
 inherit core-image
 inherit image_types_plnx
 

@@ -28,7 +28,7 @@ FILES:${PN} += "${datadir}/ultra96-startup-pages"
 FILES:${PN} += "${base_sbindir}/"
 
 COMPATIBLE_MACHINE = "^$"
-COMPATIBLE_MACHINE:ultra96 = "${MACHINE}"
+COMPATIBLE_MACHINE:ultra96-zynqmp = "${MACHINE}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
