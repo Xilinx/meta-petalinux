@@ -25,7 +25,7 @@ DEPENDS:append:versal = " libeigen"
 
 # We include docker (via IMAGE_FEATURES and packagegroup-ocicontainers)
 # but also want docker-compose to be available.  Use same switch method.
-IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', ' python3-docker-compose', '', d)}"
+IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', ' docker-compose', '', d)}"
 
 # Add ltp package
 IMAGE_INSTALL:append = " ltp"
