@@ -32,4 +32,7 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-aws \
   ##OEROOT##/../meta-jupyter \
   ##OEROOT##/../meta-system-controller \
+  ##OEROOT##/../meta-ros/meta-ros-common \
+  ##OEROOT##/../meta-ros/meta-ros2 \
+  ##OEROOT##/../meta-ros/meta-ros2-humble \
 "
