@@ -92,7 +92,6 @@ ROS_BASE_PACKAGES = "\
     cyclonedds \
     rmw-cyclonedds-cpp \
     tmux \
-    byobu \
     python3-argcomplete \
     glibc-utils \
     localedef \
