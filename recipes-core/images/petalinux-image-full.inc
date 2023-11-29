@@ -44,8 +44,8 @@ PLNX_COMMON_FEATURES:append:aarch64 = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'petalinux-weston', '', d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'petalinux-xen', '', d)} \
     aws-greengrass-v2 \
+    petalinux-ros \
     "
-#    petalinux-ros
 
 ZYNQ_FEATURES = ""
 
