@@ -16,11 +16,11 @@ Signed-off-by: Anil Kumar Mamidala <anil.mamidala@xilinx.com>
  tests/util/pattern.c     | 270 +++++++++++++++++++++++++++++++++++++++
  4 files changed, 313 insertions(+)
 
-Index: libdrm-2.4.117/include/drm/drm_fourcc.h
+Index: libdrm-2.4.118/include/drm/drm_fourcc.h
 ===================================================================
---- libdrm-2.4.117.orig/include/drm/drm_fourcc.h
-+++ libdrm-2.4.117/include/drm/drm_fourcc.h
-@@ -403,6 +403,13 @@ extern "C" {
+--- libdrm-2.4.118.orig/include/drm/drm_fourcc.h
++++ libdrm-2.4.118/include/drm/drm_fourcc.h
+@@ -405,6 +405,13 @@ extern "C" {
  #define DRM_FORMAT_YUV444	fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
  #define DRM_FORMAT_YVU444	fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
  
@@ -34,11 +34,11 @@ Index: libdrm-2.4.117/include/drm/drm_fourcc.h
  
  /*
   * Format Modifiers:
-Index: libdrm-2.4.117/tests/modetest/buffers.c
+Index: libdrm-2.4.118/tests/modetest/buffers.c
 ===================================================================
---- libdrm-2.4.117.orig/tests/modetest/buffers.c
-+++ libdrm-2.4.117/tests/modetest/buffers.c
-@@ -133,11 +133,13 @@ bo_create(int fd, unsigned int format,
+--- libdrm-2.4.118.orig/tests/modetest/buffers.c
++++ libdrm-2.4.118/tests/modetest/buffers.c
+@@ -145,6 +145,7 @@ bo_create(int fd, unsigned int format,
  	case DRM_FORMAT_NV42:
  	case DRM_FORMAT_YUV420:
  	case DRM_FORMAT_YVU420:
@@ -46,13 +46,15 @@ Index: libdrm-2.4.117/tests/modetest/buffers.c
  		bpp = 8;
  		break;
  
+@@ -156,6 +157,7 @@ bo_create(int fd, unsigned int format,
+ 
  	case DRM_FORMAT_XV15:
  	case DRM_FORMAT_XV20:
 +	case DRM_FORMAT_X403:
  		bpp = 10;
  		break;
  
-@@ -221,12 +223,22 @@ bo_create(int fd, unsigned int format,
+@@ -242,6 +244,11 @@ bo_create(int fd, unsigned int format,
  		virtual_height = height * 2;
  		break;
  
@@ -63,7 +65,8 @@ Index: libdrm-2.4.117/tests/modetest/buffers.c
 +
  	case DRM_FORMAT_NV16:
  	case DRM_FORMAT_NV61:
- 		virtual_width = width;
+ 	case DRM_FORMAT_NV20:
+@@ -249,6 +256,11 @@ bo_create(int fd, unsigned int format,
  		virtual_height = height * 2;
  		break;
  
@@ -74,8 +77,8 @@ Index: libdrm-2.4.117/tests/modetest/buffers.c
 +
  	case DRM_FORMAT_NV24:
  	case DRM_FORMAT_NV42:
- 		virtual_width = width;
-@@ -296,6 +308,24 @@ bo_create(int fd, unsigned int format,
+ 	case DRM_FORMAT_NV30:
+@@ -322,6 +334,24 @@ bo_create(int fd, unsigned int format,
  		planes[1] = virtual + offsets[1];
  		break;
  
@@ -100,11 +103,11 @@ Index: libdrm-2.4.117/tests/modetest/buffers.c
  	case DRM_FORMAT_YUV420:
  	case DRM_FORMAT_YVU420:
  		offsets[0] = 0;
-Index: libdrm-2.4.117/tests/util/format.c
+Index: libdrm-2.4.118/tests/util/format.c
 ===================================================================
---- libdrm-2.4.117.orig/tests/util/format.c
-+++ libdrm-2.4.117/tests/util/format.c
-@@ -58,6 +58,10 @@ static const struct util_format_info for
+--- libdrm-2.4.118.orig/tests/util/format.c
++++ libdrm-2.4.118/tests/util/format.c
+@@ -64,6 +64,10 @@ static const struct util_format_info for
  	/* YUV planar */
  	{ DRM_FORMAT_YUV420, "YU12", MAKE_YUV_INFO(YUV_YCbCr, 2, 2, 1) },
  	{ DRM_FORMAT_YVU420, "YV12", MAKE_YUV_INFO(YUV_YCrCb, 2, 2, 1) },
@@ -115,11 +118,11 @@ Index: libdrm-2.4.117/tests/util/format.c
  	/* RGB16 */
  	{ DRM_FORMAT_ARGB4444, "AR12", MAKE_RGB_INFO(4, 8, 4, 4, 4, 0, 4, 12) },
  	{ DRM_FORMAT_XRGB4444, "XR12", MAKE_RGB_INFO(4, 8, 4, 4, 4, 0, 0, 0) },
-Index: libdrm-2.4.117/tests/util/pattern.c
+Index: libdrm-2.4.118/tests/util/pattern.c
 ===================================================================
---- libdrm-2.4.117.orig/tests/util/pattern.c
-+++ libdrm-2.4.117/tests/util/pattern.c
-@@ -426,6 +426,175 @@ static void fill_smpte_yuv_semiplanar_10
+--- libdrm-2.4.118.orig/tests/util/pattern.c
++++ libdrm-2.4.118/tests/util/pattern.c
+@@ -596,6 +596,175 @@ static void fill_smpte_yuv_semiplanar_10
  	}
  }
  
@@ -295,7 +298,7 @@ Index: libdrm-2.4.117/tests/util/pattern.c
  static void fill_smpte_yuv_planar_10b(
  				const struct util_yuv_info *yuv,
  				unsigned char *y_mem, unsigned char *u_mem,
-@@ -686,6 +855,88 @@ static void fill_tiles_xv20(
+@@ -856,6 +1025,88 @@ static void fill_tiles_xv20(
  	}
  }
  
@@ -384,9 +387,9 @@ Index: libdrm-2.4.117/tests/util/pattern.c
  static void fill_smpte_yuv_packed(const struct util_yuv_info *yuv, void *mem,
  				  unsigned int width, unsigned int height,
  				  unsigned int stride)
-@@ -1137,10 +1388,19 @@ static void fill_smpte(const struct util
- 		return fill_smpte_yuv_planar(&info->yuv, planes[0], u, v,
- 					     width, height, stride);
+@@ -1660,10 +1911,19 @@ static void fill_smpte(const struct util
+ 						   planes[1], width, height,
+ 						   stride);
  
 +	case DRM_FORMAT_X403:
 +			return fill_smpte_yuv_planar_x403(&info->yuv, planes[0], planes[1],
@@ -404,7 +407,7 @@ Index: libdrm-2.4.117/tests/util/pattern.c
  	case DRM_FORMAT_YVU420:
  		return fill_smpte_yuv_planar(&info->yuv, planes[0], planes[2],
  					     planes[1], width, height, stride);
-@@ -1464,6 +1724,11 @@ static void fill_tiles(const struct util
+@@ -2082,6 +2342,11 @@ static void fill_tiles(const struct util
  		return fill_tiles_yuv_planar(info, planes[0], planes[1],
  					     planes[2], width, height, stride);
  
@@ -416,7 +419,7 @@ Index: libdrm-2.4.117/tests/util/pattern.c
  	case DRM_FORMAT_YVU420:
  		return fill_tiles_yuv_planar(info, planes[0], planes[2],
  					     planes[1], width, height, stride);
-@@ -1472,6 +1737,11 @@ static void fill_tiles(const struct util
+@@ -2090,6 +2355,11 @@ static void fill_tiles(const struct util
  		return fill_tiles_xv20(info, planes[0], planes[1],
  			 planes[1], width, height, stride);
  
