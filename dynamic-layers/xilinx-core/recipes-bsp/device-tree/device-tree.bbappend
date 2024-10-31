@@ -14,7 +14,7 @@ python () {
             d.prependVar('FILESEXTRAPATHS', '%s:' % sysconfig_dir)
         if plnx_scriptspath:
             d.prependVar('FILESEXTRAPATHS', '%s:' % plnx_scriptspath)
-            d.appendVar('SRC_URI', ' file://%s' % plnx_scriptspath)
+            d.appendVar('SRC_URI', ' file://petalinux_hsm_bridge.tcl file://data/ipinfo.yaml')
 }
 
 do_configure:append () {
