@@ -31,19 +31,19 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-openembedded/meta-oe \
   ##OEROOT##/../meta-xilinx/meta-xilinx-contrib \
   ##OEROOT##/../meta-virtualization \
-  ##OEROOT##/../meta-openamp \
   ##OEROOT##/../meta-kria \
   ##OEROOT##/../meta-embedded-plus \
   ##OEROOT##/../meta-security \
   ##OEROOT##/../meta-security/meta-tpm \
   ##OEROOT##/../meta-xilinx-tsn \
   ##OEROOT##/../meta-petalinux \
+  ##OEROOT##/../meta-openamp \
   ##OEROOT##/../meta-qt5 \
   ##OEROOT##/../meta-aws \
-  ##OEROOT##/../meta-ros/meta-ros-common \
-  ##OEROOT##/../meta-ros/meta-ros2 \
-  ##OEROOT##/../meta-ros/meta-ros2-jazzy \
   ##OEROOT##/../meta-jupyter \
   ##OEROOT##/../meta-rauc \
   ##OEROOT##/../meta-system-controller \
+  ##OEROOT##/../meta-ros/meta-ros-common \
+  ##OEROOT##/../meta-ros/meta-ros2 \
+  ##OEROOT##/../meta-ros/meta-ros2-jazzy \
 "
