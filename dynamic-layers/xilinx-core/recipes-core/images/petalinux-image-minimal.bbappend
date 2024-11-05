@@ -7,6 +7,8 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 	libdrm-tests \
 	gstreamer-vcu-examples \
 	v4l-utils \
+	e2fsprogs-mke2fs \
+	dosfstools \
 	yavta \
 	packagegroup-xilinx-audio \
 	libmali-xlnx \
@@ -17,3 +19,7 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 	vcu-ctrlsw \
 	"
 
+IMAGE_INSTALL:append:versal-vek280-sdt-seg = "\
+	e2fsprogs-mke2fs \
+	dosfstools \
+	"
