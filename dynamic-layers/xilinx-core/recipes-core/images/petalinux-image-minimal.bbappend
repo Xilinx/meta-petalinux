@@ -17,6 +17,7 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 	opencl-headers \
 	gstreamer-vcu-notebooks \
 	vcu-ctrlsw \
+	zcu104-pl-vcu-fw \
 	"
 
 IMAGE_INSTALL:append:versal-vek280-sdt-seg = "\
