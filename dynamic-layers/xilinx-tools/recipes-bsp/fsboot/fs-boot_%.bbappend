@@ -9,7 +9,7 @@ python () {
             d.prependVar('FILESEXTRAPATHS', '%s:' % plnx_scriptspath)
             d.appendVar('SRC_URI', ' file://%s' % plnx_scriptspath)
         d.setVar('YAML_FILE_PATH', '${WORKDIR}/fsboot.yaml')
-        d.appendVar('EXTRA_OEMAKE_APP', ' CFLAGS=-O3\ -DCONFIG_FS_BOOT_OFFSET=${boot_offset}')
+        d.appendVar('EXTRA_OEMAKE_APP', ' CFLAGS="-O3 -DCONFIG_FS_BOOT_OFFSET=${boot_offset}"')
 }
 
 HSM_OUTFILE = "${WORKDIR}/offsets"
