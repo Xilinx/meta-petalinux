@@ -30,8 +30,8 @@ do_deploy() {
 }
 
 do_deploy:class-native() {
-    install -d ${DEPLOYDIR}
-    install -m 0755 ${S}/scripts/uboot-script-gen ${DEPLOYDIR}/
+    install -d ${DEPLOYDIR}/scripts
+    install -m 0755 ${S}/scripts/* ${DEPLOYDIR}/scripts/.
 }
 
 addtask do_deploy after do_install

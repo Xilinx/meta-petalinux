@@ -17,7 +17,7 @@ LOAD_OPT:k26-kv ?= "load mmc 1:1"
 deltask do_deploy_setscene
 
 plnx_config_image_builder() {
-	cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.cpio.gz" "${WORKDIR}/image_builder/rootfs.cpio.gz"
+	cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.cpio.gz" "$(dirname "${XEN_CONFIG}")/rootfs.cpio.gz"
 	cp "${DEPLOY_DIR_IMAGE}/${XEN}" "${WORKDIR}/image_builder/"
 	cp "${DEPLOYDIR}/${DOM0_KERNEL}" "${WORKDIR}/image_builder/"
 	cp "${DEPLOY_DIR_IMAGE}/${DEVICE_TREE}" "${WORKDIR}/image_builder/"
@@ -41,7 +41,7 @@ plnx_compile_image_builder() {
 		plnx_config_image_builder
 	fi
 	if [ -f "${XEN_CONFIG}" ]; then
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
-                ${DEPLOY_DIR_IMAGE}/uboot-script-gen -c ${XEN_CONFIG} -t "${LOAD_OPT}" -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
+                ${DEPLOY_DIR_IMAGE}/scripts/uboot-script-gen -c ${XEN_CONFIG} -t tftp -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_tftp
+                ${DEPLOY_DIR_IMAGE}/scripts/uboot-script-gen -c ${XEN_CONFIG} -t "${LOAD_OPT}" -d $(dirname "${XEN_CONFIG}") -o ${PLNX_DEPLOY_DIR}/xen_boot_sd
         fi
 }
