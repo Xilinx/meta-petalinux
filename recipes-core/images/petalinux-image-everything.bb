@@ -34,14 +34,12 @@ IMAGE_INSTALL:append = " ltp"
 IMAGE_INSTALL:append:zynq = " kernel-devsrc"
 
 VITISAI_DEPENDENCIES = "opencv googletest protobuf-c boost json-c libunwind"
-# kernel-module-hdmi
-IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt cppzmq-dev jansson kernel-devsrc mosquitto kernel-module-dp kernel-module-hdmi21"
+IMAGE_INSTALL:append:zynqmp = " ${VITISAI_DEPENDENCIES} xrt cppzmq-dev jansson kernel-devsrc mosquitto kernel-module-dp kernel-module-hdmi kernel-module-hdmi21"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('MACHINE_FEATURES', 'vcu', ' gstreamer-vcu-examples gstreamer-vcu-notebooks', '', d)}"
 IMAGE_INSTALL:append:zynqmp = "${@bb.utils.contains('MACHINE_FEATURES', 'rfsoc', ' sdfec librfdc librfclk rfdc-intr rfdc-read-write rfdc-selftest', '', d)}"
 
-# kernel-module-hdmi
-IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks kernel-module-hdmi21"
+IMAGE_INSTALL:append:versal = " ${VITISAI_DEPENDENCIES} xrt kernel-devsrc pm-notebooks kernel-module-hdmi kernel-module-hdmi21"
 IMAGE_INSTALL:append:versal = "${@bb.utils.contains('MACHINE_FEATURES', 'vdu', ' gstreamer-vdu-examples gstreamer-vdu-notebooks', '', d)}"
 IMAGE_INSTALL:append:versal = "${@bb.utils.contains('DISTRO_FEATURES', 'openamp', ' openamp-demo-notebooks', '', d)}"
 
