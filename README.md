@@ -46,7 +46,7 @@ https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#
 `git format-patch -s --subject "meta-petalinux][<BRANCH_NAME>][PATCH" -1`
 
 **Example:**
-`git format-patch -s --subject "meta-petalinux][rel-v2025.1][PATCH" -1`
+`git format-patch -s --subject "meta-petalinux][rel-v2025.2][PATCH" -1`
 
 **Maintainers:**
 
@@ -74,15 +74,15 @@ This layer depends on:
         https://github.com/Xilinx/meta-xilinx (development and AMD release)
 	layers: meta-xilinx-core, meta-xilinx-microblaze, meta-xilinx-bsp,
             meta-xilinx-standalone, meta-xilinx-vendor, meta-xilinx-virtualization.
-	branch: scarthgap or AMD release version (e.g. rel-v2025.1)
+	branch: scarthgap or AMD release version (e.g. rel-v2025.2)
 
 	URI:
         https://git.yoctoproject.org/meta-xilinx-tools (official version)
         https://github.com/Xilinx/meta-xilinx-tools (development and AMD release)
-	branch: scarthgap or AMD release version (e.g. rel-v2025.1)
+	branch: scarthgap or AMD release version (e.g. rel-v2025.2)
 
 	URI: https://github.com/Xilinx/meta-jupyter
-	branch: scarthgap or AMD release version (e.g. rel-v2025.1)
+	branch: scarthgap or AMD release version (e.g. rel-v2025.2)
 
 	URI: https://git.yoctoproject.org/meta-mingw
 	branch: scarthgap
@@ -95,23 +95,23 @@ This layer depends on:
 
 	URI: https://github.com/Xilinx/meta-ros
 	layers: meta-ros-common, meta-ros2, meta-ros2-jazzy
-	branch: AMD release version (e.g. rel-v2025.1)
+	branch: AMD release version (e.g. rel-v2025.2)
 
 	URI: https://git.yoctoproject.org/meta-security
 	layers: meta-tpm
 	branch: scarthgap
 
 	URI: https://github.com/Xilinx/meta-kria
-	branch: AMD release version (e.g. rel-v2025.1)
+	branch: AMD release version (e.g. rel-v2025.2)
 
 	URI: https://git.yoctoproject.org/meta-virtualization
 	branch: scarthgap
 
 	URI: https://github.com/Xilinx/meta-vitis
-	branch: AMD release version (e.g. rel-v2025.1)
+	branch: AMD release version (e.g. rel-v2025.2)
 
 	URI: https://github.com/Xilinx/meta-xilinx-tsn
-	branch: AMD release version (e.g. rel-v2025.1)
+	branch: AMD release version (e.g. rel-v2025.2)
 
 	URI: https://git.yoctoproject.org/meta-aws
 	branch: scarthgap
