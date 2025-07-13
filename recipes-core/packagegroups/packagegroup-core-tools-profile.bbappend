@@ -1,5 +1,7 @@
-RDEPENDS:${PN}:remove = "${LTTNGMODULES} ${LTTNGTOOLS}"
-RDEPENDS:${PN}:remove:microblaze = "systemtap icu"
-VALGRIND:microblaze = ""
-LTTNGUST:microblaze = ""
+# Microblaze does not support the following tools
 PERF:microblaze = ""
+SYSTEMTAP:microblaze = ""
+LTTNGTOOLS:microblaze = ""
+BABELTRACE:microblaze = ""
+BABELTRACE2:microblaze = ""
+VALGRIND:microblaze = ""
