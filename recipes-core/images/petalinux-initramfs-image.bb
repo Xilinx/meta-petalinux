@@ -37,7 +37,7 @@ python () {
 }
 
 inherit core-image
-inherit image_types_plnx
+IMAGE_CLASSES += "image_types_plnx"
 
 # Skip /boot when generating a cpio
 PLNX_IMAGE_CPIO_SKIP += "! -path './boot/*'"
