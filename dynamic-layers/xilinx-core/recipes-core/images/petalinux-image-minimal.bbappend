@@ -23,7 +23,6 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 IMAGE_INSTALL:append:versal-vek280-sdt-seg = "\
 	e2fsprogs-mke2fs \
 	dosfstools \
-	vek280-pl-aie-vdu-fw \
 	packagegroup-xilinx-gstreamer \
 	libvdu-omxil \
 	vdu-ctrlsw \
