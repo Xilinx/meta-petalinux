@@ -1,9 +1,0 @@
-name = "guest0"
-kernel = "/boot/Image"
-extra = "console=hvc0 rdinit=/sbin/init"
-memory = 256
-vcpus = 2
-dtdev = [ "/amba/ethernet@ff0e0000" ]
-device_tree = "/etc/xen/passthrough-example-part.dtb"
-irqs = [ 95 ]
-iomem = [ "0xff0e0,1" ]
