@@ -6,6 +6,7 @@ Common targets are:
     petalinux-image-minimal
     petalinux-image-full
     petalinux-image-everything
+    emb-plus-image-minimal
     meta-qemu-xilinx
     meta-xilinx-toolchain
 
