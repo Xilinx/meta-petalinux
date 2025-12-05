@@ -38,7 +38,6 @@ BBLAYERS ?= " \
   ##OEROOT##/../meta-petalinux \
   ##OEROOT##/../meta-openamp \
   ##OEROOT##/../meta-qt5 \
-  ##OEROOT##/../meta-aws \
   ##OEROOT##/../meta-jupyter \
   ##OEROOT##/../meta-rauc \
   ##OEROOT##/../meta-ros/meta-ros-common \

@@ -113,9 +113,6 @@ This layer depends on:
 	URI: https://github.com/Xilinx/meta-xilinx-tsn
 	branch: AMD release version (e.g. rel-v2026.1)
 
-	URI: https://git.yoctoproject.org/meta-aws
-	branch: scarthgap
-
 	URI: https://git.yoctoproject.org/meta-arm
 	layers: meta-arm, meta-arm-toolchain
 	branch: scarthgap
