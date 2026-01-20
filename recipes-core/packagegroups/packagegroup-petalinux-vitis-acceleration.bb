@@ -7,18 +7,12 @@ inherit packagegroup
 PACKAGES += "${PN}-essential ${PN}-recommends"
 
 RDEPENDS:${PN}-essential:zynqmp = " \
-		xrt \
-		kernel-module-zocl \
 		"
 
 RDEPENDS:${PN}-essential:versal = " \
-		xrt \
-		kernel-module-zocl \
 		"
 
 RDEPENDS:${PN}-essential:versal-net = " \
-		xrt \
-		kernel-module-zocl \
 		"
 
 RDEPENDS:${PN}-essential = " \
