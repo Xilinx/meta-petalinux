@@ -5,7 +5,6 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 	packagegroup-core-x11 \
 	libdrm \
 	libdrm-tests \
-	gstreamer-vcu-examples \
 	v4l-utils \
 	e2fsprogs-mke2fs \
 	dosfstools \
@@ -15,8 +14,6 @@ IMAGE_INSTALL:append:zynqmp-zcu104-sdt-full = "\
 	zocl \
 	xrt \
 	opencl-headers \
-	gstreamer-vcu-notebooks \
-	vcu-ctrlsw \
 	zcu104-pl-vcu-fw \
 	"
 
@@ -24,10 +21,4 @@ IMAGE_INSTALL:append:versal-vek280-sdt-seg = "\
 	e2fsprogs-mke2fs \
 	dosfstools \
 	packagegroup-xilinx-gstreamer \
-	libvdu-omxil \
-	vdu-ctrlsw \
-	kernel-module-vdu \
-	vdu-firmware \
-	gstreamer-vdu-examples \
-	gstreamer-vdu-notebooks \
 	"
