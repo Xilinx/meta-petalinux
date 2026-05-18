@@ -329,7 +329,6 @@ SKIP_META_VIRT_SANITY_CHECK = "1"
 SKIP_META_SECURITY_SANITY_CHECK = "1"
 SKIP_META_TPM_SANITY_CHECK = "1"
 SKIP_META_GNOME_SANITY_CHECK = "1"
-SKIP_META_RAUC_FEATURE_CHECK = "1"
 
 # Disable Fortran support - no ROS packages in our configuration
 # require it and gfortran is not available on all build hosts.
