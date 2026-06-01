@@ -24,6 +24,13 @@ DEPENDS:append:zynqmp = " libeigen"
 DEPENDS:append:versal = " libeigen"
 DEPENDS:append:versal-net = " libeigen"
 
+DEPENDS:append:zynqmp = " trusted-firmware-a"
+DEPENDS:append:versal = " trusted-firmware-a"
+DEPENDS:append:versal-net = " trusted-firmware-a"
+
+# We want to download the ESW sources, but only if a particular version is enabled
+DEPENDS:append = " ${@'embeddedsw-source-' + d.getVar('XILINX_RELEASE_VERSION').replace('v', '') if d.getVar('XILINX_RELEASE_VERSION') else ''}"
+
 # We include docker (via IMAGE_FEATURES and packagegroup-ocicontainers)
 # but also want docker-compose to be available.  Use same switch method.
 IMAGE_INSTALL:append = " ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization vmsep', ' docker-compose', '', d)}"
