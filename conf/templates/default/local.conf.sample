@@ -16,25 +16,8 @@
 #
 # Machine Selection
 #
-# You need to select a specific machine to target the build with. There are a selection
-# of emulated machines available which can boot and run in the QEMU emulator:
-#
-#MACHINE ?= "qemu-microblazeel"
-#MACHINE ?= "qemu-zynq7"
-#MACHINE ?= "qemu-zynqmp"
-#MACHINE ?= "qemu-versal"
-#MACHINE ?= "qemu-versal-net"
-#
-# There are also the following hardware board target machines included for 
-# demonstration purposes:
-#
-#MACHINE ?= "k26-sm"
-#MACHINE ?= "k26-smk"
-#MACHINE ?= "k26-smk-kv"
-#MACHINE ?= "k26-smk-kr"
-#
 # This sets the default machine to be qemu-zynqmp if no other machine is selected:
-MACHINE ??= "qemu-zynqmp"
+MACHINE ??= "zynqmp-generic"
 
 # These are some of the more commonly used values. Looking at the files in the
 # meta/conf/machine directory, or the conf/machine directory of any additional layers
