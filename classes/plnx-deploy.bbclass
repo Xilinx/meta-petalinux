@@ -127,7 +127,7 @@ PACKAGES_LIST[board-id-data] = "som-eeprom.bin:som-eeprom.bin kv-eeprom.bin:kv-e
 
 QEMU_HWDTB_NAME:zynqmp ?= "zcu102-arm.dtb"
 QEMU_HWDTB_NAME:versal ?= "board-versal-ps-vc-p-a2197-00.dtb"
-QEMU_HWDTB_NAME:versal-net ?= "board-ksb-psx-spp-1.4.dtb"
+QEMU_HWDTB_NAME:versal-net ?= "board-versal-net-psx-spp-1.4.dtb"
 QEMU_HWDTB_NAME:vck190-versal ?= "board-versal-ps-vck190.dtb"
 QEMU_HWDTB_NAME:vmk180-versal ?= "board-versal-ps-vmk180.dtb"
 QEMU_HWDTB_NAME:vck5000-versal ?= "board-versal-ps-vck5000.dtb"
